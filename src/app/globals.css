@@ -1,26 +1,154 @@
 @import "tailwindcss";
+@import "./motion.css";
+
+/*
+  Comprinno design tokens — LOW FIDELITY PHASE
+  Everything is light and neutral on purpose. When final colour arrives,
+  change ONLY the values in this block (accent / accent-soft / accent-ink).
+  No dark colours anywhere: the darkest tone is --color-ink (slate-700).
+*/
+@theme {
+  --color-bg: #ffffff;
+  --color-surface: #f7f9fb;
+  --color-surface-2: #eef2f6;
+  --color-line: #e1e7ee;
+  --color-line-strong: #c9d3de;
+  --color-ink: #334155;
+  --color-ink-2: #475569;
+  --color-muted: #64748b;
+  --color-accent: #8aa0b8; /* placeholder — swap for brand colour */
+  --color-accent-soft: #e8eef5;
+  --color-accent-line: #b9c8d9;
+  --color-ok: #7fb59a;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light; /* website is light-only, by design */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink-2);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection { background: var(--color-accent-soft); }
+
+@layer components {
+  /* Dot-grid canvas: the "blueprint" backdrop */
+  .bg-grid {
+    background-image: radial-gradient(var(--color-line-strong) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .bg-grid-fade {
+    mask-image: linear-gradient(to bottom, #000 40%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  }
+
+  /* Eyebrow = live "agent status" chip, not brackets */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.35rem;
+  }
+  .pulse-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--color-ok);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.9rem; /* comfortable touch target */
+    padding: 0 1.25rem;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1.5px solid var(--color-ink-2);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--color-accent-soft); color: var(--color-ink); }
+  .btn-primary:hover { background: var(--color-accent-line); }
+  .btn-ghost { background: var(--color-bg); color: var(--color-ink-2); border-color: var(--color-line-strong); }
+  .btn-ghost:hover { background: var(--color-surface); }
+
+  .card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    padding: 1.4rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  a.card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    color: var(--color-muted);
+  }
+
+  .prose-lite p + p { margin-top: 1rem; }
+}
+
+/* Motion: decorative only, and fully off for reduced-motion / reduced-data users */
+.flow-line {
+  stroke-dasharray: 5 6;
+  animation: dash 1.8s linear infinite;
+}
+@keyframes dash { to { stroke-dashoffset: -22; } }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .flow-line, .pulse-dot { animation: none; }
+  .btn, .card { transition: none; }
+}
+@media (prefers-reduced-data: reduce) {
+  .flow-line, .pulse-dot { animation: none; }
+  .bg-grid { background-image: none; }
 }

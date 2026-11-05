@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  poweredByHeader: false,
+  compress: true,
   turbopack: {
     rules: {
       "*.css": {
@@ -11,6 +12,24 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  async redirects() {
+    return [
+      { source: "/products/tevico", destination: "/tevico", permanent: true },
+      { source: "/services", destination: "/#services", permanent: true },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
+    ];
   },
 };
 
