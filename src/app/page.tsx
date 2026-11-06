@@ -150,7 +150,6 @@ export default function Home() {
         />
         {/* Four stages, one row: monochrome cards joined by a single top rule */}
         <ol className="path-row">
-          <li className="path-rail" aria-hidden="true"><span /></li>
           {services.map((s) => (
             <li key={s.slug}>
               <Link href={`/services/${s.slug}`} className="path-card group">
@@ -187,9 +186,6 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-muted">{p.line}</p>
                 <span className="mt-auto pt-6 text-sm font-medium text-ink underline underline-offset-4">Explore {p.name} <span className="go">→</span></span>
               </div>
-        <div className="mt-8 flex justify-center">
-          <Button href="/products" variant="ghost">All products →</Button>
-        </div>
             </Link>
           ))}
         </div>

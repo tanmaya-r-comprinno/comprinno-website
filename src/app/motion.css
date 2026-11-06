@@ -507,8 +507,8 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .path-row > li:not(.path-rail):last-child { border-bottom-width: 0; }
 @media (min-width: 640px) {
   .path-row > li:not(.path-rail) { border-bottom-width: 0; }
-  .path-row > li:nth-child(even) { border-right-width: 1px; }
-  .path-row > li:nth-child(-n+3):not(.path-rail) { border-bottom-width: 1px; }
+  .path-row > li:nth-child(odd) { border-right-width: 1px; }
+  .path-row > li:nth-child(-n+2) { border-bottom-width: 1px; }
 }
 @media (min-width: 1024px) {
   .path-row > li:not(.path-rail) { border-bottom-width: 0 !important; border-right-width: 1px; }
@@ -660,3 +660,20 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 }
 @keyframes loop-back { to { stroke-dashoffset: -20; } }
 @media (prefers-reduced-motion: reduce) { .loop-bar, .loop-return path, .loop-step .loop-status::before { animation: none !important; } .loop-fill, .loop-signal, .loop-step { transition: none; } }
+
+/* The path, ambient motion: a relay. Each stage lights up in turn (top bar fills,
+   a soft light sweeps across the card), handing over to the next, then repeats. */
+.path-rail { display: none; }
+.path-card::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgb(51 65 85 / .06) 50%, transparent 70%); background-size: 250% 100%; background-position: 120% 0;
+  animation: path-sheen 8s ease-in-out infinite; animation-delay: var(--i, 0s); }
+.path-card::before { animation: path-relay 8s cubic-bezier(.2,.7,.2,1) infinite; animation-delay: var(--i, 0s); }
+.path-row > li:nth-child(1) .path-card { --i: 0s; }
+.path-row > li:nth-child(2) .path-card { --i: 2s; }
+.path-row > li:nth-child(3) .path-card { --i: 4s; }
+.path-row > li:nth-child(4) .path-card { --i: 6s; }
+.path-card:hover::before { animation: none; transform: scaleX(1); }
+@keyframes path-relay { 0% { transform: scaleX(0); transform-origin: left; } 12% { transform: scaleX(1); transform-origin: left; }
+  22% { transform: scaleX(1); transform-origin: right; } 30%, 100% { transform: scaleX(0); transform-origin: right; } }
+@keyframes path-sheen { 0% { background-position: 120% 0; } 25%, 100% { background-position: -20% 0; } }
+@media (prefers-reduced-motion: reduce) { .path-card::before, .path-card::after { animation: none; } }
