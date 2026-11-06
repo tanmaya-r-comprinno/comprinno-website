@@ -1,14 +1,14 @@
 import Link from "next/link";
 import GridGlow from "@/components/GridGlow";
-import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import { services } from "@/content/services";
 import { customers, phases } from "@/content/company";
 import { partnerPages } from "@/content/products";
 import { partnerLogo } from "@/content/partnerLogos";
-import SegmentExplorer from "@/components/SegmentExplorer";
 import { ImageSlot } from "@/components/Illustrations";
 import Abstract from "@/components/Abstracts";
+import FlowLoop from "@/components/FlowLoop";
 import ParticleWave from "@/components/ParticleWave";
 import RainField from "@/components/RainField";
 
@@ -26,6 +26,12 @@ const homeProducts = [
   { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents run cost, security and ops, governed by engineers.", href: "/tevico", screen: "Tevico dashboard screen" },
   { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen" },
   { name: "[Product 4]", line: "[One-line promise: what it does and for whom]", href: "/products/product-five", screen: "Product 4 screen" },
+];
+
+const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
+  { name: "SaaS Startups", desc: "Launch fast on a secure baseline, with the credits you qualify for.", icon: "rocket", href: "/industries#saas-isv" },
+  { name: "ISVs", desc: "Multi-tenant SaaS, CI/CD and AWS Marketplace readiness.", icon: "store", href: "/industries#saas-isv" },
+  { name: "Tech-led Enterprises", desc: "Modernize legacy platforms and scale AI across teams.", icon: "building", href: "/industries#tech-enterprises" },
 ];
 
 const heroStats = [
@@ -121,7 +127,8 @@ export default function Home() {
       <Section tone="surface">
         <SectionHead
           eyebrow="The problem"
-          title="Most AI pilots stall, not because of the model, but because of the cloud underneath."
+          title={<><strong>Most AI pilots stall</strong>, not because of the model,<Br />but because of the <strong>cloud underneath</strong>.</>}
+          desc="Three gaps hold most teams back. Each one is fixable."
         />
         <ul className="grid gap-4 md:grid-cols-3">
           {gaps.map((g) => (
@@ -138,7 +145,7 @@ export default function Home() {
       <Section id="services" className="scroll-mt-16">
         <SectionHead
           eyebrow="The path"
-          title="One team, four stages: Migrate. Modernize. Manage. Maximize."
+          title={<>One team, four stages:<Br /><strong>Migrate. Modernize. Manage. Maximize.</strong></>}
           desc="Start wherever you are today. The team that plans your platform is the team that runs it, with no hand-offs."
         />
         {/* Four stages, one row: monochrome cards joined by a single top rule */}
@@ -165,15 +172,11 @@ export default function Home() {
 
       {/* 4 · PRODUCTS: animated particle-wave background (low-fi take on the AI landing-page reference) */}
       <Section tone="surface" background={<ParticleWave />}>
-        <div className="flex flex-wrap items-end justify-between gap-x-4">
-          <SectionHead
-            align="left"
+        <SectionHead
             eyebrow="Products"
-            title="Accelerators that take your use case live in days, not months."
+            title={<><strong>Accelerators</strong> that take your use case<Br />live in <strong>days, not months</strong>.</>}
             desc="A hardened, production-ready stack you adopt instead of build, so your team skips the groundwork and goes straight to what's unique to you."
           />
-          <Link href="/products" className="mb-8 text-sm font-medium text-ink underline underline-offset-4 sm:mb-12">All products →</Link>
-        </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {homeProducts.map((p) => (
@@ -184,6 +187,9 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-muted">{p.line}</p>
                 <span className="mt-auto pt-6 text-sm font-medium text-ink underline underline-offset-4">Explore {p.name} <span className="go">→</span></span>
               </div>
+        <div className="mt-8 flex justify-center">
+          <Button href="/products" variant="ghost">All products →</Button>
+        </div>
             </Link>
           ))}
         </div>
@@ -206,28 +212,35 @@ export default function Home() {
 
       {/* 5 · HOW WE DELIVER: one animated loop instead of four text cards */}
       <Section>
-        <SectionHead eyebrow="How we work" title="One team, from first use case to agents at work" desc="The team that plans your path also builds it and runs it. Nothing gets lost in a handover." />
-        {/* All four phases always visible, joined by one flow line */}
-        <ol className="flow">
-          {phases.map((ph, i) => (
-            <li key={ph.title} className="flow-step">
-              <span className="flow-node" aria-hidden="true"><Icon name={(["search", "layers", "eye", "loop"] as IconName[])[i]} className="h-6 w-6" /></span>
-              <h3 className="mt-5 text-lg font-semibold text-ink">{ph.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{ph.desc}</p>
-            </li>
-          ))}
-        </ol>
+        <SectionHead eyebrow="How we work" title={<>One team, from <strong>first use case</strong><Br />to <strong>agents at work</strong>.</>} desc="The team that plans your path also builds it and runs it. Nothing gets lost in a handover." />
+        <FlowLoop items={phases} />
       </Section>
 
       {/* 6 · WHO WE SERVE: falling-light background (low-fi take on the green "rain" reference) */}
       <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="Built for you" title="From first funding round to scaled platform." desc="Industries: Fintech · Healthcare · Life Science · Retail" />
-        <SegmentExplorer />
+        <SectionHead eyebrow="Built for you" title={<>From <strong>first funding round</strong><Br />to <strong>scaled platform</strong>.</>} desc="Whatever your stage, you get the same team and the same standards." />
+        <ul className="seg-grid">
+          {segments.map((g) => (
+            <li key={g.name}>
+              <Link href={g.href} className="seg-card group">
+                <span className="flow-node" aria-hidden="true"><Icon name={g.icon} className="h-6 w-6" /></span>
+                <h3 className="mt-5 flex items-center text-xl font-semibold text-ink">{g.name}<span className="go ml-auto text-muted">→</span></h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">{g.desc}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <span className="mr-2 font-mono text-xs uppercase tracking-widest text-muted">Industries</span>
+          {["Fintech", "Healthcare", "Life Science", "Retail"].map((x) => (
+            <Link key={x} href="/industries" className="seg-chip">{x}</Link>
+          ))}
+        </div>
       </Section>
 
       {/* 7 · CREDENTIALS */}
       <Section>
-        <SectionHead title="Credentials you can verify." />
+        <SectionHead eyebrow="Credentials" title={<>Credentials you can <strong>trust</strong>.</>} desc="Independently audited, and backed by the partners we build with." />
         <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {credentials.map((c) => (
             <li key={c} className="card flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
@@ -240,7 +253,7 @@ export default function Home() {
 
       {/* 8 · RESULTS: one big number per story */}
       <Section tone="surface">
-        <SectionHead eyebrow="Outcomes" title="Production results, not pilots." />
+        <SectionHead eyebrow="Outcomes" title={<><strong>Production results</strong>, not pilots.</>} desc="Real outcomes from teams that took AI from idea to production with us." />
         <div className="grid gap-4 md:grid-cols-3">
           {proof.map((p) => (
             <Link key={p.href} href={p.href} className="card block">
@@ -266,12 +279,15 @@ export default function Home() {
       {/* 9 · FAQ */}
       <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <h2 className="text-[clamp(1.6rem,4.2vw,2.5rem)] font-semibold leading-[1.15]">Questions before you start?</h2>
+          <div>
+            <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions before<Br />you <strong className="font-semibold">start</strong>?</h2>
+            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">Quick answers to what teams ask us most.</p>
+          </div>
           <Faq items={faqs} />
         </div>
       </Section>
 
-      <CtaBand />
+      <CtaBand title={<>Planning your next<Br /><strong>cloud or AI project</strong>?</>} desc="Three simple steps from first call to a plan you can act on." />
     </>
   );
 }

@@ -556,7 +556,13 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .flow { position: relative; display: grid; gap: 2rem; }
 @media (min-width: 640px) { .flow { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .flow { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-  .flow::before { content: ""; position: absolute; left: 1.75rem; right: 1.75rem; top: 1.75rem; border-top: 1px dashed var(--color-line-strong); } }
+  /* connectors run node to node and stop at the last step, with a chevron and a moving signal */
+  .flow-step:not(:last-child)::after { content: ""; position: absolute; top: 1.75rem; left: calc(3.5rem + 10px); right: calc(-1.5rem + 10px); height: 1px;
+    background: repeating-linear-gradient(90deg, var(--color-ink) 0 6px, transparent 6px 12px); background-size: 24px 1px; opacity: .45; animation: flow-run 1.2s linear infinite; }
+  .flow-step:not(:last-child)::before { content: ""; position: absolute; top: calc(1.75rem - 4px); right: calc(-1.5rem + 10px); width: 9px; height: 9px;
+    border-top: 1px solid var(--color-ink); border-right: 1px solid var(--color-ink); transform: rotate(45deg); } }
+@keyframes flow-run { to { background-position: 24px 0; } }
+@media (prefers-reduced-motion: reduce) { .flow-step::after { animation: none !important; } }
 .flow-step { position: relative; padding-right: .5rem; }
 .flow-node { position: relative; display: inline-flex; width: 3.5rem; height: 3.5rem; align-items: center; justify-content: center;
   border: 1px solid var(--color-ink); background: var(--color-bg); color: var(--color-ink); transition: background-color .3s, color .3s; }
@@ -602,3 +608,55 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 @keyframes abs-drawline { 0% { stroke-dashoffset: 200; } 50%, 100% { stroke-dashoffset: 0; } }
 @keyframes abs-eq { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.55); } }
 @media (prefers-reduced-motion: reduce) { .abs * { animation: none !important; } }
+
+/* ---------- Built for you: three segment cards + industry chips ---------- */
+.seg-grid { display: grid; gap: 1rem; }
+@media (min-width: 768px) { .seg-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+.seg-card { position: relative; display: flex; flex-direction: column; height: 100%; padding: 1.75rem; border: 1px solid var(--color-ink); background: var(--color-bg);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+.seg-card::before { content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 3px; background: var(--color-ink); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.seg-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--color-line-strong); }
+.seg-card:hover::before { transform: scaleX(1); }
+.seg-card:hover .flow-node { background: var(--color-ink); color: var(--color-bg); }
+.seg-card:hover .go { transform: translateX(4px); color: var(--color-ink); }
+.seg-chip { padding: .45rem .9rem; border: 1px solid var(--color-line-strong); background: var(--color-bg); font-size: .85rem; color: var(--color-ink); transition: border-color .25s, background-color .25s; }
+.seg-chip:hover { border-color: var(--color-ink); background: var(--color-surface-2); }
+@media (prefers-reduced-motion: reduce) { .seg-card, .seg-card::before { transition: none; } }
+
+/* ---------- How we work: live run loop (FlowLoop.tsx) ---------- */
+.loop { position: relative; }
+.loop-track { display: none; }
+.loop-steps { display: grid; gap: 1rem; }
+@media (min-width: 640px) { .loop-steps { grid-template-columns: repeat(2, 1fr); } }
+.loop-step { position: relative; overflow: hidden; padding: 1.5rem; border: 1px solid var(--color-line); background: var(--color-bg); outline: none;
+  transition: border-color .4s, box-shadow .4s, transform .4s cubic-bezier(.2,.7,.2,1), opacity .4s; }
+.loop-node { position: relative; z-index: 1; display: inline-flex; width: 3.5rem; height: 3.5rem; align-items: center; justify-content: center;
+  border: 1px solid var(--color-line-strong); background: var(--color-bg); color: var(--color-muted); transition: all .4s; }
+.loop-status { display: block; margin-top: 1rem; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--color-muted); }
+.loop-step.is-wait { opacity: .55; }
+.loop-step.is-done .loop-node { border-color: var(--color-ink); color: var(--color-ink); }
+.loop-step.is-run { border-color: var(--color-ink); transform: translateY(-6px); box-shadow: 8px 8px 0 var(--color-line); }
+.loop-step.is-run .loop-node { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-bg); box-shadow: 0 0 0 6px var(--color-surface-2); }
+.loop-step.is-run .loop-status { color: var(--color-ink); }
+.loop-step.is-run .loop-status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: .5rem; background: var(--color-ink); vertical-align: middle; animation: cta-blink 1s infinite; }
+.loop-bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--color-ink); transform-origin: left; animation: loop-bar 3.2s linear forwards; }
+@keyframes loop-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.loop-return, .loop-caption { display: none; }
+
+@media (min-width: 1024px) {
+  .loop-steps { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .loop-step { text-align: center; padding-top: 0; border: 0; background: transparent; box-shadow: none !important; }
+  .loop-step.is-run { transform: none; }
+  .loop-step .loop-node { margin-top: 0; }
+  .loop-bar { left: 25%; width: 50%; }
+  /* track between first and last node centres */
+  .loop-track { display: block; position: absolute; left: 12.5%; right: 12.5%; top: 1.75rem; height: 1px; background: var(--color-line-strong); }
+  .loop-fill { position: absolute; left: 0; top: 0; height: 1px; width: var(--pct); background: var(--color-ink); transition: width 1s cubic-bezier(.6,0,.2,1); }
+  .loop-signal { position: absolute; top: -4px; left: var(--pct); width: 9px; height: 9px; margin-left: -4.5px; background: var(--color-ink);
+    box-shadow: 0 0 0 5px rgb(51 65 85 / .12); transition: left 1s cubic-bezier(.6,0,.2,1); }
+  .loop-return { display: block; width: 100%; height: 44px; margin-top: .5rem; }
+  .loop-return path { stroke: var(--color-line-strong); stroke-width: 1; stroke-dasharray: 4 6; animation: loop-back 1.4s linear infinite; }
+  .loop-caption { display: block; margin-top: .25rem; text-align: center; font-family: var(--font-mono); font-size: .75rem; color: var(--color-muted); }
+}
+@keyframes loop-back { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) { .loop-bar, .loop-return path, .loop-step .loop-status::before { animation: none !important; } .loop-fill, .loop-signal, .loop-step { transition: none; } }

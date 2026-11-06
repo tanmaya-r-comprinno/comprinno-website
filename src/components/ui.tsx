@@ -164,18 +164,22 @@ export function SectionHead({
   align = "center",
 }: {
   eyebrow?: string;
-  title: string;
+  /** A string renders all bold. Pass JSX with <strong> for the bold/regular mix and <Br /> for the line break. */
+  title: ReactNode;
   desc?: string;
   align?: "left" | "center";
 }) {
   return (
-    <div className={`mb-8 sm:mb-12 max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}>
+    <div className={`mb-8 sm:mb-12 ${typeof title === "string" ? "max-w-3xl" : "max-w-5xl"} ${align === "center" ? "mx-auto text-center" : ""}`}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className="mt-4 text-[clamp(1.6rem,4.2vw,2.5rem)] font-semibold leading-[1.15]">{title}</h2>
+      <h2 className={`mt-4 text-[clamp(1.6rem,3.4vw,2.5rem)] leading-[1.2] ${typeof title === "string" ? "font-semibold" : "font-normal [&_strong]:font-semibold"}`}>{title}</h2>
       {desc && <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted">{desc}</p>}
     </div>
   );
 }
+
+/** Line break that only applies from tablet up; phones wrap naturally. */
+export const Br = () => <br className="hidden sm:block" />;
 
 export function PageHero({
   eyebrow,
@@ -271,7 +275,7 @@ export function CtaBand({
   label = "Talk to an expert",
   steps = ["30-min call with a cloud expert", "Assessment + funding check", "A plan you can act on"],
 }: {
-  title?: string;
+  title?: ReactNode;
   desc?: string;
   label?: string;
   steps?: string[];
@@ -281,7 +285,7 @@ export function CtaBand({
       <div className="cta-wave" aria-hidden="true"><LineWave /></div>
       <Container className="relative py-16 text-center sm:py-24">
         <Eyebrow>Let&apos;s talk</Eyebrow>
-        <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(1.8rem,4.5vw,3rem)] font-semibold leading-[1.1]">{title}</h2>
+        <h2 className={`mx-auto mt-5 max-w-4xl text-[clamp(1.8rem,4.5vw,3rem)] leading-[1.15] ${typeof title === "string" ? "font-semibold" : "font-normal [&_strong]:font-semibold"}`}>{title}</h2>
         {desc && <p className="mx-auto mt-4 max-w-xl text-muted sm:text-lg">{desc}</p>}
         <ol className="cta-steps">
           {steps.map((s, i) => (
