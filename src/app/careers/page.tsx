@@ -5,7 +5,7 @@ import { values } from "@/content/company";
 
 export const metadata: Metadata = {
   title: "Careers",
-  description: "Join Comprinno: certified AWS architects, DevOps and security experts, and AI/ML engineers.",
+  description: "Join Comprinno: certified cloud architects, DevOps and security experts, and AI/ML engineers.",
   alternates: { canonical: "/careers" },
 };
 
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <>
-      <PageHero eyebrow="Company / careers" title="Build the agentic cloud with us" desc="We hire certified cloud architects, security and DevOps engineers, and AI/ML engineers working with Amazon SageMaker and Amazon Bedrock.">
+      <PageHero eyebrow="Company / careers" title="Build the agentic cloud with us" desc="We hire certified cloud architects, security and DevOps engineers, and AI/ML engineers who work with managed ML and generative AI platforms.">
         <Button href={`mailto:${site.emails.careers}`}>Email {site.emails.careers} →</Button>
       </PageHero>
       <Section>

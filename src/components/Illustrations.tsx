@@ -37,7 +37,7 @@ function Packet({ path, begin = "0s", dur = "2.4s" }: { path: string; begin?: st
 export function MigrateViz() {
   const flows = ["M104 64C150 64 170 98 214 102", "M104 100H214", "M104 136C150 136 170 110 214 108"];
   return (
-    <Frame label="Servers moving into the AWS cloud in planned waves">
+    <Frame label="Servers moving into the cloud in planned waves">
       {[0, 1, 2].map((i) => (
         <g key={i}>
           <rect x="24" y={50 + i * 36} width="80" height="28" rx="6" fill={S.bg} stroke={S.line} strokeWidth="1.5" />
@@ -51,7 +51,7 @@ export function MigrateViz() {
       </g>
       <path d="M222 140a28 28 0 0 1-4-56 36 36 0 0 1 68-6 26 26 0 0 1 4 62z" fill={S.bg} stroke={S.line} strokeWidth="1.5" />
       <path d="M240 108l9 9 18-18" stroke={S.ok} strokeWidth="2.2" />
-      <text x="254" y="172" textAnchor="middle" fontSize="11" fill={S.muted} fontFamily="var(--font-mono)">aws</text>
+      <text x="254" y="172" textAnchor="middle" fontSize="11" fill={S.muted} fontFamily="var(--font-mono)">cloud</text>
       {flows.map((d, i) => <Packet key={d} path={d} begin={`${i * 0.6}s`} />)}
     </Frame>
   );
@@ -162,8 +162,7 @@ export function PhaseLoop({ labels }: { labels: string[] }) {
               repeatCount="indefinite"
             />
           </circle>
-          <text x={p.x} y={p.y - 4} textAnchor="middle" fontSize="10" fill={S.muted} fontFamily="var(--font-mono)">0{i + 1}</text>
-          <text x={p.x} y={p.y + 11} textAnchor="middle" fontSize="11" fontWeight="600" fill={S.ink}>{labels[i]}</text>
+          <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="11" fontWeight="600" fill={S.ink}>{labels[i]}</text>
         </g>
       ))}
       <circle r="6" fill={S.ok} className="packet">

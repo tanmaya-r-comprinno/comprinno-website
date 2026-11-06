@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Children, type CSSProperties, type ReactNode } from "react";
 import GridGlow from "./GridGlow";
+import LineWave from "./LineWave";
 import CountUp from "./CountUp";
 import { Icon, IconTile, type IconName } from "./Icon";
 
@@ -31,7 +32,6 @@ export function ExpandSteps({ items, icons }: { items: { title: string; desc: st
     <div className="xsteps">
       {items.map((s, i) => (
         <div key={s.title} className="xcard" tabIndex={0}>
-          <p className="xnum">{String(i + 1).padStart(2, "0")}.</p>
           <div className="xcontent">
             <span className="xicon"><Icon name={icons[i % icons.length]} className="h-12 w-12" /></span>
             <h3 className="xtitle">{s.title}</h3>
@@ -78,7 +78,7 @@ const EYEBROW_HUES: [string, string][] = [
 ];
 // Hand-picked for the main labels so neighbouring sections never share a colour.
 const HUE_BY_LABEL: Record<string, number> = {
-  "Agentic AI first · AWS Premier Tier Partner · Est. 2013": 0, // teal
+  "Agentic AI first · Premier Tier Partner · Est. 2013": 0, // teal
   "Official partners": 3, // sky
   "What we do": 1, // violet
   "Our products": 2, // amber
@@ -182,25 +182,24 @@ export function PageHero({
   title,
   desc,
   children,
-  visual,
 }: {
   eyebrow: string;
   title: string;
   desc?: string;
   children?: ReactNode;
+  /** @deprecated hero visuals removed */
   visual?: ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-line">
       <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
-      <Container className={`py-14 sm:py-20 ${visual ? "grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]" : ""}`}>
-        <div>
+      <Container className="py-14 sm:py-20">
+        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-5 max-w-4xl text-[clamp(2rem,6vw,3.6rem)] font-semibold leading-[1.08]">{title}</h1>
+          <h1 className="mt-5 text-[clamp(2rem,6vw,3.6rem)] font-semibold leading-[1.08]">{title}</h1>
           {desc && <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-muted">{desc}</p>}
-          {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+          {children && <div className="mt-8 flex flex-wrap justify-center gap-3">{children}</div>}
         </div>
-        {visual && <div className="rounded-lg border border-line bg-bg p-4 sm:p-6">{visual}</div>}
       </Container>
     </section>
   );
@@ -216,7 +215,6 @@ export function Steps({ items, icons = stepIcons }: { items: { title: string; de
         <li key={s.title} className="card relative">
           <div className="flex items-center justify-between">
             <IconTile name={icons[i % icons.length]} />
-            <span className="font-mono text-xs text-muted">Step {String(i + 1).padStart(2, "0")}</span>
           </div>
           <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted">{s.desc}</p>
@@ -268,60 +266,34 @@ export function Stat({ value, label }: { value: string; label: string }) {
 }
 
 export function CtaBand({
-  title = "Ready to put an agent on it?",
-  desc = "Tell us what you're working on. An AWS-certified expert replies within 24 to 48 hours.",
+  title = "Planning your next cloud or AI project?",
+  desc,
   label = "Talk to an expert",
+  steps = ["30-min call with a cloud expert", "Assessment + funding check", "A plan you can act on"],
 }: {
   title?: string;
   desc?: string;
   label?: string;
+  steps?: string[];
 }) {
   return (
-    <section className="py-14 sm:py-20">
-      <Container>
-        <div className="cta-panel">
-          <div className="cta-glow" aria-hidden="true" />
-          <div className="relative grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
-            <div>
-              <Eyebrow>Let&apos;s talk</Eyebrow>
-              <h2 className="mt-5 max-w-xl text-[clamp(1.8rem,4.5vw,2.8rem)] font-semibold leading-[1.1]">{title}</h2>
-              <p className="mt-4 max-w-lg text-muted sm:text-lg">{desc}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="/contact">{label} →</Button>
-                <a href="mailto:sales@comprinno.net" className="btn btn-ghost">sales@comprinno.net</a>
-              </div>
-            </div>
-
-            {/* "New request" console: pick what you need */}
-            <div className="cta-console">
-              <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-                <span className="ml-3 font-mono text-xs text-muted">agent · new request</span>
-              </div>
-              <div className="p-5">
-                <p className="font-mono text-sm text-ink">
-                  <span className="text-ok">&gt;</span> What are you working on?<span className="caret text-muted">▍</span>
-                </p>
-                <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                  {[
-                    { t: "Move to AWS", i: "migrate", h: "/services/migrate" },
-                    { t: "Ship faster", i: "layers", h: "/services/modernize" },
-                    { t: "Run it 24×7", i: "shield", h: "/services/manage" },
-                    { t: "Put agents to work", i: "spark", h: "/services/maximize" },
-                  ].map((o) => (
-                    <Link key={o.t} href={o.h} className="cta-option">
-                      <Icon name={o.i as IconName} className="h-4 w-4" />
-                      {o.t}
-                      <span className="go ml-auto">→</span>
-                    </Link>
-                  ))}
-                </div>
-                <p className="mt-5 font-mono text-xs text-muted">Reply within 24 to 48 hours</p>
-              </div>
-            </div>
-          </div>
+    <section className="cta-full">
+      <div className="cta-wave" aria-hidden="true"><LineWave /></div>
+      <Container className="relative py-16 text-center sm:py-24">
+        <Eyebrow>Let&apos;s talk</Eyebrow>
+        <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(1.8rem,4.5vw,3rem)] font-semibold leading-[1.1]">{title}</h2>
+        {desc && <p className="mx-auto mt-4 max-w-xl text-muted sm:text-lg">{desc}</p>}
+        <ol className="cta-steps">
+          {steps.map((s, i) => (
+            <li key={s} className="cta-step" style={{ "--d": `${i * 0.15}s` } as CSSProperties}>
+              <span className="cta-step-k">Step {i + 1}</span>
+              <span className="cta-step-t">{s}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Button href="/contact">{label} <span className="go">→</span></Button>
+          <a href="mailto:sales@comprinno.net" className="btn btn-ghost">sales@comprinno.net</a>
         </div>
       </Container>
     </section>

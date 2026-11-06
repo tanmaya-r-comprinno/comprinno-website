@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About us",
-  description: "Founded in Bengaluru in 2013. An AWS Premier Tier Partner helping teams migrate, modernize, manage and maximize the cloud.",
+  description: "Founded in Bengaluru in 2013. A Premier Tier cloud partner helping teams migrate, modernize, manage and maximize the cloud.",
   alternates: { canonical: "/about" },
 };
 
@@ -17,7 +17,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="Company / about"
         title="Named for a paper plane: agile, ambitious, built to fly."
-        desc="AWS Premier Tier Partner, Bengaluru. Since 2013."
+        desc="Premier Tier cloud partner, Bengaluru. Since 2013."
         visual={<ImageSlot label="team photo" />}
       />
 

@@ -1,9 +1,9 @@
 export const site = {
   name: "Comprinno",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://comprinno.net",
-  tagline: "Agentic AI first. Built on AWS.",
+  tagline: "Agentic AI first. Built for the cloud.",
   description:
-    "Comprinno is an agentic-AI-first AWS Premier Tier Partner. We migrate, modernize and run your AWS environment, then build, govern and scale AI agents on it.",
+    "Comprinno is an agentic-AI-first Premier Tier cloud partner. We migrate, modernize and run your cloud, then build, govern and scale AI agents on it.",
   phone: "+91 8149952129",
   emails: {
     general: "info@comprinno.net",

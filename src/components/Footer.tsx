@@ -16,7 +16,8 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">{site.tagline}</p>
-            <p className="mt-4 text-sm text-muted">Bengaluru · Pune · Worldwide</p>
+            <p className="mt-4 text-sm text-muted">Pune · Bangalore · US · UK</p>
+            <p className="mt-1 text-sm text-muted">ISO 27001 · SOC 2</p>
           </div>
           <nav aria-label="Services" className={col}>
             <p className={head}>Services</p>

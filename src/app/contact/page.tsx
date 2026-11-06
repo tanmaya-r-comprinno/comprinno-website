@@ -5,7 +5,7 @@ import { Icon, IconTile } from "@/components/Icon";
 
 export const metadata: Metadata = {
   title: "Contact us",
-  description: "Tell us what you're working on. An AWS-certified expert replies within 24 to 48 hours.",
+  description: "Tell us what you're working on. A certified cloud expert replies within 24 to 48 hours.",
   alternates: { canonical: "/contact" },
 };
 
@@ -15,7 +15,7 @@ const input =
 export default function ContactPage() {
   return (
     <>
-      <PageHero eyebrow="Contact" title="Tell us what you're working on" desc="An AWS-certified expert replies within 24 to 48 hours." />
+      <PageHero eyebrow="Contact" title="Tell us what you're working on" desc="A certified cloud expert replies within 24 to 48 hours." />
       <Section>
         <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
           {/* Works with zero JavaScript: plain POST to a route handler */}

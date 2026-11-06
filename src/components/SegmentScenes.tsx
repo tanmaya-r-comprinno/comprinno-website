@@ -164,7 +164,7 @@ export function FintechScene() {
 /* 5 · SAAS STARTUPS: lift-off from a secure, funded launch pad */
 export function StartupScene() {
   return (
-    <Scene label="A rocket lifting off from a secure launch pad, with AWS credits alongside">
+    <Scene label="A rocket lifting off from a secure launch pad, with cloud credits alongside">
       {/* isometric pad */}
       <path d="M160 150l90 30-90 30-90-30z" fill={C.bg} stroke={C.line} strokeWidth="1.5" />
       <path d="M70 180v10l90 30 90-30v-10" fill={C.surf2} stroke={C.line} strokeWidth="1.5" />

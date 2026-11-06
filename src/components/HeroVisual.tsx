@@ -30,14 +30,14 @@ export default function HeroVisual() {
     <div
       className="hv relative aspect-[4/5] w-full sm:aspect-[5/4]"
       role="img"
-      aria-label="Illustration: an AI agent running on AWS, connected to live cards for migration progress, falling cost, security status and a human approving an action."
+      aria-label="Illustration: an AI agent running in the cloud, connected to live cards for migration progress, falling cost, security status and a human approving an action."
     >
       <svg viewBox="0 0 500 400" className="absolute inset-0 h-full w-full" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         {/* isometric AWS platform */}
         <path d="M250 290l84 28-84 28-84-28z" fill={C.bg} stroke={C.line} strokeWidth="1.5" />
         <path d="M166 318v12l84 28 84-28v-12" fill={C.surf2} stroke={C.line} strokeWidth="1.5" />
         <path d="M208 304l84 28 M292 304l-84 28" stroke={C.line} strokeWidth="0.8" strokeDasharray="2 4" />
-        <text x="250" y="374" textAnchor="middle" fontSize="11" fill="var(--color-muted)" fontFamily="var(--font-mono)">running on aws</text>
+        <text x="250" y="374" textAnchor="middle" fontSize="11" fill="var(--color-muted)" fontFamily="var(--font-mono)">running in the cloud</text>
         <path d="M250 250V290" stroke={C.flow} strokeWidth="1.5" strokeDasharray="3 4" className="flow-line" />
 
         {/* wires + travelling packets */}

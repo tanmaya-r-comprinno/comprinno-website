@@ -152,3 +152,6 @@ p { text-wrap: pretty; }
   .flow-line, .pulse-dot { animation: none; }
   .bg-grid { background-image: none; }
 }
+
+/* Sharp edges everywhere: no rounded corners */
+*, *::before, *::after { border-radius: 0 !important; }

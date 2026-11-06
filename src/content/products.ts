@@ -95,7 +95,7 @@ export const partnerPages = [
     slug: "aws",
     name: "AWS",
     badge: "Premier Tier Services Partner",
-    desc: "AWS Premier Tier Services Partner and MSP, with eight AWS Competencies and 19 Service Validations.",
+    desc: "Premier Tier Services Partner and MSP.",
     icon: "cloud" as IconName,
     href: "/partnerships/aws",
   },

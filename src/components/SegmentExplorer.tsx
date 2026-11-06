@@ -19,9 +19,9 @@ const segments: { name: string; line: string; icon: IconName; Scene: ComponentTy
   { name: "Retail", line: "Peak-ready commerce with personalization and cost control", icon: "bag", Scene: RetailScene, href: "/industries#retail" },
   { name: "Healthcare", line: "Secure patient platforms and health data, designed for HIPAA", icon: "heart", Scene: HealthcareScene, href: "/industries#healthcare" },
   { name: "Fintech", line: "Payments, lending, insurance, with RBI, SEBI, IRDAI controls", icon: "card", Scene: FintechScene, href: "/industries#fintech-bfsi" },
-  { name: "SaaS Startups", line: "Launch fast on a secure baseline, with the credits you qualify for", icon: "rocket", Scene: StartupScene, href: "/industries#saas-isv" },
-  { name: "ISV", line: "Multi-tenant SaaS, CI/CD and AWS Marketplace readiness", icon: "store", Scene: IsvScene, href: "/industries#saas-isv" },
-  { name: "Tech-led Enterprises", line: "Modernize legacy platforms and scale AI across teams", icon: "building", Scene: EnterpriseScene, href: "/industries#tech-enterprises" },
+  { name: "SaaS Startups", line: "Launch fast on a secure baseline, with the credits you qualify for.", icon: "rocket", Scene: StartupScene, href: "/industries#saas-isv" },
+  { name: "ISVs", line: "Multi-tenant SaaS, CI/CD and AWS Marketplace readiness.", icon: "store", Scene: IsvScene, href: "/industries#saas-isv" },
+  { name: "Tech-led Enterprises", line: "Modernize legacy platforms and scale AI across teams.", icon: "building", Scene: EnterpriseScene, href: "/industries#tech-enterprises" },
 ];
 
 /**
