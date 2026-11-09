@@ -29,9 +29,9 @@ export default function Footer() {
           </nav>
           <nav aria-label="Resources" className={col}>
             <p className={head}>Resources</p>
-            <Link href="/case-studies" className="hover:text-ink">Case studies</Link>
-            <Link href="/blog" className="hover:text-ink">Blog</Link>
-            <Link href="/newsroom" className="hover:text-ink">Newsroom</Link>
+            <Link href="/resources/case-studies" className="hover:text-ink">Case studies</Link>
+            <Link href="/resources/blog" className="hover:text-ink">Blog</Link>
+            <Link href="/resources/newsroom" className="hover:text-ink">Newsroom</Link>
             <Link href="/partnerships" className="hover:text-ink">Partnerships</Link>
           </nav>
           <nav aria-label="Company" className={col}>

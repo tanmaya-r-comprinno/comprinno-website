@@ -72,9 +72,9 @@ export const nav: NavGroup[] = [
   {
     label: "Resources",
     items: [
-      { label: "Case studies", href: "/case-studies" },
-      { label: "Blog", href: "/blog" },
-      { label: "Newsroom", href: "/newsroom" },
+      { label: "Case studies", href: "/resources/case-studies" },
+      { label: "Blog", href: "/resources/blog" },
+      { label: "Newsroom", href: "/resources/newsroom" },
     ],
   },
   {

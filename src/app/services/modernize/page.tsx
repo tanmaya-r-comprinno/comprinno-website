@@ -67,9 +67,9 @@ const included = [
 const credentials = ["[Modernization / DevOps credential]", "AWS Premier Tier Partner", "AWS MSP & Level 1 MSSP", "ISO 27001 & SOC 2 Type II"];
 
 const outcomes = [
-  { tag: "Monolith to microservices", metric: "[X%]", what: "faster release cycles", title: "[Customer] breaks its monolith into services on Amazon EKS", href: "/case-studies", icon: "puzzle" as IconName },
-  { tag: "Database", metric: "[X%]", what: "lower database licensing cost", title: "[Customer] moves from a commercial database to Amazon Aurora", href: "/case-studies", icon: "database" as IconName },
-  { tag: "Serverless · DevOps", metric: "[X×]", what: "more deployments per week", title: "[Customer] moves to serverless and automated releases", href: "/case-studies", icon: "rocket" as IconName },
+  { tag: "Monolith to microservices", metric: "[X%]", what: "faster release cycles", title: "[Customer] breaks its monolith into services on Amazon EKS", href: "/resources/case-studies", icon: "puzzle" as IconName },
+  { tag: "Database", metric: "[X%]", what: "lower database licensing cost", title: "[Customer] moves from a commercial database to Amazon Aurora", href: "/resources/case-studies", icon: "database" as IconName },
+  { tag: "Serverless · DevOps", metric: "[X×]", what: "more deployments per week", title: "[Customer] moves to serverless and automated releases", href: "/resources/case-studies", icon: "rocket" as IconName },
 ];
 
 const faqs = [

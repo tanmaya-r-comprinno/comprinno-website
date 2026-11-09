@@ -7,21 +7,21 @@ export function generateStaticParams() {
   return cases.map((c) => ({ slug: c.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/case-studies/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/resources/case-studies/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const c = getCase(slug);
   if (!c) return {};
-  return { title: `${c.client}: ${c.title}`, description: c.result, alternates: { canonical: `/case-studies/${c.slug}` } };
+  return { title: `${c.client}: ${c.title}`, description: c.result, alternates: { canonical: `/resources/case-studies/${c.slug}` } };
 }
 
-export default async function CasePage({ params }: PageProps<"/case-studies/[slug]">) {
+export default async function CasePage({ params }: PageProps<"/resources/case-studies/[slug]">) {
   const { slug } = await params;
   const c = getCase(slug);
   if (!c) notFound();
   return (
     <>
       <PageHero eyebrow={`Case study · ${c.track}`} title={c.title} desc={c.client}>
-        <Button href="/case-studies" variant="ghost">← All case studies</Button>
+        <Button href="/resources/case-studies" variant="ghost">← All case studies</Button>
       </PageHero>
       <Section>
         <SectionHead

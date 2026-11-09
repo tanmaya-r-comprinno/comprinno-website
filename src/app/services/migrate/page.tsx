@@ -67,9 +67,9 @@ const included = [
 const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "AWS Premier Tier Partner", "ISO 27001 & SOC 2 Type II"];
 
 const outcomes = [
-  { tag: "Cloud to cloud · Data", metric: "Near real-time", what: "MongoDB sync through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/case-studies/pococare-azure-cosmos-db-to-aws", icon: "database" as IconName },
-  { tag: "Cloud to cloud", metric: "Zero downtime", what: "validated cutover", title: "An industrial intelligence provider moves from Google Cloud to AWS", href: "/case-studies/industrial-intelligence-gcp-to-aws", icon: "migrate" as IconName },
-  { tag: "Data center exit", metric: "95%+", what: "of services now serverless or managed", title: "MediBuddy moves from its data center to AWS", href: "/case-studies/medibuddy-data-center-to-aws", icon: "building" as IconName },
+  { tag: "Cloud to cloud · Data", metric: "Near real-time", what: "MongoDB sync through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "database" as IconName },
+  { tag: "Cloud to cloud", metric: "Zero downtime", what: "validated cutover", title: "An industrial intelligence provider moves from Google Cloud to AWS", href: "/resources/case-studies/industrial-intelligence-gcp-to-aws", icon: "migrate" as IconName },
+  { tag: "Data center exit", metric: "95%+", what: "of services now serverless or managed", title: "MediBuddy moves from its data center to AWS", href: "/resources/case-studies/medibuddy-data-center-to-aws", icon: "building" as IconName },
 ];
 
 const faqs = [

@@ -67,9 +67,9 @@ const included = [
 const credentials = ["AWS Premier Tier Partner", "AWS Security Competency", "AWS Resilience Competency", "AWS Level 1 MSSP Competency"];
 
 const outcomes = [
-  { tag: "Fintech · Disaster recovery", metric: "1 TB+", what: "database replicated for RBI requirements", title: "Fibe sets up disaster recovery in the Hyderabad region", href: "/case-studies", icon: "bank" as IconName },
-  { tag: "Healthcare · Migration", metric: "Near real-time", what: "MongoDB sync through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/case-studies/pococare-azure-cosmos-db-to-aws", icon: "heart" as IconName },
-  { tag: "Life sciences · GenAI", metric: "−50%", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/case-studies/sirovate-genai-csr", icon: "flask" as IconName },
+  { tag: "Fintech · Disaster recovery", metric: "1 TB+", what: "database replicated for RBI requirements", title: "Fibe sets up disaster recovery in the Hyderabad region", href: "/resources/case-studies", icon: "bank" as IconName },
+  { tag: "Healthcare · Migration", metric: "Near real-time", what: "MongoDB sync through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "heart" as IconName },
+  { tag: "Life sciences · GenAI", metric: "−50%", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "flask" as IconName },
 ];
 
 const faqs = [

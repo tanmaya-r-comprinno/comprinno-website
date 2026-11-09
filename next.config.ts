@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
     return [
       { source: "/tevico", destination: "/products/tevico", permanent: true },
       { source: "/products", destination: "/products/tevico", permanent: true },
+      { source: "/case-studies", destination: "/resources/case-studies", permanent: true },
+      { source: "/case-studies/:slug", destination: "/resources/case-studies/:slug", permanent: true },
+      { source: "/blog", destination: "/resources/blog", permanent: true },
+      { source: "/newsroom", destination: "/resources/newsroom", permanent: true },
       { source: "/products/navitus", destination: "/products/tevico", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
     ];

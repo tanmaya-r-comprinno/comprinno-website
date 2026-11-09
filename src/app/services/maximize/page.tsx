@@ -67,9 +67,9 @@ const included = [
 const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "AWS Strategic Collaboration Agreement for generative AI", "OpenAI Select Partner"];
 
 const outcomes = [
-  { tag: "Agentic AI", metric: "[X%]", what: "faster root-cause analysis", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName },
-  { tag: "Generative AI", metric: "−50%", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/case-studies/sirovate-genai-csr", icon: "spark" as IconName },
-  { tag: "Computer vision", metric: "14×", what: "faster image processing", title: "[Customer] processes images 14× faster with computer vision in the cloud", href: "/case-studies", icon: "eye" as IconName },
+  { tag: "Agentic AI", metric: "[X%]", what: "faster root-cause analysis", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/resources/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName },
+  { tag: "Generative AI", metric: "−50%", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName },
+  { tag: "Computer vision", metric: "14×", what: "faster image processing", title: "[Customer] processes images 14× faster with computer vision in the cloud", href: "/resources/case-studies", icon: "eye" as IconName },
 ];
 
 const faqs = [

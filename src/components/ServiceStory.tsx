@@ -204,7 +204,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
           ))}
         </div>
         <div className="mt-8 flex justify-center">
-          <Button href="/case-studies" variant="ghost">{d.outcomes.more} →</Button>
+          <Button href="/resources/case-studies" variant="ghost">{d.outcomes.more} →</Button>
         </div>
       </Section>
 

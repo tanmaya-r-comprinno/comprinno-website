@@ -17,9 +17,9 @@ import RainField from "@/components/RainField";
 
 // Results told as one big number each (from comprinno.net case studies)
 const proof = [
-  { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName, },
-  { metric: "−50%", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
-  { metric: "Near real-time", what: "MongoDB sync during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
+  { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/resources/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName, },
+  { metric: "−50%", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
+  { metric: "Near real-time", what: "MongoDB sync during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
 ];
 
 const homeProducts = [
@@ -257,7 +257,7 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-8 flex justify-center">
-          <Button href="/case-studies" variant="ghost">All case studies →</Button>
+          <Button href="/resources/case-studies" variant="ghost">All case studies →</Button>
         </div>
       </Section>
 

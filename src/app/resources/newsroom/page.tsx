@@ -4,7 +4,7 @@ import { CtaBand, PageHero } from "@/components/ui";
 export const metadata: Metadata = {
   title: "Newsroom",
   description: "Press, announcements and milestones from Comprinno.",
-  alternates: { canonical: "/newsroom" },
+  alternates: { canonical: "/resources/newsroom" },
 };
 
 // TODO(content): import from comprinno.net/newsroom (add a SectionHead + .card grid once items exist).

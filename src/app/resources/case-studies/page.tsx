@@ -6,7 +6,7 @@ import { cases } from "@/content/cases";
 export const metadata: Metadata = {
   title: "Case studies",
   description: "Real results from cloud migration, modernization, managed operations and AI projects.",
-  alternates: { canonical: "/case-studies" },
+  alternates: { canonical: "/resources/case-studies" },
 };
 
 export default function CaseStudiesPage() {
@@ -21,7 +21,7 @@ export default function CaseStudiesPage() {
         />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cases.map((c) => (
-            <Link key={c.slug} href={`/case-studies/${c.slug}`} className="card flex flex-col">
+            <Link key={c.slug} href={`/resources/case-studies/${c.slug}`} className="card flex flex-col">
               <span className="tag self-start">{c.track}</span>
               <h2 className="mt-3 text-lg font-semibold">{c.client}</h2>
               <p className="mt-1 text-sm font-medium text-ink-2 lg:min-h-[2.75em]">{c.title}</p>

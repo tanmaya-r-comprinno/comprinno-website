@@ -4,7 +4,7 @@ import { CtaBand, PageHero } from "@/components/ui";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Articles on cloud, operations and agentic AI from the Comprinno team.",
-  alternates: { canonical: "/blog" },
+  alternates: { canonical: "/resources/blog" },
 };
 
 // TODO(content): import posts from comprinno.net/blogs-and-articles (add a SectionHead + .card grid once posts exist).

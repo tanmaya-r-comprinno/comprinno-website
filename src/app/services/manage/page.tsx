@@ -73,9 +73,9 @@ const plans = [
 const credentials = ["AWS Managed Service Provider (MSP)", "AWS Level 1 MSSP Competency", "AWS Resilience Competency", "ISO 27001 & SOC 2 Type II"];
 
 const outcomes = [
-  { tag: "Fintech · Compliance", metric: "Audit cleared", what: "RBI data localization, ~37 million customers", title: "A fintech with about 37 million customers clears its RBI data localization audit in the cloud", href: "/case-studies/fintech-rbi-data-localization", icon: "bank" as IconName },
-  { tag: "Consumer · Cost", metric: "−40%", what: "cloud costs in one year", title: "boAt cuts cloud costs by 40% in a year with Comprinno managed services", href: "/case-studies/boat-aws-cost-reduction", icon: "coin" as IconName },
-  { tag: "IoT · Monitoring", metric: "24×7", what: "highly available monitoring and on-call alerting", title: "LightMetrics gets highly available monitoring and on-call alerting for its 24×7 dashcam platform", href: "/case-studies/lightmetrics-24x7-monitoring", icon: "eye" as IconName },
+  { tag: "Fintech · Compliance", metric: "Audit cleared", what: "RBI data localization, ~37 million customers", title: "A fintech with about 37 million customers clears its RBI data localization audit in the cloud", href: "/resources/case-studies/fintech-rbi-data-localization", icon: "bank" as IconName },
+  { tag: "Consumer · Cost", metric: "−40%", what: "cloud costs in one year", title: "boAt cuts cloud costs by 40% in a year with Comprinno managed services", href: "/resources/case-studies/boat-aws-cost-reduction", icon: "coin" as IconName },
+  { tag: "IoT · Monitoring", metric: "24×7", what: "highly available monitoring and on-call alerting", title: "LightMetrics gets highly available monitoring and on-call alerting for its 24×7 dashcam platform", href: "/resources/case-studies/lightmetrics-24x7-monitoring", icon: "eye" as IconName },
 ];
 
 const faqs = [
