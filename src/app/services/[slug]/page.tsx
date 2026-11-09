@@ -9,8 +9,8 @@ import { getService, services } from "@/content/services";
 import { getCase } from "@/content/cases";
 
 export function generateStaticParams() {
-  // migrate has its own dedicated page at /services/migrate
-  return services.filter((s) => s.slug !== "migrate").map((s) => ({ slug: s.slug }));
+  // migrate, modernize and manage have their own dedicated pages
+  return services.filter((s) => !["migrate", "modernize", "manage"].includes(s.slug)).map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/services/[slug]">): Promise<Metadata> {
