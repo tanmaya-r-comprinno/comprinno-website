@@ -24,7 +24,7 @@ export default function Footer() {
             {services.map((s) => (
               <Link key={s.slug} href={`/services/${s.slug}`} className="hover:text-ink">{s.verb}</Link>
             ))}
-            <Link href="/products" className="hover:text-ink">Products</Link>
+            <Link href="/products/tevico" className="hover:text-ink">Products</Link>
             <Link href="/industries" className="hover:text-ink">Industries</Link>
           </nav>
           <nav aria-label="Resources" className={col}>
