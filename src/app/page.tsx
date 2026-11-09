@@ -3,11 +3,12 @@ import GridGlow from "@/components/GridGlow";
 import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import { services } from "@/content/services";
-import { customers, phases } from "@/content/company";
+import { phases } from "@/content/company";
 import { partnerPages } from "@/content/products";
 import { partnerLogo } from "@/content/partnerLogos";
 import { ImageSlot } from "@/components/Illustrations";
-import Abstract from "@/components/Abstracts";
+import LogoMarquee from "@/components/LogoMarquee";
+import OutcomeArt from "@/components/OutcomeArt";
 import FlowLoop from "@/components/FlowLoop";
 import ParticleWave from "@/components/ParticleWave";
 import RainField from "@/components/RainField";
@@ -16,9 +17,9 @@ import RainField from "@/components/RainField";
 
 // Results told as one big number each (from comprinno.net case studies)
 const proof = [
-  { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/case-studies/it-ops-rca-agentcore", abs: 5, icon: "agent" as IconName, art: "trend" as const, value: 60 },
-  { metric: "−50%", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/case-studies/sirovate-genai-csr", abs: 13, icon: "spark" as IconName, art: "drop" as const, value: 50 },
-  { metric: "Near real-time", what: "MongoDB sync during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/case-studies/pococare-azure-cosmos-db-to-aws", abs: 16, icon: "migrate" as IconName, art: "ring" as const, value: 95 },
+  { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName, },
+  { metric: "−50%", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
+  { metric: "Near real-time", what: "MongoDB sync during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
 ];
 
 const homeProducts = [
@@ -61,7 +62,7 @@ const faqs = [
 // The gap: why AI stalls. Each item is answered by a move in "What we do".
 const gaps: { title: string; desc: string; icon: IconName }[] = [
   { title: "Legacy that won't scale", desc: "Monoliths and on-prem data that AI can't reach or run on.", icon: "layers" },
-  { title: "Security & compliance gaps", desc: "Regulators (RBI, SEBI, HIPAA) won't sign off on AI over shaky controls.", icon: "shield" },
+  { title: "Security & compliance gaps", desc: "Regulators won't sign off on AI over shaky controls.", icon: "shield" },
   { title: "No one to run it", desc: "Lean teams firefighting ops and cost have no time to ship AI.", icon: "users" },
 ];
 
@@ -73,17 +74,17 @@ export default function Home() {
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <Eyebrow>AWS Premier Tier Partner · Est. 2013</Eyebrow>
+            <Eyebrow>AWS Premier Tier Partner</Eyebrow>
             <h1 className="mt-5 text-[clamp(1.9rem,5vw,3.6rem)] font-normal leading-[1.1] lg:whitespace-nowrap">
               Turn <strong className="sweep font-bold">enterprise AI</strong> into
               <br />a lasting <strong className="font-bold">competitive advantage</strong>.
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-              AI only compounds on a cloud that&apos;s ready for it. We migrate, modernize and run your cloud, then build, govern and scale the AI agents on top.
+            <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted sm:text-lg">
+              AI only compounds on a cloud that&apos;s ready for it.
+              <span className="block lg:whitespace-nowrap">We migrate, modernize and run your cloud, then build, govern and scale the AI agents on top.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button href="/contact">Talk to an expert →</Button>
-              <Button href="#services" variant="ghost">See how we work</Button>
             </div>
           </div>
         </Container>
@@ -110,18 +111,7 @@ export default function Home() {
       </section>
 
       {/* 2 · TRUST */}
-      <section className="border-b border-line py-8">
-        <Container>
-          <p className="text-center font-mono text-xs text-muted">Trusted by 750+ high-growth and enterprise brands</p>
-        </Container>
-        <div className="marquee mt-5">
-          <ul className="marquee-track text-base font-medium text-muted">
-            {[...customers, ...customers].map((c, i) => (
-              <li key={`${c}-${i}`} aria-hidden={i >= customers.length} className="whitespace-nowrap transition hover:text-ink">{c}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <LogoMarquee />
 
       {/* 2b · THE GAP: why AI stalls, which the four moves then answer */}
       <Section tone="surface">
@@ -154,8 +144,7 @@ export default function Home() {
             <li key={s.slug}>
               <Link href={`/services/${s.slug}`} className="path-card group">
                 <span className="path-mark" aria-hidden="true">{s.verb}</span>
-                <span className="path-verb">{s.verb} <span className="go">→</span></span>
-                <h3 className="mt-3 text-xl font-semibold text-ink">{stages[s.slug].title}</h3>
+                <h3 className=" text-xl font-semibold text-ink">{stages[s.slug].title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{stages[s.slug].desc}</p>
                 <span className="mt-auto flex flex-col gap-2 pt-5">
                   {stages[s.slug].includes.map((x) => <span key={x} className="path-inc">{x}</span>)}
@@ -251,14 +240,14 @@ export default function Home() {
       <Section tone="surface">
         <SectionHead eyebrow="Outcomes" title={<><strong>Production results</strong>, not pilots.</>} desc="Real outcomes from teams that took AI from idea to production with us." />
         <div className="grid gap-4 md:grid-cols-3">
-          {proof.map((p) => (
+          {proof.map((p, i) => (
             <Link key={p.href} href={p.href} className="card block">
               <div className="flex items-center justify-between">
                 <IconTile name={p.icon} />
                 <span className="tag">{p.track}</span>
               </div>
               <div className="bg-grid mt-5 rounded-md border border-line bg-surface p-3">
-                <Abstract index={p.abs} />
+                <OutcomeArt variant={i} />
               </div>
               <p className="mt-5 text-4xl font-semibold tabular-nums text-ink sm:text-5xl">{p.metric}</p>
               <p className="mt-1 text-ink-2">{p.what}</p>

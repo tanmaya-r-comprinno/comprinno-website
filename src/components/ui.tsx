@@ -78,7 +78,7 @@ const EYEBROW_HUES: [string, string][] = [
 ];
 // Hand-picked for the main labels so neighbouring sections never share a colour.
 const HUE_BY_LABEL: Record<string, number> = {
-  "Agentic AI first · Premier Tier Partner · Est. 2013": 0, // teal
+  "AWS Premier Tier Partner": 0, // teal
   "Official partners": 3, // sky
   "What we do": 1, // violet
   "Our products": 2, // amber
@@ -274,11 +274,13 @@ export function CtaBand({
   desc,
   label = "Talk to an expert",
   steps = ["30-min call with a cloud expert", "Assessment + funding check", "A plan you can act on"],
+  children,
 }: {
   title?: ReactNode;
   desc?: string;
   label?: string;
   steps?: string[];
+  children?: ReactNode;
 }) {
   return (
     <section className="cta-full">
@@ -297,8 +299,8 @@ export function CtaBand({
         </ol>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Button href="/contact">{label} <span className="go">→</span></Button>
-          <a href="mailto:sales@comprinno.net" className="btn btn-ghost">sales@comprinno.net</a>
         </div>
+        {children}
       </Container>
     </section>
   );

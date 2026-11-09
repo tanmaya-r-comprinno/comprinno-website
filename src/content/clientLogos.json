@@ -1,0 +1,142 @@
+[
+ {
+  "slug": "qicap",
+  "name": "QiCAP.ai",
+  "w": 406,
+  "h": 356,
+  "height": 42
+ },
+ {
+  "slug": "bluestone",
+  "name": "BlueStone",
+  "w": 688,
+  "h": 128,
+  "height": 22
+ },
+ {
+  "slug": "boat",
+  "name": "boAt",
+  "w": 608,
+  "h": 250,
+  "height": 28
+ },
+ {
+  "slug": "carnot",
+  "name": "Carnot",
+  "w": 494,
+  "h": 132,
+  "height": 21
+ },
+ {
+  "slug": "chalo",
+  "name": "Chalo",
+  "w": 670,
+  "h": 160,
+  "height": 20
+ },
+ {
+  "slug": "classplus",
+  "name": "Classplus",
+  "w": 768,
+  "h": 178,
+  "height": 22
+ },
+ {
+  "slug": "decathlon",
+  "name": "Decathlon",
+  "w": 832,
+  "h": 126,
+  "height": 20
+ },
+ {
+  "slug": "devrev",
+  "name": "DevRev",
+  "w": 694,
+  "h": 200,
+  "height": 24
+ },
+ {
+  "slug": "fiery",
+  "name": "Fiery",
+  "w": 328,
+  "h": 304,
+  "height": 36
+ },
+ {
+  "slug": "hivepro",
+  "name": "Hive Pro",
+  "w": 702,
+  "h": 116,
+  "height": 20
+ },
+ {
+  "slug": "healthians",
+  "name": "Healthians",
+  "w": 774,
+  "h": 244,
+  "height": 26
+ },
+ {
+  "slug": "humynai",
+  "name": "Humynai",
+  "w": 386,
+  "h": 248,
+  "height": 35
+ },
+ {
+  "slug": "ignosis",
+  "name": "Ignosis AI",
+  "w": 666,
+  "h": 136,
+  "height": 21
+ },
+ {
+  "slug": "lightmetrics",
+  "name": "LightMetrics",
+  "w": 596,
+  "h": 168,
+  "height": 23
+ },
+ {
+  "slug": "loyltyrewardz",
+  "name": "Loylty Rewardz",
+  "w": 436,
+  "h": 280,
+  "height": 37
+ },
+ {
+  "slug": "medgenome",
+  "name": "MedGenome",
+  "w": 656,
+  "h": 124,
+  "height": 22
+ },
+ {
+  "slug": "merakilabs",
+  "name": "Meraki Labs",
+  "w": 732,
+  "h": 108,
+  "height": 20
+ },
+ {
+  "slug": "otpless",
+  "name": "OTPLESS",
+  "w": 536,
+  "h": 118,
+  "height": 21
+ },
+ {
+  "slug": "pepperfry",
+  "name": "Pepperfry",
+  "w": 844,
+  "h": 180,
+  "height": 20
+ },
+ {
+  "slug": "pxil",
+  "name": "PXIL",
+  "w": 608,
+  "h": 224,
+  "height": 29
+ }
+]

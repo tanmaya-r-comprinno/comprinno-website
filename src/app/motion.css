@@ -514,7 +514,7 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
   .path-row > li:not(.path-rail) { border-bottom-width: 0 !important; border-right-width: 1px; }
   .path-row > li:not(.path-rail):last-child { border-right-width: 0; }
 }
-.path-card { display: flex; flex-direction: column; height: 100%; padding: 1.5rem; background: var(--color-bg); transition: background-color .3s; }
+.path-card { display: flex; flex-direction: column; height: 100%; padding: 3.75rem 1.5rem 1.5rem; background: var(--color-bg); transition: background-color .3s; }
 .path-card:hover, .path-card:focus-visible { background: var(--color-surface-2); }
 .path-verb { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); }
 .path-card:hover .path-verb { color: var(--color-ink); }
@@ -633,7 +633,10 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .loop-node { position: relative; z-index: 1; display: inline-flex; width: 3.5rem; height: 3.5rem; align-items: center; justify-content: center;
   border: 1px solid var(--color-line-strong); background: var(--color-bg); color: var(--color-muted); transition: all .4s; }
 .loop-status { display: block; margin-top: 1rem; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--color-muted); }
-.loop-step.is-wait { opacity: .55; }
+/* queued phases fade by colour, not opacity, so the card stays opaque and hides the lines behind it */
+.loop-step.is-wait h3 { color: var(--color-muted); }
+.loop-step.is-wait .loop-status { color: var(--color-line-strong); }
+.loop-step.is-wait .loop-node { color: var(--color-line-strong); }
 .loop-step.is-done .loop-node { border-color: var(--color-ink); color: var(--color-ink); }
 .loop-step.is-run { border-color: var(--color-ink); transform: translateY(-6px); box-shadow: 8px 8px 0 var(--color-line); }
 .loop-step.is-run .loop-node { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-bg); box-shadow: 0 0 0 6px var(--color-surface-2); }
@@ -641,25 +644,27 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .loop-step.is-run .loop-status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: .5rem; background: var(--color-ink); vertical-align: middle; animation: cta-blink 1s infinite; }
 .loop-bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--color-ink); transform-origin: left; animation: loop-bar 3.2s linear forwards; }
 @keyframes loop-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.loop-return, .loop-caption { display: none; }
+.loop-lines, .loop-fill, .loop-signal, .loop-caption { display: none; }
 
 @media (min-width: 1024px) {
-  .loop-steps { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .loop-steps { grid-template-columns: repeat(var(--n, 4), 1fr); gap: 0; }
+  .loop-step { padding-left: .75rem; padding-right: .75rem; }
   .loop-step { text-align: center; padding-top: 0; border: 0; background: transparent; box-shadow: none !important; }
   .loop-step.is-run { transform: none; }
   .loop-step .loop-node { margin-top: 0; }
   .loop-bar { left: 25%; width: 50%; }
-  /* track between first and last node centres */
-  .loop-track { display: block; position: absolute; left: 12.5%; right: 12.5%; top: 1.75rem; height: 1px; background: var(--color-line-strong); }
-  .loop-fill { position: absolute; left: 0; top: 0; height: 1px; width: var(--pct); background: var(--color-ink); transition: width 1s cubic-bezier(.6,0,.2,1); }
-  .loop-signal { position: absolute; top: -4px; left: var(--pct); width: 9px; height: 9px; margin-left: -4.5px; background: var(--color-ink);
-    box-shadow: 0 0 0 5px rgb(51 65 85 / .12); transition: left 1s cubic-bezier(.6,0,.2,1); }
-  .loop-return { display: block; width: 100%; height: 44px; margin-top: .5rem; }
-  .loop-return path { stroke: var(--color-line-strong); stroke-width: 1; stroke-dasharray: 4 6; animation: loop-back 1.4s linear infinite; }
-  .loop-caption { display: block; margin-top: .25rem; text-align: center; font-family: var(--font-mono); font-size: .75rem; color: var(--color-muted); }
+  .loop-steps { position: relative; z-index: 1; }
+  .loop-step { background: linear-gradient(transparent 0 3.6rem, var(--color-bg) 3.6rem); }
+  .loop-lines { display: block; position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+  .loop-base { stroke: var(--color-line-strong); stroke-width: 1; }
+  .loop-back { stroke: var(--color-line-strong); stroke-width: 1; stroke-dasharray: 4 6; animation: loop-back 1.4s linear infinite; }
+  .loop-fill { display: block; position: absolute; top: 28px; height: 1px; background: var(--color-ink); pointer-events: none; }
+  .loop-signal { display: block; position: absolute; left: 0; top: 0; z-index: 0; width: 11px; height: 11px; background: var(--color-ink);
+    box-shadow: 0 0 0 5px rgb(51 65 85 / .12); pointer-events: none; will-change: transform; }
+  .loop-caption { display: block; margin-top: 3rem; text-align: center; font-family: var(--font-mono); font-size: .75rem; color: var(--color-muted); }
 }
 @keyframes loop-back { to { stroke-dashoffset: -20; } }
-@media (prefers-reduced-motion: reduce) { .loop-bar, .loop-return path, .loop-step .loop-status::before { animation: none !important; } .loop-fill, .loop-signal, .loop-step { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .loop-bar, .loop-back, .loop-step .loop-status::before { animation: none !important; } .loop-fill, .loop-signal, .loop-step { transition: none; } }
 
 /* The path, ambient motion: a relay. Each stage lights up in turn (top bar fills,
    a soft light sweeps across the card), handing over to the next, then repeats. */
@@ -672,8 +677,52 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .path-row > li:nth-child(2) .path-card { --i: 2s; }
 .path-row > li:nth-child(3) .path-card { --i: 4s; }
 .path-row > li:nth-child(4) .path-card { --i: 6s; }
-.path-card:hover::before { animation: none; transform: scaleX(1); }
+/* hovering takes over: the relay stops everywhere, only the hovered card shows its bar */
+.path-row:hover .path-card::before, .path-row:hover .path-card::after { animation: none; transform: scaleX(0); }
+.path-row:hover .path-card:hover::before { transform: scaleX(1); transform-origin: left; }
 @keyframes path-relay { 0% { transform: scaleX(0); transform-origin: left; } 12% { transform: scaleX(1); transform-origin: left; }
-  22% { transform: scaleX(1); transform-origin: right; } 30%, 100% { transform: scaleX(0); transform-origin: right; } }
+  18% { transform: scaleX(1); transform-origin: right; } 24%, 100% { transform: scaleX(0); transform-origin: right; } }
 @keyframes path-sheen { 0% { background-position: 120% 0; } 25%, 100% { background-position: -20% 0; } }
 @media (prefers-reduced-motion: reduce) { .path-card::before, .path-card::after { animation: none; } }
+
+/* ---------- Outcomes art (OutcomeArt.tsx) ---------- */
+.oa { display: block; width: 100%; height: auto; }
+.oa-breathe { transform-box: fill-box; transform-origin: center; animation: oa-breathe 4s ease-in-out infinite; }
+.oa-dash { animation: abs-dash 1.6s linear infinite; }
+.oa-dash-rev { animation: abs-dash 1.6s linear infinite reverse; }
+@keyframes oa-breathe { 0%, 100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .oa * { animation: none !important; } }
+
+/* client logos in the marquee: equal gaps, pre-balanced heights, quiet until hover */
+.logo-track { align-items: center; gap: 3.5rem; }
+.logo-item { display: flex; align-items: center; height: 4rem; flex-shrink: 0; }
+.logo-item img { width: auto; max-width: none; opacity: .75; filter: grayscale(1); transition: opacity .3s; }
+.logo-item:hover img { opacity: 1; }
+.logo-track { animation-name: logo-marquee; animation-duration: 60s; }
+@keyframes logo-marquee { to { transform: translateX(calc(-50% - 1.75rem)); } }
+
+/* ---------- Service page: stage tracker in the hero ---------- */
+.stage-track { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--color-line-strong); background: var(--color-bg); }
+@media (min-width: 640px) { .stage-track { grid-template-columns: repeat(4, 1fr); } }
+.stage { position: relative; display: flex; flex-direction: column; gap: .2rem; padding: .8rem 1rem; text-align: left; border-left: 1px solid var(--color-line); transition: background-color .25s; }
+.stage:first-child { border-left: 0; }
+@media (max-width: 639px) { .stage:nth-child(3) { border-left: 0; } .stage:nth-child(n+3) { border-top: 1px solid var(--color-line); } }
+.stage:hover { background: var(--color-surface); }
+.stage.is-here { background: var(--color-surface-2); }
+.stage.is-here::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; background: var(--color-ink); }
+.stage-k { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); }
+.stage-name { font-size: .95rem; font-weight: 600; color: var(--color-ink); }
+
+/* ---------- Service page: "what we migrate" tiles: equal height, icon + title ---------- */
+.move-tile { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; height: 100%; min-height: 9rem; padding: 1.15rem 1.25rem 1.25rem;
+  border: 1px solid var(--color-line-strong); background: var(--color-bg); color: var(--color-ink); overflow: hidden;
+  transition: border-color .25s, transform .25s, box-shadow .25s; }
+/* thin ink rule that draws across the top on hover */
+.move-tile::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--color-ink); transform: scaleX(0); transform-origin: left; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.move-tile-top { display: flex; align-items: center; justify-content: space-between; }
+.move-tile-icon { display: inline-flex; width: 2.5rem; height: 2.5rem; align-items: center; justify-content: center; background: var(--color-surface-2); color: var(--color-ink); transition: background-color .25s, color .25s; }
+.move-tile-title { font-size: 1rem; font-weight: 600; line-height: 1.35; }
+.move-tile:hover { border-color: var(--color-ink); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--color-line); }
+.move-tile:hover::before { transform: scaleX(1); }
+.move-tile:hover .move-tile-icon { background: var(--color-ink); color: var(--color-bg); }
+.move-tile:hover .go { transform: translateX(4px); color: var(--color-ink); }
