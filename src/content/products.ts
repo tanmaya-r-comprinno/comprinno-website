@@ -12,7 +12,7 @@ export type Product = {
   status?: "placeholder";
 };
 
-// Tevico, Navitus, VeriQ and VoxSphere are named on comprinno.net.
+// Tevico, VeriQ and VoxSphere are named on comprinno.net.
 // TODO(content): the 5th product name and all copy marked TBD need confirmation.
 export const products: Product[] = [
   {
@@ -27,20 +27,6 @@ export const products: Product[] = [
       { title: "SRE agents", desc: "Investigate alerts and attach evidence.", icon: "agent" },
       { title: "Human sign-off", desc: "Approve high-impact actions.", icon: "check" },
       { title: "Command Center", desc: "Role-based views for every team.", icon: "eye" },
-    ],
-  },
-  {
-    slug: "navitus",
-    name: "Navitus",
-    category: "AI support",
-    tagline: "AI-powered support",
-    desc: "AI-powered customer support. TBD: full product description.",
-    icon: "users",
-    href: "/products/navitus",
-    features: [
-      { title: "AI answers", desc: "TBD", icon: "spark" },
-      { title: "Ticket triage", desc: "TBD", icon: "layers" },
-      { title: "Human handover", desc: "TBD", icon: "user" },
     ],
   },
   {

@@ -188,8 +188,9 @@ export function PageHero({
   children,
 }: {
   eyebrow: string;
-  title: string;
-  desc?: string;
+  /** string = all bold; JSX with <strong> = bold/regular mix like the home hero */
+  title: ReactNode;
+  desc?: ReactNode;
   children?: ReactNode;
   /** @deprecated hero visuals removed */
   visual?: ReactNode;
@@ -198,10 +199,10 @@ export function PageHero({
     <section className="hero-block relative overflow-hidden border-b border-line">
       <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
       <Container className="py-14 sm:py-20">
-        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <div className={`mx-auto flex flex-col items-center text-center ${typeof title === "string" ? "max-w-4xl" : "max-w-6xl"}`}>
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-5 text-[clamp(2rem,6vw,3.6rem)] font-semibold leading-[1.08]">{title}</h1>
-          {desc && <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-muted">{desc}</p>}
+          <h1 className={`mt-5 leading-[1.1] ${typeof title === "string" ? "text-[clamp(2rem,6vw,3.6rem)] font-semibold" : "text-[clamp(1.9rem,4.6vw,3.6rem)] font-normal [&_strong]:font-bold"}`}>{title}</h1>
+          {desc && <p className={`mt-5 text-base sm:text-lg leading-relaxed text-muted ${typeof desc === "string" ? "max-w-2xl" : "max-w-5xl"}`}>{desc}</p>}
           {children && <div className="mt-8 flex flex-wrap justify-center gap-3">{children}</div>}
         </div>
       </Container>
