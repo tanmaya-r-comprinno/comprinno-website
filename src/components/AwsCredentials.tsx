@@ -17,7 +17,11 @@ export default function AwsCredentials({ compact = false }: { compact?: boolean 
   }
   return (
     <div>
-      <SectionHead eyebrow="AWS credentials" title="Validated by AWS, not just partnered" />
+      <SectionHead
+        eyebrow="AWS credentials"
+        title={<><strong>Validated by AWS</strong>, not just partnered.</>}
+        desc="Every tier, competency and validation is independently reviewed by AWS."
+      />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         {awsHeadline.map((s) => <Stat key={s.label} {...s} />)}

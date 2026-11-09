@@ -27,7 +27,7 @@ export default function CountUp({ value }: { value: string }) {
         const start = performance.now();
         const dur = 1200;
         const tick = (t: number) => {
-          const p = Math.min((t - start) / dur, 1);
+          const p = Math.max(0, Math.min((t - start) / dur, 1)); // rAF time can precede start
           const eased = 1 - Math.pow(1 - p, 3);
           el.textContent = `${pre}${Math.round(target * eased).toLocaleString("en-US")}${suf}`;
           if (p < 1) raf = requestAnimationFrame(tick);

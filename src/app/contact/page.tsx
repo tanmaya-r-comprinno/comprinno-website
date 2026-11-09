@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero, Section } from "@/components/ui";
+import { CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { site } from "@/lib/site";
 import { Icon, IconTile } from "@/components/Icon";
 
@@ -10,13 +10,18 @@ export const metadata: Metadata = {
 };
 
 const input =
-  "mt-1.5 w-full rounded-md border border-line-strong bg-bg px-4 py-3 text-base text-ink placeholder:text-muted focus:border-accent";
+  "mt-1.5 w-full border border-line-strong bg-bg px-4 py-3 text-base text-ink placeholder:text-muted focus:border-accent";
 
 export default function ContactPage() {
   return (
     <>
       <PageHero eyebrow="Contact" title="Tell us what you're working on" desc="A certified cloud expert replies within 24 to 48 hours." />
       <Section>
+        <SectionHead
+          eyebrow="Get in touch"
+          title={<>Send a message or <strong>reach us directly</strong>.</>}
+          desc="Use the form, or pick the email or office that suits you best."
+        />
         <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
           {/* Works with zero JavaScript: plain POST to a route handler */}
           <form action="/api/contact" method="post" className="card grid gap-5">
@@ -69,14 +74,15 @@ export default function ContactPage() {
               <div key={o.label} className="card flex gap-4 text-sm">
                 <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-muted" />
                 <div>
-                <p className="font-medium text-ink">{o.city} · {o.label}</p>
-                <p className="mt-1 leading-relaxed text-muted">{o.address}</p>
+                  <p className="font-medium text-ink">{o.city} · {o.label}</p>
+                  <p className="mt-1 leading-relaxed text-muted">{o.address}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </Section>
+      <CtaBand title={<>Prefer to <strong>talk it through</strong>?</>} desc="Book a 30-minute call with a cloud expert instead." label="Book a call" />
     </>
   );
 }

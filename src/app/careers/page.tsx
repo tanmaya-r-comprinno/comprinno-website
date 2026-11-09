@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Button, PageHero, Section } from "@/components/ui";
+import { Button, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { site } from "@/lib/site";
 import { values } from "@/content/company";
 
@@ -13,18 +13,22 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <>
-      <PageHero eyebrow="Company / careers" title="Build the agentic cloud with us" desc="We hire certified cloud architects, security and DevOps engineers, and AI/ML engineers who work with managed ML and generative AI platforms.">
+      <PageHero eyebrow="Careers" title="Build the agentic cloud with us" desc="We hire certified cloud architects, security and DevOps engineers, and AI/ML engineers who work with generative AI.">
         <Button href={`mailto:${site.emails.careers}`}>Email {site.emails.careers} →</Button>
       </PageHero>
       <Section>
-        <p className="mb-4 label">What we value</p>
-        <ul className="flex flex-wrap gap-2">
+        <SectionHead
+          eyebrow="What we value"
+          title={<>The values we <strong>hire for</strong>.</>}
+          desc="Open roles will be listed here soon. Until then, write to us directly."
+        />
+        <ul className="flex flex-wrap justify-center gap-2">
           {values.map((v) => (
             <li key={v} className="tag">{v}</li>
           ))}
         </ul>
-        <p className="mt-8 max-w-xl text-sm text-muted">Open roles will be listed here soon.</p>
       </Section>
+      <CtaBand title={<>Not hiring? <strong>Still building</strong>?</>} desc="If you're a team with a cloud or AI project, we'd love to hear about it too." />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero, Section } from "@/components/ui";
+import { CtaBand, PageHero } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Newsroom",
@@ -7,14 +7,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/newsroom" },
 };
 
-// TODO(content): import from comprinno.net/newsroom
+// TODO(content): import from comprinno.net/newsroom (add a SectionHead + .card grid once items exist).
 export default function NewsroomPage() {
   return (
     <>
-      <PageHero eyebrow="Resources / newsroom" title="Press and announcements" desc="Milestones, partnerships and press coverage." />
-      <Section>
-        <div className="card max-w-xl text-sm text-muted">News coming soon.</div>
-      </Section>
+      <PageHero eyebrow="Newsroom" title="Press and announcements" desc="Milestones, partnerships and press coverage. News items are being moved over from our current site." />
+      <CtaBand title={<>Writing about <strong>Comprinno</strong>?</>} desc="Get in touch and we'll connect you with the right person." label="Contact us" />
     </>
   );
 }

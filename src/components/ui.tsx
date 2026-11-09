@@ -195,7 +195,7 @@ export function PageHero({
   visual?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-line">
+    <section className="hero-block relative overflow-hidden border-b border-line">
       <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
       <Container className="py-14 sm:py-20">
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -289,14 +289,16 @@ export function CtaBand({
         <Eyebrow>Let&apos;s talk</Eyebrow>
         <h2 className={`mx-auto mt-5 max-w-4xl text-[clamp(1.8rem,4.5vw,3rem)] leading-[1.15] ${typeof title === "string" ? "font-semibold" : "font-normal [&_strong]:font-semibold"}`}>{title}</h2>
         {desc && <p className="mx-auto mt-4 max-w-xl text-muted sm:text-lg">{desc}</p>}
-        <ol className="cta-steps">
-          {steps.map((s, i) => (
-            <li key={s} className="cta-step" style={{ "--d": `${i * 0.15}s` } as CSSProperties}>
-              <span className="cta-step-k">Step {i + 1}</span>
-              <span className="cta-step-t">{s}</span>
-            </li>
-          ))}
-        </ol>
+        {steps.length > 0 && (
+          <ol className="cta-steps">
+            {steps.map((s, i) => (
+              <li key={s} className="cta-step" style={{ "--d": `${i * 0.15}s` } as CSSProperties}>
+                <span className="cta-step-k">Step {i + 1}</span>
+                <span className="cta-step-t">{s}</span>
+              </li>
+            ))}
+          </ol>
+        )}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Button href="/contact">{label} <span className="go">→</span></Button>
         </div>

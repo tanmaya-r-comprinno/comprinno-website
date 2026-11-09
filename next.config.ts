@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/products/tevico", destination: "/tevico", permanent: true },
+      { source: "/tevico", destination: "/products/tevico", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
     ];
   },

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CtaBand, PageHero, Section } from "@/components/ui";
+import { Br, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { partnerPages } from "@/content/products";
 
@@ -13,13 +13,18 @@ export const metadata: Metadata = {
 export default function PartnershipsPage() {
   return (
     <>
-      <PageHero eyebrow="Partnerships" title="Built with the best in cloud and AI" desc="Four partnerships, one stack." />
+      <PageHero eyebrow="Official partners" title="Built with the best in cloud and AI" desc="Four partnerships, one stack." />
       <Section>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <SectionHead
+          eyebrow="Partners"
+          title={<>Four partners,<Br /> <strong>one stack</strong>.</>}
+          desc="Each partnership adds a layer we can build on with confidence."
+        />
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
           {partnerPages.map((p) => (
             <Link key={p.slug} href={p.href} className="card group flex flex-col">
               {/* logo slot: replace with partner logo in hi-fi */}
-              <div className="flex h-28 items-center justify-center rounded-md border border-dashed border-line-strong bg-surface">
+              <div className="flex h-28 items-center justify-center border border-dashed border-line-strong bg-surface">
                 <Icon name={p.icon} className="mr-3 h-8 w-8 text-ink-2" />
                 <span className="text-2xl font-semibold text-ink">{p.name}</span>
               </div>
@@ -30,7 +35,7 @@ export default function PartnershipsPage() {
           ))}
         </div>
       </Section>
-      <CtaBand />
+      <CtaBand title={<>Want to build on<Br /> <strong>this stack</strong>?</>} desc="Talk to us about which partner fits your project." />
     </>
   );
 }

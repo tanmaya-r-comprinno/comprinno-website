@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero, Section } from "@/components/ui";
+import { CtaBand, PageHero } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -7,14 +7,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-// TODO(content): import posts from comprinno.net/blogs-and-articles. Consider MDX files in /src/content/blog.
+// TODO(content): import posts from comprinno.net/blogs-and-articles (add a SectionHead + .card grid once posts exist).
 export default function BlogPage() {
   return (
     <>
-      <PageHero eyebrow="Resources / blog" title="Notes from the operations floor" desc="Articles on cloud, operations and agentic AI. Posts are being migrated from our current site." />
-      <Section>
-        <div className="card max-w-xl text-sm text-muted">Articles coming soon.</div>
-      </Section>
+      <PageHero eyebrow="Blog" title="Notes from the operations floor" desc="Articles on cloud, operations and agentic AI. Posts are being moved over from our current site." />
+      <CtaBand title={<>Can&apos;t wait for <strong>the next post</strong>?</>} desc="Ask a cloud expert your question directly." />
     </>
   );
 }

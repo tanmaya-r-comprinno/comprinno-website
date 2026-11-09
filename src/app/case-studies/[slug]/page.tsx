@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Button, CtaBand, PageHero, Section } from "@/components/ui";
+import { Button, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { cases, getCase } from "@/content/cases";
 
 export function generateStaticParams() {
@@ -20,18 +20,22 @@ export default async function CasePage({ params }: PageProps<"/case-studies/[slu
   if (!c) notFound();
   return (
     <>
-      <PageHero eyebrow={`Case study / ${c.track}`} title={c.title} desc={c.client}>
+      <PageHero eyebrow={`Case study · ${c.track}`} title={c.title} desc={c.client}>
         <Button href="/case-studies" variant="ghost">← All case studies</Button>
       </PageHero>
       <Section>
-        <div className="card max-w-2xl">
-          <p className="label">Outcome</p>
+        <SectionHead
+          eyebrow="Outcome"
+          title={<>What <strong>changed</strong>.</>}
+          desc="The full write-up is coming soon. Talk to us for the detailed story."
+        />
+        {/* TODO(content): full challenge / solution / results write-up per case, from comprinno.net */}
+        <div className="card mx-auto max-w-2xl text-center">
+          <p className="label">Result</p>
           <p className="mt-2 text-xl font-medium text-ink">{c.result}</p>
         </div>
-        {/* TODO(content): full challenge / solution / results write-up per case, from comprinno.net */}
-        <p className="mt-6 max-w-2xl text-sm text-muted">The full write-up for this project is coming soon. Talk to us for the detailed story.</p>
       </Section>
-      <CtaBand />
+      <CtaBand title={<>Facing a <strong>similar challenge</strong>?</>} desc="Talk to the team that delivered this project." />
     </>
   );
 }

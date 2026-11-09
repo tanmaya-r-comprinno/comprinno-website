@@ -64,7 +64,7 @@ export const nav: NavGroup[] = [
     label: "Products",
     href: "/products",
     items: [
-      { label: "Tevico", href: "/tevico", hint: "Cloud operations autopilot" },
+      { label: "Tevico", href: "/products/tevico", hint: "Cloud operations autopilot" },
       { label: "Navitus", href: "/products/navitus", hint: "AI-powered support" },
       { label: "VeriQ", href: "/products/veriq", hint: "Due-diligence questionnaires" },
       { label: "VoxSphere", href: "/products/voxsphere", hint: "Voice AI" },

@@ -24,7 +24,7 @@ const proof = [
 
 const homeProducts = [
   { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen" },
-  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents run cost, security and ops, governed by engineers.", href: "/tevico", screen: "Tevico dashboard screen" },
+  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents run cost, security and ops, governed by engineers.", href: "/products/tevico", screen: "Tevico dashboard screen" },
   { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen" },
   { name: "[Product 4]", line: "[One-line promise: what it does and for whom]", href: "/products/product-five", screen: "Product 4 screen" },
 ];
@@ -70,7 +70,7 @@ export default function Home() {
   return (
     <>
       {/* 1 · HERO: the diagram explains the promise */}
-      <section className="relative overflow-hidden border-b border-line">
+      <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">

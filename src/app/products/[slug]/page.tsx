@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Button, CtaBand, FeatureCard, PageHero, Section, SectionHead } from "@/components/ui";
-import { IconTile } from "@/components/Icon";
-import { ImageSlot } from "@/components/Illustrations";
+import { Br, Button, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
+import { Icon, IconTile } from "@/components/Icon";
+import LogoMarquee from "@/components/LogoMarquee";
 import { getProduct, products } from "@/content/products";
 
-// Tevico has its own page at /tevico
+// Tevico has its own dedicated page at /products/tevico
 export function generateStaticParams() {
   return products.filter((p) => p.slug !== "tevico").map((p) => ({ slug: p.slug }));
 }
@@ -26,39 +26,69 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
 
   return (
     <>
-      <PageHero
-        eyebrow={`Products / ${p.name}`}
-        title={`${p.name}: ${p.tagline}`}
-        desc={p.desc}
-        visual={<ImageSlot label={`${p.name} product screenshot`} />}
-      >
+      <PageHero eyebrow={`Products · ${p.category}`} title={`${p.name}: ${p.tagline}`} desc={p.desc}>
         <Button href="/contact">Book a demo →</Button>
-        <Button href="/products" variant="ghost">All products</Button>
       </PageHero>
 
+      <LogoMarquee />
+
+      {/* WHAT IT DOES */}
       <Section>
-        <SectionHead eyebrow="What it does" title="Three things, done well" />
-        <div className="grid gap-4 md:grid-cols-3">
-          {p.features.map((f, i) => (
-            <FeatureCard key={`${f.title}-${i}`} icon={f.icon} title={f.title} desc={f.desc} />
+        <SectionHead
+          eyebrow="What it does"
+          title={<>Three things, <strong>done well</strong>.</>}
+          desc={`The core of ${p.name}, built to run in production from day one.`}
+        />
+        <ol className="path-row lg:!grid-cols-3">
+          {p.features.map((f) => (
+            <li key={f.title}>
+              <div className="path-card">
+                <span className="path-mark" aria-hidden="true">{f.title.split(" ")[0]}</span>
+                <IconTile name={f.icon} />
+                <h3 className="mt-4 text-lg font-semibold leading-snug text-ink">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{f.desc}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </Section>
 
+      {/* PRODUCT SCREEN */}
       <Section tone="surface">
-        <SectionHead eyebrow="More products" title="The rest of the family" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {others.map((o) => (
-            <Link key={o.slug} href={o.href} className="card block">
-              <IconTile name={o.icon} />
-              <h3 className="mt-4 font-semibold">{o.name}</h3>
-              <p className="mt-1 text-sm text-muted">{o.tagline}</p>
-            </Link>
-          ))}
+        <SectionHead eyebrow="Product tour" title={<>See <strong>{p.name}</strong> at work.</>} desc="A walkthrough of the product on real workflows, booked around your team." />
+        <div className="mx-auto max-w-5xl border border-line-strong bg-bg p-3">
+          <div className="flex aspect-[16/8] items-center justify-center border border-dashed border-line-strong bg-surface font-mono text-xs text-muted">
+            {p.name} product screen
+          </div>
         </div>
       </Section>
 
-      <CtaBand title={`See ${p.name} in action`} label="Book a demo" />
+      {/* MORE PRODUCTS */}
+      <Section>
+        <SectionHead eyebrow="More products" title={<>The rest of <strong>the family</strong>.</>} desc="Every Comprinno product runs on the same secure foundation." />
+        <ul className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {others.map((o) => (
+            <li key={o.slug}>
+              <Link href={o.href} className="move-tile group">
+                <span className="move-tile-top">
+                  <span className="move-tile-icon" aria-hidden="true"><Icon name={o.icon} className="h-5 w-5" /></span>
+                </span>
+                <span>
+                  <span className="move-tile-title block">{o.name}</span>
+                  <span className="mt-1 block text-sm font-normal text-muted">{o.tagline}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <CtaBand
+        title={<>See <strong>{p.name}</strong><Br /> in action.</>}
+        desc="Book a demo. You'll see the product on your own use case before you commit."
+        steps={["30-min demo call", "Fit check on your workflows", "A pilot plan you can act on"]}
+        label="Book a demo"
+      />
     </>
   );
 }

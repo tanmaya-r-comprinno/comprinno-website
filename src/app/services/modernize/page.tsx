@@ -88,7 +88,7 @@ export default function ModernizePage() {
     <ServiceStory
       d={{
         hero: {
-          eyebrow: "Modernize · Stage 02 of 04",
+          eyebrow: "Modernize",
           title: <><span className="lg:whitespace-nowrap">Make your apps <strong className="sweep font-bold">AI-ready</strong>, without</span><Br /> a <strong className="font-bold">risky rewrite</strong>.</>,
           lines: [
             "Monoliths broken down step by step, workloads moved to containers and serverless,",

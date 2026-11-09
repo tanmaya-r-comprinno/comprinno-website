@@ -88,7 +88,7 @@ export default function MigratePage() {
     <ServiceStory
       d={{
         hero: {
-          eyebrow: "Migrate · Stage 01 of 04",
+          eyebrow: "Migrate",
           title: <><span className="lg:whitespace-nowrap">Move to the cloud in <strong className="sweep font-bold">planned waves</strong>,</span><Br /> not <strong className="font-bold">one risky leap</strong>.</>,
           lines: ["Data centers, VMware estates, databases and AI workloads, moved by a migration factory.", "A tested rollback plan behind every cutover, and funding checked before you spend."],
           cta: "Get a free migration assessment",

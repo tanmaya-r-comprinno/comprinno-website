@@ -14,7 +14,7 @@ import OutcomeArt from "./OutcomeArt";
 export type ServiceStoryData = {
   hero: { eyebrow: string; title: ReactNode; lines: [string, string]; cta: string };
   problem: { title: ReactNode; desc: string; items: { title: string; desc: string; icon: IconName }[] };
-  path: { title: ReactNode; desc: string; items: { k: string; mark: string; title: string; desc: string; tags: string[] }[] };
+  path: { eyebrow?: string; title: ReactNode; desc: string; items: { k: string; mark: string; title: string; desc: string; tags: string[] }[] };
   scope: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; icon: IconName }[] };
   numbers: { value: string; suffix: string; label: string }[];
   steps: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; desc: string }[]; icons: IconName[]; caption: string };
@@ -26,7 +26,7 @@ export type ServiceStoryData = {
     /** optional plan cards under the list (Manage) */
     plans?: { k: string; name: string; desc: string; featured?: boolean }[];
   };
-  credentials: { title: ReactNode; items: string[] };
+  credentials: { title: ReactNode; desc?: string; items: string[] };
   outcomes: {
     title: ReactNode;
     desc: string;
@@ -42,7 +42,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-line">
+      <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
           <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
@@ -77,7 +77,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
 
       {/* PATH: four disciplines */}
       <Section>
-        <SectionHead eyebrow="The path" title={d.path.title} desc={d.path.desc} />
+        <SectionHead eyebrow={d.path.eyebrow ?? "The path"} title={d.path.title} desc={d.path.desc} />
         <ol className="path-row">
           {d.path.items.map((p) => (
             <li key={p.title}>
@@ -155,11 +155,14 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
           <div id="plans" className="plans mt-10 scroll-mt-20">
             {d.included.plans.map((p) => (
               <div key={p.name} className={`plan ${p.featured ? "is-featured" : ""}`}>
-                <span className="font-mono text-[0.68rem] uppercase tracking-widest text-muted">{p.k}</span>
+                <span className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-[0.68rem] uppercase tracking-widest text-muted">{p.k}</span>
+                  {p.featured && <span className="border border-ink px-2 py-0.5 font-mono text-[0.62rem] uppercase tracking-widest text-ink">Recommended</span>}
+                </span>
                 <h3 className="mt-2 text-xl font-semibold text-ink">{p.name}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.desc}</p>
                 <div className="mt-6">
-                  <Button href="/contact" variant="ghost">Talk about {p.name}{p.featured ? " →" : ""}</Button>
+                  <Button href="/contact" variant="ghost">Contact sales{p.featured ? " →" : ""}</Button>
                 </div>
               </div>
             ))}
@@ -169,7 +172,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
 
       {/* CREDENTIALS */}
       <Section>
-        <SectionHead eyebrow="Credentials" title={d.credentials.title} desc="Independently validated for exactly this kind of work." />
+        <SectionHead eyebrow="Credentials" title={d.credentials.title} desc={d.credentials.desc ?? "Independently validated for exactly this kind of work."} />
         <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {d.credentials.items.map((c) => (
             <li key={c} className="card flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">

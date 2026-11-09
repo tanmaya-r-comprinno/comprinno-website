@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero, Section } from "@/components/ui";
+import { CtaBand, PageHero } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Privacy policy",
@@ -10,10 +10,8 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <PageHero eyebrow="Legal" title="Privacy policy" />
-      <Section>
-        <p className="max-w-2xl text-muted">The policy text will be migrated from our current site after legal review.</p>
-      </Section>
+      <PageHero eyebrow="Legal" title="Privacy policy" desc="The policy text will be moved over from our current site after legal review." />
+      <CtaBand title={<>Questions about <strong>your data</strong>?</>} desc="Write to us and we'll answer them directly." label="Contact us" />
     </>
   );
 }
