@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
       { source: "/case-studies/:slug", destination: "/resources/case-studies/:slug", permanent: true },
       { source: "/blog", destination: "/resources/blog", permanent: true },
       { source: "/newsroom", destination: "/resources/newsroom", permanent: true },
+      { source: "/about", destination: "/company/about", permanent: true },
+      { source: "/careers", destination: "/company/careers", permanent: true },
       { source: "/products/navitus", destination: "/products/tevico", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
     ];

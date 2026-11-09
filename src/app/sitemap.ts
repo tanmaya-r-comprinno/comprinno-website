@@ -7,7 +7,7 @@ import { partnerPages, products } from "@/content/products";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "", "/industries", "/products/tevico", "/resources/case-studies", "/resources/blog", "/resources/newsroom",
-    "/about", "/careers", "/contact", "/privacy-policy", "/partnerships",
+    "/company/about", "/company/careers", "/contact", "/privacy-policy", "/partnerships",
   ];
   const paths = [
     ...staticPaths,

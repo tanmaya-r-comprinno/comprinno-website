@@ -36,8 +36,8 @@ export default function Footer() {
           </nav>
           <nav aria-label="Company" className={col}>
             <p className={head}>Company</p>
-            <Link href="/about" className="hover:text-ink">About us</Link>
-            <Link href="/careers" className="hover:text-ink">Careers</Link>
+            <Link href="/company/about" className="hover:text-ink">About us</Link>
+            <Link href="/company/careers" className="hover:text-ink">Careers</Link>
             <Link href="/contact" className="hover:text-ink">Contact</Link>
             <Link href="/privacy-policy" className="hover:text-ink">Privacy policy</Link>
           </nav>

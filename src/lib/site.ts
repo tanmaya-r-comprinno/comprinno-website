@@ -90,8 +90,8 @@ export const nav: NavGroup[] = [
   {
     label: "Company",
     items: [
-      { label: "About us", href: "/about" },
-      { label: "Careers", href: "/careers" },
+      { label: "About us", href: "/company/about" },
+      { label: "Careers", href: "/company/careers" },
     ],
   },
 ];

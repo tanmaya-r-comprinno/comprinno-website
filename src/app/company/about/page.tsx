@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About us",
   description: "Founded in Bengaluru in 2013. A Premier Tier cloud partner helping teams migrate, modernize, manage and maximize the cloud.",
-  alternates: { canonical: "/about" },
+  alternates: { canonical: "/company/about" },
 };
 
 const storyIcons = ["rocket", "puzzle", "cloud", "shield", "check"] as const;

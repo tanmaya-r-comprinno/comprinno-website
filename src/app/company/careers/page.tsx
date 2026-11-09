@@ -6,7 +6,7 @@ import { values } from "@/content/company";
 export const metadata: Metadata = {
   title: "Careers",
   description: "Join Comprinno: certified cloud architects, DevOps and security experts, and AI/ML engineers.",
-  alternates: { canonical: "/careers" },
+  alternates: { canonical: "/company/careers" },
 };
 
 // TODO(content): the current site has no career details; add open roles and culture copy once supplied.
