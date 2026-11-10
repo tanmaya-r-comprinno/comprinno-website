@@ -274,7 +274,7 @@ export function CtaBand({
   title = "Planning your next cloud or AI project?",
   desc,
   label = "Talk to an expert",
-  steps = ["30-min call with a cloud expert", "Assessment + funding check", "A plan you can act on"],
+  steps = ["30-minute call with a cloud and AI expert", "Assessment + funding check", "A plan you can act on"],
   children,
 }: {
   title?: ReactNode;

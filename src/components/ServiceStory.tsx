@@ -14,7 +14,7 @@ import OutcomeArt from "./OutcomeArt";
 export type ServiceStoryData = {
   hero: { eyebrow: string; title: ReactNode; lines: [string, string]; cta: string };
   problem: { title: ReactNode; desc: string; items: { title: string; desc: string; icon: IconName }[] };
-  path: { eyebrow?: string; title: ReactNode; desc: string; items: { k: string; mark: string; title: string; desc: string; tags: string[] }[] };
+  path: { eyebrow?: string; title: ReactNode; desc: string; items: { k: string; mark: string; title: string; desc: string; proof?: string; tags: string[] }[] };
   scope: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; icon: IconName }[] };
   numbers: { value: string; suffix: string; label: string }[];
   steps: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; desc: string }[]; icons: IconName[]; caption: string };
@@ -25,6 +25,8 @@ export type ServiceStoryData = {
     items: (string | { text: string; plan: string })[];
     /** optional plan cards under the list (Manage) */
     plans?: { k: string; name: string; desc: string; featured?: boolean }[];
+    /** optional region-specific group under the list (Industries) */
+    regional?: { label: string; items: string[]; note?: string };
   };
   credentials: { title: ReactNode; desc?: string; items: string[] };
   outcomes: {
@@ -34,7 +36,7 @@ export type ServiceStoryData = {
     items: { tag: string; metric: string; what: string; title: string; href: string; icon: IconName }[];
     art: number; // first OutcomeArt variant to use
   };
-  faq: { title: ReactNode; desc: string; items: { q: string; a: string }[] };
+  faq: { title: ReactNode; desc: string; items: { q: string; a: string }[]; groups?: { label: string; items: { q: string; a: string }[] }[] };
   cta: { title: ReactNode; desc: string; steps: string[]; label: string; next: ReactNode };
 };
 
@@ -86,6 +88,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
                 <span className="path-verb lg:min-h-[3.2em]">{p.k}</span>
                 <h3 className="mt-3 text-lg font-semibold leading-snug text-ink lg:min-h-[2.75em]">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{p.desc}</p>
+                {p.proof && <p className="mt-3 text-sm leading-relaxed text-ink-2">{p.proof}</p>}
                 <span className="mt-auto flex flex-wrap gap-2 pt-5">
                   {p.tags.map((t) => <span key={t} className="tag">{t}</span>)}
                 </span>
@@ -136,7 +139,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
           <div>
             <Eyebrow>{d.included.eyebrow ?? "Built in, as standard"}</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2] [&_strong]:font-semibold">{d.included.title}</h2>
-            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{d.included.desc ?? "Whatever your size, you get the same team and the same standards. None of this is an add-on."}</p>
+            {d.included.desc !== "" && <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{d.included.desc ?? "Whatever your size, you get the same team and the same standards. None of this is an add-on."}</p>}
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
             {d.included.items.map((x) => {
@@ -151,6 +154,20 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
             })}
           </ul>
         </div>
+        {d.included.regional && (
+          <div className="mt-8 lg:ml-[calc(1/2.7*100%)] lg:pl-10">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted">{d.included.regional.label}</p>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {d.included.regional.items.map((t) => (
+                <li key={t} className="flex gap-3 border border-line bg-bg p-4 text-sm leading-relaxed text-ink">
+                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span className="flex-1">{t}</span>
+                </li>
+              ))}
+            </ul>
+            {d.included.regional.note && <p className="mt-3 text-sm leading-relaxed text-muted">{d.included.regional.note}</p>}
+          </div>
+        )}
         {d.included.plans && (
           <div id="plans" className="plans mt-10 scroll-mt-20">
             {d.included.plans.map((p) => (
@@ -215,7 +232,18 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
             <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2] [&_strong]:font-semibold">{d.faq.title}</h2>
             <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{d.faq.desc}</p>
           </div>
-          <Faq items={d.faq.items} />
+          {d.faq.groups ? (
+            <div className="flex flex-col gap-6">
+              {d.faq.groups.map((g) => (
+                <div key={g.label}>
+                  <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">{g.label}</p>
+                  <Faq items={g.items} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Faq items={d.faq.items} />
+          )}
         </div>
       </Section>
 

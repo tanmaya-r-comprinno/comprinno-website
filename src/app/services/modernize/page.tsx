@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 };
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Monoliths slow every release", desc: "One codebase, one deploy. A small change means a full regression cycle, so new features wait weeks.", icon: "layers" },
+  { title: "Monoliths slow every release", desc: "One codebase, one deployment. A small change means a full regression cycle, so new features wait weeks.", icon: "layers" },
   { title: "Legacy costs that never shrink", desc: "Commercial database licenses and always-on servers keep the bill high, even after the move to the cloud.", icon: "coin" },
-  { title: "Manual releases, fragile environments", desc: "Hand-run deployments and environments that drift apart make every release a risk.", icon: "alert" },
+  { title: "Manual releases, fragile environments", desc: "Manual deployments and environments that drift apart make every release a risk.", icon: "alert" },
   { title: "Data that AI can't reach", desc: "Data locked inside application databases and silos can't feed analytics, models or agents.", icon: "database" },
 ];
 
 const disciplines = [
   { k: "01 · Solves: slow releases", mark: "Apps", title: "Application Modernization", desc: "Monoliths split into services one piece at a time, using the strangler pattern, so nothing has to be rewritten in a single leap.", tags: ["Microservices", "Incremental, no big bang"] },
-  { k: "02 · Solves: legacy costs", mark: "Run", title: "Containers & Serverless", desc: "Workloads moved from always-on servers to Amazon EKS, Amazon ECS and AWS Lambda, so you pay for what runs, and scale when demand does.", tags: ["Pay for use", "Auto-scaling"] },
-  { k: "03 · Solves: manual releases", mark: "Ship", title: "DevOps & Platform Engineering", desc: "CI/CD pipelines, infrastructure as code and a shared platform your developers self-serve from, so releases become routine.", tags: ["CI/CD", "Infrastructure as code"] },
+  { k: "02 · Solves: legacy costs", mark: "Run", title: "Containers & Serverless", desc: "We move suitable workloads to Amazon EKS, Amazon ECS or AWS Lambda, selecting the deployment model to support scalability and cost efficiency.", tags: ["Pay for use", "Auto-scaling"] },
+  { k: "03 · Solves: manual releases", mark: "Ship", title: "DevOps & Platform Engineering", desc: "CI/CD pipelines, infrastructure as code and a shared platform help developers provision resources and deploy applications consistently.", tags: ["CI/CD", "Infrastructure as code"] },
   { k: "04 · Ready for Maximize", mark: "Data", title: "Database & Data Modernization", desc: "Commercial databases moved to open-source engines such as Amazon Aurora, and silos joined into a data platform that analytics and AI can use.", tags: ["Off legacy licenses", "AI-ready data"] },
 ];
 
@@ -32,7 +32,7 @@ const scope: { title: string; icon: IconName }[] = [
   { title: "Legacy Java applications", icon: "layers" },
   { title: "Oracle & SQL Server to open source", icon: "database" },
   { title: "Batch jobs to serverless", icon: "clock" },
-  { title: "Manual deploys to CI/CD", icon: "rocket" },
+  { title: "Manual deployments to CI/CD", icon: "rocket" },
   { title: "Data silos to a data platform", icon: "chart" },
 ];
 
@@ -45,9 +45,9 @@ const numbers = [
 
 const steps = [
   { title: "Assess", desc: "Review the application portfolio, score each app on value and effort, and check funding." },
-  { title: "Design", desc: "Define the target architecture and the order services will be carved out." },
+  { title: "Design", desc: "Define the target architecture and the order in which services will be extracted." },
   { title: "Modernize", desc: "Rebuild in small increments, each one tested and shipped to production." },
-  { title: "Automate", desc: "Put every service behind CI/CD and infrastructure as code." },
+  { title: "Automate", desc: "Use CI/CD pipelines to deploy each service and infrastructure as code to manage its infrastructure." },
   { title: "Optimize", desc: "Tune cost, performance and resilience, then hand over to managed operations." },
 ];
 
@@ -74,13 +74,13 @@ const outcomes = [
 
 const faqs = [
   { q: "Do we have to rewrite everything?", a: "No. We modernize in increments using the strangler pattern: one service is carved out, tested and shipped at a time, while the rest of the application keeps running." },
-  { q: "How long does a modernization take?", a: "It depends on the size of the portfolio. Because the work runs in increments, the first modernized service reaches production early and value builds from there. The assessment gives you a timeline before you commit." },
-  { q: "Can we get funding for modernization?", a: "Some projects qualify, especially when modernization is part of a migration, including Microsoft workloads. We check eligibility during the assessment. Funding is subject to provider approval." },
+  { q: "How long does modernization take?", a: "It depends on the size of the portfolio. Because the work runs in increments, the first modernized service reaches production early and value builds from there. The assessment gives you a timeline before you commit." },
+  { q: "Can we get funding for modernization?", a: "Some projects qualify, especially when modernization is part of a migration, including Microsoft workloads. We assess eligibility for relevant funding programs during the assessment. Availability depends on the program, project, geography and provider approval." },
   { q: "Should we use containers or serverless?", a: "It depends on the workload. Amazon ECS is simpler for teams new to containers, Amazon EKS suits teams that want Kubernetes, and AWS Lambda suits event-driven and batch work. We recommend one based on your team, workloads and cost." },
   { q: "Can you move us off Oracle or SQL Server?", a: "Yes. We move commercial databases to open-source engines such as Amazon Aurora, with schema conversion, data validation and a planned cutover." },
-  { q: "Will our team be able to run the new platform?", a: "Yes. Every engagement includes handover and training, and the platform is built with CI/CD and infrastructure as code your engineers can self-serve from. If you'd rather not run it, we can." },
-  { q: "How do you keep security and compliance intact?", a: "Security and compliance controls are built into every pipeline and service, not bolted on, and mapped to regulators such as RBI, SEBI and IRDAI." },
-  { q: "What happens after modernization?", a: "We can run what we modernized, up to 24×7, as part of Manage: monitoring, patching, security operations and cost reviews." },
+  { q: "Will our team be able to run the new platform?", a: "Yes. Every engagement includes handover and training. CI/CD pipelines and infrastructure as code help your engineers deploy applications and manage infrastructure consistently. We can also provide ongoing managed operations." },
+  { q: "How do you keep security and compliance intact?", a: "Security and compliance controls are integrated into the architecture and delivery pipelines, aligned with your applicable requirements." },
+  { q: "What happens after modernization?", a: "We can run what we modernized, up to 24/7, as part of Manage: monitoring, patching, security operations and cost reviews." },
 ];
 
 export default function ModernizePage() {
@@ -100,14 +100,14 @@ export default function ModernizePage() {
         path: { title: <><strong>One team.</strong> Four modernization disciplines.</>, desc: "We modernize in increments, one service at a time, so the business keeps running while the platform underneath gets better.", items: disciplines },
         scope: { eyebrow: "What we modernize", title: <>Start from <strong>what you run today.</strong></>, desc: "Whatever you run today, there's a step-by-step path forward.", items: scope },
         numbers,
-        steps: { eyebrow: "How modernization runs", title: <>Five steps, <strong>one service at a time</strong>.</>, desc: "Each increment ships to production before the next one starts.", items: steps, icons: ["search", "layers", "code", "loop", "chart"], caption: "→ then on to Manage: we run what we modernized, 24×7" },
-        included: { title: <>What <strong>every modernization</strong><Br /> includes.</>, items: included },
+        steps: { eyebrow: "How modernization runs", title: <>Five steps, <strong>one service at a time</strong>.</>, desc: "Each increment ships to production before the next one starts.", items: steps, icons: ["search", "layers", "code", "loop", "chart"], caption: "→ then on to Manage: we run what we modernized, 24/7" },
+        included: { title: <>What <strong>every modernization engagement</strong><Br /> includes.</>, items: included },
         credentials: { title: <>Modernization credentials you can <strong>trust</strong>.</>, items: credentials },
-        outcomes: { title: <><strong>Platforms rebuilt</strong>, not just re-hosted.</>, desc: "Real results from teams that modernized with us.", more: "All modernization stories", items: outcomes, art: 0 },
-        faq: { title: <>Questions before you<Br /> <strong>modernize</strong>?</>, desc: "Quick answers to what teams ask us before a modernization.", items: faqs },
+        outcomes: { title: <><strong>Platforms rebuilt</strong>, not just rehosted.</>, desc: "Real results from teams that modernized with us.", more: "All modernization stories", items: outcomes, art: 0 },
+        faq: { title: <>Questions before you<Br /> <strong>modernize</strong>?</>, desc: "Quick answers to common questions about modernization.", items: faqs },
         cta: {
-          title: <>Stuck on a <strong>monolith</strong><Br /> or <strong>legacy licenses</strong>?</>,
-          desc: "Start with a free assessment. You'll know the path, the cost and the funding before you commit.",
+          title: <>Held back by a <strong>monolith</strong><Br /> or <strong>legacy licensing</strong>?</>,
+          desc: "Start with a free assessment. You’ll understand the proposed approach, estimated cost and funding eligibility before you commit.",
           steps: ["Free application portfolio assessment", "Target architecture, cost + funding check", "A step-by-step roadmap you can act on"],
           label: "Get a free modernization assessment",
           next: <>Not in the cloud yet? <Link href="/services/migrate">Migrate</Link> · Already modern? Next stage → <Link href="/services/manage">Manage</Link></>,

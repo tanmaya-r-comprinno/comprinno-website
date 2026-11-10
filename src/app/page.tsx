@@ -18,13 +18,13 @@ import RainField from "@/components/RainField";
 // Results told as one big number each (from comprinno.net case studies)
 const proof = [
   { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/resources/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName, },
-  { metric: "−50%", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
-  { metric: "Near real-time", what: "MongoDB sync during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
+  { metric: "50% fewer", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
+  { metric: "Near-real-time", what: "MongoDB synchronization during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
 ];
 
 const homeProducts = [
   { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen" },
-  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents run cost, security and ops, governed by engineers.", href: "/products/tevico", screen: "Tevico dashboard screen" },
+  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen" },
   { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen" },
   { name: "[Product 4]", line: "[One-line promise: what it does and for whom]", href: "/products/product-five", screen: "Product 4 screen" },
 ];
@@ -47,23 +47,23 @@ const credentials = ["AWS Premier Tier Partner", "AWS MSP & Level 1 MSSP", "ISO 
 const stages: Record<string, { title: string; desc: string; includes: string[] }> = {
   migrate: { title: "Move to the cloud", desc: "Assess, plan, and tap the funding you qualify for.", includes: ["Cloud Migration", "Security & Compliance"] },
   modernize: { title: "Make it AI-ready", desc: "Re-architect apps and data so AI has something solid to run on.", includes: ["Application Modernization", "DevOps & Platform Engineering"] },
-  manage: { title: "Run it reliably", desc: "24×7 operations and cost control, so your team can focus on building.", includes: ["Managed Cloud Services", "FinOps & Cost Optimization"] },
+  manage: { title: "Run it reliably", desc: "24/7 operations and cost control, so your team can focus on building.", includes: ["Managed Cloud Services", "FinOps & Cost Optimization"] },
   maximize: { title: "Compound with AI", desc: "Build, govern and scale agents and analytics on the foundation.", includes: ["Agentic & Generative AI", "Data Analytics & ML"] },
 };
 
 const faqs = [
-  { q: "Can we get funding support for our project?", a: "Often, yes. As a Premier Tier cloud partner, we help you access the provider's migration, modernization and AI funding programs and startup credits. We check what you qualify for during the assessment and handle the paperwork with you, so funding is part of the plan from day one." },
-  { q: "What does a typical engagement look like?", a: "Four stages: we assess your environment and build a plan, migrate and modernize what matters most, run it 24×7 with clear SLAs, then keep optimizing cost, security and performance as you grow. Most clients start with a short assessment and expand from there." },
-  { q: "How can we work with Comprinno?", a: "Three ways: a fixed-scope project (a migration, a modernization, an AI build), an ongoing managed-services partnership, or an advisory engagement such as a well-architected review or AI-readiness assessment. Many clients start with one and grow into the others." },
-  { q: "Which industries do you serve?", a: "Fintech, healthcare, life science and retail, with the compliance each needs (RBI, SEBI, IRDAI, HIPAA). By stage, we work with SaaS startups, ISVs and tech-led enterprises, with a focus on startups and the mid-market." },
+  { q: "Can we get funding support for our project?", a: "Often, yes. As a Premier Tier cloud partner, we help you apply for the provider's migration, modernization and AI funding programs and startup credits, and handle the paperwork with you. We assess eligibility for relevant funding programs. Availability depends on the program, project, geography and provider approval." },
+  { q: "What does a typical engagement look like?", a: "Four stages: we assess your environment and build a plan, migrate and modernize what matters most, run it 24/7 with clear SLAs, then keep optimizing cost, security and performance as you grow. Most clients start with a short assessment and expand from there." },
+  { q: "How can we work with Comprinno?", a: "Three ways: a fixed-scope project such as migration, modernization or AI development; an ongoing managed services partnership; or an advisory engagement such as an AWS Well-Architected Review or AI readiness assessment. Many clients start with one and grow into the others." },
+  { q: "Which industries do you serve?", a: "We serve fintech, healthcare, life sciences and retail, with security and compliance support tailored to each engagement. By stage, we work with SaaS startups, ISVs and tech-led enterprises, with a focus on startups and the mid-market." },
   { q: "Where is Comprinno based, and where do you work?", a: "We're headquartered in India with offices in Pune and Bangalore, plus teams in the US and UK. We work with customers across these regions and beyond, remotely or on-site." },
 ];
 
 // The gap: why AI stalls. Each item is answered by a move in "What we do".
 const gaps: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Legacy that won't scale", desc: "Monoliths and on-prem data that AI can't reach or run on.", icon: "layers" },
-  { title: "Security & compliance gaps", desc: "Regulators won't sign off on AI over shaky controls.", icon: "shield" },
-  { title: "No one to run it", desc: "Lean teams firefighting ops and cost have no time to ship AI.", icon: "users" },
+  { title: "Legacy that won't scale", desc: "Monolithic applications and on-premises data that AI systems cannot readily access or use.", icon: "layers" },
+  { title: "Security & compliance gaps", desc: "Weak security and compliance controls can delay AI approval and deployment.", icon: "shield" },
+  { title: "No one to run it", desc: "Lean teams managing operational issues and rising costs have little time to deploy AI.", icon: "users" },
 ];
 
 export default function Home() {
@@ -80,7 +80,7 @@ export default function Home() {
               <br />a lasting <strong className="font-bold">competitive advantage</strong>.
             </h1>
             <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted sm:text-lg">
-              AI only compounds on a cloud that&apos;s ready for it.
+              AI delivers increasing value when the cloud supporting it is ready to scale.
               <span className="block lg:whitespace-nowrap">We migrate, modernize and run your cloud, then build, govern and scale the AI agents on top.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -136,7 +136,7 @@ export default function Home() {
         <SectionHead
           eyebrow="The path"
           title={<>One team, four stages:<Br /><strong>Migrate. Modernize. Manage. Maximize.</strong></>}
-          desc="Start wherever you are today. The team that plans your platform is the team that runs it, with no hand-offs."
+          desc="Start wherever you are today. One accountable partner plans, builds and operates your platform."
         />
         {/* Four stages, one row: monochrome cards joined by a single top rule */}
         <ol className="path-row">
@@ -163,7 +163,7 @@ export default function Home() {
         <SectionHead
             eyebrow="Products"
             title={<><strong>Accelerators</strong> that take your use case<Br />live in <strong>days, not months</strong>.</>}
-            desc="A hardened, production-ready stack you adopt instead of build, so your team skips the groundwork and goes straight to what's unique to you."
+            desc="A hardened, production-ready stack you can adopt rather than build from scratch, so your team can focus on what makes your solution different."
           />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -217,7 +217,7 @@ export default function Home() {
         </ul>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
           <span className="mr-2 font-mono text-xs uppercase tracking-widest text-muted">Industries</span>
-          {["Fintech", "Healthcare", "Life Science", "Retail"].map((x) => (
+          {["Fintech", "Healthcare", "Life Sciences", "Retail"].map((x) => (
             <Link key={x} href="/industries" className="seg-chip">{x}</Link>
           ))}
         </div>
@@ -238,7 +238,7 @@ export default function Home() {
 
       {/* 8 · RESULTS: one big number per story */}
       <Section tone="surface">
-        <SectionHead eyebrow="Outcomes" title={<><strong>Production results</strong>, not pilots.</>} desc="Real outcomes from teams that took AI from idea to production with us." />
+        <SectionHead eyebrow="Outcomes" title={<><strong>Production results</strong>, not pilots.</>} desc="Customer outcomes across cloud transformation and enterprise AI." />
         <div className="grid gap-4 md:grid-cols-3">
           {proof.map((p, i) => (
             <Link key={p.href} href={p.href} className="card block">
