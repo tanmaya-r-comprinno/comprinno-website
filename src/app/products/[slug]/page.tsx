@@ -6,9 +6,15 @@ import { Icon, IconTile } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import { getProduct, products } from "@/content/products";
 
-// Tevico has its own dedicated page at /products/tevico
+// Every current product has its own dedicated page (tevico, veriq, voxsphere, decivo).
+// This route only serves products added to content without one.
+const DEDICATED = new Set(["tevico", "voxsphere", "veriq", "decivo"]);
+const routed = () => products.filter((p) => !DEDICATED.has(p.slug));
+
 export function generateStaticParams() {
-  return products.filter((p) => p.slug !== "tevico").map((p) => ({ slug: p.slug }));
+  // Cache Components requires at least one param; "_" resolves to notFound().
+  const params = routed().map((p) => ({ slug: p.slug }));
+  return params.length ? params : [{ slug: "_" }];
 }
 
 export async function generateMetadata({ params }: PageProps<"/products/[slug]">): Promise<Metadata> {
@@ -21,7 +27,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
 export default async function ProductPage({ params }: PageProps<"/products/[slug]">) {
   const { slug } = await params;
   const p = getProduct(slug);
-  if (!p || p.slug === "tevico") notFound();
+  if (!p || DEDICATED.has(p.slug)) notFound();
   const others = products.filter((o) => o.slug !== p.slug);
 
   return (

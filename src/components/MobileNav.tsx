@@ -31,8 +31,11 @@ export default function MobileNav({ nav }: { nav: NavGroup[] }) {
             )}
             {g.items && (
               <div className="grid gap-1 pl-3">
-                {g.items.map((i) => (
-                  <Link key={i.href} href={i.href} className="py-2 text-sm text-ink-2">{i.label}</Link>
+                {g.items.filter((i) => !i.hidden).map((i) => (
+                  <Link key={i.href} href={i.href} className="flex items-center gap-2 py-2 text-sm text-ink-2">
+                    {i.label}
+                    {i.badge && <span className="border border-amber-400 bg-amber-50 px-1.5 py-px font-mono text-[0.6rem] font-semibold uppercase tracking-widest text-amber-700">{i.badge}</span>}
+                  </Link>
                 ))}
               </div>
             )}

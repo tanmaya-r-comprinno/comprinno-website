@@ -46,7 +46,7 @@ export const site = {
 export type NavGroup = {
   label: string;
   href?: string;
-  items?: { label: string; href: string; hint?: string }[];
+  items?: { label: string; href: string; hint?: string; badge?: string; hidden?: boolean }[];
 };
 
 export const nav: NavGroup[] = [
@@ -66,7 +66,7 @@ export const nav: NavGroup[] = [
       { label: "Tevico", href: "/products/tevico", hint: "Cloud operations autopilot" },
       { label: "VeriQ", href: "/products/veriq", hint: "Due-diligence questionnaires" },
       { label: "VoxSphere", href: "/products/voxsphere", hint: "Voice AI" },
-      { label: "Product 5", href: "/products/product-five", hint: "Coming soon" },
+      { label: "Decivo", href: "/products/decivo", hint: "Multi-agent orchestration", badge: "Beta" },
     ],
   },
   {
@@ -79,12 +79,12 @@ export const nav: NavGroup[] = [
   },
   {
     label: "Partnerships",
-    href: "/partnerships",
     items: [
       { label: "AWS", href: "/partnerships/aws", hint: "Premier Tier Partner" },
       { label: "OpenAI", href: "/partnerships/openai", hint: "Select Partner" },
-      { label: "ElevenLabs", href: "/partnerships/elevenlabs", hint: "Voice AI" },
-      { label: "MongoDB", href: "/partnerships/mongodb", hint: "Atlas & migrations" },
+      { label: "Anthropic", href: "/partnerships/anthropic", hint: "Claude models" },
+      { label: "ElevenLabs", href: "/partnerships/elevenlabs", hint: "Voice AI", hidden: true },
+      { label: "MongoDB", href: "/partnerships/mongodb", hint: "Atlas & migrations", hidden: true },
     ],
   },
   {

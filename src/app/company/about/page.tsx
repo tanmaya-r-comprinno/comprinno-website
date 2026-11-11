@@ -3,6 +3,7 @@ import { Br, CtaBand, FeatureCard, PageHero, Section, SectionHead, Stat } from "
 import { Icon, IconTile } from "@/components/Icon";
 import { fourP, leadership, stats, timeline, values } from "@/content/company";
 import { site } from "@/lib/site";
+import RainField from "@/components/RainField";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -46,7 +47,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="surface">
+      <Section tone="surface" background={<RainField />}>
         <SectionHead
           eyebrow="Our story"
           title={<>A <strong>decade</strong> on the cloud.</>}

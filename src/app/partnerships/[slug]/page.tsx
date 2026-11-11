@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Br, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { IconTile } from "@/components/Icon";
-import { partnerPages } from "@/content/products";
+import { partnerPages, visiblePartners } from "@/content/products";
 
-const find = (slug: string) => partnerPages.find((p) => p.slug === slug);
+const find = (slug: string) => visiblePartners.find((p) => p.slug === slug);
 
 // AWS has its own richer page at /partnerships/aws
 export function generateStaticParams() {
@@ -38,7 +38,7 @@ export default async function PartnerPage({ params }: PageProps<"/partnerships/[
           desc={`The partners we build with alongside ${p.name}.`}
         />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-3">
-          {partnerPages.filter((o) => o.slug !== p.slug).map((o) => (
+          {visiblePartners.filter((o) => o.slug !== p.slug).map((o) => (
             <Link key={o.slug} href={o.href} className="card block">
               <IconTile name={o.icon} />
               <h3 className="mt-4 font-semibold">{o.name}</h3>

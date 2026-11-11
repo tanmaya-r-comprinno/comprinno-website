@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Desktop dropdowns open on :hover and :focus-within (pure CSS).
+ * Desktop dropdowns open on :hover and on keyboard :focus-visible (pure CSS).
  * After a link is clicked, focus stays on it and the cursor is still over the
  * menu, so the dropdown would stay open. This closes it:
  *  - on click: suppress the open state until the pointer leaves that menu

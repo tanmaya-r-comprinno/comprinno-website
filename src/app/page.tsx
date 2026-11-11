@@ -26,7 +26,7 @@ const homeProducts = [
   { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen" },
   { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen" },
   { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen" },
-  { name: "[Product 4]", line: "[One-line promise: what it does and for whom]", href: "/products/product-five", screen: "Product 4 screen" },
+  { name: "Decivo", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/decivo", screen: "Decivo run outcome screen" },
 ];
 
 const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
@@ -93,18 +93,26 @@ export default function Home() {
         <div className="relative">
           <Container className="pb-10 sm:pb-14">
             <div className="text-center"><Eyebrow>Official partners</Eyebrow></div>
-            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {partnerPages.map((p) => (
-                <li key={p.slug}>
-                  <Link href={p.href} title={`${p.name}: ${p.badge}`} className="partner-tile">
+            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {partnerPages.map((p) => {
+                const logo = (
+                  <>
                     <svg viewBox="0 0 24 24" role="img" aria-label={`${partnerLogo[p.slug].title}, ${p.badge}`} className={`partner-mark ${p.slug === "aws" ? "partner-mark-lg" : ""}`}>
                       <path d={partnerLogo[p.slug].d} fill="currentColor" />
                     </svg>
                     {/* AWS logo already spells "aws", so it shows the logo only */}
                     {p.slug !== "aws" && <span className="partner-name">{p.name}</span>}
-                  </Link>
-                </li>
-              ))}
+                  </>
+                );
+                return (
+                  <li key={p.slug}>
+                    {/* hidden partners keep their logo here but have no page to link to yet */}
+                    {p.hidden
+                      ? <div title={`${p.name}: ${p.badge}`} className="partner-tile">{logo}</div>
+                      : <Link href={p.href} title={`${p.name}: ${p.badge}`} className="partner-tile">{logo}</Link>}
+                  </li>
+                );
+              })}
             </ul>
           </Container>
         </div>

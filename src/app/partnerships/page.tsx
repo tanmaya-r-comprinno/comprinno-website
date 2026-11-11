@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Br, CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
 import { Icon } from "@/components/Icon";
-import { partnerPages } from "@/content/products";
+import { notFound } from "next/navigation";
+import { visiblePartners } from "@/content/products";
+
+// Hidden for now: kept in code, not routed. Set to false to bring the page back.
+const HIDDEN = true;
 
 export const metadata: Metadata = {
   title: "Partnerships",
@@ -11,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function PartnershipsPage() {
+  if (HIDDEN) notFound();
   return (
     <>
       <PageHero eyebrow="Official partners" title="Built with the best in cloud and AI" desc="Four partnerships, one stack." />
@@ -21,7 +26,7 @@ export default function PartnershipsPage() {
           desc="Each partnership adds a layer we can build on with confidence."
         />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
-          {partnerPages.map((p) => (
+          {visiblePartners.map((p) => (
             <Link key={p.slug} href={p.href} className="card group flex flex-col">
               {/* logo slot: replace with partner logo in hi-fi */}
               <div className="flex h-28 items-center justify-center border border-dashed border-line-strong bg-surface">

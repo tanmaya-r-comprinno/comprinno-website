@@ -6,6 +6,7 @@ import GridGlow from "./GridGlow";
 import LogoMarquee from "./LogoMarquee";
 import FlowLoop from "./FlowLoop";
 import OutcomeArt from "./OutcomeArt";
+import RainField from "./RainField";
 
 /**
  * One layout for every service stage page (Migrate, Modernize, Manage, Maximize).
@@ -64,7 +65,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       <LogoMarquee />
 
       {/* PROBLEM */}
-      <Section tone="surface">
+      <Section tone="surface" background={<RainField />}>
         <SectionHead eyebrow="The problem" title={d.problem.title} desc={d.problem.desc} />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {d.problem.items.map((p) => (

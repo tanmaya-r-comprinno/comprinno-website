@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { services } from "@/content/services";
+import { products } from "@/content/products";
 import { credentials } from "@/content/company";
 import { Container } from "./ui";
 import { Logo } from "./Header";
@@ -12,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-line bg-surface">
       <Container className="py-12">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr]">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">{site.tagline}</p>
@@ -24,15 +25,19 @@ export default function Footer() {
             {services.map((s) => (
               <Link key={s.slug} href={`/services/${s.slug}`} className="hover:text-ink">{s.verb}</Link>
             ))}
-            <Link href="/products/tevico" className="hover:text-ink">Products</Link>
             <Link href="/industries" className="hover:text-ink">Industries</Link>
+          </nav>
+          <nav aria-label="Products" className={col}>
+            <p className={head}>Products</p>
+            {products.map((p) => (
+              <Link key={p.slug} href={p.href} className="hover:text-ink">{p.name}</Link>
+            ))}
           </nav>
           <nav aria-label="Resources" className={col}>
             <p className={head}>Resources</p>
             <Link href="/resources/case-studies" className="hover:text-ink">Case studies</Link>
             <Link href="/resources/blog" className="hover:text-ink">Blog</Link>
             <Link href="/resources/newsroom" className="hover:text-ink">Newsroom</Link>
-            <Link href="/partnerships" className="hover:text-ink">Partnerships</Link>
           </nav>
           <nav aria-label="Company" className={col}>
             <p className={head}>Company</p>

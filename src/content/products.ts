@@ -13,7 +13,6 @@ export type Product = {
 };
 
 // Tevico, VeriQ and VoxSphere are named on comprinno.net.
-// TODO(content): the 5th product name and all copy marked TBD need confirmation.
 export const products: Product[] = [
   {
     slug: "tevico",
@@ -58,25 +57,24 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "product-five",
-    name: "Product 5",
-    category: "TBD",
-    tagline: "Name and description to be confirmed",
-    desc: "Placeholder for the fifth product.",
-    icon: "cube",
-    href: "/products/product-five",
-    status: "placeholder",
+    slug: "decivo",
+    name: "Decivo",
+    category: "Multi-agent orchestration",
+    tagline: "From business process to production AI agents",
+    desc: "A multi-agent orchestration platform that turns business processes into production AI workflows, supervised by your people and deployed in your own cloud.",
+    icon: "layers",
+    href: "/products/decivo",
     features: [
-      { title: "Feature", desc: "TBD", icon: "cube" },
-      { title: "Feature", desc: "TBD", icon: "layers" },
-      { title: "Feature", desc: "TBD", icon: "spark" },
+      { title: "Agents that work as a team", desc: "Specialized agents coordinate through one workflow.", icon: "agent" },
+      { title: "Runs in your cloud", desc: "Your data, infrastructure and policies stay yours.", icon: "cloud" },
+      { title: "People stay in charge", desc: "Humans supervise approvals and exceptions.", icon: "users" },
     ],
   },
 ];
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 
-export const partnerPages = [
+export const partnerPages: { slug: string; name: string; badge: string; desc: string; icon: IconName; href: string; hidden?: boolean }[] = [
   {
     slug: "aws",
     name: "AWS",
@@ -94,12 +92,21 @@ export const partnerPages = [
     href: "/partnerships/openai",
   },
   {
+    slug: "anthropic",
+    name: "Anthropic",
+    badge: "Partner",
+    desc: "Claude models for enterprise agents and applications.",
+    icon: "spark" as IconName,
+    href: "/partnerships/anthropic",
+  },
+  {
     slug: "elevenlabs",
     name: "ElevenLabs",
     badge: "Partner",
     desc: "Voice AI technology for agents that speak.",
     icon: "phone" as IconName,
     href: "/partnerships/elevenlabs",
+    hidden: true, // hidden for now: kept in code, not listed or routed
   },
   {
     slug: "mongodb",
@@ -108,5 +115,9 @@ export const partnerPages = [
     desc: "MongoDB Atlas deployments and migrations, including near real-time sync during cloud moves.",
     icon: "database" as IconName,
     href: "/partnerships/mongodb",
+    hidden: true, // hidden for now: kept in code, not listed or routed
   },
 ];
+
+/** Partners shown on the site. Set `hidden: true` above to take one offline without deleting it. */
+export const visiblePartners = partnerPages.filter((p) => !p.hidden);

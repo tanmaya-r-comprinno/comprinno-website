@@ -22,7 +22,7 @@ export default function Header() {
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Logo />
 
-        {/* Desktop: pure CSS dropdowns, no JavaScript */}
+        {/* Desktop: pure CSS dropdowns. Open on hover, or on keyboard focus only, so a mouse click never pins one open. */}
         <nav aria-label="Primary" className="hidden items-center gap-1 xl:flex">
           {nav.map((g) => (
             <div key={g.label} className="group relative">
@@ -37,11 +37,14 @@ export default function Header() {
                 </button>
               )}
               {g.items && (
-                <div className="invisible absolute left-0 top-full w-64 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                <div className="invisible absolute left-0 top-full w-64 pt-2 opacity-0 transition group-has-[:focus-visible]:visible group-has-[:focus-visible]:opacity-100 group-hover:visible group-hover:opacity-100">
                   <div className="rounded-md border border-line bg-bg p-2 shadow-sm">
-                    {g.items.map((i) => (
+                    {g.items.filter((i) => !i.hidden).map((i) => (
                       <Link key={i.href} href={i.href} className="block rounded-md px-3 py-2.5 hover:bg-surface">
-                        <span className="block text-sm font-medium text-ink">{i.label}</span>
+                        <span className="flex items-center gap-2 text-sm font-medium text-ink">
+                          {i.label}
+                          {i.badge && <span className="border border-amber-400 bg-amber-50 px-1.5 py-px font-mono text-[0.6rem] font-semibold uppercase tracking-widest text-amber-700">{i.badge}</span>}
+                        </span>
                         {i.hint && <span className="block text-xs text-muted">{i.hint}</span>}
                       </Link>
                     ))}
