@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
-import { IconTile, type IconName } from "@/components/Icon";
+import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import FlowLoop from "@/components/FlowLoop";
 import LogoMarquee from "@/components/LogoMarquee";
@@ -14,10 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/partnerships/openai" },
 };
 
-const challenges: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Which use case first?", desc: "Plenty of ideas, no shortlist ranked by value, feasibility and risk.", icon: "search" },
-  { title: "Fitting it into real systems", desc: "Pilots work in a demo but stall when they meet your data, identity and existing apps.", icon: "puzzle" },
-  { title: "Running it safely at scale", desc: "Security, cost, quality and adoption need owners once people start relying on it.", icon: "shield" },
+const ways: { k: string; title: string; desc: string; icon: IconName; points: string[]; best: string }[] = [
+  { k: "For your people", title: "ChatGPT across the company", desc: "Give teams a secure AI assistant for everyday work, and make sure they actually use it well.", icon: "users", points: ["Rollout plan by team and role", "Training and prompt playbooks for real tasks", "Usage rules and data controls agreed with security"], best: "Everyday productivity" },
+  { k: "Inside your products", title: "Agents and apps on the OpenAI API", desc: "Build AI into your own workflows and customer-facing products, connected to your data and systems.", icon: "code", points: ["Agents that carry out multistep work", "Connected to your apps, data and identity", "Evaluated, monitored and cost-tracked in production"], best: "Process and product change" },
 ];
 
 const lifecycle = [
@@ -109,15 +108,25 @@ export default function OpenAIPartnerPage() {
 
       <LogoMarquee />
 
-      {/* CHALLENGE */}
+      {/* TWO WAYS */}
       <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="The real challenge" title={<>The models are ready. <strong>Execution is the hard part.</strong></>} desc="OpenAI itself names execution, not model capability, as what holds enterprises back: choosing use cases, redesigning workflows and driving adoption." />
-        <div className="grid auto-rows-fr gap-4 md:grid-cols-3">
-          {challenges.map((c) => (
-            <div key={c.title} className="card">
-              <IconTile name={c.icon} />
-              <h3 className="mt-4 font-semibold text-ink">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{c.desc}</p>
+        <SectionHead eyebrow="Two ways to use OpenAI" title={<>For your people, <strong>and inside your products.</strong></>} desc="Most companies need both. We help with each, and make sure they share the same rules." />
+        <div className="grid gap-4 md:grid-cols-2">
+          {ways.map((w) => (
+            <div key={w.k} className="card flex flex-col">
+              <IconTile name={w.icon} />
+              <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">{w.k}</p>
+              <h3 className="mt-1 text-xl font-semibold text-ink">{w.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{w.desc}</p>
+              <ul className="mt-5 grid gap-2.5">
+                {w.points.map((pt) => (
+                  <li key={pt} className="flex gap-3 text-sm leading-relaxed text-muted">
+                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-ink" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-auto pt-5"><span className="tag">Best for: {w.best.toLowerCase()}</span></p>
             </div>
           ))}
         </div>

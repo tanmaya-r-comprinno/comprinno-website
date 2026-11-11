@@ -68,6 +68,37 @@ function WorkflowCard() {
   );
 }
 
+/** Simple left → core → right block diagram for "Inside Decivo". */
+function Diagram({ title, left, core, right }: { title: string; left: string[]; core: string; right: { label: string; planned?: boolean }[] }) {
+  const box = "border border-line-strong bg-bg px-3 py-1.5 text-xs text-ink sm:text-sm";
+  return (
+    <figure className="border border-line-strong bg-bg">
+      <figcaption className="border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">Decivo · {title}</figcaption>
+      <div className="bg-grid grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 p-5 sm:gap-3 sm:p-8">
+        <div className="grid gap-2">{left.map((l) => <span key={l} className={box}>{l}</span>)}</div>
+        <span className="text-muted" aria-hidden="true">→</span>
+        <span className="bg-ink px-3 py-3 text-center text-xs font-semibold text-white sm:px-5 sm:text-sm">{core}</span>
+        <span className="text-muted" aria-hidden="true">→</span>
+        <div className="grid gap-2">
+          {right.map((r) => (
+            <span key={r.label} className={`${box} flex items-center justify-between gap-2`}>
+              {r.label}
+              {r.planned && <Badge tone="wait">Planned</Badge>}
+            </span>
+          ))}
+        </div>
+      </div>
+    </figure>
+  );
+}
+
+const inside: { k: string; title: string; points: string[]; diagram: Parameters<typeof Diagram>[0]; caption: string }[] = [
+  { k: "01 · Intake", title: "Bring work in from every channel.", points: ["Documents and email, APIs and events, portals and forms, and human requests", "A workflow state store and document storage keep every case in one place", "Knowledge base, vector memory and a prompt and schema registry give agents the right context"], diagram: { title: "Channels and intake", left: ["Documents and email", "APIs and events", "Portals and forms", "Human requests"], core: "Workflow state", right: [{ label: "Document storage" }, { label: "Knowledge base" }, { label: "Schema registry" }] }, caption: "Every input lands in one tracked workflow, with the context agents need." },
+  { k: "02 · Execution", title: "Let agents do the work, within the rules.", points: ["Orchestration moves each case through the right steps", "Memory and context carry information across the whole process", "Tool calling, guardrails and observability keep every action controlled and visible"], diagram: { title: "Agentic execution layer", left: ["Orchestration", "Memory and context"], core: "Agentic execution", right: [{ label: "Tool calling" }, { label: "Guardrails" }, { label: "Observability" }] }, caption: "Agents read and reason. Rules decide what happens next." },
+  { k: "03 · Integration", title: "Connect results to the systems you run on.", points: ["A model gateway, workflow engine and event queues run every workflow", "Human-in-the-loop routes exceptions to the right person", "Connectors to ERP, CRM, procurement and internal tools are planned"], diagram: { title: "Runtime and integration fabric", left: ["Model gateway", "Workflow engine", "Event bus and queues"], core: "Runtime", right: [{ label: "Human-in-the-loop" }, { label: "ERP and CRM", planned: true }, { label: "Connector services", planned: true }] }, caption: "One runtime underneath. Business-system connectors are on the roadmap." },
+  { k: "04 · Governance", title: "Keep every step secure and auditable.", points: ["Identity and access control on every action", "A full audit trail to support compliance reviews", "Monitoring and alerts, plus policies, secrets and approvals"], diagram: { title: "Security, ops and governance", left: ["Identity and access", "Policies and secrets", "Approvals"], core: "Governance", right: [{ label: "Audit trail" }, { label: "Monitoring and alerts" }] }, caption: "Built so teams can see who did what, when and why." },
+];
+
 const problems: { title: string; desc: string; icon: IconName }[] = [
   { title: "Manual by default", desc: "Large teams still copy data between systems, chase approvals and check documents by hand.", icon: "users" },
   { title: "Fragmented across systems", desc: "One process touches email, spreadsheets, ERPs and portals, with people stitching the steps together.", icon: "puzzle" },
@@ -80,16 +111,6 @@ const howSteps = [
   { title: "Validate", desc: "Prove accuracy, controls and value on a working prototype with your data." },
   { title: "Deploy", desc: "Move the validated workflow to production in your own cloud." },
   { title: "Expand", desc: "Take the next workflow onto the same platform, team by team." },
-];
-
-// TODO [VALIDATE]: confirm each capability is supported today before publishing.
-const capabilities: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Multi-agent orchestration", desc: "Specialized agents work together like a team, passing information and coordinating tasks through a defined workflow.", icon: "agent" },
-  { title: "Enterprise integrations", desc: "Agents read from and act in the systems your process already depends on.", icon: "puzzle" },
-  { title: "Human-in-the-loop controls", desc: "People handle approvals, judgment calls and exceptions, and every decision is recorded.", icon: "user" },
-  { title: "Workflow execution", desc: "Design, run and version workflows in one place, from first prototype to production.", icon: "loop" },
-  { title: "Monitoring and governance", desc: "See what each agent did, what it returned and what it cost, run by run.", icon: "eye" },
-  { title: "Built to reuse", desc: "Every new workflow runs on the same engine, controls and review flow, not a new build.", icon: "layers" },
 ];
 
 const useCases: { fn: string; icon: IconName; items: string[] }[] = [
@@ -131,7 +152,7 @@ const outcomes: { title: string; desc: string; icon: IconName }[] = [
 
 // TODO: answers drafted from the product brief — confirm with the Decivo team.
 const faqs = [
-  { q: "Is Decivo available today?", a: "Decivo is in beta. We're working with early teams to take their first workflows to production." },
+  { q: "Is Decivo available today?", a: "Yes. We're working with teams to take their first workflows to production." },
   { q: "Is this a chatbot or a copilot?", a: "No. Decivo runs whole business processes as workflows of specialized agents, with people supervising approvals and exceptions." },
   { q: "Will it replace our team?", a: "It takes on repetitive digital steps so your people can focus on judgment, exceptions and higher-value work. People stay in charge of decisions." },
   { q: "Where does it run?", a: "Inside your own cloud environment, so your data, infrastructure and security policies stay under your control." },
@@ -150,7 +171,6 @@ export default function DecivoPage() {
             <div>
               <div className="flex flex-wrap items-center gap-3">
                 <Eyebrow>Decivo · Multi-agent orchestration</Eyebrow>
-                <span className="border border-dashed border-amber-400 bg-amber-50 px-2 py-1 font-mono text-[0.65rem] uppercase tracking-widest text-amber-700">Beta</span>
               </div>
               <div className="mt-4 inline-flex items-center gap-3 border border-line bg-surface py-1 pl-3 pr-1 font-mono text-[0.7rem] uppercase tracking-widest">
                 <span className="text-muted">Pronounced:</span>
@@ -194,15 +214,28 @@ export default function DecivoPage() {
         <FlowLoop items={howSteps} icons={["search", "puzzle", "check", "cloud", "rocket"]} caption="Each live workflow makes the next one faster to build" />
       </Section>
 
-      {/* CAPABILITIES */}
+      {/* INSIDE DECIVO */}
       <Section tone="surface">
-        <SectionHead eyebrow="Core capabilities" title={<>One platform to design, run <strong>and govern agent workflows.</strong></>} />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((c) => (
-            <div key={c.title} className="card">
-              <IconTile name={c.icon} />
-              <h3 className="mt-4 font-semibold text-ink">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{c.desc}</p>
+        <SectionHead eyebrow="Inside Decivo" title={<>One reusable backend. <strong>Many business workflows.</strong></>} desc="See how Decivo takes work in, runs it with agents, connects the results and keeps every step governed." />
+        <div className="grid gap-16">
+          {inside.map((x, i) => (
+            <div key={x.k} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+              <div className={i % 2 ? "lg:order-2" : ""}>
+                <p className="font-mono text-[0.7rem] uppercase tracking-widest text-muted">{x.k}</p>
+                <h3 className="mt-2 text-2xl font-semibold text-ink">{x.title}</h3>
+                <ul className="mt-5 grid gap-3">
+                  {x.points.map((pt) => (
+                    <li key={pt} className="flex gap-3 text-sm leading-relaxed text-ink sm:text-base">
+                      <Icon name="check" className="mt-1 h-4 w-4 shrink-0" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className={i % 2 ? "lg:order-1" : ""}>
+                <Diagram {...x.diagram} />
+                <p className="mt-3 text-sm text-muted">{x.caption}</p>
+              </div>
             </div>
           ))}
         </div>

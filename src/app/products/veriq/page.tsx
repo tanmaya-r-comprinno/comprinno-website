@@ -135,10 +135,10 @@ export default function VeriQPage() {
             <div>
               <Eyebrow>VeriQ · Agentic due-diligence workspace</Eyebrow>
               <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
-                Questionnaires answered in <strong className="sweep">minutes</strong>, not <strong>weeks</strong>.
+                The long forms customers send before they buy, answered in <strong className="sweep">minutes</strong>.
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
-                Cited drafts from your own evidence, ready for your team to approve.
+                Security checks, supplier forms and tenders: VeriQ drafts each answer from your own documents, and your team approves it.
               </p>
               <div className="mt-8">
                 <Button href="/contact">Book a demo →</Button>
@@ -166,7 +166,7 @@ export default function VeriQPage() {
 
       {/* PROBLEM */}
       <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="The problem" title={<>Questionnaires shouldn’t <strong>take weeks.</strong></>} />
+        <SectionHead eyebrow="The problem" title={<>Filling in these forms <strong>shouldn’t take weeks.</strong></>} />
         <div className="grid gap-4 md:grid-cols-3">
           {problems.map((p) => (
             <div key={p.title} className="card">

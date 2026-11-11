@@ -20,15 +20,15 @@ const certs = awsHeadline.find((h) => h.label === "AWS Certifications")?.value ?
 const APN_PROFILE_URL = "https://partners.amazonaws.com/partners/001E000000fdzeRIAQ/Comprinno%20Technologies%20Pvt.%20Ltd.";
 
 const credentials = [
-  { kind: "Partner tier", name: "AWS Premier Tier Services Partner" },
   { kind: "Competency", name: "Migration" },
   { kind: "Competency", name: "Security" },
   { kind: "Competency", name: "Resilience" },
   { kind: "Competency", name: "AI Services" },
   { kind: "Competency", name: "Data Services" },
+  { kind: "Competency", name: "DevOps Consulting" },
   { kind: "Program", name: "Managed Service Provider (MSP)" },
   { kind: "Program", name: "Level 1 MSSP" },
-  { kind: "Service delivery", name: "AWS DMS Delivery" },
+  { kind: "Program", name: "AWS Well-Architected Partner" },
   { kind: "Agreement", name: "Strategic Collaboration Agreement for generative AI" },
 ];
 
@@ -76,7 +76,7 @@ const ownProducts = [
   { tag: "On AWS Marketplace", name: "Tevico", desc: "Cloud governance for AWS: cost, security, reliability and inventory in one place.", href: "/products/tevico" },
   { tag: "Amazon Bedrock", name: "VoxSphere", desc: "Real-time AI voice agents on Amazon Bedrock AgentCore, deployed in your AWS account.", href: "/products/voxsphere" },
   { tag: "Agentic AI", name: "VeriQ", desc: "Due-diligence questionnaires answered from your own evidence, with citations.", href: "/products/veriq" },
-  { tag: "Beta", name: "Decivo", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/decivo" },
+  { tag: "Multi-agent", name: "Decivo", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/decivo" },
 ];
 
 const outcomes = [
@@ -154,7 +154,7 @@ export default function AwsPage() {
 
       {/* VERIFIED */}
       <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="Verified on AWS" title={<>Credentials you can <strong>trust.</strong></>} desc="Every tier, competency and designation below is validated by AWS and listed on our AWS Partner profile. Don't take our word for it." />
+        <SectionHead eyebrow="Verified on AWS" title={<>Credentials you can <strong>trust.</strong></>} desc="Every competency, program and designation below is validated by AWS and listed on our AWS Partner profile. Don't take our word for it." />
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {credentials.map((c) => (
             <li key={c.name} className="flex flex-col items-center border border-line bg-bg p-4 text-center">
