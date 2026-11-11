@@ -59,8 +59,8 @@ export const products: Product[] = [
   {
     slug: "decivo",
     name: "Decivo",
-    category: "Multi-agent orchestration",
-    tagline: "From business process to production AI agents",
+    category: "Agentic process transformation",
+    tagline: "Turn business processes into AI-powered operations",
     desc: "A multi-agent orchestration platform that turns business processes into production AI workflows, supervised by your people and deployed in your own cloud.",
     icon: "layers",
     href: "/products/decivo",

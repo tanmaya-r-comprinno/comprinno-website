@@ -242,8 +242,6 @@ const art: { name: string; el: ReactNode }[] = [
 ];
 
 export const abstractNames = art.map((a) => a.name);
-export const ABSTRACT_COUNT = art.length;
-
 export default function Abstract({ index, className = "" }: { index: number; className?: string }) {
   const a = art[((index % art.length) + art.length) % art.length];
   return (

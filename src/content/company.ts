@@ -64,20 +64,3 @@ export const leadership = [
   { name: "Pallavi Khopkar", role: "CoE & PMO Head", bio: "Leads the Center of Excellence, PMO, compliance and cloud competencies." },
 ];
 
-export const audiences = [
-  {
-    title: "Startups",
-    desc: "Ship on a secure cloud foundation from day one. We check funding eligibility early and keep the platform lean as you grow.",
-    points: ["Cloud funding alignment", "Fast landing zone", "DevOps without hiring a team"],
-  },
-  {
-    title: "Scale-ups",
-    desc: "Release faster without the 3 a.m. pages. Modernize, automate and hand operations to a team that already knows your stack.",
-    points: ["CI/CD & containers", "Cost governance", "Managed operations"],
-  },
-  {
-    title: "Enterprises",
-    desc: "Migrate at scale, prove compliance and put governed AI agents into production, with one accountable partner.",
-    points: ["Migration factory", "SOC 2, ISO, RBI, HIPAA", "Governed AI agents"],
-  },
-];

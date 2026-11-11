@@ -1,59 +1,7 @@
 import Link from "next/link";
-import { Children, type CSSProperties, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import GridGlow from "./GridGlow";
 import LineWave from "./LineWave";
-import CountUp from "./CountUp";
-import { Icon, IconTile, type IconName } from "./Icon";
-
-/**
- * Scroll-stacking cards: each item is sticky with a slightly larger top offset,
- * so the next card slides up and overlaps the previous one. Pure CSS.
- */
-export function StackCards({ children }: { children: ReactNode }) {
-  return (
-    <div className="stack">
-      {Children.toArray(children).map((c, i) => (
-        <div key={i} className="stack-item" style={{ "--i": Math.min(i, 5) } as CSSProperties}>
-          {c}
-        </div>
-      ))}
-      <div className="stack-dwell" aria-hidden="true" />
-    </div>
-  );
-}
-
-/**
- * "How we work" expanding cards, after comprinno.net's pattern:
- * hover (or keyboard focus) widens a card, darkens its number and reveals icon, title and text.
- * On touch / small screens every card is shown open.
- */
-export function ExpandSteps({ items, icons }: { items: { title: string; desc: string }[]; icons: IconName[] }) {
-  return (
-    <div className="xsteps">
-      {items.map((s, i) => (
-        <div key={s.title} className="xcard" tabIndex={0}>
-          <div className="xcontent">
-            <span className="xicon"><Icon name={icons[i % icons.length]} className="h-12 w-12" /></span>
-            <h3 className="xtitle">{s.title}</h3>
-            <p className="xdesc">{s.desc}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/** Card with an icon tile, title and text: the most common block on the site. */
-export function FeatureCard({ icon, title, desc, children }: { icon: IconName; title: string; desc: string; children?: ReactNode }) {
-  return (
-    <div className="card">
-      <IconTile name={icon} />
-      <h3 className="mt-4 text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{desc}</p>
-      {children}
-    </div>
-  );
-}
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
@@ -210,40 +158,6 @@ export function PageHero({
   );
 }
 
-/** Numbered node list — the "agent pipeline" motif used for processes. */
-const stepIcons: IconName[] = ["search", "layers", "code", "rocket", "loop"];
-
-export function Steps({ items, icons = stepIcons }: { items: { title: string; desc: string }[]; icons?: IconName[] }) {
-  return (
-    <ol className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
-      {items.map((s, i) => (
-        <li key={s.title} className="card relative">
-          <div className="flex items-center justify-between">
-            <IconTile name={icons[i % icons.length]} />
-          </div>
-          <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted">{s.desc}</p>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-export function Checklist({ items }: { items: string[] }) {
-  return (
-    <ul className="grid gap-3 sm:grid-cols-2">
-      {items.map((t) => (
-        <li key={t} className="flex gap-3 text-sm sm:text-base leading-relaxed">
-          <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-line text-ok">
-            <Icon name="check" className="h-4 w-4" />
-          </span>
-          {t}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 /** Native <details>: accessible, zero JavaScript. */
 export function Faq({ items }: { items: { q: string; a: string }[] }) {
   return (
@@ -261,25 +175,20 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
   );
 }
 
-export function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="card text-center">
-      <p className="text-3xl sm:text-4xl font-semibold text-ink tabular-nums"><CountUp value={value} /></p>
-      <p className="mt-2 text-xs sm:text-sm text-muted">{label}</p>
-    </div>
-  );
-}
-
 export function CtaBand({
   title = "Planning your next cloud or AI project?",
   desc,
   label = "Talk to an expert",
+  href = "/contact",
+  eyebrow = "Let's talk",
   steps = ["30-minute call with a cloud and AI expert", "Assessment + funding check", "A plan you can act on"],
   children,
 }: {
   title?: ReactNode;
   desc?: string;
   label?: string;
+  href?: string;
+  eyebrow?: string;
   steps?: string[];
   children?: ReactNode;
 }) {
@@ -287,7 +196,7 @@ export function CtaBand({
     <section className="cta-full">
       <div className="cta-wave" aria-hidden="true"><LineWave /></div>
       <Container className="relative py-16 text-center sm:py-24">
-        <Eyebrow>Let&apos;s talk</Eyebrow>
+        <Eyebrow>{eyebrow}</Eyebrow>
         <h2 className={`mx-auto mt-5 max-w-4xl text-[clamp(1.8rem,4.5vw,3rem)] leading-[1.15] ${typeof title === "string" ? "font-semibold" : "font-normal [&_strong]:font-semibold"}`}>{title}</h2>
         {desc && <p className="mx-auto mt-4 max-w-xl text-muted sm:text-lg">{desc}</p>}
         {steps.length > 0 && (
@@ -301,7 +210,7 @@ export function CtaBand({
           </ol>
         )}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Button href="/contact">{label} <span className="go">→</span></Button>
+          <Button href={href}>{label} <span className="go">→</span></Button>
         </div>
         {children}
       </Container>

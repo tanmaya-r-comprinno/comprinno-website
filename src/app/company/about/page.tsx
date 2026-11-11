@@ -1,125 +1,201 @@
 import type { Metadata } from "next";
-import { Br, CtaBand, FeatureCard, PageHero, Section, SectionHead, Stat } from "@/components/ui";
-import { Icon, IconTile } from "@/components/Icon";
-import { fourP, leadership, stats, timeline, values } from "@/content/company";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Icon, IconTile, type IconName } from "@/components/Icon";
+import { leadership } from "@/content/company";
 import { site } from "@/lib/site";
+import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
+import JourneyClimb, { type Year } from "./JourneyClimb";
 
 export const metadata: Metadata = {
   title: "About us",
-  description: "Founded in Bengaluru in 2013. A Premier Tier cloud partner helping teams migrate, modernize, manage and maximize the cloud.",
+  description:
+    "Comprinno is a cloud and AI company headquartered in Bengaluru, and an AWS Premier Tier Services Partner. We help teams migrate, modernize, run and secure their cloud, and put AI into production.",
   alternates: { canonical: "/company/about" },
 };
 
-const storyIcons = ["rocket", "puzzle", "cloud", "shield", "check"] as const;
+// Hidden for now (kept, not deleted): leadership, offices and the numbers band.
+const SHOW_HIDDEN = false as boolean;
+
+const journey: Year[] = [
+  { year: "2018", short: "Select Partner", items: [{ k: "tier", text: "AWS Select Consulting Partner" }] },
+  { year: "2019", short: "Software · Public Sector", items: [{ k: "program", text: "AWS Software Partner" }, { k: "program", text: "AWS Public Sector Partner" }] },
+  { year: "2020", short: "Advanced Partner", items: [{ k: "tier", text: "AWS Advanced Consulting Partner" }] },
+  { year: "2021", short: "Well-Architected", items: [{ k: "program", text: "AWS Well-Architected Partner" }] },
+  { year: "2022", short: "Emerging Star Award", items: [{ k: "award", text: "AWS Emerging Star Partner Award" }] },
+  { year: "2023", short: "AWS Ambassador · 3 competencies", items: [{ k: "recognition", text: "AWS Ambassador (our CTO)" }, { k: "competency", text: "Security, Migration and Resilience Competencies" }] },
+  { year: "2024", short: "MSP · 2 competencies", items: [{ k: "program", text: "AWS Managed Service Provider (MSP)" }, { k: "competency", text: "Generative AI and Cloud Operations Competencies" }] },
+  { year: "2025", short: "DevOps · Level 1 MSSP", items: [{ k: "competency", text: "DevOps Competency" }, { k: "competency", text: "Level 1 MSSP Competency" }] },
+  { year: "2026", short: "Premier Tier · Data and Analytics", items: [{ k: "competency", text: "Data and Analytics Competency" }, { k: "tier", text: "AWS Premier Tier Services Partner" }] },
+];
+
+const values: { title: string; desc: string; icon: IconName }[] = [
+  { title: "Competency", desc: "We pursue mastery and turn deep expertise into real outcomes.", icon: "rocket" },
+  { title: "Innovation", desc: "We challenge the default, test new ideas and scale what works.", icon: "spark" },
+  { title: "Gratitude", desc: "We recognize every opportunity and every contribution, big or small.", icon: "heart" },
+  { title: "Professionalism", desc: "We act with integrity, respect and clear communication in every interaction.", icon: "users" },
+  { title: "Trustworthiness", desc: "We act with transparency and honesty to build long-term trust.", icon: "shield" },
+  { title: "Purpose", desc: "We focus our time and resources on outcomes that move the needle.", icon: "check" },
+];
+
+const fourP: { title: string; desc: string; icon: IconName }[] = [
+  { title: "People", desc: "Certified cloud, security and AI specialists who care about customer outcomes.", icon: "users" },
+  { title: "Processes", desc: "Repeatable frameworks, from migration factories to DevSecOps pipelines, that deliver consistent results at scale.", icon: "loop" },
+  { title: "Products", desc: "Our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for support and outbound calls, and Decivo for agentic process transformation.", icon: "cube" },
+  { title: "Partners", desc: "Long-term technology alliances that extend what we can deliver for our customers.", icon: "puzzle" },
+];
+
+// TODO: the source page marks these "Pending approval", and they differ from figures used elsewhere on the site (750+ clients, 1,000+ projects, 150+ certifications). Confirm before showing.
+const numbers = [
+  { value: "212+", label: "Clients" },
+  { value: "282+", label: "Projects delivered" },
+  { value: "42+", label: "Certifications" },
+];
+
+// TODO: answers drafted from page copy — confirm.
+const faqs = [
+  { q: "Who we are", a: "Comprinno is a cloud and AI company headquartered in Bengaluru, founded in 2013, and an AWS Premier Tier Services Partner. We help teams migrate, modernize, run and secure their cloud, and put AI into production." },
+  { q: "Where we work", a: "From offices in Bengaluru and Pune, with a presence in the US and UK, we work with fintech, healthcare, SaaS and enterprise teams around the world." },
+  { q: "What we build", a: "Alongside our services, we build our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for voice agents and Decivo for agentic process transformation." },
+];
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero
-        eyebrow="About us"
-        title="Named for a paper plane: agile, ambitious, built to fly."
-        desc="Premier Tier cloud partner, based in Bengaluru since 2013."
-      />
+      {/* HERO */}
+      <section className="hero-block relative overflow-hidden border-b border-line">
+        <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
+        <Container className="py-14 sm:py-20">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <Eyebrow>About Comprinno</Eyebrow>
+            <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
+              From launch <strong className="sweep">to ascent.</strong>
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              A cloud and AI company from Bengaluru, helping teams migrate, modernize, run and secure their cloud, and put AI into production.
+            </p>
+            <div className="mt-8">
+              <Button href="/contact">Talk to our team →</Button>
+            </div>
+          </div>
+        </Container>
+      </section>
 
+      {/* PURPOSE */}
       <Section>
-        <SectionHead
-          eyebrow="Why we exist"
-          title={<>Your <strong>most trusted</strong><Br /> technology partner.</>}
-          desc="You focus on growth. We manage the cloud and everything behind it."
-        />
+        <SectionHead eyebrow="Our purpose" title={<>Why we <strong>do this work.</strong></>} />
         <div className="grid auto-rows-fr gap-4 md:grid-cols-2">
           <div className="card">
             <IconTile name="rocket" />
-            <p className="mt-4 label">Mission</p>
-            <p className="mt-2 text-lg text-ink">Be our customers&apos; most trusted technology partner, so they focus on growth while we manage the cloud and everything behind it.</p>
+            <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">Our mission</p>
+            <h3 className="mt-2 text-xl font-semibold leading-snug text-ink">Be our customers&apos; most trusted technology partner.</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">Keep our customers focused on growth while we take charge of the cloud and everything behind it.</p>
           </div>
           <div className="card">
             <IconTile name="eye" />
-            <p className="mt-4 label">Vision</p>
-            <p className="mt-2 text-lg text-ink">Become one of the most trusted brands for cloud solutions and operations worldwide.</p>
+            <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">Our vision</p>
+            <h3 className="mt-2 text-xl font-semibold leading-snug text-ink">Become the world&apos;s most trusted brand for cloud solutions and operations.</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">Earn that trust one engagement, one environment and one outcome at a time.</p>
           </div>
         </div>
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
-          {stats.map((s) => (
-            <Stat key={s.label} {...s} />
+      </Section>
+
+      {/* JOURNEY */}
+      <Section tone="surface" background={<RainField />} id="journey">
+        <SectionHead eyebrow="Our journey" title={<>From Select <strong>to Premier.</strong></>} desc="Building on AWS, one tier, program and competency at a time." />
+        <JourneyClimb years={journey} />
+      </Section>
+
+      {/* VALUES */}
+      <Section>
+        <SectionHead eyebrow="Our values" title={<>What we <strong>stand for.</strong></>} />
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {values.map((v) => (
+            <div key={v.title} className="card">
+              <IconTile name={v.icon} />
+              <h3 className="mt-4 font-semibold text-ink">{v.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{v.desc}</p>
+            </div>
           ))}
         </div>
       </Section>
 
-      <Section tone="surface" background={<RainField />}>
-        <SectionHead
-          eyebrow="Our story"
-          title={<>A <strong>decade</strong> on the cloud.</>}
-          desc="From a Bengaluru start-up to a Premier Tier partner, one milestone at a time."
-        />
-        <ol className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {timeline.map((t, i) => (
-            <li key={t.year} className="card">
-              <IconTile name={storyIcons[i % storyIcons.length]} />
-              <p className="mt-4 font-mono text-2xl font-semibold text-ink">{t.year}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{t.text}</p>
+      {/* 4P */}
+      <Section tone="surface">
+        <SectionHead eyebrow="Our edge" title={<>The <strong>4P framework.</strong></>} desc="Four things that shape how we deliver, every engagement." />
+        <ol className="path-row">
+          {fourP.map((p, i) => (
+            <li key={p.title}>
+              <div className="path-card">
+                <span className="path-mark" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <IconTile name={p.icon} />
+                <h3 className="mt-4 text-xl font-semibold text-ink">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{p.desc}</p>
+              </div>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section>
-        <SectionHead
-          eyebrow="The 4P framework"
-          title={<><strong>People. Processes.</strong><Br /> Products. Partners.</>}
-          desc="Four pillars that shape how we hire, work and build."
-        />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {fourP.map((p, i) => (
-            <FeatureCard key={p.title} icon={(["users", "loop", "cube", "puzzle"] as const)[i]} title={p.title} desc={p.desc} />
-          ))}
-        </div>
-        <ul className="mt-8 flex flex-wrap justify-center gap-2">
-          {values.map((v) => (
-            <li key={v} className="tag">{v}</li>
-          ))}
-        </ul>
-      </Section>
+      {SHOW_HIDDEN && (
+        <>
+          {/* NUMBERS (pending approval) */}
+          <Section>
+            <dl className="stats stats-3 bg-bg">
+              {numbers.map((st) => (
+                <div key={st.label} className="stat">
+                  <dt className="stat-label">{st.label}</dt>
+                  <dd className="stat-num">{st.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Section>
 
-      <Section tone="surface">
-        <SectionHead
-          eyebrow="Leadership"
-          title={<>The <strong>people</strong> behind it.</>}
-          desc="The team that sets our direction and keeps us accountable."
-        />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {leadership.map((p) => (
-            <div key={p.name} className="card">
-              {/* portrait placeholder; final photos come later */}
-              <div className="mb-4 flex aspect-square items-center justify-center border border-line bg-surface text-line-strong" aria-hidden="true">
-                <Icon name="user" className="h-16 w-16" />
-              </div>
-              <h3 className="font-semibold">{p.name}</h3>
-              <p className="text-sm font-medium text-ink-2">{p.role}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{p.bio}</p>
+          {/* LEADERSHIP */}
+          <Section>
+            <SectionHead eyebrow="Leadership" title={<>The <strong>people</strong> behind it.</>} />
+            <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {leadership.map((p) => (
+                <div key={p.name} className="card">
+                  <h3 className="font-semibold">{p.name}</h3>
+                  <p className="text-sm font-medium text-ink-2">{p.role}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{p.bio}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Section>
+          </Section>
 
-      <Section>
-        <SectionHead
-          eyebrow="Offices"
-          title={<><strong>Bengaluru and Pune</strong>,<Br /> serving the world.</>}
-          desc="Two offices in India, with customers around the globe."
-        />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
-          {site.offices.map((o) => (
-            <div key={o.label} className="card">
-              <h3 className="flex items-center gap-2 font-semibold"><Icon name="pin" className="h-4 w-4 shrink-0 text-muted" />{o.city} · {o.label}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{o.address}</p>
+          {/* OFFICES */}
+          <Section>
+            <SectionHead eyebrow="Offices" title={<><strong>Bengaluru and Pune</strong>,<Br /> serving the world.</>} />
+            <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
+              {site.offices.map((o) => (
+                <div key={o.label} className="card">
+                  <h3 className="flex items-center gap-2 font-semibold"><Icon name="pin" className="h-4 w-4 shrink-0 text-muted" />{o.city} · {o.label}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{o.address}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </Section>
+        </>
+      )}
+
+      {/* FAQ */}
+      <Section>
+        <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <div>
+            <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Comprinno</strong>?</h2>
+            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">Who we are, where we work and what we build.</p>
+          </div>
+          <Faq items={faqs} />
         </div>
       </Section>
 
-      <CtaBand title={<>Want to <strong>work with us</strong>?</>} desc="Tell us where you are today and we'll map the next step." />
+      <CtaBand
+        title={<>Planning your next <strong>cloud or AI project</strong>?</>}
+        desc="Tell us where you are in your cloud journey and what you want to achieve. We'll help you plan the next step."
+        label="Talk to our team"
+      />
     </>
   );
 }

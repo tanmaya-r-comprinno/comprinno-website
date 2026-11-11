@@ -66,7 +66,7 @@ export const nav: NavGroup[] = [
       { label: "Tevico", href: "/products/tevico", hint: "Cloud operations autopilot" },
       { label: "VeriQ", href: "/products/veriq", hint: "Due-diligence questionnaires" },
       { label: "VoxSphere", href: "/products/voxsphere", hint: "Voice AI" },
-      { label: "Decivo", href: "/products/decivo", hint: "Multi-agent orchestration" },
+      { label: "Decivo", href: "/products/decivo", hint: "Agentic process transformation" },
     ],
   },
   {

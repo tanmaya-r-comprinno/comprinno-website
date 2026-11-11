@@ -114,6 +114,16 @@ const lifecycle = [
 const trust = ["Data residency controls", "Audit and compliance trail", "End-to-end encryption", "Sensitive-data protection", "Role-based access control", "Expired and excluded files never cited"];
 
 // TODO: answers drafted from page copy — confirm with the VeriQ team.
+// From the Comprinno GenAI use-case sheet (Due Diligence solution).
+const useCases: { team: string; title: string; desc: string; icon: IconName }[] = [
+  { team: "Investment firms", title: "Fund due diligence (DDQs)", desc: "Answer investor due-diligence questionnaires from your approved fund documents, policies and reports.", icon: "bank" },
+  { team: "Banks and lenders", title: "KYC and AML checks", desc: "Find and check the customer information reviewers need, with the source document attached.", icon: "user" },
+  { team: "Credit teams", title: "Loan underwriting reviews", desc: "Pull answers from underwriting documents so credit teams decide faster.", icon: "coin" },
+  { team: "Procurement and risk", title: "Vendor and third-party risk", desc: "Respond to, or run, vendor risk assessments consistently, with evidence for every answer.", icon: "shield" },
+  { team: "Retail and supply chain", title: "Supplier onboarding", desc: "Complete supplier and vendor compliance questionnaires without starting from scratch each time.", icon: "store" },
+  { team: "Life sciences", title: "Vendor and CRO qualification", desc: "Prepare qualification responses for sponsors and partners from your quality and compliance records.", icon: "flask" },
+];
+
 const faqs = [
   { q: "What is VeriQ?", a: "VeriQ is an agentic due-diligence workspace. It reads security questionnaires, vendor assessments and RFPs, drafts each answer from your own evidence with citations, and routes drafts to your team for approval." },
   { q: "Where do the answers come from?", a: "Only from the documents in your Include references, drawn from the files you upload and the sources you connect. Excluded and expired files are never cited." },
@@ -178,14 +188,29 @@ export default function VeriQPage() {
         </div>
       </Section>
 
-      {/* HOW IT WORKS */}
+      {/* USE CASES */}
       <Section>
+        <SectionHead eyebrow="Who uses VeriQ" title={<>Any team that answers <strong>the same questions again and again.</strong></>} desc="Wherever buyers, investors, regulators or partners send a long list of questions, VeriQ drafts the answers from what you already have." />
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {useCases.map((u) => (
+            <div key={u.title} className="card">
+              <IconTile name={u.icon} />
+              <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">{u.team}</p>
+              <h3 className="mt-1 font-semibold leading-snug text-ink">{u.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{u.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* HOW IT WORKS */}
+      <Section tone="surface">
         <SectionHead eyebrow="How it works" title={<>From connected to drafted, <strong>then approved.</strong></>} desc="Three steps get you a cited draft. The fourth keeps a person in charge of every answer." />
         <FlowLoop items={steps} icons={["cloud", "layers", "agent", "users"]} caption="Approved answers sharpen the drafts on your next questionnaire" />
       </Section>
 
       {/* INSIDE VERIQ */}
-      <Section tone="surface">
+      <Section>
         <SectionHead eyebrow="Inside VeriQ" title={<>From a blank questionnaire <strong>to an approved reply.</strong></>} desc="A look at the screens your team works in: drafting, review and the knowledge behind every answer." />
         <div className="grid gap-16">
           {inside.map((x, i) => (
@@ -212,7 +237,7 @@ export default function VeriQPage() {
       </Section>
 
       {/* CAPABILITIES */}
-      <Section>
+      <Section tone="surface">
         <SectionHead eyebrow="Core capabilities" title={<>Everything your due-diligence <strong>workflow needs.</strong></>} />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((s) => (
@@ -239,7 +264,7 @@ export default function VeriQPage() {
       </Section>
 
       {/* DATA LIFECYCLE */}
-      <Section tone="surface">
+      <Section>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
             <Eyebrow>Built-in data lifecycle</Eyebrow>
@@ -279,7 +304,7 @@ export default function VeriQPage() {
       </Section>
 
       {/* TRUST */}
-      <Section>
+      <Section tone="surface">
         <SectionHead eyebrow="Built for trust" title={<>Security and compliance <strong>by design.</strong></>} desc="Your evidence is sensitive. VeriQ keeps it protected and every answer traceable." />
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {trust.map((t) => (
@@ -292,7 +317,7 @@ export default function VeriQPage() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="surface">
+      <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div>
             <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Asked before <strong className="font-semibold">your first draft</strong>.</h2>

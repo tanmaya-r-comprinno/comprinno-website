@@ -5,14 +5,55 @@ import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
 import GridGlow from "@/components/GridGlow";
 import Pronounce from "./Pronounce";
+import IndustryUseCases, { type IndustryGroup } from "./IndustryUseCases";
+import UseCaseTabs, { type UseCase } from "./UseCaseTabs";
 import RainField from "@/components/RainField";
 
 export const metadata: Metadata = {
-  title: "Decivo multi-agent orchestration platform | Comprinno",
+  title: "Decivo enterprise agentic process transformation | Comprinno",
   description:
-    "Decivo turns business processes into production AI-agent workflows: specialized agents orchestrated together, people supervising approvals and exceptions, deployed in your own cloud.",
+    "Turn business processes into AI-powered operations. Decivo coordinates AI-agent workflows with human oversight, in your cloud, with engineers from discovery to production.",
   alternates: { canonical: "/products/decivo" },
 };
+
+// Hidden for now (kept, not deleted): "What Decivo enables", "Use cases by function", "Expand across the enterprise".
+const SHOW_HIDDEN = false as boolean;
+
+// Use cases from the Comprinno GenAI use-case sheet, grouped by industry.
+const industryUseCases: IndustryGroup[] = [
+  { industry: "BFSI", items: [
+    { title: "Policy and product query resolution", desc: "Agents get accurate answers on complex insurance policies, loan products and investment schemes without searching long documents.", icon: "search" },
+    { title: "KYC and AML document validation", desc: "Check customer documents and pull the information reviewers need, with exceptions flagged.", icon: "user" },
+    { title: "Loan underwriting document analysis", desc: "Read and analyze underwriting documents so credit teams decide faster.", icon: "bank" },
+    { title: "Claims process automation", desc: "Move claims and hospitalization intimations through intake, checks and routing with less manual work.", icon: "layers" },
+    { title: "Account and transaction inquiries", desc: "Customers check balances, transactions and account details through natural conversation.", icon: "card" },
+    { title: "Vendor and third-party risk", desc: "Run vendor risk assessments consistently, with evidence for every answer.", icon: "shield" },
+  ] },
+  { industry: "Life sciences", items: [
+    { title: "Medical information desk", desc: "Medical affairs teams answer healthcare professional queries with approved product information.", icon: "flask" },
+    { title: "Vendor and CRO qualification", desc: "Structure qualification workflows for vendors and contract research organizations.", icon: "check" },
+    { title: "Appointment scheduling and reminders", desc: "Book appointments and send patient reminders automatically.", icon: "clock" },
+    { title: "Pre-consultation triage", desc: "Gather symptoms and assess patients before the doctor visit.", icon: "heart" },
+    { title: "Medical equipment operation", desc: "Staff get step-by-step guidance and safety protocols for complex medical devices.", icon: "dna" },
+    { title: "Medical content analytics", desc: "Understand how clinical resources and e-learning content are used across portals.", icon: "chart" },
+  ] },
+  { industry: "Manufacturing", items: [
+    { title: "Technical support and troubleshooting", desc: "Field engineers get resolution steps from equipment manuals, maintenance guides and fault codes.", icon: "puzzle" },
+    { title: "Quality and SOP compliance", desc: "Shop-floor supervisors check procedures and quality standards on demand.", icon: "check" },
+    { title: "Safety compliance assistant", desc: "Workers ask safety questions by voice or text and get immediate guidance.", icon: "shield" },
+    { title: "Maintenance guidance", desc: "Technicians get step-by-step repair and troubleshooting instructions.", icon: "cube" },
+    { title: "Production recipe and parameters", desc: "Operators get recommended machine settings for each product.", icon: "chart" },
+    { title: "Contract and procurement due diligence", desc: "Review supplier contracts and procurement documents against your requirements.", icon: "building" },
+  ] },
+  { industry: "Retail", items: [
+    { title: "Customer service agent assist", desc: "Contact-center agents resolve returns, warranty and shipping questions without escalation.", icon: "users" },
+    { title: "Store associate enablement", desc: "In-store staff get instant answers on products and policies.", icon: "store" },
+    { title: "Order status and delivery tracking", desc: "Customers check orders and deliveries through natural conversation, no agent needed.", icon: "cart" },
+    { title: "Product availability checks", desc: "Customers and staff check stock and availability across stores and channels instantly.", icon: "bag" },
+    { title: "Peak-sale storefront monitoring", desc: "During flash sales, delivery logs are processed automatically and failures flagged in real time.", icon: "chart" },
+    { title: "In-store inventory tracking", desc: "Detect stockouts from shelf data and trigger replenishment.", icon: "card" },
+  ] },
+];
 
 const statusCls: Record<string, string> = {
   ok: "border-emerald-300 bg-emerald-50 text-emerald-700",
@@ -24,45 +65,38 @@ function Badge({ children, tone }: { children: string; tone: keyof typeof status
   return <span className={`border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-widest ${statusCls[tone]}`}>{children}</span>;
 }
 
-/** Illustrative multi-agent workflow for the hero. */
+/** Illustrative workflow for the hero: process in, specialist agents, human checkpoint, verified outcome. */
 function WorkflowCard() {
-  const agents: { name: string; task: string; tone: keyof typeof statusCls; status: string }[] = [
-    { name: "Intake agent", task: "Classifies incoming documents", tone: "ok", status: "Done" },
-    { name: "Extraction agent", task: "Pulls fields with source evidence", tone: "ok", status: "Done" },
-    { name: "Validation agent", task: "Checks against your rules and systems", tone: "ok", status: "Done" },
+  const steps: { name: string; task: string; icon: IconName; kind: "system" | "agent" | "human" | "out"; status?: string; tone?: keyof typeof statusCls }[] = [
+    { name: "Business process", task: "A batch of supplier invoices arrives", icon: "mail", kind: "system" },
+    { name: "Intake agent", task: "Classifies and reads each document", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
+    { name: "Validation agent", task: "Checks values against POs and receipts", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
+    { name: "Business-rule agent", task: "Applies your approval policy", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
+    { name: "Human approval", task: "1 exception routed to finance", icon: "user", kind: "human", status: "Your call", tone: "wait" },
+    { name: "Verified outcome", task: "Review-ready output with an audit trail", icon: "check", kind: "out" },
   ];
   return (
     <figure className="border border-line-strong bg-bg shadow-xl">
       <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span>Workflow · Supplier invoice approval</span>
-        <span className="uppercase tracking-widest">Illustrative</span>
+        <span>Decivo · Orchestration</span>
+        <span className="uppercase tracking-widest">Illustrative workflow</span>
       </figcaption>
-      <ol className="grid gap-2 p-5">
-        {agents.map((a) => (
-          <li key={a.name} className="flex items-center justify-between gap-3 border border-line p-3">
-            <span className="flex items-center gap-3">
-              <IconTile name="agent" />
-              <span>
-                <span className="block text-sm font-semibold text-ink">{a.name}</span>
-                <span className="block text-xs text-muted">{a.task}</span>
+      <ol className="grid gap-1.5 p-5">
+        {steps.map((st, i) => (
+          <li key={st.name}>
+            <div className={`flex items-center justify-between gap-3 border p-2.5 ${st.kind === "human" ? "border-ink bg-surface" : st.kind === "out" ? "border-emerald-300 bg-emerald-50/50" : "border-line"}`}>
+              <span className="flex items-center gap-3">
+                <IconTile name={st.icon} />
+                <span>
+                  <span className="block text-sm font-semibold text-ink">{st.name}</span>
+                  <span className="block text-xs text-muted">{st.task}</span>
+                </span>
               </span>
-            </span>
-            <Badge tone={a.tone}>{a.status}</Badge>
+              {st.status && st.tone && <Badge tone={st.tone}>{st.status}</Badge>}
+            </div>
+            {i < steps.length - 1 && <p className="text-center font-mono text-[0.65rem] leading-4 text-muted" aria-hidden="true">↓</p>}
           </li>
         ))}
-        <li className="flex items-center justify-between gap-3 border border-ink bg-surface p-3">
-          <span className="flex items-center gap-3">
-            <IconTile name="user" />
-            <span>
-              <span className="block text-sm font-semibold text-ink">Finance reviewer</span>
-              <span className="block text-xs text-muted">1 exception needs a decision</span>
-            </span>
-          </span>
-          <Badge tone="wait">Your call</Badge>
-        </li>
-        <li className="flex items-center gap-2 pt-1 font-mono text-[0.65rem] uppercase tracking-widest text-muted">
-          <Icon name="cloud" className="h-3.5 w-3.5" /> Running in your cloud account
-        </li>
       </ol>
     </figure>
   );
@@ -100,62 +134,71 @@ const inside: { k: string; title: string; points: string[]; diagram: Parameters<
 ];
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Manual by default", desc: "Large teams still copy data between systems, chase approvals and check documents by hand.", icon: "users" },
-  { title: "Fragmented across systems", desc: "One process touches email, spreadsheets, ERPs and portals, with people stitching the steps together.", icon: "puzzle" },
-  { title: "Expensive to scale", desc: "More volume means more people, and accuracy and speed slip as the work grows.", icon: "coin" },
+  { title: "Repetitive handoffs", desc: "People copy information between systems, chase approvals and re-check the same documents.", icon: "migrate" },
+  { title: "Inconsistent execution", desc: "The same process runs differently by team, person and day, which creates rework.", icon: "alert" },
+  { title: "Slow change cycles", desc: "Changing how a process works takes months of tickets, training and manual workarounds.", icon: "clock" },
 ];
 
 const howSteps = [
-  { title: "Discover", desc: "Map how the process runs today and where people spend their time." },
-  { title: "Design", desc: "Redesign it as a workflow of specialized agents, with review points where judgment matters." },
-  { title: "Validate", desc: "Prove accuracy, controls and value on a working prototype with your data." },
-  { title: "Deploy", desc: "Move the validated workflow to production in your own cloud." },
-  { title: "Expand", desc: "Take the next workflow onto the same platform, team by team." },
+  { title: "Discover", desc: "Map the existing workflow with the people who own it." },
+  { title: "Design", desc: "Identify where agents help, and where people must decide." },
+  { title: "Validate", desc: "Prototype the new process and check its business controls." },
+  { title: "Deploy", desc: "After business-owner sign-off, put the approved workflow live." },
+  { title: "Expand", desc: "Add the next use case on the same platform." },
 ];
 
-const useCases: { fn: string; icon: IconName; items: string[] }[] = [
-  { fn: "Finance", icon: "bank", items: ["Invoice processing and matching", "Reconciliations", "Close and reporting packs"] },
-  { fn: "Procurement", icon: "cart", items: ["RFQ and quote evaluation", "Supplier onboarding checks", "Contract intake"] },
-  { fn: "Marketing", icon: "chart", items: ["Campaign reporting", "Content review and approvals", "Data validation across channels"] },
-  { fn: "Security", icon: "shield", items: ["Alert triage and enrichment", "Access review workflows", "Evidence collection for audits"] },
-  { fn: "Operations", icon: "building", items: ["Document management", "Order and exception handling", "Approval routing"] },
+const enables: { title: string; desc: string; icon: IconName; kind: "system" | "agent" | "human" }[] = [
+  { title: "Trigger", desc: "A document, request or event starts the run", icon: "mail", kind: "system" },
+  { title: "Intake agent", desc: "Reads and classifies the input", icon: "agent", kind: "agent" },
+  { title: "Validation agent", desc: "Checks data against source systems", icon: "agent", kind: "agent" },
+  { title: "Business-rule agent", desc: "Applies your policy and thresholds", icon: "agent", kind: "agent" },
+  { title: "Human approval", desc: "Where required, a person decides", icon: "user", kind: "human" },
+  { title: "System update", desc: "The approved result is prepared for your systems", icon: "database", kind: "system" },
+  { title: "Audit view", desc: "Every step logged and monitored", icon: "eye", kind: "system" },
+];
+
+// Illustrative examples, not live customer deployments.
+const useCases: UseCase[] = [
+  { fn: "Finance", title: "Supplier invoice processing", trigger: "Invoices arrive by email or upload", agents: ["Invoice intake", "Data extraction", "Matching and validation"], human: "Finance reviews exceptions before anything is posted", outcome: "Posting-ready output, with every exception explained" },
+  { fn: "Procurement", title: "Supplier onboarding", trigger: "A new supplier submits documents", agents: ["Document intake", "Compliance checks", "Approval routing"], human: "Procurement approves the supplier", outcome: "Supplier record ready to update, with checks on file" },
+  { fn: "Marketing", title: "Campaign requests", trigger: "A team submits a campaign request", agents: ["Request intake", "Asset and policy checks", "Review workflow"], human: "Brand or legal signs off", outcome: "Approved campaign and a reporting summary" },
+  { fn: "Security", title: "Alert investigation", trigger: "A security alert is raised", agents: ["Alert enrichment", "Evidence gathering", "Ticket preparation"], human: "An analyst reviews and decides the response", outcome: "A response ticket ready for the analyst to act on" },
+  { fn: "Operations", title: "Cross-system reconciliation", trigger: "Period-end or new documents arrive", agents: ["Document intake", "Cross-system reconciliation", "Exception queue"], human: "Ops leads clear the exception queue", outcome: "A management report with open items flagged" },
 ];
 
 const deployment: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Your cloud", desc: "Decivo runs inside your own cloud environment, not ours.", icon: "cloud" },
-  { title: "Your data", desc: "Documents and records stay where they are, under your control.", icon: "database" },
-  { title: "Your controls", desc: "Your security policies, identity and governance apply to every agent.", icon: "lock" },
+  { title: "Your cloud", desc: "Designed for deployment inside your own cloud environment.", icon: "cloud" },
+  { title: "Your data", desc: "Built to support your ownership of data and data-handling policies.", icon: "database" },
+  { title: "Your control", desc: "Orchestration, agents, connected systems and human review sit within your boundary.", icon: "lock" },
 ];
 
-const fdeSteps = [
-  "Understand and document how the process runs today",
-  "Find where agents and redesign can help",
-  "Turn requirements into an agent-based workflow",
-  "Prove feasibility with a fast prototype",
-  "Validate outcomes, accuracy and controls",
-  "Deploy the validated workflow to production",
-  "Find the next workflow and repeat",
+const fde: { title: string; desc: string; icon: IconName }[] = [
+  { title: "Process discovery", desc: "They sit with your process owners and document how the work really runs today.", icon: "search" },
+  { title: "Workflow design", desc: "They turn business requirements into an agent workflow, with review points where people decide.", icon: "puzzle" },
+  { title: "Fast validation", desc: "They build a prototype on your data and prove accuracy, controls and value.", icon: "check" },
+  { title: "Production and beyond", desc: "They deploy the approved workflow, then find the next one to automate.", icon: "rocket" },
 ];
 
 const expansion = [
-  { k: "Start", title: "One workflow", desc: "One or two high-value processes in finance, procurement, marketing or operations." },
-  { k: "Grow", title: "Several functions", desc: "Once the first runs in production, more workflows follow across teams." },
-  { k: "Scale", title: "Enterprise-wide", desc: "Decivo becomes the shared layer that runs agent-led work across the business." },
+  { k: "Start", title: "1 workflow", desc: "Begin with a well-scoped use case and validate the outcome." },
+  { k: "Grow", title: "1 function", desc: "Reuse the platform for more workflows in the same team." },
+  { k: "Scale", title: "Multiple functions", desc: "Introduce workflows across teams and departments." },
 ];
 
 const outcomes: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Time to production", desc: "How fast a process goes from discovery to a live workflow.", icon: "clock" },
-  { title: "Process throughput", desc: "How much work flows through without waiting on people.", icon: "rocket" },
-  { title: "Accuracy", desc: "How often outputs pass your checks the first time.", icon: "check" },
-  { title: "Capacity freed", desc: "Hours your team moves from repetitive steps to higher-value work.", icon: "users" },
+  { title: "Time to production", desc: "From process discovery to a live workflow.", icon: "clock" },
+  { title: "Workflows in production", desc: "How many processes run on the platform.", icon: "layers" },
+  { title: "Process cycle time", desc: "How long one case takes, start to finish.", icon: "rocket" },
+  { title: "Exception rate", desc: "How often a case needs a person to step in.", icon: "alert" },
+  { title: "Accuracy and quality", desc: "How often outputs pass your checks first time.", icon: "check" },
+  { title: "Hours redeployed", desc: "Time your team moves to higher-value work.", icon: "users" },
 ];
 
 // TODO: answers drafted from the product brief — confirm with the Decivo team.
 const faqs = [
   { q: "Is Decivo available today?", a: "Yes. We're working with teams to take their first workflows to production." },
   { q: "Is this a chatbot or a copilot?", a: "No. Decivo runs whole business processes as workflows of specialized agents, with people supervising approvals and exceptions." },
-  { q: "Will it replace our team?", a: "It takes on repetitive digital steps so your people can focus on judgment, exceptions and higher-value work. People stay in charge of decisions." },
-  { q: "Where does it run?", a: "Inside your own cloud environment, so your data, infrastructure and security policies stay under your control." },
+  { q: "Where does it run?", a: "Decivo is designed to be deployed inside your own cloud environment. We confirm the exact setup with your cloud and security teams." },
   { q: "Can every process be automated?", a: "Not every process is a good fit. We assess suitability first and keep human review wherever a decision matters." },
   { q: "How do we get started?", a: "Bring us one workflow. Our forward-deployed engineers map it, build a prototype on your data and validate it with you before anything goes live." },
 ];
@@ -169,22 +212,20 @@ export default function DecivoPage() {
         <Container className="py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
             <div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Eyebrow>Decivo · Multi-agent orchestration</Eyebrow>
-              </div>
+              <Eyebrow>Decivo · Enterprise agentic process transformation</Eyebrow>
               <div className="mt-4 inline-flex items-center gap-3 border border-line bg-surface py-1 pl-3 pr-1 font-mono text-[0.7rem] uppercase tracking-widest">
                 <span className="text-muted">Pronounced:</span>
                 <span className="text-ink">Deh-see-voh (from “decide”)</span>
                 <Pronounce />
               </div>
               <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
-                From business process to <strong className="sweep">production AI agents.</strong>
+                Turn business processes into <strong className="sweep">AI-powered operations.</strong>
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
-                Orchestrate AI agents to run digital workflows, with people supervising and everything deployed in your own cloud.
+                Move beyond AI experiments. Coordinated agent workflows for real processes, with human oversight, in your cloud, and engineers from discovery to production.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Discuss a workflow →</Button>
+                <Button href="/contact">Explore your first workflow →</Button>
               </div>
             </div>
             <WorkflowCard />
@@ -196,7 +237,7 @@ export default function DecivoPage() {
 
       {/* PROBLEM */}
       <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="The problem" title={<>Digital work, <strong>still done by hand.</strong></>} desc="Coordination, document checks, validations, approvals and reporting still eat operating budgets, and get harder to keep accurate as volume grows." />
+        <SectionHead eyebrow="The problem" title={<>Your processes are digital. <strong>Too much of the work is still manual.</strong></>} desc="Teams move information between systems, review documents, check exceptions, prepare reports and coordinate approvals. Fragmented execution slows throughput and creates avoidable rework." />
         <div className="grid gap-4 md:grid-cols-3">
           {problems.map((p) => (
             <div key={p.title} className="card">
@@ -208,10 +249,31 @@ export default function DecivoPage() {
         </div>
       </Section>
 
-      {/* HOW IT WORKS */}
+      {SHOW_HIDDEN && (
+        <>
+      {/* WHAT IT ENABLES */}
+      <Section id="how-it-works">
+        <SectionHead eyebrow="What Decivo enables" title={<>One workflow. Multiple agents. <strong>Human accountability.</strong></>} desc="Specialized agents execute defined steps, work with your systems, validate outputs and route decisions to people when needed." />
+        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
+          {enables.map((e, i) => (
+            <li key={e.title} className={`relative flex flex-col border p-4 ${e.kind === "human" ? "border-ink bg-surface" : "border-line bg-bg"}`}>
+              <span className="font-mono text-[0.65rem] text-muted">{String(i + 1).padStart(2, "0")}</span>
+              <span className="mt-3"><IconTile name={e.icon} /></span>
+              <h3 className="mt-3 text-sm font-semibold leading-snug text-ink">{e.title}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted">{e.desc}</p>
+              {i < enables.length - 1 && <span className="absolute -right-2.5 top-1/2 z-10 hidden -translate-y-1/2 bg-bg font-mono text-xs text-muted lg:block" aria-hidden="true">→</span>}
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-center font-mono text-[0.65rem] uppercase tracking-widest text-muted">Conceptual workflow · steps vary by process</p>
+      </Section>
+        </>
+      )}
+
+      {/* PATH TO PRODUCTION */}
       <Section>
-        <SectionHead eyebrow="How it works" title={<>Discover to deploy, <strong>then expand.</strong></>} desc="Each workflow follows the same path from a process on paper to agents in production." />
-        <FlowLoop items={howSteps} icons={["search", "puzzle", "check", "cloud", "rocket"]} caption="Each live workflow makes the next one faster to build" />
+        <SectionHead eyebrow="How customers get to production" title={<>From process discovery <strong>to production deployment.</strong></>} desc="Forward-deployed engineers work with process owners to map the workflow, find automation opportunities, prototype the new process, validate business controls and deploy approved use cases." />
+        <FlowLoop items={howSteps} icons={["search", "puzzle", "check", "cloud", "rocket"]} caption="Nothing deploys until the business owner signs off on validation" />
       </Section>
 
       {/* INSIDE DECIVO */}
@@ -241,36 +303,30 @@ export default function DecivoPage() {
         </div>
       </Section>
 
+      {SHOW_HIDDEN && (
+        <>
       {/* USE CASES */}
+      <Section tone="surface">
+        <SectionHead eyebrow="Use cases by function" title={<>Explore workflows <strong>by business function.</strong></>} desc="Illustrative examples, not live customer deployments. Each shows where agents work and where people decide." />
+        <UseCaseTabs items={useCases} />
+      </Section>
+        </>
+      )}
+
+      {/* INDUSTRY USE CASES */}
       <Section>
-        <SectionHead eyebrow="Where teams start" title={<>Workflows worth <strong>handing to agents.</strong></>} desc="Examples by function. We assess each process for fit before building anything." />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {useCases.map((u) => (
-            <div key={u.fn} className="card">
-              <IconTile name={u.icon} />
-              <h3 className="mt-4 font-semibold text-ink">{u.fn}</h3>
-              <ul className="mt-3 grid gap-2">
-                {u.items.map((x) => (
-                  <li key={x} className="flex gap-2 text-sm leading-snug text-muted">
-                    <Icon name="check" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink" />
-                    {x}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <SectionHead eyebrow="Use cases" title={<>Where teams put <strong>agents to work.</strong></>} desc="Processes we help teams automate, by industry. Pick one to start the conversation." />
+        <IndustryUseCases groups={industryUseCases} />
       </Section>
 
       {/* DEPLOYMENT */}
       <Section tone="surface">
-        <SectionHead eyebrow="Deployment model" title={<>Your cloud. Your data. <strong>Your controls.</strong></>} desc="Built for teams with data sovereignty, privacy and governance requirements." />
-        <div className="grid border-t-2 border-ink md:grid-cols-3">
-          {deployment.map((d, i) => (
+        <SectionHead eyebrow="Customer-cloud deployment" title={<>Your cloud. Your data. <strong>Your control.</strong></>} desc="Decivo is designed for deployment inside your cloud environment, supporting your ownership of infrastructure and data-handling policies." />
+        <div className="grid auto-rows-fr gap-4 md:grid-cols-3">
+          {deployment.map((d) => (
             <div key={d.title} className="card">
               <IconTile name={d.icon} />
-              <p className="mt-4 font-mono text-[0.7rem] text-muted">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-1 text-xl font-semibold text-ink">{d.title}</h3>
+              <h3 className="mt-4 font-semibold text-ink">{d.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{d.desc}</p>
             </div>
           ))}
@@ -279,29 +335,23 @@ export default function DecivoPage() {
 
       {/* FDE */}
       <Section>
-        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
-          <div>
-            <Eyebrow>Forward-deployed engineering</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Engineers who turn real processes <strong className="font-semibold">into live workflows.</strong></h2>
-            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">Our forward-deployed engineers combine business analysis with engineering. They sit with your process owners and shorten the path from discovery to production.</p>
-            <div className="mt-8">
-              <Button href="/contact" variant="ghost">Meet the team →</Button>
+        <SectionHead eyebrow="Forward-deployed engineering" title={<>A platform backed by people <strong>who understand processes.</strong></>} desc="Our forward-deployed engineers combine process discovery with implementation. The goal is measurable production adoption, not another disconnected proof of concept." />
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {fde.map((f) => (
+            <div key={f.title} className="card">
+              <IconTile name={f.icon} />
+              <h3 className="mt-4 font-semibold text-ink">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{f.desc}</p>
             </div>
-          </div>
-          <ol className="border-t-2 border-ink">
-            {fdeSteps.map((s, i) => (
-              <li key={s} className="flex gap-4 border-b border-line py-3.5">
-                <span className="font-mono text-[0.7rem] text-muted">{String(i + 1).padStart(2, "0")}</span>
-                <span className="text-sm font-medium text-ink sm:text-base">{s}</span>
-              </li>
-            ))}
-          </ol>
+          ))}
         </div>
       </Section>
 
+      {SHOW_HIDDEN && (
+        <>
       {/* EXPANSION */}
-      <Section tone="surface" background={<RainField />}>
-        <SectionHead eyebrow="Land and expand" title={<>Start with one workflow. <strong>Grow from there.</strong></>} />
+      <Section background={<RainField />}>
+        <SectionHead eyebrow="Expand across the enterprise" title={<>Start with a workflow. <strong>Build a transformation engine.</strong></>} desc="Validate one use case, then reuse the platform to add workflows across teams and departments." />
         <ol className="path-row path-row-3">
           {expansion.map((e) => (
             <li key={e.k}>
@@ -313,12 +363,15 @@ export default function DecivoPage() {
             </li>
           ))}
         </ol>
+        <p className="mt-4 text-center font-mono text-[0.65rem] uppercase tracking-widest text-muted">Adoption model, not customer results</p>
       </Section>
+        </>
+      )}
 
       {/* OUTCOMES */}
-      <Section>
-        <SectionHead eyebrow="Business outcomes" title={<>What we measure <strong>with you.</strong></>} desc="We agree the measures before building, and report against them once the workflow is live." />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Section tone="surface">
+        <SectionHead eyebrow="Outcomes and measurement" title={<>Measure what goes live, <strong>and what improves.</strong></>} desc="We agree these measures with you before building, and report business impact against them once workflows are live." />
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {outcomes.map((o) => (
             <div key={o.title} className="card">
               <IconTile name={o.icon} />
@@ -330,7 +383,7 @@ export default function DecivoPage() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="surface">
+      <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div>
             <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Decivo</strong>?</h2>
@@ -341,9 +394,9 @@ export default function DecivoPage() {
       </Section>
 
       <CtaBand
-        title={<>Identify your first<Br /> <strong>agentic workflow.</strong></>}
-        desc="Bring one process. We'll map it with you and show what an agent-led version could look like."
-        steps={["Walk us through the process", "See a prototype on your data", "Agree what goes to production"]}
+        title={<>Which business process should<Br /> you <strong>transform first</strong>?</>}
+        desc="Bring us a workflow with repetitive digital work, clear decision points and a measurable outcome. We'll help assess whether it suits agentic automation."
+        steps={["Walk us through the process", "Assess its suitability together", "Agree a first workflow to validate"]}
         label="Discuss a workflow"
       />
     </>

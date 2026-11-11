@@ -64,10 +64,7 @@ p { text-wrap: pretty; }
     background-image: radial-gradient(var(--color-line-strong) 1px, transparent 1px);
     background-size: 22px 22px;
   }
-  .bg-grid-fade {
-    mask-image: linear-gradient(to bottom, #000 40%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
-  }
+  
 
   /* Eyebrow = live "agent status" chip, not brackets */
   .eyebrow {
@@ -130,7 +127,7 @@ p { text-wrap: pretty; }
     color: var(--color-muted);
   }
 
-  .prose-lite p + p { margin-top: 1rem; }
+  
 }
 
 /* Motion: decorative only, and fully off for reduced-motion / reduced-data users */
