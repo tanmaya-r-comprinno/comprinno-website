@@ -1,41 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 /**
  * Keka Jobs Widget
- * Embeds the Keka job board iframe via their embed script.
+ * Embeds the Keka job board in an iframe since direct script embedding
+ * is blocked by CORS from localhost.
  */
 export default function KekaJobsWidget() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Define the khConfig global before loading the script
-    (window as any).khConfig = {
-      domain: "https://comprinno.keka.com/",
-      portalName: "default",
-      identifier: "1f7a7e3f-2b83-448c-a9f3-368f72583618",
-      targetContainer: containerRef.current,
-    };
-
-    // Load the Keka embed script
-    const script = document.createElement("script");
-    script.src = "https://comprinno.keka.com/careers/api/embedjobs/js/1f7a7e3f-2b83-448c-a9f3-368f72583618";
-    script.async = true;
-    script.defer = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup on unmount
-      if (script.parentNode) {
-        document.body.removeChild(script);
-      }
-      delete (window as any).khConfig;
-    };
-  }, []);
+  // Keka provides an embeddable URL - construct the iframe src
+  const iframeSrc = "https://comprinno.keka.com/careers/joblist/1f7a7e3f-2b83-448c-a9f3-368f72583618";
 
   return (
-    <div ref={containerRef} className="keka-jobs-widget min-h-[400px]" />
+    <div className="keka-jobs-widget border border-line bg-bg">
+      <iframe
+        src={iframeSrc}
+        title="Comprinno Careers - Open Positions"
+        className="w-full min-h-[600px] border-0"
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      />
+    </div>
   );
 }
