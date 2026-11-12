@@ -21,8 +21,18 @@ export default function RainField() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const root = getComputedStyle(document.documentElement);
-    const head = root.getPropertyValue("--color-accent").trim() || "#8aa0b8";
+    // read tokens where the canvas sits, so a page theme (e.g. .brand) can recolour it; --rain overrides the drop colour
+    const root = getComputedStyle(canvas);
+    const head = root.getPropertyValue("--rain").trim() || root.getPropertyValue("--color-accent").trim() || "#8aa0b8";
+    // same colour at zero opacity, so the whole tail stays in the drop colour (no grey midpoint)
+    const fade = (() => {
+      const c = document.createElement("canvas").getContext("2d");
+      if (!c) return "rgba(0,0,0,0)";
+      c.fillStyle = head;
+      const hex = c.fillStyle; // normalised to #rrggbb
+      const n = parseInt(hex.slice(1), 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},0)`;
+    })();
     const guide = root.getPropertyValue("--color-line").trim() || "#e1e7ee";
 
     let w = 0;
@@ -44,7 +54,7 @@ export default function RainField() {
         z,
         len: 30 + 200 * z + rand(0, 40),
         speed: 0.5 + 2.8 * z,
-        alpha: 0.08 + 0.26 * z, // still subtle overall
+        alpha: 0.05 + 0.5 * z, // depth: far drops faint, near drops clear
       };
     };
 
@@ -77,7 +87,7 @@ export default function RainField() {
       // falling streaks: transparent tail -> bright head
       for (const d of drops) {
         const grad = ctx.createLinearGradient(d.x, d.y - d.len, d.x, d.y);
-        grad.addColorStop(0, "rgba(0,0,0,0)");
+        grad.addColorStop(0, fade);
         grad.addColorStop(1, head);
         ctx.strokeStyle = grad;
         // near drops get a soft, wide halo first: reads as depth-of-field blur

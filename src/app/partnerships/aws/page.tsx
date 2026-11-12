@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
@@ -127,8 +128,11 @@ export default function AwsPage() {
               </dl>
             </div>
             <div className="flex justify-center lg:justify-end">
-              {/* TODO: hero visual placeholder, replace with final artwork */}
-              <div className="grid aspect-[3/4] w-56 place-items-center border border-dashed border-line-strong bg-bg/60 font-mono text-[0.65rem] uppercase tracking-widest text-muted sm:w-64 lg:w-72">Hero visual</div>
+              <div className="relative w-[18.5rem] sm:w-[21.1rem] lg:w-[23.8rem]">
+                <Image src="/partners/aws-premier-tier-award.webp" alt="AWS Partner Premier Tier Services award" width={1302} height={1710} priority unoptimized className="award-sway relative z-10 h-auto w-full drop-shadow-md" />
+                {/* soft floor shadow under the stand */}
+                <span className="absolute -bottom-3 left-1/2 h-5 w-3/4 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgb(15_23_42/0.18),transparent_70%)]" aria-hidden="true" />
+              </div>
             </div>
           </div>
         </Container>

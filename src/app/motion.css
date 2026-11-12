@@ -538,4 +538,9 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 
 @keyframes hop { 0% { transform: translate(-60%, 6px) rotate(-10deg); opacity: .4; } 100% { transform: translate(0,0) rotate(0); opacity: 1; } }
 
-@keyframes ping-soft { 0% { box-shadow: 0 0 0 0 rgb(15 23 42 / .35); } 100% { box-shadow: 0 0 0 10px rgb(15 23 42 / 0); } }
+@keyframes ping-soft { 0% { box-shadow: 0 0 0 0 rgb(28 28 28 / .35); } 100% { box-shadow: 0 0 0 10px rgb(28 28 28 / 0); } }
+
+/* AWS award: slow turn on the Y axis, 5deg each side */
+.award-sway { transform-origin: 50% 50%; animation: award-sway 6s ease-in-out infinite alternate; }
+@keyframes award-sway { from { transform: perspective(900px) rotateY(-5deg); } to { transform: perspective(900px) rotateY(5deg); } }
+@media (prefers-reduced-motion: reduce) { .award-sway { animation: none; } }

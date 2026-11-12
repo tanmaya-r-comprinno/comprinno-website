@@ -118,11 +118,11 @@ export default function ContactPage() {
               </label>
               <div className="grid gap-1.5 text-xs text-ink-2">
                 <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#334155]" />
+                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#1c1c1c]" />
                   <span>I agree to Comprinno processing my information in line with the <a href="/privacy-policy" className="underline underline-offset-2">Privacy policy</a>.</span>
                 </label>
                 <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="marketing" className="mt-0.5 h-4 w-4 shrink-0 accent-[#334155]" />
+                  <input type="checkbox" name="marketing" className="mt-0.5 h-4 w-4 shrink-0 accent-[#1c1c1c]" />
                   <span>Send me occasional emails from Comprinno. I can unsubscribe at any time.</span>
                 </label>
               </div>

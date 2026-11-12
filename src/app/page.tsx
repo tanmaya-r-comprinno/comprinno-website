@@ -22,11 +22,11 @@ const proof = [
   { metric: "Near-real-time", what: "MongoDB synchronization during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
 ];
 
-const homeProducts = [
-  { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen" },
-  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen" },
-  { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen" },
-  { name: "Decivo", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/decivo", screen: "Decivo run outcome screen" },
+const homeProducts: { name: string; line: string; href: string; screen: string; img?: string }[] = [
+  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen", img: "/products/tevico-dashboard.webp" },
+  { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
+  { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen", img: "/products/voxsphere-dashboard.webp" },
+  { name: "Decivo", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/decivo", screen: "Decivo run outcome screen", img: "/products/decivo-dashboard.webp" },
 ];
 
 const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
@@ -42,7 +42,19 @@ const heroStats = [
   { value: "150+", label: "AWS certifications" },
 ];
 
-const credentials = ["AWS Premier Tier Partner", "AWS MSP & Level 1 MSSP", "ISO 27001 & SOC 2 Type II", "OpenAI Select Partner"];
+// Official badges live in /public/badges. OpenAI shows its logo (from partnerLogos).
+const credentials: { label: string; badges: { src: string; alt: string; w: number; h: number }[] }[] = [
+  { label: "AWS Premier Tier Partner", badges: [{ src: "/badges/aws-premier-tier.webp", alt: "AWS Partner, Premier Tier Services badge", w: 240, h: 240 }] },
+  { label: "AWS MSP & Level 1 MSSP", badges: [
+    { src: "/badges/aws-msp.webp", alt: "AWS Partner, Managed Service Provider badge", w: 294, h: 294 },
+    { src: "/badges/aws-l1-mssp.webp", alt: "AWS Partner, L1 MSSP Services Competency badge", w: 292, h: 294 },
+  ] },
+  { label: "ISO 27001 & SOC 2 Type II", badges: [
+    { src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 299, h: 250 },
+    { src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 307, h: 250 },
+  ] },
+  { label: "OpenAI Select Partner", badges: [] },
+];
 
 const stages: Record<string, { title: string; desc: string; includes: string[] }> = {
   migrate: { title: "Move to the cloud", desc: "Assess, plan, and tap the funding you qualify for.", includes: ["Cloud Migration", "Security & Compliance"] },
@@ -68,7 +80,7 @@ const gaps: { title: string; desc: string; icon: IconName }[] = [
 
 export default function Home() {
   return (
-    <>
+    <div className="brand">
       {/* 1 · HERO: the diagram explains the promise */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -176,8 +188,15 @@ export default function Home() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {homeProducts.map((p) => (
-            <Link key={p.name} href={p.href} className="card flex flex-col !p-0 overflow-hidden">
-              <ImageSlot label={p.screen} />
+            <Link key={p.name} href={p.href} className="card group flex flex-col !p-0 overflow-hidden">
+              {p.img ? (
+                <div className="aspect-[16/10] w-full overflow-hidden border-b border-line bg-surface">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.img} alt={`${p.name} dashboard`} loading="lazy" className="h-full w-full object-cover object-left-top transition duration-500 group-hover:scale-[1.03]" />
+                </div>
+              ) : (
+                <ImageSlot label={p.screen} />
+              )}
               <div className="flex flex-1 flex-col p-5">
                 <h3 className="text-xl font-semibold">{p.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{p.line}</p>
@@ -188,8 +207,8 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 4b · NUMBERS: just below products */}
-      <Section>
+      {/* 4b · NUMBERS: just below products (dark navy anchor band) */}
+      <Section className="brand-dark">
         <dl className="stats">
           {heroStats.map((st) => {
             const m = st.value.match(/^([\d,]+)(.*)$/);
@@ -236,9 +255,21 @@ export default function Home() {
         <SectionHead eyebrow="Credentials" title={<>Credentials you can <strong>trust</strong>.</>} desc="Independently audited, and backed by the partners we build with." />
         <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {credentials.map((c) => (
-            <li key={c} className="card flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
-              <IconTile name="check" />
-              {c}
+            <li key={c.label} className="card flex flex-col items-center gap-4 text-center text-sm font-semibold text-ink sm:text-base">
+              {c.badges.length ? (
+                <span className="flex h-20 shrink-0 items-center gap-2">
+                  {c.badges.map((b) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img key={b.src} src={b.src} alt={b.alt} width={b.w} height={b.h} loading="lazy" className="h-full w-auto" />
+                  ))}
+                </span>
+              ) : (
+                <span className="flex h-20 shrink-0 items-center gap-2 text-ink">
+                  <svg viewBox="0 0 24 24" role="img" aria-label="OpenAI" className="h-11 w-11"><path d={partnerLogo.openai.d} fill="currentColor" /></svg>
+                  <span className="text-xl font-semibold tracking-tight">OpenAI</span>
+                </span>
+              )}
+              {c.label}
             </li>
           ))}
         </ul>
@@ -254,7 +285,7 @@ export default function Home() {
                 <IconTile name={p.icon} />
                 <span className="tag">{p.track}</span>
               </div>
-              <div className="bg-grid mt-5 rounded-md border border-line bg-surface p-3">
+              <div className="outcome-art mt-5 p-3">
                 <OutcomeArt variant={i} />
               </div>
               <p className="mt-5 text-4xl font-semibold tabular-nums text-ink sm:text-5xl">{p.metric}</p>
@@ -281,6 +312,6 @@ export default function Home() {
       </Section>
 
       <CtaBand title={<>Planning your next<Br /><strong>cloud or AI project</strong>?</>} desc="Three simple steps from first call to a plan you can act on." />
-    </>
+    </div>
   );
 }

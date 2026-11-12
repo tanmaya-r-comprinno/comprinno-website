@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @import "./motion.css";
+@import "./brand.css";
 
 /*
   Comprinno design tokens — LOW FIDELITY PHASE
   Everything is light and neutral on purpose. When final colour arrives,
   change ONLY the values in this block (accent / accent-soft / accent-ink).
-  No dark colours anywhere: the darkest tone is --color-ink (slate-700).
+  Black is #1c1c1c (--color-ink), white is #ffffff (--color-bg).
 */
 @theme {
   --color-bg: #ffffff;
@@ -13,9 +14,9 @@
   --color-surface-2: #eef2f6;
   --color-line: #e1e7ee;
   --color-line-strong: #c9d3de;
-  --color-ink: #334155;
-  --color-ink-2: #475569;
-  --color-muted: #64748b;
+  --color-ink: #1c1c1c; /* site black */
+  --color-ink-2: #3d3d3d;
+  --color-muted: #6b6b6b;
   --color-accent: #8aa0b8; /* placeholder — swap for brand colour */
   --color-accent-soft: #e8eef5;
   --color-accent-line: #b9c8d9;
