@@ -238,8 +238,8 @@ export default function AwsPage() {
             <div className="mt-6"><Button href="/contact" variant="ghost">Ask about AWS billing →</Button></div>
           </div>
           {/* illustration in the same style as the home page product scenes */}
-          <div className="card no-bar !p-0 overflow-hidden">
-            <div className="aspect-[16/10] w-full"><ProductDiagram product="billing" /></div>
+          <div className="overflow-hidden">
+            <div className="mx-auto aspect-[300/304] w-full max-w-[34rem]"><ProductDiagram product="billing" /></div>
           </div>
         </div>
       </Section>

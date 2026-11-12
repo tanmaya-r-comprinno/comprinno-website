@@ -186,81 +186,69 @@ function Decivo({ id }: { id: string }) {
 
 /* ---------- AWS billing: several accounts flow into one Comprinno invoice ---------- */
 function Billing() {
-  const accts: [string, string][] = [["prod", "$4,120"], ["data", "$1,860"], ["dev", "$640"]];
-  const wires = accts.map((_, i) => `M106 ${50 + i * 46} H118 V100 H132`);
+  // vertical layout: three accounts on top, one bus down into Comprinno, then the invoice
+  const accts: [string, string, IconName][] = [["prod", "$4,120", "cloud"], ["data", "$1,860", "database"], ["dev", "$640", "code"]];
+  const xs = [52, 150, 248];
+  const wires = xs.map((x) => `M${x} 58 V74 H150 V92`);
   return (
     <>
-      {/* faint square grid stage */}
-      <g opacity=".5">{Array.from({ length: 21 }, (_, i) => <path key={i} d={`M${i * 16} 0V200M0 ${i * 16}H320`} stroke="#cfe2f6" strokeWidth=".4" />)}</g>
-
-      {/* wires: base line + a bright pulse of light running along each one */}
-      <path d="M118 50 V142 M118 100 H132" fill="none" stroke={LINE} strokeWidth="1.2" />
+      {/* wires: base line + a slow pulse of light running down each one */}
+      <path d="M52 74 H248 M150 74 V92" fill="none" stroke={LINE} strokeWidth="1.4" />
+      {xs.map((x) => <path key={x} d={`M${x} 58 V74`} stroke={LINE} strokeWidth="1.4" />)}
       {wires.map((d, i) => (
-        <g key={d}>
-          <path d={d} fill="none" stroke={LINE} strokeWidth="1.2" />
-          <path d={d} fill="none" stroke={SKY} strokeWidth="2" pathLength="100" strokeDasharray="14 86" className="bill-run" style={{ animationDelay: `${i * 0.45}s` }} />
-        </g>
+        <path key={d} d={d} fill="none" stroke={SKY} strokeWidth="2.4" pathLength="100" strokeDasharray="16 84" className="bill-run" style={{ animationDelay: `${i * 0.9}s` }} />
       ))}
-      <path d="M186 100 H206" stroke={LINE} strokeWidth="1.2" />
-      <path d="M186 100 H206" stroke={GOLD} strokeWidth="2" pathLength="100" strokeDasharray="30 70" className="bill-run bill-run-fast" />
+      <path d="M150 136 V156" stroke={LINE} strokeWidth="1.4" />
+      <path d="M150 136 V156" stroke={GOLD} strokeWidth="2.4" pathLength="100" strokeDasharray="35 65" className="bill-run bill-run-fast" />
 
-      {accts.map(([n, v], i) => {
-        const y = 50 + i * 46;
+      {accts.map(([n, v, icon], i) => {
+        const x = xs[i];
         return (
-          <g key={n} className="bill-acct" style={{ animationDelay: `${i * 0.45}s` }}>
-            <rect x="14" y={y - 16} width="92" height="32" fill="#fff" stroke={LINE} />
-            <rect x="14" y={y - 16} width="2.5" height="32" fill={BLUE} />
-            <rect x="22" y={y - 9} width="18" height="18" fill="#e3f0fc" />
-            <Glyph icon={(["cloud", "database", "code"] as IconName[])[i]} x={31} y={y} size={11} />
-            <text x="46" y={y - 1} fontSize="7.4" fontWeight="600" fill={NAVY}>{n}-account</text>
-            <text x="46" y={y + 9} fontSize="6.6" fill="#6b6b6b">{v}</text>
-            <rect x="116.5" y={y - 1.5} width="3" height="3" fill={BLUE} />
+          <g key={n}>
+            <rect x={x - 46} y="14" width="92" height="44" fill="#fff" stroke={LINE} />
+            <rect x={x - 38} y="26" width="22" height="22" fill="#e3f0fc" />
+            <Glyph icon={icon} x={x - 27} y={37} size={13} />
+            <text x={x - 8} y="35" fontSize="9" fontWeight="700" fill={NAVY}>{n}</text>
+            <text x={x - 8} y="47" fontSize="7.8" fill="#6b6b6b">{v}</text>
+            <rect x={x - 2} y="72" width="4" height="4" fill={BLUE} />
           </g>
         );
       })}
 
-      {/* Comprinno hub with a pulsing ring */}
-      <rect x="128" y="76" width="62" height="48" fill="none" stroke={SKY} strokeWidth="1" className="bill-ring" />
-      <rect x="132" y="80" width="54" height="40" fill="#fff" stroke={BLUE} strokeWidth="1.5" />
-      <image href="/brand/comprinno-logo.webp" x="136" y="91" width="46" height="10" preserveAspectRatio="xMidYMid meet" />
-      <text x="159" y="113" fontSize="5.6" fill={BLUE} textAnchor="middle" fontWeight="700" letterSpacing=".8" fontFamily="ui-monospace, Menlo, monospace">BILLING</text>
+      {/* Comprinno hub */}
+      {/* logo centred in the tile */}
+      <rect x="96" y="92" width="108" height="44" fill="#fff" stroke={BLUE} strokeWidth="1.6" />
+      <image href="/brand/comprinno-logo.webp" x="106" y="101" width="88" height="26" preserveAspectRatio="xMidYMid meet" />
 
-      {/* the single invoice, filling in line by line on a loop */}
-      <g>
-        <rect x="206" y="36" width="104" height="130" fill="#fff" stroke={LINE} />
-        <rect x="206" y="36" width="104" height="4" fill={BLUE} />
-        <text x="214" y="54" fontSize="7.8" fontWeight="700" fill={NAVY}>One invoice</text>
-        <text x="214" y="64" fontSize="6.2" fill="#6b6b6b">All AWS accounts · Nov</text>
-        {accts.map(([n, v], i) => (
-          <g key={n} className="bill-line" style={{ animationDelay: `${0.4 + i * 0.45}s` }}>
-            <text x="214" y={80 + i * 11} fontSize="6.4" fill="#3d3d3d">{n}</text>
-            <text x="302" y={80 + i * 11} fontSize="6.4" fill="#3d3d3d" textAnchor="end">{v}</text>
-          </g>
-        ))}
-        <g className="bill-line" style={{ animationDelay: "1.9s" }}>
-          <path d="M214 110 H302" stroke={LINE} />
-          <text x="214" y="121" fontSize="7.2" fontWeight="700" fill={NAVY}>Total</text>
-          <text x="302" y="121" fontSize="7.2" fontWeight="700" fill={NAVY} textAnchor="end">$6,620</text>
+      {/* the single invoice */}
+      <rect x="40" y="156" width="220" height="150" fill="#fff" stroke={LINE} />
+      <text x="54" y="180" fontSize="10" fontWeight="700" fill={NAVY}>One invoice</text>
+      <text x="246" y="180" fontSize="7.6" fill="#6b6b6b" textAnchor="end">All AWS accounts · Nov</text>
+      {accts.map(([n, v], i) => (
+        <g key={n} className="bill-line">
+          <text x="54" y={202 + i * 15} fontSize="8.4" fill="#3d3d3d">{n}-account</text>
+          <text x="246" y={202 + i * 15} fontSize="8.4" fill="#3d3d3d" textAnchor="end">{v}</text>
         </g>
-        <g className="bill-stamp" style={{ animationDelay: "2.4s" }}>
-          <rect x="214" y="128" width="88" height="13" fill="#ffbb00" />
-          <text x="218" y="137" fontSize="6.3" fontWeight="700" fill="#1c1c1c">▲ Savings found</text>
-          <text x="298" y="137" fontSize="6.3" fontWeight="700" fill="#1c1c1c" textAnchor="end">−$910</text>
-        </g>
-        <g className="bill-line" style={{ animationDelay: "2.9s" }}>
-          <rect x="214" y="148.5" width="5" height="5" fill="#16a34a" className="pd-blink" />
-          <text x="223" y="153" fontSize="6.2" fill="#3d3d3d">Engineer on call · 24/7</text>
-        </g>
+      ))}
+      <path d="M54 242 H246" stroke={LINE} />
+      <text x="54" y="258" fontSize="9.4" fontWeight="700" fill={NAVY}>Total</text>
+      <text x="246" y="258" fontSize="9.4" fontWeight="700" fill={NAVY} textAnchor="end">$6,620</text>
+      <g className="bill-stamp">
+        <rect x="54" y="266" width="192" height="16" fill="#ffbb00" />
+        <text x="60" y="277.5" fontSize="8" fontWeight="700" fill="#1c1c1c">▲ Savings found</text>
+        <text x="240" y="277.5" fontSize="8" fontWeight="700" fill="#1c1c1c" textAnchor="end">−$910</text>
       </g>
+      <rect x="54" y="290" width="6" height="6" fill="#16a34a" className="pd-blink" />
+      <text x="66" y="296" fontSize="8" fill="#3d3d3d">Engineer on call · 24/7</text>
     </>
   );
 }
 
-const SCENES: Record<string, { tint: string; el: (id: string) => ReactNode; alt: string; accent?: [string, string, string]; bg?: string }> = {
+const SCENES: Record<string, { tint: string; el: (id: string) => ReactNode; alt: string; accent?: [string, string, string]; bg?: string; plain?: boolean; view?: string }> = {
   tevico: { tint: "#e0f2f0", el: (id) => <Tevico id={id} />, alt: "Tevico: AI agents watch your AWS costs and security around the clock, fix issues and ask you to approve." },
   veriq: { tint: "#fff6dc", el: (id) => <VeriQ id={id} />, alt: "VeriQ: a security questionnaire filling itself in, each answer drafted with its source for you to review." },
   voxsphere: { tint: "#e5f3ff", el: (id) => <VoxSphere id={id} />, alt: "VoxSphere: a voice agent answers a customer call, solves the query and hands off to staff when needed." },
-  billing: { tint: "#e3f0fc", el: () => <Billing />, alt: "Your AWS accounts flow into one Comprinno invoice, with savings found and an engineer on call." },
+  billing: { tint: "#e3f0fc", plain: true, view: "0 8 300 304", el: () => <Billing />, alt: "Your AWS accounts flow into one Comprinno invoice, with savings found and an engineer on call." },
   decivo: { tint: "#f4f3ff", el: (id) => <Decivo id={id} />, alt: "Decivo: one agent hub runs business processes such as invoices, PO matching, expense claims and approvals." },
 };
 
@@ -271,7 +259,7 @@ export default function ProductDiagram({ product }: { product: string }) {
   const id = `pd-${key}`;
   const [hi, mid, lo] = s.accent ?? ["#6cbcff", BLUE, "#004f96"];
   return (
-    <svg viewBox="0 0 320 200" className="pd block h-full w-full" role="img" aria-label={s.alt}>
+    <svg viewBox={s.view ?? "0 0 320 200"} className="pd block h-full w-full" role="img" aria-label={s.alt}>
       <defs>
         <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff" /><stop offset="1" stopColor={s.tint} /></linearGradient>
         <radialGradient id={`${id}-glow`} cx=".5" cy=".5" r=".6"><stop offset="0" stopColor={mid} stopOpacity=".12" /><stop offset="1" stopColor={mid} stopOpacity="0" /></radialGradient>
@@ -279,8 +267,8 @@ export default function ProductDiagram({ product }: { product: string }) {
         <filter id={`${id}-sh`} x="-60%" y="-60%" width="220%" height="240%"><feDropShadow dx="0" dy="6" stdDeviation="6" floodColor={mid} floodOpacity=".32" /></filter>
         <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" floodColor={NAVY} floodOpacity=".12" /></filter>
       </defs>
-      <rect width="320" height="200" fill={`url(#${id}-bg)`} />
-      <rect width="320" height="200" fill={`url(#${id}-glow)`} />
+      {!s.plain && <rect width="320" height="200" fill={`url(#${id}-bg)`} />}
+      {!s.plain && <rect width="320" height="200" fill={`url(#${id}-glow)`} />}
       {s.el(id)}
     </svg>
   );
