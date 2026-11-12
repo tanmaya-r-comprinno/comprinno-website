@@ -60,9 +60,12 @@ export const nav: NavGroup[] = [
   {
     label: "Resources",
     items: [
-      { label: "Case studies", href: "/resources/case-studies" },
-      { label: "Blog", href: "/resources/blog" },
-      { label: "Newsroom", href: "/resources/newsroom" },
+      { label: "Case studies", href: "/resources/case-studies", hint: "60+ customer results" },
+      { label: "Blog", href: "/resources/blog", hint: "Engineering and strategy insights" },
+      { label: "Newsroom", href: "/resources/newsroom", hint: "Press releases and AWS milestones" },
+      { label: "AWS Premier Partner", href: "/partnerships/aws", hint: "Our AWS credentials", hidden: true },
+      { label: "Free GenAI consulting", href: "/resources/free-genai-consulting", hint: "2-hour AI assessment", badge: "Free", hidden: true },
+      { label: "AWS LIFT program", href: "/resources/aws-lift", hint: "AWS promotional credits", badge: "Free", hidden: true },
     ],
   },
   {
