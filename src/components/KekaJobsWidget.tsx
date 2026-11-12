@@ -30,5 +30,21 @@ export default function KekaJobsWidget() {
     };
   }, []);
 
-  return <div id="khembedjobs" className="keka-jobs-widget" />;
+  return (
+    <>
+      <div id="khembedjobs" className="keka-jobs-widget" />
+      <style jsx global>{`
+        /* Hide Keka branding footer */
+        #khembedjobs [style*="text-align: center"] {
+          display: none !important;
+        }
+        #khembedjobs footer,
+        #khembedjobs .kh-footer,
+        #khembedjobs [class*="footer"],
+        #khembedjobs [class*="powered"] {
+          display: none !important;
+        }
+      `}</style>
+    </>
+  );
 }
