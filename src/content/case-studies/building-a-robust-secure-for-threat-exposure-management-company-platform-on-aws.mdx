@@ -9,4 +9,68 @@ solutions: ["Security SaaS"]
 draft: false
 ---
 
+## Overview
 
+## Overview
+
+**About the Client:**
+
+The threat exposure management platform elevates traditional vulnerability management to holistic threat exposure management by identifying enterprises' likely cyber threats, fortifying the weakest controls, and eliminating the vulnerabilities that matter most to reduce enterprise risks. Additionally, the actionable recommendations can be automated through the Hive Force: Threat Exposure Management platform. threat exposure management platform’s all-in-one platform minimizes organizations’ threat exposure from code to the cloud by combining full visibility into their assets, security findings, and the latest threat intelligence to identify and resolve the weaknesses that matter with AI-powered prioritization, defense testing, remediation workflow management, and automated patching.
+
+## The Challenge
+
+## **Challenges faced:**
+
+The threat exposure management platform aimed to optimize its AWS infrastructure by ensuring high availability, proactive monitoring, performance optimization, security, and cost efficiency. With security as a top priority, they focused on data protection, threat prevention, and compliance. Comprinno implemented continuous monitoring, automated threat detection, and robust identity and access management. Additionally, they secured data with encryption for both at rest and in transit, reinforced network security with firewalls, and prevented unauthorized access through strict access controls.
+
+## The Solution
+
+## Solution provided:
+
+**Infrastructure Architecture Overview**
+
+Comprinno implemented continuous monitoring, automated threat detection, and robust identity and access management. AWS security services such as GuardDuty, Security Hub, and Inspector were crucial in strengthening the threat exposure management platform’s security posture. GuardDuty provided intelligent threat detection, Security Hub centralized security visibility and compliance, and Inspector automated vulnerability management to identify risks in workloads also ELG stack, comprised of Elasticsearch, Logstash, and Grafana, was implemented to collect, parse, store, and visualize logs. The solution also involved establishing a centralized log monitoring system using AWS X-Ray for tracing and AWS System Manager for operational insights. AWS Backup was implemented to ensure data resilience. Amazon SQS facilitated message queuing, while AWS Glue supported data integration. Amazon EventBridge enabled event-driven automation by routing system events to the appropriate AWS services, triggering workflows efficiently. AWS Lambda processed logs in real-time, executing automated responses based on predefined conditions to enhance operational efficiency. Amazon ECS was used for containerized workloads, and Cost Explorer provided visibility into resource spending.
+
+**Scalable and Resilient Security Architecture:**
+
+The architecture diagram below depicts the security services enabled for the threat exposure management platform to ensure a robust security posture across the infrastructure.
+
+#### Strengthening Access Management, Network Security, and Application Protection with AWS
+
+AWS IAM Identity Center was implemented to centralize user authentication, simplifying access management across multiple AWS accounts and applications. AWS IAM was used to define precise permission policies, enforcing the principle of least privilege and minimizing security risks by granting only the necessary permissions to users and services. AWS RAM facilitated secure and efficient resource sharing across AWS accounts, enabling teams to collaborate while maintaining strict access controls.
+
+Amazon VPC provided network isolation, controlling inbound and outbound traffic to further enhance security. Amazon API Gateway was deployed to manage secure API access, incorporating rate limiting and authentication to safeguard endpoints. Amazon Route 53 ensured low-latency DNS management, providing protection against DDoS attacks and improving overall infrastructure reliability. Elastic Load Balancer (ELB) efficiently distributes incoming traffic, improving application availability and fault tolerance.
+
+AWS Certificate Manager (ACM) was used to enable secure SSL/TLS encryption for applications, ensuring encrypted communication between clients and servers without manual certificate management. AWS Key Management Service (KMS) was implemented to manage encryption keys securely, protecting sensitive data while providing controlled access. AWS Secrets Manager was leveraged to store and manage credentials, API keys, and other sensitive information, enabling automated secret rotation and secure access.
+
+#### Proactive Threat Detection and Compliance with AWS Security Services
+
+AWS Config was used to continuously track and assess the configuration of AWS resources, ensuring compliance with security policies and identifying any deviations or misconfigurations that could pose a risk. AWS CloudTrail was enabled to capture detailed logs of all API activity across the AWS environment, providing full visibility into user actions, resource changes, and access patterns.
+
+Amazon GuardDuty was leveraged to analyze VPC Flow Logs, DNS logs, and AWS CloudTrail events to detect potential security threats such as brute-force attacks, suspicious API calls, and anomalous network behavior. AWS Security Hub was implemented to centralize security findings from multiple AWS services, including GuardDuty, AWS Config, and Amazon Inspector. It provided a unified dashboard for security posture management, prioritizing risks and ensuring swift remediation of critical vulnerabilities.
+
+Amazon CloudWatch was used for real-time monitoring, collecting performance metrics and operational logs from AWS resources. It enabled proactive detection of anomalies, alerting teams to potential security and operational issues. AWS X-Ray was deployed alongside CloudWatch to trace requests across distributed applications, offering insights into performance bottlenecks and potential vulnerabilities.
+
+Amazon Inspector was configured to perform automated security assessments on Amazon EC2 instances and container workloads. It scanned for known vulnerabilities, software misconfigurations, and compliance gaps, helping to proactively identify and mitigate security risks.
+
+#### Achieving Operational Excellence with AWS Organizations, CloudFormation, and Tevico
+
+AWS Organizations was implemented to centrally manage multiple AWS accounts, ensuring governance, cost control, and security enforcement across environments. It enabled the application of Service Control Policies (SCPs) to restrict unauthorized actions, ensuring compliance with security best practices and operational standards.
+
+AWS CloudFormation was leveraged to automate infrastructure deployment using Infrastructure as Code (IaC). By defining cloud resources in reusable templates, it ensured consistency, minimized manual errors, and enforced security policies during provisioning. This streamlined resource management while improving scalability and operational efficiency.
+
+Tevico, a cloud governance platform developed and owned by Comprinno, is used for security management, inventory tracking, and other critical aspects of AWS governance. Standard and advanced security assessment reports can be generated to provide an overall view of the security posture. These reports provide the security findings and their actionable recommended remediations. The security assessment reports can be downloaded on-demand by the customers. Apart from the security assessment reports, Tevico also provided detailed GuardDuty findings, which helped the threat exposure management company to detect and mitigate potential threats, unauthorized access, and suspicious activities, enhancing overall cloud security. WAF Analysis helped the threat exposure management company secure its web applications by identifying misconfigurations and preventing attacks like SQL injections and cross-site scripting. The Access Summary feature helped the threat exposure management company to review IAM permissions, enforce the principle of least privilege, and eliminate excessive permissions. Access Analyzer findings helped the threat exposure management company to identify and prevent unintended access to sensitive AWS resources, reducing security risks. Additionally, Code Scan Analysis helped the threat exposure management company to inspect Infrastructure as Code (IaC) templates, such as AWS CloudFormation and Terraform, for misconfigurations before deployment, ensuring secure and compliant cloud automation. These capabilities collectively helped the threat exposure management company to strengthen its AWS security, streamline operations, mitigate risks, and ensure continuous compliance.
+
+## Results
+
+## Benefits
+
+By integrating AWS network and data protection services, the infrastructure ensures end-to-end data protection, mitigates risks associated with credential exposure, and enhances compliance with security best practices.
+
+By integrating AWS detection and responsive services, the infrastructure maintained a robust security posture with continuous monitoring, real-time threat detection, automated compliance enforcement, and efficient incident response.
+
+By combining AWS governance and compliance services, the infrastructure achieved centralized management, automated provisioning, and continuous optimization, ensuring a secure, scalable, and well-governed cloud environment.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

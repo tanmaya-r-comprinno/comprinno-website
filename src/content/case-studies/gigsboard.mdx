@@ -9,4 +9,58 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+GigsBoard is working to become the world’s first high-trust Marketplace for IT Talent & Projects, leveraging its intelligent Agile- and Kanban-based Work management engine.
+
+GigsBoard has converged the worlds of Freelancing & Outsourcing, by permitting IT Agencies or virtual teams of IT Freelancers to be contracted by their Business Customers, thus widening the Talent pool and making both Talent/ team engagement & Service delivery completely Cloud-based and on-demand.
+
+## **Executive Summary**
+
+GigsBoard is a cloud-based Talent & Project Management platform. Its offerings include Outsourced (large) IT projects executed by Consulting Agencies or virtual teams of Freelancers; Freelanced (small) IT projects executed by independent Freelancers; and In-house T projects executed by Customers’ internal remote-work teams. It allows Businesses to manage the entire Jobs’ lifecycle spanning Jobs publishing, Job Proposals comparison, Job award, & Contracting; Project Release planning & execution; Pay-as-you-go Delivery & Financials management; and Contract closing.
+
+GigsBoard wished to migrate its infrastructure from Heroku Platform to AWS.
+
+## The Challenge
+
+## **Challenges**
+
+GigsBoard application was earlier deployed on Heroku. Effective October 1, 2021, new Reserve Bank of India (RBI) regulations stated that they could no longer process automatic recurring payments using India-issued credit cards without an additional factor of authentication. Due to these new regulations, Heroku couldn’t verify and process India-issued credit cards for Heroku Online customers.
+
+GigsBoard thereby wished to migrate its infrastructure from Heroku Platform to AWS, availing the
+
+plethora of benefits that AWS could offer in the process.
+
+## The Solution
+
+## **Solution**
+
+Comprinno assessed the existing platform and re-hosted the application to AWS with minimal re-factoring wherever required. Below architecture diagram highlights the solution provided:
+
+Staging and Production environments were created across two regions – India & USA. GigsBoard operates in two regional Amazon VPCs with 3 public and 6 private subnets across multiple AZs; Compute instances and Database were deployed in private subnets.
+
+At the beginning of the migration strategy, one-to-one technology mapping was done for most of the services on Heroku platform. RDS MySQL Aurora was provisioned as the database. AWS Elastic Beanstalk was provisioned in private subnet and the application was deployed. Elastic Beanstalk reduces management complexity without restricting choice or control. Application was simply uploaded and Elastic Beanstalk automatically handled the details of capacity provisioning, load balancing, scaling, and application
+
+health monitoring, thereby making it even easier for developers to quickly deploy and manage applications in the AWS Cloud. Amazon SQS was used as a secure and durable message queuing system. Amazon ElastiCache for Redis was provisioned in private subnets with encryption at rest enabled. Amazon S3 bucket was created and CORS policy was added to the bucket for giving permission to the application to upload the files.
+
+Payment integration was re-established and Amazon Simple Email Service (SES) was utilized as a cost-effective, flexible, and scalable email service that enables developers to send mail from within any application.
+
+All the security controls as required by AWS Security best practices were implemented.
+
+## Results
+
+## **Benefits**
+
+- Functional platform in AWS
+
+- Cost optimization
+
+- Highly efficient, performance-oriented, reliable and scalable environment.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

@@ -9,4 +9,62 @@ solutions: ["GenAI"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer**
+
+Quandle Labs, a Life Sciences company, is transforming biomedical research with its innovative bioinformatics platform, **Choppr**. By simplifying the traditionally complex protein analysis process, Choppr allows researchers to streamline their work, making it easier to study proteins without needing advanced computational skills. This web-based, AI-powered platform enables faster and more efficient drug design and discovery, helping researchers focus on their findings rather than technical setup.
+
+With a vision to automate and scale bioinformatics workflows, Quandle Labs is revolutionizing the way research is conducted. Their goal is to reduce manual labor, enhance accuracy, and speed up data analysis, ultimately setting new standards for efficiency in the field.
+
+## The Challenge
+
+## **Challenges**
+
+Conducting bioinformatics research typically demands a complex blend of domain-specific knowledge and advanced computational skills, creating significant barriers for researchers. The traditional process requires researchers to sift through numerous research papers to understand the context and application of various bioinformatics tools. This not only complicates the research process but also prolongs it, as researchers must learn to navigate a multitude of tools, each with its distinct commands and interfaces. The use of generative AI as a chatbot for addressing biotech-related queries often overwhelms users with excessive, often irrelevant information.
+
+## The Solution
+
+## **Solution**
+
+- 
+
+#### **Building the RAG Pipeline with SageMaker**
+
+At the heart of Comprinno’s solution is the **Retrieval-Augmented Generation (RAG) pipeline**, with **Amazon SageMaker** as the core component driving the entire workflow. When a user submits a query, SageMaker-powered models immediately parse it into well-defined elements: **user intent, query structure**, and **semantic keywords**. These semantic keywords are vital for improving search precision, ensuring relevant results are retrieved from the vector database. Using the **amazon.titan-embed-text-v1** LLM model from **AWS** **Bedrock model**, embeddings are generated from the parsed query and stored in the **vector database**. Leveraging AWS Bedrock's scalable infrastructure, the solution facilitates fast embedding generation, optimizing the workflow and efficiently managing large datasets.
+
+- 
+
+#### ****Generating Output and Ensuring Accuracy****
+
+Once embeddings are retrieved, the next step is to generate highly accurate responses. To minimize **hallucinations**—where models might produce information not grounded in the data—the pipeline uses SageMaker to rank the **top-k chunks** of relevant data from the vector database. These chunks are then re-ranked according to the user’s query, ensuring the most precise and meaningful results are returned. Additionally, **Amazon SageMaker** enables the pipeline to provide **citations** alongside responses, referencing the original sources from the vector store to maintain accuracy and trustworthiness in the output.
+
+- 
+
+#### ** ****SageMaker at the Core of the Solution**
+
+Throughout the entire process, **SageMaker** is central to ensuring that the system remains efficient, scalable, and robust. From query parsing to embedding generation, caching, and output generation, SageMaker's suite of tools is fully leveraged to handle the high computational demands of the RAG pipeline. Its integration ensures that complex bioinformatics queries are processed quickly, with secure, accurate, and scalable infrastructure at the core of the solution.
+
+## Results
+
+## **Result**
+
+- **Accelerated Bioinformatics Analysis**: The solution, powered by **Amazon SageMaker**, drastically reduced the time required for complex bioinformatics analyses, enabling researchers to reach insights faster.
+
+- **Improved Computational Efficiency**: SageMaker’s scalable infrastructure eliminated computational bottlenecks, providing the necessary resources to handle large datasets without slowing down processes.
+
+- **Enhanced Accuracy of Tool Recommendations**: By leveraging SageMaker’s advanced AI capabilities, the solution improved the precision of **Choppr’s** tool recommendations, allowing researchers to make more informed decisions.
+
+- **Optimized Data Handling**: The integration of **embedding storage** and **caching** mechanisms sped up query responses, ensuring researchers had real-time access to relevant data.
+
+- **Seamless Scalability**: SageMaker’s cloud-native architecture allowed Quandle Labs to scale up operations effortlessly, accommodating increased data loads and more complex research needs.
+
+- **Streamlined Workflow**: The automation provided by the RAG pipeline, powered by SageMaker, simplified previously labor-intensive processes, allowing researchers to focus on the core analysis rather than technical setup.
+
+- **Compliance and Security**: The solution maintained strict data isolation and encryption practices, ensuring that Quandle Labs met regulatory requirements, especially important in the healthcare and biomedical sectors.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

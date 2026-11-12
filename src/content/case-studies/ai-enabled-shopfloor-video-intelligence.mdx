@@ -9,4 +9,116 @@ solutions: ["GenAI"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client**
+
+The client is a large-scale manufacturing organization focused on driving efficiency and productivity across its shop-floor environments. The company leverages technology driven analytics solutions to enhance operational visibility and enable real-time decision-making for machine operators and plant managers. With extensive manufacturing operations, the organization continuously processes machine and production data to reduce downtime, improve asset utilization, and optimize overall production performance.
+
+## The Challenge
+
+## **Challenges**
+
+The manufacturing organization has hundreds of cameras across its shopfloor that continuously creates a large volume of video data that requires significant compute, storage, and network resources to manage. While control room teams monitor these feeds, it becomes difficult to track everything manually due to the scale, leading to missed safety and operational incidents, especially when quick action is required. The organization needed a solution that could automatically analyze both real-time and stored video to detect key activities such as worker safety compliance, machine utilization, material movement, and unusual events.
+
+However, implementing this comes with challenges. The system must process data quickly and generate alerts within minutes. Ensuring consistent results between live and historical video analysis adds further complexity.  Additionally, too many alerts can overwhelm operators. Additionally, AI-generated summaries need to be carefully controlled to avoid incorrect insights.
+
+## The Solution
+
+## **Solution**
+
+To address these challenges, Comprinno implemented a scalable, production grade video intelligence platform built on a serverless, event-driven AWS architecture. The solution continuously processes feeds from cameras across the shopfloor, enabling real-time and retrospective video analysis to automatically detect and track critical operational parameters such as worker safety compliance, machine utilization, and zone intrusion.
+
+The platform leverages ffmpeg, OpenCV, and purpose-built computer vision models (such as YOLO and DeepSORT) for deterministic, high-accuracy detection. Data summarization and insight generation are handled natively by Amazon QuickSight's built-in AI features (Amazon Q in QuickSight), eliminating the need for a separate LLM service. This architectural approach ensures reliable, explainable outputs for safety-critical use cases, with consistent performance across live and historical analysis.
+
+ 
+
+**Key Actions:**
+
+**Foundation & Environment Setup:**
+
+- Provisioned a secure and scalable AWS environment with VPC spanning multiple Availability Zones, subnets, security groups, and IAM roles following least privilege principles. This ensured controlled access, network isolation, and a strong security foundation.
+
+- Enabled governance and compliance using AWS CloudTrail for auditability, along with AWS KMS for encryption of data at rest and in transit. This ensured end-to-end data protection.
+
+- Established core services including Amazon ECR for container image management, Amazon CloudWatch for monitoring and logging, and Amazon S3 for centralized and durable storage of platform data.
+
+ 
+
+**Video Ingestion & Streaming Pipeline:**
+
+- Implemented a robust ingestion layer using Amazon Kinesis Video Streams (KVS) to handle high volumes of concurrent camera feeds from IoT cameras (edge devices). KVS securely ingests and scales automatically to match streaming demand. This enabled reliable video ingestion into the cloud without managing underlying infrastructure.
+
+- ECS Fargate tasks subscribe to KVS to consume video streams for downstream processing. This enabled continuous, distributed processing across multiple Availability Zones without infrastructure management.
+
+ 
+
+**Computer Vision Detection Engine:**
+
+- Deployed an ECS Cluster with Fargate tasks executing a two-stage processing pipeline: frame extraction using ffmpeg and OpenCV to decode video streams into individual frames, followed by YOLO inference for object detection and DeepSORT for object tracking across frames. Container images are stored in Amazon ECR and pulled by Fargate at task launch..
+
+- Implemented key use cases including PPE(Harness and safety gears) detection, machine utilization monitoring, and zone intrusion tracking using deterministic logic. This ensured reliable and explainable outputs with no generative AI involved in the detection loop.
+
+- Applied accuracy controls such as confidence thresholding, temporal validation across consecutive frames, camera calibration, and object continuity validation. These mechanisms reduced false positives and improved detection quality.
+
+ 
+
+**Data Storage & Management:**
+
+- Stored processed frames as image files (PNG/JPG) in Amazon S3 for long-term archival and compliance. This provided scalable and cost-effective storage with lifecycle management across storage tiers.
+
+- Used Amazon DocumentDB for storing structured JSON detection data and corresponding S3 object keys linking each detection record back to its source frame. Its document model naturally maps to the nested detection outputs and handles evolving schemas without migrations. DocumentDB is deployed across multiple Availability Zones in dedicated DB subnets for high availability.
+
+ 
+
+**Data Extraction & Cataloging:**
+
+- Configured AWS Glue Crawlers to connect directly to Amazon DocumentDB within the VPC and scan detection data collections.
+
+- Crawlers automatically infer schemas and create or update table definitions in the AWS Glue Data Catalog. This automated schema discovery eliminated manual table management and kept the catalog current as new data arrived. The Data Catalog made detection data queryable by Amazon Athena and consumable by Amazon QuickSight.
+
+ 
+
+**Visualization, Insights & Monitoring:**
+
+- Developed interactive dashboards using Amazon QuickSight for near real-time and historical visibility including charts and drill-downs. For time-sensitive dashboards, QuickSight operates in Direct Query mode, continuously querying the underlying data source at continuous minimal intervals to keep dashboards live and realtime without requiring user interaction. For historical trend analysis, QuickSight ingests data into SPICE (Super-fast, Parallel, In-memory Calculation Engine) with automatic scheduled refreshes, optimizing query performance across large datasets. This allowed stakeholders to monitor safety, utilization, and operational metrics.
+
+- Leveraged Amazon Q in QuickSight (built into QuickSight) for AI-powered natural language querying, automated trend summaries, and executive-level insights grounded in the actual dataset. This eliminated the need for a separate GenAI service while providing easy-to-understand insights for business users.
+
+- Enabled ad-hoc analysis using Amazon Athena for serverless SQL queries against cataloged data. Athena is used for on-demand investigative queries rather than live operational workflows, making its pay-per-query model more cost-effective than maintaining a dedicated analytics database.
+
+- Configured Amazon CloudWatch for system monitoring, logging, and alerting. This ensured operational reliability and proactive issue detection. Utilized AWS Systems Manager for configuration management and operational tooling.
+
+ 
+
+### Architecture Diagram
+
+ 
+
+### Flow Diagram
+
+Comprinno designed a scalable and resilient architecture to enable real-time video analytics for manufacturing shop-floor operations. Video streams from IoT cameras (edge devices) are securely ingested into Amazon Kinesis Video Streams (KVS), which automatically provisions and scales infrastructure to handle high volumes of concurrent camera feeds. Within a secure Amazon VPC spanning three Availability Zones, containerized backend services running on Amazon ECS (Fargate) subscribe to KVS and execute a two-stage pipeline: frame extraction using ffmpeg and OpenCV, followed by YOLO inference for object detection and DeepSORT for object tracking across frames. Processed frames are stored in Amazon S3 as image files, while structured JSON detection data with S3 object keys is written to Amazon DocumentDB deployed across multiple AZs in dedicated DB subnets. AWS Glue Crawlers connect directly to DocumentDB within the VPC to discover schemas and populate the AWS Glue Data Catalog, enabling data discovery and ad-hoc querying via Amazon Athena.
+
+For visualization and business intelligence, Amazon QuickSight provides interactive dashboards, charts, and drill-downs, with Amazon Q (built into QuickSight) enabling AI-powered summaries and natural language data exploration for plant managers and stakeholders. Monitoring and observability are handled using Amazon CloudWatch and AWS Systems Manager, while AWS CloudTrail ensures auditability. Security is enforced through AWS IAM, AWS KMS for encryption, AWS Certificate Manager for TLS/SSL management, and AWS Security Hub for continuous compliance and posture management.
+
+## Results
+
+## **Benefits**
+
+- **Proactive Safety Monitoring & Incident Prevention **– Continuous, automated monitoring of camera feeds enabled early detection of PPE violations and unsafe behaviors, significantly reducing safety incidents and improving overall workplace compliance.
+
+- **Near Real-Time Decision Making –** The platform enabled rapid processing and timely alerts, allowing operations teams to respond quickly to critical events and reduce potential production or safety disruptions.
+
+- **Operational Intelligence & Performance Optimization** –Detailed insights into machine utilization, downtime patterns, and shopfloor activities provided greater transparency, while reducing manual monitoring efforts by up to 70% and improving workforce productivity.
+
+- **Trusted, Consistent & Scalable Insights **–The use of deterministic computer vision models ensured explainable and audit-ready outputs with consistent results across real-time and historical analysis, while the serverless architecture supported seamless scaling without operational overhead.
+
+## Conclusion
+
+## **Conclusion**
+
+By implementing this solution, Comprinno enabled the manufacturing operations organization to transform shopfloor monitoring from a manual and reactive process into an automated, insight-driven system. Continuous analysis of camera feeds improved visibility across safety, operations, and process efficiency, allowing teams to detect and respond to incidents in near real time while reducing dependency on manual supervision. The combination of deterministic computer vision models and a scalable AWS-based architecture ensured high detection accuracy, low-latency performance, and consistent outcomes across both real-time and historical analysis. By restricting the use of Amazon Bedrock to structured insight generation, the solution maintained reliability and eliminated risks associated with AI-driven misinterpretation in critical detection workflows.
+
+Overall, the implementation delivered a robust and scalable foundation for intelligent shopfloor monitoring, enabling the organization to enhance safety compliance, optimize operational performance, and make faster, data-driven decisions. It also positions the customer to extend similar capabilities across additional manufacturing use cases, driving long-term efficiency and innovation at scale.

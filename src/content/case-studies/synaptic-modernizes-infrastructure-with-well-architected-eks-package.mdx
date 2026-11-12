@@ -9,4 +9,84 @@ solutions: ["Modernization"]
 draft: false
 ---
 
+## Overview
 
+## Overview
+
+**About Customer**
+
+Synaptic specializes in data analytics and alternative data solutions, offering actionable insights about private and public companies on a no-code platform. Synaptic helps investors and data teams source, research and track growing companies. They unify a wide spectrum of alternative datasets like user traffic, employee data, app data, product reviews, and more on their platform. Synaptic is meant for data-driven VC, PE, and Hedge Funds firms that want a competitive edge in finding and tracking early growth companies. Powered by features like screeners, proprietary growth scores, automated alerts, and CRM integrations, Synaptic can help investors discover companies that match their criteria across 100+ real-time metrics.
+
+**Executive Summary**
+
+Synaptic is a company focusing on data analytics and alternate data solutions for consumers. Synaptic wished to adopt a modernized infrastructure aligning with best practices. The adoption of Well-Architected EKS will provide greater scalability, flexibility, and security to the platform, helping them to deliver a smooth experience to their users.
+
+## The Challenge
+
+## **Challenges**
+
+Synaptic was expecting phenomenal growth which called for a highly scalable architecture. Being responsible cloud adopters, they wanted to ensure that all the AWS best practices were followed.
+
+They wanted a quick and efficient EKS solution that included setting up, managing, and scaling multiple Kubernetes clusters, logging and monitoring, following security best practices, and deploying pipelines and upgrades.
+
+## The Solution
+
+## **Solution**
+
+Comprinno's pre-configured, well-architected EKS package included best practices for cluster setup, pre-built CI/CD pipelines, observability features, monitoring capabilities, alerting mechanisms, tracing tools, logging configurations, and infrastructure as code (IaC). The package covered environment setup, support for EKS version upgrades, and assistance during go-live.
+
+**
+
+Plug-And-Play Well-Architected EKS Package**
+
+An EKS cluster with managed node groups was established within private subnets in Amazon Virtual Private Cloud (VPC) across multiple Availability Zones (AZs). Node groups were tailored to customer specifications, incorporating a mix of Amazon EC2 Spot instances and/or On-Demand instances based on their preferences.
+
+For efficient horizontal scaling of worker nodes, the Cluster Autoscaler with IAM Roles for Service Accounts (IRSA) was deployed. This ensured automatic adjustments to the cluster's capacity based on demand, optimizing resource utilization. IRSA allows containers to access AWS Identity and Access Management (IAM) roles securely, eliminating the need for explicit secret credentials and enhancing security.
+
+Furthermore, EBS CSI Controller and EFS CSI Controller were deployed to integrate with Amazon Elastic Block Store (EBS) and Amazon Elastic File System (EFS), respectively, enhancing storage capabilities within the EKS cluster.
+
+The EBS CSI Controller enables dynamic provisioning and management of EBS volumes for scalable and reliable storage. The EFS CSI Controller integrates Amazon EFS with EKS, enabling the mounting of persistent volumes across multiple AZs for highly available and durable file-based storage for stateful workloads.
+
+Application packaging was done using a Helm chart. They consist of a collection of files, including deployment templates, configuration values, and dependencies. Helm simplifies the process of deploying and managing complex applications by offering a standardized way to define, install, upgrade, and roll back releases.
+
+**Infrastructure Management**
+
+A pre-configured CI/CD pipeline, utilizing AWS CodePipeline, AWS CodeBuild, and ArgoCD, streamlined the build and deployment processes for Synaptic. ArgoCD managed automated deployments, versioning, and rollbacks within the cluster. The CI/CD pipeline incorporated Amazon Elastic Container Registry (Amazon ECR), utilizing ECR's built-in capability to scan Docker images for vulnerabilities. Deployment proceeds only when ECR reports show no critical or high-severity vulnerabilities.
+
+Terraform serves as the infrastructure as code (IaC) tool for deploying the EKS package, and Comprinno has crafted a library of pre-defined templates for rapid customer deployment. IaC ensures a consistent and reproducible approach to infrastructure deployment. Configuration files can be version-controlled, facilitating change tracking and promoting collaboration among team members. This guarantees consistent deployment across different environments, minimizing the risk of configuration drift.** **
+
+**Observability**
+
+A robust monitoring solution was implemented, utilizing Metrics Server, Prometheus, and Grafana to offer customers visibility into the performance and overall health of their EKS clusters. Additionally, an alerting system with Prometheus keeps customers informed about any issues or events within their EKS clusters. All application logs are seamlessly transported from EKS to Amazon Kinesis Data Firehose through the Fluent Bit log shipping tool, deployed as a Daemonset across all nodes. Fluent Bit ensures the logs are directed to Kinesis Data Firehose, which then forwards them to Amazon OpenSearch Service. To provide a consolidated view, all AWS service metrics are aggregated, creating a unified Amazon CloudWatch dashboard. Application metrics are conveniently accessible through a Kubernetes dashboard.
+
+**Security Management**
+
+The team followed numerous measures, in order to adhere to AWS security best practices. To establish access control and enhance security in AWS environments, IAM facilitated the creation of policies defining distinct levels of access tailored to various job functions or roles within an organization. These policies were then associated with individual identities, such as users, groups, or roles, implementing a role-based access control (RBAC) mechanism.
+
+The adoption of RBAC empowers organizations to efficiently oversee and regulate access to AWS resources. Policies can be tailored to grant or restrict permissions at a granular level, ensuring each identity possesses the appropriate privileges for their assigned tasks while adhering to the principle of least privilege.
+
+IAM roles were created for accessing AWS services like SSM Roles, EKS Node Roles, and CI-CD Roles. Also, secrets were encrypted within the cluster using KMS, enforcing role-based access to the cluster, and separating permission levels within the cluster using service accounts.
+
+AWS Parameter Store was utilized to securely manage sensitive configuration data, ensuring encrypted and version-controlled storage for API keys, database credentials, and application secrets. This enhances security, centralizes sensitive information, and facilitates seamless integration into AWS environment applications.
+
+## Results
+
+## Benefits
+
+- Saving time and effort: The well-architected EKS setup package saved the customer valuable time and effort that would have been spent developing the infrastructure from scratch.
+
+- Faster EKS maturity via our expertise: Comprinno’s expertise and experience in EKS enabled the achievement of faster EKS maturity by the customer.
+
+- Comprehensive features coverage: A complete EKS solution was deployed including monitoring, alerting, logging, security, and deployment pipeline.
+
+- Increased speed and agility: Our solution enables customers to increase their speed and agility in deploying their applications on EKS, enabling them to focus on their core business operations.
+
+- Using Terraform efficiently: Terraform was an essential part of the disaster recovery strategy as it helped put up new infrastructure very quickly and efficiently.
+
+- Delivery time reduced via CI/CD: Reduced delivery time owing to automatic deployments via CI/CD. Security vulnerabilities are identified early during the deployment lifecycle using AWS ECR.
+
+- Auto-scaling for peak demands: The new architecture can handle an unlimited load.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

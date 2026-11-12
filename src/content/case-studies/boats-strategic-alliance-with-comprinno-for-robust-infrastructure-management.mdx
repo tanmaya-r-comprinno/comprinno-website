@@ -9,4 +9,78 @@ solutions: ["SecOps"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer:**
+
+boAt is the world's 2nd largest wearable brand and India’s No.1 Earwear brand. Company offers its various products for sale on its web portal and mobile app. During the pandemic in 2020-21, the number of buyers for the audio wearables has increased exponentially and the company has built a community of 3 million online consumers.
+
+## The Challenge
+
+## **Executive Summary**
+
+boAt, a well-established wearables brand with a substantial consumer base, joined forces with Comprinno to leverage the latter's managed services. Within the scope of these services, various initiatives were undertaken, focusing on enhancing security, optimizing costs, and fortifying resilience.
+
+## The Solution
+
+**Cloud Operations Journey** ** **
+
+In 2023, BoAt engaged Comprinno Technology’s Managed Services to manage their cloud operations and optimize their AWS infrastructure. The goal was to establish a robust monitoring system, ensure high availability, implement proactive alerting, optimize performance, and ensure security and cost efficiency. It also needed a solution that could scale up to its unpredictable workloads, achieving operational excellence and freeing its team from the burden of backend management.
+
+**Managing Security **
+
+Security was paramount for BoAt. Apart from conducting Well-Architected Framework Reviews periodically, weekly security analysis reports are generated.
+
+Being a reputable wearable devices brand, there was a high chance that Boat was susceptible to DDoS attacks from malicious groups keen on damaging the reputation of the brand. WAF was set up for bot protection and with rate limiting rules to restrict the number of requests from a single IP within a specified timeframe, preventing excessive traffic that could potentially be part of a DDoS attack.  IP whitelisting was done to allow only trusted IP addresses. WAF rules are configured to blacklist known malicious IPs and traffic is blocked from those IPs. Configurations were put in place to track and block traffic from specific geographical locations known for hosting malicious activities.
+
+AWS SecurityHub was enabled for better security posture management with automated best practices checks. Amazon GuardDuty was enabled for threat detection. CloudTrail was set up at the AWS Organization level and was enabled for all regions, for governance, compliance, operational auditing, and risk auditing of AWS accounts. Logfile validation was also enabled. CloudTrail logs are pushed to separate Logging accounts. CloudTrail logs are protected from accidental deletion using MFA Delete and versioning on the Amazon S3 bucket that stores the logs. AWS IAM policies are regularly reviewed using the IAM Access Analyzer. AWS Config is used to provide a comprehensive view of the AWS resources in an environment, ensuring continuous monitoring, compliance, and governance. It enables boAt to track changes, assess configurations for security best practices, and maintain a historical record for auditing and troubleshooting purposes.
+
+As part of managed services, patch management is a critical aspect of maintaining a secure and efficient infrastructure. Patch management in AWS Systems Manager is used for Boat. AWS Systems Manager simplifies the task of managing patches across a fleet of instances by automating the detection, deployment, and verification of patches. This centralized system allows administrators to maintain consistent security postures across multiple instances, reducing vulnerability exposure.
+
+AWS Inspector has also been used to enhance patch management by providing automated security assessments. It helps identify potential security vulnerabilities in applications deployed on compute instances, including those related to outdated or missing patches. Inspector gives deeper insights into the system's security posture, allowing Boat to prioritize and address patches based on criticality.
+
+The combination of AWS Systems Manager and Inspector ensures that patch management is not just a reactive process but a proactive one, addressing vulnerabilities before they can be exploited.
+
+**
+
+Cost Optimization**
+
+As part of managed services engagement, an extensive cost optimization effort was undertaken to enhance the cost efficiency of the infrastructure. The single application was split and re-architected to balance functionality and operational costs. The OTP application was hosted on EC2 servers, leveraging Node.js. This setup ensured a cost-effective solution for managing one-time passwords. The backend functionalities were consolidated into a single ECS Fargate task, forming a monolithic application. This approach was chosen to streamline operational costs, combining multiple services into a unified infrastructure. Rigorous testing was conducted as addressing package and version compatibility issues was crucial to avoid unnecessary expenses and ensure seamless functionality.
+
+In a strategic move toward cost optimization, Comprinno helped Boat transition from a monolithic architecture to a microservices model. Decomposing the monolith into individual microservices allowed us to scale and deploy each API independently. This microservices architecture enhances resource utilization, enabling us to allocate resources more precisely, thereby optimizing costs. This shift to a microservices architecture enables us to adapt services to changing requirements efficiently, ensuring that resources are allocated judiciously to optimize operational costs while maintaining high performance and reliability.
+
+This architecture reduced the costs significantly. Furthermore, historical data was archived to S3, further lowering the costs.
+
+To further streamline costs, policies were introduced to stop the non-production workloads after office hours and over week-ends. EC2 Spot instances were introduced for Amazon EMR reducing the EMR costs by 60%. Due to the fault-tolerant nature of big data workloads on EMR, they can continue processing, even when interrupted.
+
+A significant cost-saving measure was introduced by automating the WorkSpace mode changes based on a threshold value. The running mode of a WorkSpace determines its immediate availability and how you pay for it. The Workspace mode was changed to AutoStop which resulted in a cost reduction for Workspace by 50%.
+
+An overall cost optimization of **40% **was achieved over a year. Quarterly cost-modeling of all the workloads and each of the components are done to understand the balance between resources and to right-size resources if required.
+
+**
+
+Ensuring Resiliency**
+
+A Disaster Recovery simulation was executed for Boat to verify the resilience of its infrastructure, ensuring it can be restored within the predefined Recovery Point Objective (RPO) and Recovery Time Objective (RTO).
+
+**
+
+Implementing Observability**
+
+The Comprinno team successfully implemented robust monitoring for both AWS-managed and customer-managed services, leveraging Prometheus and Grafana. The monitoring setup itself was designed to be highly available, ensuring continuous insight into infrastructure health.
+
+Any downtime or performance anomalies trigger alerts through Prometheus, leading to the creation of an incident ticket in Comprinno’s Service Desk ITSM. The alert is then communicated through Slack, Microsoft Teams, and a phone call to notify the on-call Managed Services team member. With these comprehensive checks and balances, the automated escalation system ensures swift detection and resolution of any incidents.
+
+Regular reporting is an integral part of the operations, covering various crucial aspects. These reports include in-depth analysis of costs, optimization recommendations, thorough security assessments, detailed inventory overviews, and summaries of Service Level Agreements (SLAs). Ensuring regular communication and transparency, these reports contribute to informed decision-making and ongoing improvements across our organizational processes.
+
+## Results
+
+## **Outcome**
+
+BoAt has ensured that its infrastructure is secure, resilient, and cost-optimized. Over the year cost savings of 40% have been achieved. Internal teams are now better aligned with the business, focusing on delivering an improved customer experience and generating revenue rather than dedicating extra time to maintain infrastructure.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

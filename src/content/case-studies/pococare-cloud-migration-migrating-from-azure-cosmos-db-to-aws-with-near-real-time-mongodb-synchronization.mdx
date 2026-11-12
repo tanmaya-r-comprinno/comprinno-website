@@ -9,4 +9,90 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client**
+
+PocoCare is an innovative health-tech startup transforming emergency medical response in India with its technology driven platform. Specializing in 24×7 medical assistance, intelligent ambulance and hospital dispatch, and remote doctor consultations, PocoCare ensures rapid, life-saving interventions. By combining real-time monitoring, smart triage, and seamless data sharing, PocoCare enhances patient outcomes and redefines access to critical healthcare services.
+
+## The Challenge
+
+## **Challenges**
+
+The migration aimed to move workloads from Azure to AWS, as Cosmos DB (MongoDB API) had become restrictive due to RU-based pricing, limited operational flexibility, and poor integration with AWS-native services. The goal was to establish a reliable, real-time replication pipeline from Cosmos DB to a self-managed MongoDB replica set on AWS EC2 with near-zero latency. Key challenges included AWS DMS limitations, as self-managed MongoDB is unsupported; Cosmos DB restrictions, lacking oplogs and change streams, which prevented log-based replication; the business requirement for continuous real-time synchronization, leaving no room for batch processing; the complexity of maintaining consistency while syncing multiple collections; and ensuring fault tolerance with robust error handling, retries, and backoff mechanisms.
+
+## The Solution
+
+## **Solution**
+
+To meet the real-time replication and migration requirements, Comprinno engineered a custom Python-based synchronization framework that securely transfers and continuously synchronizes data from Cosmos DB (MongoDB API) to a self-managed MongoDB replica set deployed on AWS EC2.
+
+ 
+
+**Key Actions:**
+
+**Source Data (Azure Cosmos DB – MongoDB API):**
+
+- The existing datasets reside in Azure Cosmos DB (MongoDB API). 
+
+- Each collection within Cosmos DB contains transactional and operational data that must be migrated and kept in sync with MongoDB.
+
+ 
+
+**Polling and Change Detection Engine (Custom Python Service on AWS  EC2):**
+
+- A custom Python-based sync engine runs on an AWS EC2 instance, spawning dedicated threads for each Cosmos DB collection.
+
+- Data is fetched in batches of 1,000 documents. Each document is hashed and compared against the target MongoDB to identify changes efficiently.
+
+ 
+
+**Upsert-Only Logic :**
+
+- The engine applies inserts/updates (upserts) on mismatched records while skipping deletes to ensure data safety and maintain historical integrity.
+
+ 
+
+**Target Database (Self-Managed MongoDB Replica Set on AWS EC2) :**
+
+- A two-node MongoDB replica set (one primary and one secondary) is hosted on AWS EC2 to ensure high availability and redundancy.
+
+- Incoming updates from Cosmos DB are applied almost instantly, keeping the data in MongoDB up to date with very little delay. In case of temporary failures, write operations are automatically retried with a gradual backoff, ensuring data remains consistent and durable
+
+ 
+
+**Security and Compliance  :**
+
+- All traffic between Cosmos DB, the sync engine, and MongoDB is encrypted using TLS/SSL certificates.
+
+The PocoCare architecture is deployed within a secure, multi-AZ Amazon VPC designed for high availability, scalability, and security. User traffic enters through an Internet Gateway and is routed via an Application Load Balancer to containerized microservices running on Amazon EKS across multiple Availability Zones. The EKS worker nodes operate in private application subnets, ensuring that backend services are not directly exposed to the internet. Container images are stored in Amazon Elastic Container Registry and are deployed through a CI/CD pipeline orchestrated using AWS CodePipeline and AWS CodeBuild, enabling automated, zero-downtime releases.
+
+ 
+
+The data layer consists of a managed relational database using Amazon RDS for PostgreSQL for structured transactional data and a self-managed MongoDB replica set hosted on EC2 instances for operational and real-time workloads. Both databases are deployed in private database subnets across multiple Availability Zones to ensure redundancy and failover capability. Security and governance are enforced through services such as AWS Identity and Access Management for access control, AWS Secrets Manager for credential management, AWS Key Management Service for encryption, and Amazon CloudWatch and AWS CloudTrail for monitoring and auditing. Overall, the architecture reflects a production-ready, cloud-native deployment model that ensures high availability, operational resilience, secure data handling, and automated DevOps practices suitable for a mission-critical healthcare platform.
+
+## Results
+
+## **Benefits**
+
+- **Cost-Effective Migration - **Enables a smooth transition from Cosmos DB to AWS without the need for expensive third-party tools.
+
+ 
+
+- **Near Real-Time Sync **- Keeps MongoDB continuously updated with minimal lag, ensuring data freshness for applications.
+
+ 
+
+- **Reliability & Durability - **Automatic retries and backoff mechanisms protect against data loss during temporary failures.
+
+ 
+
+- **Scalability -** Built on AWS EC2 and MongoDB, the solution can easily scale as data volume grows.
+
+## Conclusion
+
+## **Conclusion**
+
+The successful migration from Azure Cosmos DB to a self managed MongoDB replica set on AWS EC2 enabled PocoCare to overcome operational limitations, reduce costs, and achieve near real time data synchronization. By implementing a custom Python based replication engine, the solution ensured data integrity, high availability, and fault tolerance while maintaining compliance and security standards. This migration not only streamlined PocoCare’s cloud architecture but also laid a scalable and resilient foundation for future growth. With the planned roadmap for multi node replication, observability, event driven processing, and automated infrastructure management, PocoCare is well-positioned to continue delivering reliable, technology driven healthcare services at scale.

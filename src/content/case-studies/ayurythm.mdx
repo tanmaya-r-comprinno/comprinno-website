@@ -9,4 +9,50 @@ solutions: ["Greenfield Deployment"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About AyuRythm**
+
+AyuRythm is a hyper-personalized digital platform for holistic wellness, with a unique blend of modern technologies and ancient science of health assessment and care. They provide a patent-pending personalized holistic wellness digital solution. This app offers a wonderful mix of modern science and ancient medicine knowledge, from India. They assess patient’s Ayurvedic health parameters to recommend traditional wellness methods.
+
+## **Executive Summary**
+
+AyuRythm is a hyper-personalized digital platform for holistic wellness, with a unique blend of modern technologies and ancient science of health assessment and care. They desired to set up a scalable and secure AWS cloud infrastructure adopting AWS best practices.
+
+## The Challenge
+
+## **Challenges**
+
+Existing architecture had a single Amazon EC2 instance along with MySQL database. A scalable AWS infrastructure had to be set up to handle an expected surge in traffic in the future.
+
+## The Solution
+
+## **Solution**
+
+Comprinno used AWS Elastic Beanstalk to provision one or more AWS EC2 instances, to run application. AWS Elastic Beanstalk environment includes an Auto Scaling group that adds or removes the Amazon EC2 instances in the environment, based on load.
+
+On-premises MySQL database was migrated to AWS Aurora by the customer, with guidance from Comprinno team. Aurora Auto Scaling enables your Aurora DB cluster to handle sudden increases in connectivity or workload. When the connectivity or workload decreases, Aurora Auto Scaling removes unnecessary Aurora Replicas so that you don't pay for unused provisioned DB instances.
+
+A VPC set up with private and public subnets was created. The application and database were deployed in private subnets to avoid direct access over the internet. Users were directed to the application through public subnets. AWS WAF was used as a security measure for the web application against common web exploits or bots that may affect availability. AWS Security best practices were implemented in the new architecture.
+
+All infrastructure deployments were done using Terraform.
+
+## Results
+
+## **Benefits**
+
+- The new architecture is able to handle unlimited load compared to the prior architecture.
+
+- High availability owing to 3 availability zones in the architecture.
+
+- Security of the application and database has increased owing to the deployment in a private subnet.
+
+- AWS best practices have been adopted by the introduction of various AWS services for application security, infrastructure monitoring etc.
+
+- Future deployments would be easier because of infrastructure deployments done via Terraform.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

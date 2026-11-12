@@ -9,4 +9,148 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## Overview
+
+**About Customer**
+
+Tesser Insights is an analytics firm headquartered in Alpharetta, GA, with additional offices in Portland, OR, and Orlando, FL, and offshore centres in Bangalore and Chennai, India. Their platform product, Spoggle, empowers hypergrowth companies by providing a comprehensive, ready-to-use analytics ecosystem. The analytics platform that Tesser developed using AWS technologies is now available in the AWS Marketplace.
+
+## The Challenge
+
+## **Problem Statement**
+
+Tesser initially operated on Azure but sought to migrate to AWS to leverage its advanced services and scalability. The goal was to establish a secure, scalable, multi-account AWS environment that adhered to best practices for managing user identities, permissions, and compliance. A significant aspect of this transition involved using Infrastructure as Code (IaC) with Terraform to maintain consistent configurations across various environments. Key priorities included implementing robust security controls, ensuring high availability and scalability of
+
+ 
+
+Applications on Amazon ECS and developing a streamlined CI/CD pipeline to enhance their deployment processes.
+
+## The Solution
+
+## Implementation
+
+#### AWS Multi-Account Setup with Security Best Practices
+
+Tesser's migration to AWS involved setting up a secure and scalable multi-account structure using AWS Control Tower. This approach ensured that all new AWS accounts were created following best practices, with consistent governance and security controls across the organization. The multi-account setup enabled Tesser to manage its environment effectively, ensuring compliance and security measures were uniformly applied.
+
+#### Infrastructure as Code (IaC) Implementation
+
+Comprinno implemented a comprehensive Infrastructure as Code (IaC) solution using Terraform to manage Tesser’s AWS infrastructure. This solution allowed Tesser to define, deploy, and manage their cloud infrastructure consistently across various environments. All critical infrastructure components were codified by leveraging Terraform, ensuring consistency and reducing the risk of configuration drift.
+
+#### Enhanced Security and Compliance
+
+Custom IAM policies and roles were developed to ensure secure access to AWS resources, effectively managing permissions and user access across Tesser’s AWS environment. Additionally, the AWS Web Application Firewall (WAF) and associated managed rules were deployed to protect web applications from common security threats, bolstering Tesser’s overall security posture.
+
+#### Scalability and High Availability
+
+Comprinno implemented autoscaling for Tesser’s ECS services, ensuring that their applications could scale automatically in response to demand. Health checks and failover mechanisms were also established to minimize downtime and ensure the high availability of Tesser’s applications.
+
+#### CI/CD Pipeline Integration
+
+Comprinno provided a robust Continuous Integration and Continuous Deployment (CI/CD) solution to streamline Tesser's development lifecycle using AWS CodePipeline and AWS CodeBuild. This setup automated the build, testing, and deployment stages, allowing Tesser to release updates quickly and reliably across all critical infrastructure components. The CI/CD pipeline was designed to cover key areas, ensuring seamless integration of new features into the system.
+
+## Additional Implementation
+
+#### Building fine-grained authorization using Amazon Cognito, API Gateway, and IAM
+
+The solution integrates Amazon Cognito, API Gateway, and IAM to implement fine-grained authorization based on user groups. It enables dynamic access control by mapping Amazon Cognito user groups to IAM policies, granting specific access rights to each group.
+
+The following figure shows the basic architecture and information flow for user requests.
+
+#### Request Flow
+
+- **User Authentication**
+
+A user logs in through an Amazon Cognito User Pool and receives a JWT (ID token, access token, refresh token).
+
+- **API Request**
+
+The user makes an API request to API Gateway and passes the access token as a Bearer Token in the headers.
+
+- **JWT Verification**
+
+API Gateway forwards the request to a Lambda authorizer, which verifies the JWT using the Amazon Cognito public key (cached for efficiency).
+
+- **Group and Policy Lookup**
+
+The Lambda authorizer checks the Cognito group of the user from the JWT, then performs a lookup in Amazon DynamoDB to retrieve the associated IAM policy for that group.
+
+- **Policy Evaluation**
+
+The Lambda authorizer returns the IAM policy to API Gateway.
+
+- API Gateway evaluates the policy and enforces access control based on the user’s group membership and associated permissions.
+
+This approach provides a scalable, secure, and dynamic method for controlling user access to APIs, leveraging the capabilities of Amazon Cognito, API Gateway, and IAM.
+
+#### Automated User Activity Logging and Analytics with CloudWatch and RDS
+
+This solution involves sending application user activity logs to Amazon CloudWatch and leveraging CloudWatch Log Insights for querying and analytics. The queried data is then processed and stored in RDS for further analysis.
+
+#### Request Flow
+
+##### Logging to CloudWatch
+
+The application sends user activity logs to a CloudWatch log group.
+
+##### Querying Logs with CloudWatch Log Insights
+
+CloudWatch Log Insights is used to perform queries on the logs, extracting relevant data or insights.
+
+##### Lambda for Data Processing
+
+- A Lambda function runs these queries periodically or in response to events.
+
+- The Lambda function processes the results and prepares them for storage.
+
+##### Storing in RDS
+
+The Lambda function writes the processed log data to an RDS database, where it can be analyzed further or integrated with other analytics tools.
+
+This approach ensures efficient log management and advanced analytics capabilities using AWS services
+
+## Results
+
+## Benefits
+
+#### Improved Security and Compliance
+
+Tesser now operates within a secure and compliant multi-account AWS environment, benefiting from continuous monitoring and automated enforcement of security policies. This setup ensures that all security measures are consistently applied across the organization, reducing vulnerabilities and enhancing overall security posture.
+
+#### Faster and More Reliable Deployments
+
+With the Terraform and CI/CD pipeline implementation, Tesser has significantly reduced the time required for infrastructure provisioning and application deployment. The automation of these processes minimizes the risk of human error, leading to more reliable and efficient infrastructure management.
+
+#### Scalable and Highly Available Infrastructure
+
+Tesser’s applications are now capable of scaling automatically in response to demand, ensuring high availability and optimal performance even during peak usage times. This scalability ensures that Tesser can effectively meet customer needs without compromising performance.
+
+#### Dynamic Access Control
+
+Permissions are mapped based on user groups, allowing fine-grained access control.
+
+#### Secure JWT Handling
+
+JWT tokens ensure secure and scalable authentication.
+
+#### Efficient Authorization
+
+Cached public keys and the separation of policy fetching and evaluation improve performance.
+
+#### Centralized Log Management
+
+CloudWatch Log Insights offers powerful querying capabilities directly on CloudWatch logs.
+
+#### Automated Data Flow
+
+Lambda automates the data retrieval, processing, and storage, creating a seamless pipeline for analytics.
+
+#### Enhanced Analytics
+
+Storing logs in RDS enables deeper analysis, complex queries, and integration with BI tools.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

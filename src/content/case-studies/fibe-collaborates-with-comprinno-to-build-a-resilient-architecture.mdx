@@ -9,4 +9,62 @@ solutions: ["Disaster Recovery", "Resilient Architecture"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About **Customer****
+
+Fibe (formerly EarlySalary) is one of India's leading consumer lending apps focused on young working professionals. Their mission is to create a financial ecosystem that helps mid-income groups fulfill their aspirations and drive affordability at scale. Looking forward to evolving with the financial needs of the customers over time and to help the customers upgrade their lifestyle, Fibe had launched a host of financial products short-term Instant Cash Loans, long-term Personal Loans, and Buy Now Pay Later plans across health, ed-tech, and consumer tech.
+
+## **Executive Summary**
+
+Fibe is a FinTech startup dealing with loans and risk-scoring system related to loans. Being in a susceptible Financial sector, they had to abide by the RBI guidelines which mandate a resilient architecture. Fibe collaborated with Comprinno Technologies to establish a Disaster Recovery setup in the Hyderabad region.
+
+## The Challenge
+
+## **Challenges**
+
+Fibe is an upcoming and fast-growing startup in the Financial sector. Dealing with financial transactions meant that their platform had to abide by RBI guidelines. One of the RBI guidelines is that the architecture should be highly resilient avoiding unplanned downtimes. Fibe had its infrastructure set up on AWS in the Mumbai region. They wanted to have a Disaster Recovery (DR) set up in an alternate region.
+
+## The Solution
+
+## **Solution**
+
+RBI guidelines mandated data localization because of which the DR setup had to be done in India in a region other than Mumbai. AWS has recently launched the Hyderabad region, hence the DR setup was done in the Hyderabad region.
+
+In Fibe as part of the DR setup, Amazon CloudFront and Amazon S3 are used to deliver site assets via the AWS content delivery network (CDN). There are approximately 100+ CloudFront distributions to ensure efficient and low latency content delivery.
+
+There are around 200+ APIs served through the API gateway. AWS WAF service integrated with AWS API Gateway was used as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+450+ Lambdas were configured to handle the majority of the computing. Each Lambda is dedicated to serving specific functionalities for the API. EC2 instances handled part of the computing; the deployments to EC2 were done using CI/CD pipeline with Jenkins.
+
+RDS MySQL was used as a database and the size of the database was 1+ terabyte. The entire RDS database had to be replicated from the Mumbai region to the Hyderabad region.
+
+Proof of Concept (POC) was done for the cross-region replica of an Amazon RDS for MySQL instance from Account A (Production) and region1 to Account B and region2, facilitating scenarios such as disaster recovery, and AWS Region migration. The Proof of Concept (POC) illustrated the utilization of AWS read replica to establish binlog-based replication between two instances in different AWS accounts and Regions to switch the traffic and replicate data bidirectionally without data loss.
+
+To create a cross-region Read Replica of a Production RDS in a Disaster Recovery (DR) account, the primary instance in Account A was prepared. Binary logging was activated, binlog retention was updated, and a replication user was created. Subsequently, a cross-region read replica was generated in Account A, and synchronization was ensured. After stopping replication, a DB snapshot was taken and shared with Account B. The snapshot was then restored in Account B, external replication was configured, and traffic was switched to the new instance in Account B. Synchronization was confirmed, and the process was repeated, switching back to Account A. Finally, clean-up involved deleting intermediate replicas and terminating old instances, resulting in a seamless transition with minimal downtime. Once the POC was completed, cross-region Read Replica of Production RDS, in the DR account was set up. For S3 as well, cross-region, cross-account, and bi-directional Read Replica was set up.
+
+To enhance fault isolation, the solution employs a multi-account strategy. This approach facilitates logical separation of resources and enforces strict access controls to prevent widespread disruptions. A Management Account is created using AWS Organizations, while separate accounts are established for production, non-production, logging, audit, and security purposes.
+
+AWS CloudWatch, a centralized monitoring and management service, played a crucial role in monitoring the health and performance of Fibe's resources. The logs were directed to CloudWatch log groups, allowing Fibe to visualize metrics and monitor the application's health through CloudWatch dashboards. Alerts and notifications were set up to promptly notify stakeholders of any downtime experienced, ensuring proactive issue resolution. By utilizing CloudWatch metrics, Fibe could monitor managed services, providing a comprehensive view of their infrastructure's operational condition.
+
+All the security best practices were implemented in the DR setup. A startup security baselining was done for the DR setup. The AWS Startup Security Baseline (SSB) is a set of controls that create a minimum foundation for businesses to build securely on AWS without decreasing their agility. These controls form the basis of your security posture and are focused on securing credentials, enabling logging and visibility, managing contact information, and implementing basic data boundaries.
+
+## Results
+
+## **Benefits**
+
+**Enhanced Resilience:** The implementation of a Disaster Recovery (DR) setup in the Hyderabad region ensured compliance with RBI guidelines. The architecture's high resilience and the use of AWS services aligned with regulatory requirements, reducing the risk of unplanned downtimes.
+
+**Efficient Content Delivery:** Leveraging Amazon CloudFront and Amazon S3 with 145 CloudFront edge locations enhanced the delivery of site assets through a robust content delivery network (CDN). This approach resulted in efficient and low-latency content distribution, improving overall user experience.
+
+**Cross-Region Replication Success:** The successful Proof of Concept (POC) demonstrated the ability to create a cross-region Read Replica of the Production RDS in the DR account. Bidirectional replication without data loss allowed for scenarios such as disaster recovery and AWS Region migration.
+
+**Comprehensive Monitoring and Management:** AWS CloudWatch served as a centralized monitoring and management tool, enabling Fibe to monitor resource health and performance in real time.
+
+**Implementation of Security Best Practices:** Adherence to security best practices ensured the overall security of Fibe's financial transactions platform, safeguarding sensitive data and meeting regulatory requirements.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

@@ -9,4 +9,100 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client**
+
+The client operates in the electric mobility sector, offering EV charging solutions, electric two-wheeler sales, and battery subscription services. Through its mobile platform, the organization aggregates charging stations and streamlines EV adoption for individual users, fleet operators, and residential communities.
+
+The platform supports a rapidly growing ecosystem of users, charging partners, and IoT-enabled devices, requiring a highly scalable, secure, and resilient cloud infrastructure to ensure seamless digital experiences and uninterrupted service availability.
+
+## The Challenge
+
+## **Challenges **
+
+Operating in the fast-evolving electric mobility ecosystem, the EV platform’s legacy cloud environment presented several limitations that impacted scalability and operational efficiency. With growing demand from EV users, fleet operators, and connected charging infrastructure, the existing setup struggled to seamlessly handle increasing application traffic, IoT messaging workloads, and transactional volumes. Greater visibility and control over cloud expenditure were also required to ensure improved cost optimization and financial governance. The infrastructure was distributed across multiple environments, leading to operational complexity and slower deployment cycles. Manual workload management reduced agility and made it difficult to maintain consistency across environments. The platform required a production grade architecture capable of supporting containerized microservices, API-driven services, cron-based workloads, and IoT communication systems in a highly available and scalable manner.
+
+In addition, security and compliance considerations were critical during the transition. The migration needed to be executed with minimal downtime and zero data loss while enforcing strong access controls, encryption standards, and adherence to cloud security best practices ensuring uninterrupted service availability for end users and connected devices.
+
+## The Solution
+
+## **Solution**
+
+A phased migration to Amazon Web Services (AWS) was executed to establish a secure and scalable production environment. A resilient 3-tier VPC architecture was designed across multiple Availability Zones to ensure high availability and network segregation. Workloads from Google Cloud were migrated using AWS Application Migration Service (MGN), enabling continuous replication, validation, and a controlled cutover with minimal downtime. Existing instances were transitioned into a dedicated production VPC using an AMI-based approach for improved governance.
+
+Containerized microservices were deployed on Amazon EKS with autoscaling capabilities to support dynamic demand, while Application and Network Load Balancers ensured secure and optimized traffic routing. Security best practices were enforced through IAM-based access control, bastion-restricted access, encryption, and centralized monitoring. Post-validation, legacy systems were decommissioned, resulting in a scalable, secure, and future-ready cloud foundation.
+
+ 
+
+### **Key Actions:**
+
+**Workload Migration & Cutover Execution : **
+
+- Deployed AWS MGN agents on source workloads and configured replication templates aligned with the target production architecture.
+
+- Conducted test instance launches and validation cycles prior to final cutover to ensure data integrity, application stability, and minimal service disruption.
+
+- Identified and executed required manual configurations for complex or non-automated components, with detailed documentation to ensure operational continuity.
+
+- 
+
+**Compute & Application Layer :**
+
+- Provisioned Amazon EC2 instances within private subnets and configured required application packages, dependencies, and runtime components to support production workloads.
+
+- Configured Application Load Balancers with SSL termination, listener rules, security groups, and health checks to ensure secure, reliable, and highly available access to application services.
+
+ 
+
+**Container Orchestration & Kubernetes Modernization :**
+
+- Established an Amazon EKS cluster with dedicated IAM roles, managed node groups (Application and Redis), and audit logging to ensure secure and governed operations.
+
+- Deployed essential Kubernetes add-ons including Cluster Autoscaler, AWS Load Balancer Controller, CSI drivers, and Metrics Server to enable automated scaling, storage integration, and high availability.
+
+- Implemented monitoring with Prometheus and Grafana, along with a hybrid on demand and spot instance strategy to optimize performance, visibility, and cost efficiency.
+
+ 
+
+**Serverless & Security Enablement :**
+
+- Developed and deployed AWS Lambda functions to support lightweight, event driven automation and backend processing requirements.
+
+- Configured secure IAM roles and networking controls to ensure safe and controlled function execution
+
+- Strengthened security and compliance through AWS Secrets Manager for credential management and IAM-based role based access control (RBAC) to enforce fine-grained permissions.
+
+ 
+
+**Application Integration, Container Registry & Cost Governance :**
+
+- Implemented Amazon SNS and Amazon SQS to enable secure, decoupled communication between application components, with encryption enabled at rest and in transit.
+
+- Established Amazon ECR repositories for Docker image management, enforced IAM-based access controls, and configured lifecycle policies to optimize storage utilization.
+
+- Strengthened financial governance by configuring AWS Budgets and Cost Explorer for real-time cost monitoring, forecasting, and proactive spend optimization.
+
+ 
+
+Comprinno designed a secure, scalable, and highly available AWS architecture to support the platform’s growing electric mobility ecosystem. The migration was executed using AWS Application Migration Service (MGN), enabling low-risk workload replication and seamless cutover with minimal downtime and zero data loss. The compute layer was built on Amazon EC2 instances deployed across multiple Availability Zones and integrated with Application Load Balancers to ensure fault tolerance, elasticity, and reliable user access. Containerized workloads were modernized using Amazon EKS with dedicated node groups for application services and Redis caching, ensuring workload isolation, performance consistency, and operational resilience. Serverless capabilities were introduced through AWS Lambda to support lightweight, event-driven backend automation without additional infrastructure overhead. Secure operations were enforced using AWS Secrets Manager and IAM-based role-based access control (RBAC) to maintain strong credential governance and fine-grained access management. Amazon SNS and Amazon SQS enabled reliable, decoupled communication between services, while Amazon ECR provided centralized container image management with lifecycle policies for optimization. Comprehensive monitoring was implemented using Prometheus and Grafana for real-time visibility and proactive issue detection, supported by AWS Budgets and Cost Explorer to maintain financial governance and cost transparency.
+
+## Results
+
+## **Benefits**
+
+- **Seamless & Risk-Free Cloud Migration **– Successfully migrated all workloads from GCP to AWS with zero data loss and minimal downtime, ensuring uninterrupted business operations and a smooth transition.
+
+- **Enhanced Performance & Reliability **– Dedicated Redis node groups improved caching efficiency and reduced application latency, resulting in faster response times and a more stable user experience.
+
+- **Improved Visibility, Security & Governance** – Real-time monitoring through Prometheus and Grafana strengthened operational observability, while Secrets Manager and IAM RBAC enforced robust security, compliance, and controlled access management.
+
+- **Optimized Operations & Cost Transparency** – Structured testing, validation, and knowledge transfer ensured post-migration operational continuity, supported by AWS Budgets and Cost Explorer for proactive cost monitoring and financial governance.
+
+## Conclusion
+
+## **Conclusion**
+
+The successful migration to AWS established a secure, scalable, and future-ready cloud foundation for the EV platform. By modernizing the infrastructure, implementing container orchestration, enabling serverless automation, and strengthening governance and monitoring, the organization achieved improved performance, operational agility, and cost transparency. The transformation not only ensured a seamless transition with minimal business disruption but also positioned the platform to efficiently scale, innovate, and support the rapidly growing EV ecosystem with confidence.

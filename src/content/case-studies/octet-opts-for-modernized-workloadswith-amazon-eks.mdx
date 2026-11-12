@@ -9,4 +9,112 @@ solutions: ["Modernization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer:**
+
+Octet AI, a prominent Social B2B marketplace firm, is renowned for providing a comprehensive solution to both buyers and vendors, Octet has created a platform that streamlines, automates, and establishes connections between buyers and vendors on a large scale. This results in improved service levels, reduced costs, and a smaller environmental footprint.
+
+## **Executive Summary**
+
+Octet AI is a B2B platform that simplifies, automates, and connects buyers and vendors at scale.
+
+Octet decided to migrate to AWS EKS from Docker Swarm in pursuit of scalability and heightened security. This move allowed Octet to leverage the capabilities of EKS, enhancing its innovative platform and delivering outstanding supply chain solutions to clients worldwide.
+
+## The Challenge
+
+## **Challenges**
+
+Docker Swarm faced scalability constraints as Octet.ai experienced growth in its user base and heightened demands for data processing. The platform's limitations became apparent as the workload increased, prompting the recognition of a deficiency in advanced orchestration, scaling, and management features within the Docker Swarm and Portainer environment.
+
+## The Solution
+
+## **Solution**
+
+To address these challenges and meet its migration goals, Comprinno designed and implemented a comprehensive solution encompassing various aspects of availability, observability, network topology, and security. The solution leveraged AWS services and best practices to ensure a seamless and successful migration to AWS.
+
+ 
+
+**Architecture:**
+
+EKS utilizes node groups to manage the underlying compute resources, which behind the scenes leverages Auto Scaling to dynamically adjust the number of nodes in response to changing workloads. Distribution of worker nodes (EC2 instances) is across multiple private subnets in different Availability Zones. Each subnet in an Availability Zone is associated with a node group, If an entire Availability Zone becomes unavailable (due to a failure or other issues), the Auto Scaling Groups automatically detect this and launch new instances in the remaining healthy AZs to maintain the desired capacity.Cloudflare is used as a domain registrar that allows users to register and manage domain names, it also provides DNS hosting services.
+
+All microservices were rehosted on the EKS cluster and APIs are externally exposed through an internet-facing ALB. For internal communication of micro-services EKS service discovery is utilized, Kubernetes provides internal DNS for service discovery. The databases used included an RDS Aurora instance.
+
+To enhance fault isolation, the solution employed a multi-account strategy, facilitating logical separation of resources and enforcing strict access controls to prevent widespread disruptions. A Management Account was created using AWS Organizations, while separate accounts were established for production, non-production, logging, audit, and security purposes.
+
+For data resilience and redundancy, Amazon RDS offered built-in replication mechanisms that replicated data across multiple AZs. Additionally, AWS Backup was periodically executed to ensure data protection and recovery capabilities.
+
+**Monitoring and Management:**
+
+AWS CloudWatch , a centralized monitoring and management service, played a crucial role in monitoring the health and performance of Octet's resources. Logs from EKS were directed to CloudWatch log groups. Additionally, Grafana and Prometheus are also utilized for EKS cluster monitoring. Prometheus is responsible for collecting and storing metrics, while Grafana serves as a powerful visualization and alerting tool, creating a robust monitoring and observability solution for Octet. Alerts and notifications were set up to promptly notify stakeholders of any downtime experienced, ensuring proactive issue resolution. CloudWatch metrics enabled monitoring of other managed services like RDS and Load Balancers, providing a comprehensive view of their infrastructure's operational condition.
+
+**
+
+Infrastructure Automation:**
+
+Infrastructure was automated using Terraform, allowing for consistent and auditable deployments, and ensuring that infrastructure changes were managed effectively. The Terraform code was stored in BitBucket, enabling version control and collaboration among the development team.
+
+**
+
+Configuration Management and Auditing:**
+
+AWS Config and AWS CloudTrail were implemented to provide detailed views of the configuration of AWS resources and track changes over time. AWS Config allowed Octet to assess resource configuration compliance against desired configurations and detect any unauthorized changes. AWS CloudTrail served as a comprehensive audit trail of all actions taken within Octet's AWS account, enabling monitoring and validation of changes as part of their change management process.
+
+**
+
+Security:**
+
+All the Security best practices were implemented and guard rails were added wherever possible.
+
+AWS IAM was used to provide access, with least-privilege permissions, to processes/ Amazon web services. AWS Key Management System (KMS) was used for encrypting data as per AES-256 standard, to guarantee high level of security for the data during the transactions. Configurations were enabled to encrypt data in transit and at rest. AWS Secrets Manager was used to rotate, manage and retrieve the database credentials and API keys. Private keys and certificates were managed using AWS Certificate Manager.
+
+AWS GuardDuty ensured security threat detection and monitoring. AWS Security Hub provided a centralized view for monitoring and managing findings
+
+**
+
+CI/CD Pipeline:**
+
+A CI/CD pipeline was built for automated deployments, triggered whenever code was committed to the Bitbucket repository. AWS CodeBuild was used for building the docker image, and the image was pushed to AWS ECR (Elastic Container Registry). The built-in capability of ECR to scan docker images for known vulnerabilities was leveraged, and the pipeline proceeded to deployment only when ECR reports no Critical or High-severity vulnerabilities. ECR images are tagged in such a way including commit ID and latest both as tags for keeping track of the latest commit with every new image pushed in ECR and the latest tag for ease of working. For efficient and automated deployment, Octet.ai implemented continuous deployment using ArgoCD. ArgoCD allowed the team to manage and automate the deployment of Kubernetes manifests, ensuring that the application environment on AWS EKS stayed synchronized with the desired state. The declarative configuration and GitOps principles employed by ArgoCD enhanced deployment reliability and traceability.
+
+## Results
+
+## **Benefits**
+
+● **Scalable Architecture:**
+
+Octet achieved the ability to handle traffic spikes and scale resources dynamically, ensuring a seamless user experience even during peak periods. The scalable architecture provided the flexibility to adapt to changing demands, optimizing performance and resource utilization.
+
+● **Continuous Integration and Continuous Deployment (CI/CD) Integration:**
+
+The integration of AWS CodeBuild for automating the build and testing processes, ensuring the reliability and consistency of container images also application config files stored in the S3 bucket are utilized in the code build stage, and ArgoCD for the team to manage and automate the deployment of Kubernetes manifests, ensuring that the application environment on AWS EKS stayed synchronized with the desired state not only improved the efficiency of the development pipeline but also contributed to the overall agility and reliability of Octet.ai's containerized apps.
+
+● **Parameter store:**
+
+For sensitive information like environment variables used in the application Parameter Store is used as it is a secure and centralized storage solution for sensitive information.
+
+**
+
+● Enhanced Observability:**
+
+Through the use of AWS CloudWatch, Octet gained comprehensive insights into their application's health and performance. This enhanced observability empowered proactive monitoring and issue resolution, ensuring a robust and reliable system.Besides that Grafana and Prometheus are utilized for monitoring the Amazon Elastic Kubernetes Service (EKS) cluster, providing a powerful combination of visualization and metric collection capabilities.
+
+**● Improved Network Management:**
+
+Utilizing AWS services like Amazon VPC Flow Logs and AWS Network Manager, Octet gained visibility into network bandwidth, latency, and performance. This allowed for optimized network operations, leading to improved efficiency and responsiveness.
+
+● **Change Management and Infrastructure as Code:**
+
+The adoption of Terraform, and AWS Config allowed for controlled and auditable deployments. This ensured consistent configuration practices and effective change management, providing transparency and accountability in the deployment process.
+
+● **ECR Vulnerability Scanning:**
+
+Leveraging ECR vulnerability scanning, octet could proactively scan vulnerabilities of the Docker images before deployment. This preventive measure contributed to a more secure environment by identifying and addressing potential security risks at an early stage.
+
+The successful migration to EKS not only addressed Octet's initial challenges but also positioned them for continued growth and innovation in their supply chain technology platform.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

@@ -9,4 +9,66 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## Overview
+
+**About customer**
+
+Skill-Lync offers industry-relevant advanced engineering courses for engineering students by partnering with industry experts. With 250+ expert-curated online engineering courses, it is one of the leading EdTech platforms in India. With 300+ hiring partners, Skill-Lync brings job assistance through their post-graduate programs.
+
+Skill-Lync posted an annual revenue run rate of $40 million in the first quarter of 2022, growing over 4x, spurred by 3x student enrollments from 78 countries.
+
+## Executive Summary
+
+Skill-Lync is among India’s leading EdTech platforms providing a project-based learning environment through its online PG courses. The client’s infrastructure was hosted in the Digital Ocean Cloud. The client needed to migrate this infrastructure to the Amazon Web Services (AWS) Mumbai region.
+
+## The Challenge
+
+## Challenges
+
+The client’s infrastructure was hosted in the Digital Ocean Cloud. Digital Ocean is Infrastructure as a Service (IaaS), where Skill-Lync had to manage almost everything (like security, operating system, databases, and more). With the growing number of students and hiring firms subscribing to Skill-Lync, they desired to have a secure and scalable model with less management involved. AWS offers managed services (Platform as a Service or PaaS), which manage everything on its own except applications. The security and scalability that AWS offers were also deciding factors. Manual intervention was required for scaling the compute resources vertically. Skill-Lync thereby wanted to migrate its infrastructure to the Amazon Web Services (AWS) Mumbai region.
+
+## The Solution
+
+## Solution
+
+It was decided that the application would be rehosted to Amazon EC2, as it is a monolith. Modernization would be taken up in the next phase of the engagement.
+
+Comprinno initially did the CIDR block planning for setting up VPC and creating 3 public and 6 private subnets in the Mumbai region. 11 servers and 10 databases were in the scope of this migration. Applications are deployed on Amazon EC2 with auto-scaling groups in the 3 private subnets. The Auto Scaling group adjusts the desired capacity of the group, between the minimum and maximum capacity values that were specified, and launches or terminates the instances as needed.
+
+Data was migrated to MySQL on Amazon RDS (in private subnets) using the AWS Data Migration Service (DMS). AWS DMS is highly resilient and self-healing and helps migrate databases to AWS quickly and securely. AWS DMS was launched in the public subnet for communicating with Digital Ocean. A Read-only user was created in Digital Ocean with appropriate permissions. Data from
+
+MySQL on Digital Ocean was continuously replicated in MySQL on Amazon RDS. The source database remained fully operational during the migration minimizing the downtime to apps that are on the database. Amazon RDS Read Replicas have been created to provide enhanced performance and durability for Amazon RDS database (DB) instances.
+
+Amazon Route53 is used to register domain names and route internet traffic of Skill-Lync domain name to CloudFront web distribution. Amazon CloudFront improves the performance of the website as it is configured to cache contents from Amazon S3. Also, Amazon CloudFront was deployed with access restricted by an origin access identity (OAI) to secure Amazon S3 content and to use HTTPS with Amazon S3 so that connections are encrypted.
+
+Transactions from Skill-Lync were directed by CloudFront to Application Load Balancer in a public subnet. The Application Load Balancer routes the request to the EC2 instance through a node that's associated with the public subnet in the same Availability Zone. The route table routes the traffic locally within the VPC, between the public subnet and the private subnet, and to the EC2 instance.
+
+All the security best practices were implemented for the migrated infrastructure.
+
+AWS WAF was configured for the application load balancer as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources. For WAF, custom rate limiters and managed set rules were employed. AWS Key Management System (KMS) was used for encrypting data as per the AES-256 standard. AWS SSO was used to centrally manage single sign-on access and user permissions across all the AWS accounts in AWS Organization. AWS IAM was used to provide access with least-privilege permissions. AWS GuardDuty and AWS Security Hub were used for security threat detection and monitoring.
+
+AWS CloudTrail was used to monitor and record account activity across AWS infrastructure, giving control over storage, analysis, and remediation actions. All AWS Services logs were generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs were configured to use the Object Lock feature in Compliance mode, in order to prevent tampering with stored logs and meet regulatory compliance.
+
+Prometheus and Grafana were used for basic metrics. Dashboards were created for these metrics for monitoring the health of the applications, alerts were configured for the same to alert on downtime faced. All AWS Services logs were generated and stored either in S3 or Amazon Elastisearch. All AWS Services metrics were aggregated to Amazon Elastisearch with alarms for any drifts.
+
+Infrastructure was automated using Terraform. Terraform was an essential part disaster recovery strategy as it helps put up new infrastructure very quickly and efficiently.
+
+## Results
+
+## Benefits
+
+- Skill-Lync does not need to do any infrastructure management as AWS offer managed services.
+
+- High scalability has been achieved with the Autoscaling group in AWS, as compared to the prior setup in Digital Ocean.
+
+- Latency is low owing to the use of AWS ElastiCache.
+
+- AWS best practices have been adopted by the introduction of various AWS services for application security, infrastructure monitoring etc.
+
+- Future deployments would be easier because of infrastructure deployments done via Terraform.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

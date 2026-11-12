@@ -9,4 +9,110 @@ solutions: ["Modernization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client**
+
+Pibit Technologies Private Limited operates in the commercial insurance (InsurTech) sector, leveraging AI and Large Language Models (LLMs) to automate underwriting workflows. The platform processes complex insurance documents such as loss runs, ACORD forms, and supplemental reports to extract structured data and accelerate risk assessment for carriers and MGAs.
+
+With AI driven microservices, Kubernetes based workloads, and event driven processing pipelines, Pibit supports high volume document ingestion and real time underwriting operations. As the platform scaled across environments and workloads,   it required a secure, resilient, and highly scalable cloud infrastructure to ensure seamless performance, strong data protection, and uninterrupted service availability.
+
+## The Challenge
+
+## **Challenges**
+
+As Pibit Technologies Private Limited expanded its AI-driven underwriting capabilities, the platform required a more resilient and scalable cloud foundation to support increasing volumes of document ingestion and real-time risk assessment workloads. The existing infrastructure needed enhancement to ensure high availability, consistent performance, and seamless scalability across environments without impacting ongoing underwriting operations. The organization required modernization to support containerized microservices on Kubernetes, GPU-enabled AI/ML workloads, and secure multi-environment (Development and Production) isolation. Ensuring workload reliability, efficient resource utilization, and autoscaling capabilities for AI-driven processing became critical as transaction volumes grew.
+
+Additionally, strengthening cloud security, encryption, observability, and governance controls was essential to meet compliance requirements and maintain operational resilience. The organization needed centralized monitoring, proactive alerting, and improved logging visibility to enhance system reliability and incident response readiness. To reduce manual effort and improve deployment consistency, Infrastructure as a Code (IaaC) and automated CI/CD pipelines were required to standardize provisioning, streamline releases, and accelerate innovation while maintaining stability and control across environments.
+
+## The Solution
+
+## **Solution**
+
+To support scalable and modern AI-driven workloads, Pibit Technologies Private Limited implemented a comprehensive cloud infrastructure modernization initiative focused on reliability, performance, and operational excellence. A secure multi-environment architecture (Development and Production) was established using a well-architected VPC design with public and private subnets, NAT gateways, and controlled access. Infrastructure was provisioned using Terraform to ensure consistent, repeatable deployments across environments. Containerized microservices were deployed on Amazon EKS with Amazon EFS for shared persistent storage, enabling scalable and resilient Kubernetes-based workloads. Amazon API Gateway securely exposed backend services, while Amazon SQS enabled reliable event-driven processing for underwriting workflows. Static content delivery was optimized using Amazon CloudFront integrated with Amazon Route 53 to ensure secure, low-latency global access.
+
+ 
+
+Automated CI/CD pipelines streamlined build and deployment workflows, improving release consistency and reducing manual intervention. Encryption using AWS Key Management Service Customer Managed Keys (CMKs), IAM-based access controls, and centralized monitoring and logging enhanced observability, governance, and security posture. The modernized architecture ensures high availability, scalable performance, and uninterrupted underwriting operations while supporting continuous innovation.
+
+ 
+
+**Key Actions:**
+
+**Infrastructure Modernization and Scalability Enhancement: **
+
+- Modernized the cloud infrastructure to enhance scalability, availability, and operational resilience across workloads.
+
+- Established separate Development and Production environments with isolated VPCs, networking configurations, and environment-specific controls to ensure strong workload segregation and stability.
+
+- Implemented Terraform-based Infrastructure as Code (IaC) for consistent,repeatable multi-environment provisioning and configuration management.
+
+- Standardized database, storage, and application architecture to improve reliability, validation processes, and production readiness.
+
+ 
+
+**Kubernetes & AI Workload Enablement:**
+
+- Provisioned Amazon EKS clusters with managed node groups to support scalable application and AI workloads across environments.
+
+- Integrated GPU-enabled compute instances to efficiently process LLM-based document underwriting workloads.
+
+- Implemented Amazon EFS to provide shared, persistent storage for Kubernetes workloads, ensuring data consistency and high availability.
+
+- Deployed Kubernetes add-ons for load balancing, storage integration, autoscaling, and enhanced cluster monitoring to improve performance, reliability, and operational visibility.
+
+ 
+
+**API & Event-Driven Architecture Enablement:**
+
+- Implemented Amazon API Gateway to securely expose backend microservices and Lambda functions.
+
+- Enabled asynchronous processing using Amazon SQS with FIFO queues and Dead Letter Queues (DLQs) for reliable underwriting workflows.
+
+- Optimized global content delivery using Amazon CloudFront integrated with Route 53 for secure DNS routing and low-latency access.
+
+ 
+
+**CI/CD & DevOps Automation:**
+
+- Implemented automated CI/CD pipelines for microservices and AI components.
+
+- Integrated container image management using Amazon ECR with lifecycle policies.
+
+- Standardized deployment workflows across Development and Production environments.
+
+- Enabled faster release cycles with reduced manual configuration errors.
+
+ 
+
+**Security, Monitoring & Governance:**
+
+- Enforced IAM role-based access control (RBAC) and least-privilege access policies.
+
+- Implemented encryption using AWS KMS Customer Managed Keys (CMKs) for data at rest across storage, databases, containers, and CI/CD artifacts.
+
+- Configured centralized monitoring and logging for infrastructure and application visibility.
+
+- Strengthened cost governance using AWS Budgets and monitoring tools to control cloud spend.
+
+The architecture is designed as a secure, highly available, and scalable AWS-based infrastructure to support AI-driven underwriting workloads across separate Development and Production environments. It is deployed within multi-AZ Virtual Private Clouds (VPCs) with segregated public and private subnets to ensure strong network isolation, fault tolerance, and resilience. External traffic is routed through Amazon Route 53 and delivered via Amazon CloudFront, protected by AWS WAF and distributed through an Application Load Balancer (ALB) to ensure secure, low-latency access and high availability. Amazon API Gateway provides a secure entry layer for backend microservices and Lambda-based APIs with controlled access and traffic management. The core application layer runs on Amazon EKS with auto-scaling EC2 worker nodes, supporting containerized microservices and GPU-enabled AI/ML workloads. Amazon EFS delivers shared persistent storage for Kubernetes workloads, while Amazon SQS enables reliable, fault-tolerant asynchronous event-driven processing. The data layer includes Amazon Aurora PostgreSQL for relational workloads, Amazon DynamoDB for high-performance NoSQL requirements, and Amazon S3 for secure and durable object storage. CI/CD pipelines using AWS CodePipeline, AWS CodeBuild, and Amazon ECR automate deployments, while Terraform-based Infrastructure as Code ensures configuration consistency across environments. Security, compliance, and observability are enforced through IAM-based access controls, encryption using AWS Key Management Service Customer Managed Keys (CMKs), threat detection with Amazon GuardDuty, audit logging via AWS CloudTrail, and centralized monitoring and alerting with Amazon CloudWatch. This architecture delivers high availability, elastic scalability, enhanced observability, operational efficiency, and strong security controls to support high-volume AI-driven underwriting operations.
+
+## Results
+
+## **Benefits**
+
+- **Enhanced Infrastructure Reliability & Availability **- Modernized and standardized the cloud architecture across environments, ensuring high availability and operational resilience.
+
+- **Scalable AI & Underwriting Processing - **Enabled GPU-backed Kubernetes workloads using Amazon EKS autoscaling and integrated Amazon EFS for shared storage, ensuring scalable and consistent processing of high-volume insurance documents.
+
+- **Faster & More Predictable Deployments** - Implemented Infrastructure as Code (Terraform) and automated CI/CD pipelines, reducing manual errors, improving deployment consistency, and accelerating feature releases across environments.
+
+- **Strengthened Security, Observability & Cost Governance** - Enhanced IAM controls and encryption using AWS Key Management Service (CMKs), along with centralized monitoring and cost visibility, improving compliance, transparency, and cost optimization.
+
+## Conclusion
+
+## **Conclusion**
+
+The infrastructure modernization initiative established a secure, scalable, and AI-ready cloud foundation for Pibit Technologies Private Limited. By implementing Kubernetes-based container orchestration using Amazon EKS, shared storage with Amazon EFS, secure API exposure through Amazon API Gateway, and event-driven processing with Amazon SQS, along with Infrastructure as Code (Terraform), automated CI/CD pipelines, and encryption using AWS Key Management Service Customer Managed Keys (CMKs), Pibit enhanced operational resilience, deployment agility, and workload scalability. The transformation strengthened observability, improved performance consistency, and reinforced compliance and governance controls while enabling efficient support for high-volume AI-driven underwriting workflows. With improved reliability, scalability, and cost transparency, Pibit is now well-positioned to accelerate innovation and support continued growth in the commercial insurance ecosystem.

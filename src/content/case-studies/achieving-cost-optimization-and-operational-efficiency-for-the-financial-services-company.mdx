@@ -9,4 +9,76 @@ solutions: ["Cost Optimization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer******
+
+A FinTech company offers an online platform that combines property management with a variety of investment options, giving users access to valuable real estate opportunities. The platform includes asset management services aimed at improving investment outcomes.
+
+**Executive Summary**
+
+The FinTech successfully partnered with Comprinno. This collaboration led to various initiatives, the most significant being cost optimization. The partnership was instrumental in addressing the challenges and achieving the desired outcomes.
+
+## The Challenge
+
+## **Challenges**
+
+**Managing Operational Costs:** The client identified opportunities to optimize operational costs, which were key to enhancing overall profitability. These costs included expenses for operations, software licensing, and infrastructure maintenance. Additionally, there were opportunities to enhance resource management and distribution, which, if optimized, could lead to more effective spending and improved financial outcomes.
+
+**Optimizing Idle Resources:** Within the client's IT system, there were opportunities to enhance efficiency by addressing idle resources. These included underutilized storage devices, redundant applications, and virtual machines that were not being fully leveraged. By identifying and optimizing these resources, the goal was to streamline operations and reduce costs while maintaining the effectiveness of the IT infrastructure.
+
+## The Solution
+
+## **Solution**
+
+#### Optimized Compute Resources and EBS Volume
+
+A thorough investigation into the use of compute resources led to significant cost reductions by optimizing underutilized instances. This included transitioning instances to more cost-effective types, implementing auto-scaling groups to adjust resources based on demand dynamically, and resizing instances to better align with workload requirements. Elastic Block Store (EBS) volume utilization was also optimized by identifying and detaching unused volumes, resizing over-provisioned volumes, and maintaining ideal storage configurations.
+
+#### Updates to the API Gateway Endpoints
+
+API Gateway Swagger files were modified to enhance API management and reduce unnecessary API calls, thereby increasing both efficiency and performance. This was achieved by utilizing a common Network Load Balancer (NLB) endpoint with a common VPC link.
+
+#### Optimization of Network Load Balancers (NLBs)
+
+Six separate NLBs were consolidated into a single NLB, reducing associated costs and simplifying the network architecture. This unification also streamlined the management and maintenance of load-balancing resources. Additionally, multiple TCP listeners were added to ensure proper domain mapping using a single NLB.
+
+#### Reducing the Size of Redis and Managed Streaming for Apache Kafka (MSK) Clusters in the Staging Environment
+
+The size of Redis and MSK clusters in both the staging and development environments was reduced. By right-sizing these clusters to better match the demands of non-production workloads, excess capacity, and corresponding costs were minimized without compromising development and testing processes.
+
+#### Resource Clean-Up
+
+A comprehensive cleanup of idle and underutilized resources within the infrastructure was conducted. This involved decommissioning outdated services, eliminating unnecessary storage volumes, and terminating redundant virtual machines. The cleanup resulted in lower expenses and improved overall security and efficiency of the IT environment.
+
+#### CloudWatch Logs Optimization
+
+The retention duration of CloudWatch logs was adjusted to reduce costs further. By shortening the retention period in staging and development accounts to two weeks, log storage costs were reduced without affecting the effectiveness of application monitoring and debugging.
+
+#### Suggestion and Execution of Savings Plan
+
+A Savings Plan tailored to the company’s unique consumption patterns was suggested and implemented. A savings plan was recommended for EC2 & ECS services, and an RI plan was suggested for RDS and ElastiCache services. The savings achieved were 29% with the savings plan and 31% with the RI plan, ensuring predictable billing and long-term cost efficiency.
+
+## Results
+
+## **Outcomes**
+
+- **May 2024 Operational Costs:** $123
+
+- **Cost Reduction:** 15% reduction in the current month after implementing optimization strategies.
+
+- **Future Savings:** Further cost reductions are expected with the full savings plan implementation.
+
+- **Proactive Cost Management:** Positioned the company for ongoing financial efficiency and sustainability.
+
+- **Resource Cleanup:** Complete elimination of idle resources within the infrastructure.
+
+- **Enhanced Efficiency:** Streamlined IT environment, improving overall performance.
+
+- **Focused Operations:** With no idle resources, more focus on core business activities.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

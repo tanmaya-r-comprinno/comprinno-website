@@ -9,4 +9,204 @@ solutions: ["AWS Cloud Modernization"]
 draft: false
 ---
 
+## Overview
 
+## **Client Overview**
+
+**About Client:**
+
+The client is a global index and capital markets technology provider serving asset managers, ETF issuers, and financial institutions across the US, Europe, Canada, Australia, and the Middle East. Operating within the capital markets sector, the organization specializes in benchmark administration and the delivery of financial data and analytics solutions.
+
+## The Challenge
+
+## **Challenges**
+
+The Global Index Platform faced significant challenges in modernizing its capital markets technology platform to support a rapidly growing global client base and increasing volumes of financial data from vendors such as FactSet. The existing infrastructure lacked scalability and could not automatically handle peak workloads during critical index calculation and rebalancing cycles, creating risks of performance degradation and delayed service delivery. The platform also suffered from availability issues due to the absence of a multi-AZ architecture, introducing single points of failure across compute, database, and network layers. In addition, the environment lacked a structured governance and security framework, including enterprise-grade access management and consistent network controls, exposing the organization to operational and regulatory risks. Manual infrastructure management and limited monitoring capabilities further increased operational overhead, slowed incident response, and introduced human error into critical financial workflows. The Platform was also running a monolithic web application on a single standalone EC2 instance, creating major scalability, resiliency, and availability risks. Frequent P1 incidents impacting application availability and domain accessibility, along with increasing cloud costs from underutilized resources, further affected operational efficiency.
+
+Additionally, the environment lacked centralized monitoring, observability, proactive alerting, and a structured governance and security framework, leading to operational, compliance, and audit-readiness challenges. Limited backup and disaster recovery capabilities increased operational risk, while the organization also required a scalable event-driven architecture, modern data streaming services, and secure automated integrations with external client platforms.
+
+## The Solution
+
+## **Solution**
+
+To address these challenges, a production-grade AWS infrastructure was designed and implemented to deliver a secure, scalable, and highly available financial services platform. The solution introduced automated scaling capabilities to efficiently process growing financial data volumes and support high-demand index calculation workloads, while a multi-AZ architecture eliminated single points of failure and improved service resilience. The Global Index Platform’s web application was modernized and migrated from a standalone EC2 instance to a containerized architecture using Amazon ECS on EC2, with Amazon ECR implemented for centralized container image management and deployment consistency. This enabled scalable, resilient, and standardized application deployments.
+
+The platform was further strengthened with a structured multi-account governance model, secure networking, enterprise-grade IAM controls, infrastructure automation, centralized monitoring, and proactive incident management capabilities to improve operational efficiency, security, compliance readiness, and visibility across global financial operations.
+
+ 
+
+**Key Actions:**
+
+**Designed a Highly Available Multi-AZ Architecture:**
+
+- Built a production-grade AWS environment across three Availability Zones within a secure VPC.
+
+- Distributed ALB, ECS clusters, and database layers across AZs to eliminate single points of failure.
+
+- Configured ECS Capacity Providers and AWS Lambda for automatic scaling during peak index calculation and rebalancing workloads.
+
+- Enabled resilient, high-performance financial data processing with improved platform availability.
+
+ 
+
+**Implemented Elastic Scaling for Financial Workloads:**
+
+- Migrated the Global Index Platform’s web application from a standalone EC2 instance to a containerized architecture using Amazon ECS on EC2.
+
+- Implemented Amazon ECR for centralized container image management and deployment consistency.
+
+- Standardized deployments with rolling updates and automated rollback mechanisms for zero-downtime releases.
+
+ 
+
+**Strengthened Security and Governance Controls:**
+
+- Implemented IAM, KMS, Secrets Manager, GuardDuty, and centralized CloudTrail logging for enterprise-grade security.
+
+- Generated CIS compliance reports using the in-house Tevico auditing tool and strengthened audit readiness across 30+ control areas.
+
+- Secured workloads using private subnets, encrypted communication, and organization-wide monitoring and governance controls.
+
+ 
+
+**Observability, Monitoring & Production Stability:**
+
+- Implemented centralized monitoring using Amazon CloudWatch, Prometheus, Grafana, and Alertmanager.
+
+- Established proactive 24x7 monitoring and operational support processes to address critical P1 incidents and improve application reliability.
+
+- Improved operational visibility, accelerated root-cause analysis, and reduced downtime through real-time alerting and observability.
+
+ 
+
+**Data Streaming, Automation & Event-Driven Integration:**
+
+- Built scalable financial data pipelines using AWS Lambda, Amazon MSK, SNS, SQS, EventBridge, and S3.
+
+- Automated secure FactSet and data integrations for downstream Snowflake processing.
+
+- Enabled scalable event-driven workflows, asynchronous processing, and reliable real-time data movement across platforms.
+
+ 
+
+**Cost Optimization, Backup & Operational Resilience:**
+
+- Performed image optimization and eliminated idle or underutilized infrastructure resources to improve operational efficiency and resource utilization.
+
+- Implemented backup, disaster recovery, and recovery management processes for critical workloads and services.
+
+- Strengthened business continuity, reduced operational risks, and improved overall platform resilience.
+
+ 
+
+The solution is built on a secure, scalable, and highly available AWS architecture designed to support critical financial data processing and index management workloads. The environment is deployed within a dedicated Amazon VPC spanning three Availability Zones in the Mumbai Region (ap-south-1) to ensure high availability, fault tolerance, and operational resilience. User traffic is routed securely through Amazon Route 53 and AWS CloudFront, providing DNS management, optimized content delivery, and improved application accessibility. Requests are directed to Application Load Balancers (ALBs) deployed across public subnets, which distribute incoming traffic across containerized application workloads running on Amazon ECS on EC2 instances hosted within private subnets. The application layer is containerized using Amazon ECS with Amazon ECR serving as the centralized container image repository. ECS Auto Scaling ensures the platform can dynamically scale during peak financial data processing and index rebalancing cycles while maintaining consistent performance and availability. NAT Gateways enable secure outbound internet connectivity for workloads hosted in private subnets.
+
+The platform incorporates enterprise-grade security and governance controls using AWS IAM, AWS KMS, AWS Secrets Manager, and Systems Manager Parameter Store for secure access management, encryption, and secrets handling. AWS GuardDuty, AWS CloudTrail, and Amazon CloudWatch provide continuous threat detection, audit logging, centralized monitoring, and operational visibility across the environment. Amazon S3 is used for secure object storage and data management, with an S3 VPC Endpoint enabling private connectivity between workloads and S3 services without traversing the public internet. AWS Certificate Manager is used for SSL/TLS certificate management and secure communication.
+
+The architecture integrates with MongoDB Atlas for application database services, enabling scalable and managed database operations. The overall solution delivers a resilient, secure, and modern cloud-native platform capable of supporting real-time financial data processing, application modernization, and future scalability requirements.
+
+ 
+
+## **Metrics for Success**
+
+The following KPIs highlight the measurable improvements achieved through the implementation of a secure, highly available, and cloud-native AWS architecture. 
+
+**KPI 1: Network Security Posture ****–****  Elimination of Public Exposure and Implementation of Segmented Architecture**
+
+- Baseline:
+
+Prior to engagement, all production workloads, including application compute and database instances, were deployed in public subnets without network tier segmentation. Resources were assigned public IP addresses, making them directly accessible from the internet without controlled ingress. This created a significant security risk for a capital markets platform handling sensitive financial index data and client delivery workloads.
+
+- Improvement Target:
+
+a. Transition to a secure, segmented network architecture by migrating all compute and database workloads to private subnets, eliminating direct internet exposure. 
+
+- b. Establish Application Load Balancers in public subnets as the only controlled ingress layer for external traffic.
+
+- Actual Result:
+
+All production ECS services across four clusters (prod-website, access-management, cadmin-cluster, datalake-cluster) are deployed exclusively in private subnets (10.16.128.0/20, 10.16.144.0/20, 10.16.160.0/20) with assignPublicIp set to DISABLED. The RDS PostgreSQL instance (client-delivery-db) is deployed with PubliclyAccessible set to false and deletion protection enabled. All inbound traffic is routed exclusively through Application Load Balancers, with security groups restricting access to ports 80 and 443. No production resource has a public IP assigned, effectively eliminating direct external attack surface.
+
+- Measurement Methodology:
+
+Validated through AWS infrastructure configuration, including ECS service network settings, RDS instance properties, security group rules restricting backend access to VPC CIDR (10.16.0.0/16), and Network ACL enforcement. Organisation-level CloudTrail provides continuous auditability of network configuration changes.
+
+ 
+
+**KPI 2: Infrastructure Modernisation ****–**** Transition to Containerised, Auto-Scaling Architecture**
+
+- Baseline:
+
+Production workloads were hosted on standalone EC2 instances without containerisation, auto-scaling, or structured deployment processes. This resulted in single points of failure, manual scaling operations, and increased risk during deployments due to the absence of automated rollback mechanisms.
+
+- Improvement Target:
+
+Migrate to a containerised architecture using Amazon ECS with automated scaling, multi-AZ deployment, and zero-downtime deployment capabilities, reducing operational risk and improving system resilience.
+
+- Actual Result:
+
+All workloads are now containerised and deployed on Amazon ECS on EC2 across four clusters spanning three Availability Zones (ap-south-1a, 1b, 1c). The prod-website cluster maintains a minimum of three instances distributed across AZs, eliminating single-AZ dependency. ECS Capacity Providers automate scaling based on demand. Deployment Circuit Breaker with automatic rollback is enabled across all services, ensuring failed deployments are automatically reverted. All production services consistently maintain a rollout state of COMPLETED, demonstrating stable and repeatable deployment processes.
+
+- Measurement Methodology:
+
+Validated through ECS cluster configuration, Auto Scaling Group health status (all instances InService), deployment circuit breaker settings, and ECS service event logs confirming steady-state operations.
+
+## Results
+
+## **Benefits**
+
+- **Scalable and High-Performance Financial Data Platform – **AWS-native auto-scaling and distributed architecture enable seamless handling of large financial data volumes and peak index computation workloads, ensuring consistent performance under high demand.
+
+ 
+
+- **Highly Available and Resilient Architecture – **Multi-AZ deployment across critical components ensures continuous service availability with automatic failover, minimizing downtime risks for mission-critical financial operations.
+
+ 
+
+- **Strong Security and Compliance Posture – **Enterprise-grade AWS security services including IAM, KMS, GuardDuty, and private subnet isolation ensure secure handling of sensitive financial data and regulatory compliance readiness.
+
+ 
+
+- **Automated Operations with Faster Deployment Cycles – **Infrastructure as Code and ECS rolling deployments enable automated, zero-downtime releases with reduced manual intervention, improving operational efficiency and release speed.
+
+ 
+
+## **Lessons Learned**
+
+The engagement provided valuable operational and architectural insights that have helped strengthened the delivery practices and established improved standards for future cloud transformation initiatives.
+
+**Challenge 1:  Migration from Bare EC2 to Containerised Architecture with Shared Responsibility:**
+
+The Global Index Platform engagement involved a significant architectural shift from bare EC2 instances to a containerised ECS architecture. A key challenge was managing the division of responsibility during this migration. Comprinno designed and delivered the AWS infrastructure while Global Index Platform’s internal team handled application containerisation. Coordinating infrastructure readiness with application migration timelines required careful sequencing and close collaboration between both teams to ensure neither party was blocked during the transition.
+
+- Lesson learned: In engagements with shared implementation responsibility, a detailed RACI matrix and integration testing plan defined upfront significantly reduces coordination risk and ensures infrastructure and application readiness are validated together rather than independently.
+
+- Action taken: The migration was successfully completed with all production workloads running on Amazon ECS across four clusters spanning three Availability Zones. For future engagements, Comprinno will formalise a joint deployment readiness checklist covering both infrastructure and application layers, with explicit sign-off gates before production go-live.
+
+ 
+
+**Challenge 2:  Establishing a Secure Multi-Account Governance Model from Scratch:**
+
+At the start of the engagement, Global Index Platform had no formal AWS account governance structure in place. Establishing a multi-account AWS Organisation with dedicated Production, Development, and Monitoring accounts, along with centralised IAM Identity Center, organisation-level CloudTrail, and scoped permission sets for each team. This required careful planning to avoid disrupting existing workloads while simultaneously implementing governance controls around them.
+
+- Lesson learned: Account governance and identity management should be implemented as the first workstream in any cloud engagement, as retrofitting governance controls around existing workloads is significantly more complex than establishing them from a clean baseline.
+
+- Action taken: A fully structured AWS Organisation was successfully delivered with four accounts, centralised SSO via IAM Identity Center, scoped permission sets enforcing least-privilege access, and an organisation-level CloudTrail trail actively logging across all accounts. For future engagements, Comprinno will treat account governance as a Day 0 activity, completed before any application infrastructure is provisioned.
+
+ 
+
+**Challenge 3:  Implementing Network Security for a Platform Previously Running in Public Subnets:**
+
+Prior to the engagement, all Global Index Platform production workloads were running in public subnets without structured network tier separation, meaning application servers and databases were directly reachable from the internet. Migrating existing workloads to a properly segmented public and private subnet architecture while maintaining platform continuity for a live production environment required careful execution to avoid service disruption during the transition.
+
+- Lesson learned: Network architecture refactoring on a live platform requires a phased approach with thorough pre-migration planning, including mapping all existing dependencies before making subnet or routing changes.
+
+- Action taken: All production compute and database workloads were successfully migrated to private subnets with no direct internet exposure. Internet-facing traffic now enters exclusively through Application Load Balancers in public subnets, with all ECS services running with public IP assignment disabled and the RDS instance configured with PubliclyAccessible set to false. For future engagements, Comprinno will enforce private subnet deployment as a non-negotiable baseline from the initial provisioning phase.
+
+## Conclusion
+
+## **Conclusion**
+
+The AWS-based transformation by Comprinno enabled the Global Index Platform to evolve from a manually managed and operationally constrained environment into a modern, secure, and highly scalable financial data platform. The new architecture significantly strengthens system resilience through multi-AZ high availability design, while automated scaling ensures consistent performance during peak index calculation and data ingestion workloads. In addition, the integration of enterprise-grade security controls and governance frameworks enhances compliance readiness and protects sensitive financial data across all layers of the platform. With infrastructure automation, centralized monitoring, and streamlined deployment processes, the solution also improves operational efficiency and reduces system downtime risks.
+
+Overall, this modernization provides Global Index Platform with a future-ready AWS foundation that supports global expansion, accelerates innovation, and ensures reliable delivery of critical index data to institutional clients worldwide.

@@ -9,4 +9,74 @@ solutions: ["Data Localization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+Customer is a financial services company promoting cashless solutions and back-office operation efficiencies for the corporate market with its strengths in resources including a wide variety of alliance partners, expertise in the card business and a customer base of approximately 37 million people built up over the years.
+
+Customer aims to build a technology-led neo-lending conglomerate that enables India’s credit growth story.
+
+## **Executive Summary**
+
+Customer is a FinTech service provider company dealing with cross-border financial products aiming at individual finance management and freedom. They wished to set up an AWS architecture aligning to RBI guidelines, for their FinTech application leveraging the best in breed AWS cloud services to avail the benefits of its agility and reliability with minimum overhead. Comprinno was engaged to execute this project to build infrastructure on AWS for client’s custom applications.
+
+## The Challenge
+
+## **Challenges**
+
+Customer wanted to adopt AWS Security best practices for its cloud infrastructure. Being a FinTech company, they had to comply with RBI regulations.  The System Audit Report for Data Localization (SAR) & Storage of Payment System Data is a compliance mandate driven by RBI to ensure appropriate security measures and data localization controls for storage of payment related data.
+
+## The Solution
+
+## **Solution**
+
+Comprinno implemented the below security best practices to ensure data localization.
+
+**Data Localization:**
+
+VPC was created in the Asia Pacific (Mumbai) Region. Compute resources and databases launched into this VPC were restricted to Asia Pacific (Mumbai) Region. Global condition key aws:RequestedRegion was used in an IAM policy attached to users and roles, in conjunction with other IAM access control permissions. Database and storage for EKS nodes was encrypted using customer managed keys (CMK). Versioning, logging and encryption at rest was enabled for S3 bucket with sensitive data. Service control policy was created and applied to all child accounts which enables all the AWS services in only Mumbai region and all the global AWS services in North Virginia region. AWS CloudTrail was used to monitor and record account activity across AWS infrastructure enabling governance, compliance and audit of AWS accounts. Amazon GuardDuty was enabled to detect signs of account compromise, such as access of AWS resources from an unusual geolocation.
+
+**Security Best Practices:**** **
+
+AWS Organization was setup with different accounts for development, staging and production. AWS Single Sign On (SSO) was used to centrally manage single sign-on access and user permissions across all the AWS accounts in AWS Organization.
+
+AWS WAF was configured for the application load balancer as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+Amazon VPC was created with 3 public and 9 private subnets. Containerized applications under microservices on Amazon Elastic Kubernetes Service (EKS) cluster were deployed across multiple private subnets. The cluster had Application Load Balancer at the front end.
+
+AWS Private Link was used to access S3 from the application, securing data during transit between AWS services outside VPC.
+
+AWS Key Management System (KMS) was used for encrypting data as per AES-256 standard.  AWS Secrets Manager is used to rotate, manage and retrieve the database credentials and API keys.
+
+AWS Config has been used to assess, audit and evaluate the configurations of AWS resources, to determine overall compliance against the guidelines.
+
+AWS Security Hub was used for security threat detection and monitoring.
+
+All AWS Services logs were generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs were configured to use the Object Lock feature in Compliance mode, in order to prevent tampering of stored logs and meet regulatory compliance. Server-side encryption was enabled for all S3 buckets.
+
+All AWS Services metrics and app logs were aggregated to create a common AWS CloudWatch Dashboard. Relevant alarms were configured in AWS CloudWatch Alarms for the infrastructure components.
+
+**DevSecOps:**** **
+
+The below solution for CI/CD pipeline was proposed and implemented.
+
+Automatic Deployment was triggered whenever code was committed to GitHub repository. AWS CodeBuild was used for building the docker image and then the image was pushed to AWS ECR (Elastic Container Registry).
+
+A notification alert was set up using AWS SNS to report developers about the failed pipeline.
+
+## Results
+
+## Benefits
+
+- Robust security landscape
+
+- Implemented DevSecOps
+
+- Successfully cleared data localization audit
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

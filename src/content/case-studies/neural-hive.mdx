@@ -9,4 +9,68 @@ solutions: ["Greenfield Deployment"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Neural Hive**
+
+Neural Hive is a company focused on oral health technology, enabling AI driven orthodontic treatment plans that correct misaligned teeth. The proprietary developed technology leverages the power of machine learning to improve the accuracy and speed of the process.
+
+The cutting-edge technology digitally empowers dentists with equipment solutions that assist the dentists to 3-dimensionally digitize intra-oral scans and radiographic images that facilitate break-through full digital treatment planning and delivery workflow.
+
+## **Executive Summary**
+
+Neural Hive is an AI solutions tech startup in the Healthcare sector that is rolling out its first product, a ground-breaking online platform for Orthodontic Clear aligner treatment planning with enterprise and remote monitoring features. Neural Hive has partnered with AWS and Comprinno to set up their infrastructure on the AWS cloud and will leverage the myriad of benefits in terms of cost, performance efficiency and security.
+
+## The Challenge
+
+## **Challenges**
+
+Neural Hive has advanced AI model that produced 3D images for orthodontic treatment. AI model requires heavy computing power and a number of GPUs. Other tasks like user logging, extraction of dental records requires lesser computing power. Architecture had to be designed keeping the different processing requirement, high scalability and high availability, in mind. Faster time-to-market was a desirable factor demanding rapid deployments and vulnerability scanning at the time of the deployment. Running the entire infrastructure at optimal cost was one of the major objectives.
+
+## The Solution
+
+## **Solution**
+
+API calls are routed via highly available and reliable infrastructure of Amazon Route 53 to create and manage public DNS records. Amazon CloudFront and Amazon S3 are used to deliver site assets via the AWS content delivery network (CDN).
+
+Amazon API GW is used as a highly scalable entry point for the API transactions. AWS WAF service integrated with AWS API Gateway is used as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+Serverless computing and Auto scaling groups are allocated based on the processing
+
+requirements and with the aim of meeting the business objectives of scalability, low latency,
+
+high availability and optimized costs.
+
+Web application makes REST API calls to the endpoint which triggers AWS Lambda. AWS Lambda then runs code to retrieve patient related data, cost effectively and without needing to provision or manage any servers. Unlimited scaling of Lambda function allows high scalability and availability.
+
+3D tool for creating 3D images for dental treatment, is deployed on AWS ECS on AWS Fargate.
+
+Processing of 3D images for dental treatment is handled by running AI models on EC2 instances in Auto scaling group. Multiple Auto scaling groups have been configured for different AI models, to cater to the desired compute. Amazon SQS, a secure, durable, and available fully managed message queuing service is used, eliminating the complexity and overhead associated with managing and operating message-oriented middleware. Scale in/scale out for Auto scaling group has been leveraged to handle peak demands and release compute instances when the demand is low and is done based on the depth of Amazon SQS queue.
+
+AWS Key Management System (KMS) is used for encrypting data as per AES-256 standard, to guarantee high level of security for the data in the SQS.
+
+Centralized logging has been enabled with Amazon Open Search greatly simplifying log analysis and correlated tasks. Logs from AWS CloudWatch from multiple AWS accounts and Regions are consolidated in a single dashboard using Amazon OpenSearch and developers are granted access to logs based on least privilege policy. AWS Security best practices are implemented using AWS SSO to manage User Access, AWS
+
+IAM with least privilege policy, AWS GuardDuty, AWS Security Hub and other security related services. Amazon Cognito is used to provide user management and authentication functions to secure the backend infrastructure.
+
+Faster deployments were achieved by setting up CI/CD pipeline. AWS CodePipeline’s Source stage is triggered whenever code is committed to GitHub repository. This in turn triggers AWS CodeBuild.
+
+A notification alert has been setup using AWS SNS to report failed pipeline to the developers. AWS Code Deploy pushes the code to the auto scaling group, ensuring reliable and rapid deployments, minimizing the downtime.
+
+## Results
+
+## **Benefits**
+
+- Cost optimization: AWS Lambda was a cost-effective way of handling API calls without any cost for server management. Alerts sent by AWS Lambda function for unintended long running EC2 instances, reduced chances of incurring unwanted costs.
+
+- High availability and scalability: API Gateway handles any number of requests per second (RPS) while making good use of system resources. Unlimited scaling property of AWS Lambda removed any possibility of throttling of API calls. Auto scaling group provisioned EC2 instances as per the demand. Edge locations reduced end-user latency.
+
+- Secure infrastructure: Entire infrastructure was built as per AWS security best practices, keeping in mind the compliance bound nature of the business.
+
+- Faster time-to-market: CI/CD pipeline applied DevSecOps approach of early identification of vulnerabilities along with faster deployments.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

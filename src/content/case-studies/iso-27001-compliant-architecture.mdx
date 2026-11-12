@@ -9,4 +9,110 @@ solutions: ["Cloud Security"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+Customer is a computer vision AI platform which enhances vehicle fleet management experience for the enterprises. Their application gives a 360-degree view of driving behavior by providing visual context to driving data.
+
+## **Executive Summary**
+
+Customer is a computer vision AI platform which enhances vehicle fleet management experience for the enterprises. They partnered with Comprinno to enhance the security landscape of AWS cloud infrastructure and achieve ISO 27001 compliance.
+
+## The Challenge
+
+## **Challenges**
+
+As a responsible cloud adopter, customer wanted to ensure that its AWS cloud infrastructure was robust and foolproof to avoid any security breaches. They were also keen on achieving ISO 27001 compliance to further cement customer trust.
+
+ISO 27001 certification requires –
+
+- Fine-grained identity and access control so that resources have the right access
+
+- Control on where data is stored and who can access it
+
+- Reduced risk via security automation and continuous monitoring
+
+- Integration of AWS services with solutions to support existing workflows, streamline operations and simplify compliance reporting.
+
+- Threat remediation and response
+
+- Securely deployed business critical applications
+
+## The Solution
+
+## **Solution**
+
+The basis of ISO 27001 certification is the development and implementation of a rigorous security program, which includes the development and implementation of an Information Security Management System (ISMS) which defines how AWS perpetually manages security in a holistic, comprehensive manner.
+
+Comprinno solution addressed all the ISO 27001 requirements and helped achieve the compliance.
+
+- **Fine-grained identity and access control so that resources have the right access:**
+
+Multiple AWS accounts have been set up depending upon business functions, production/non-production environments and roles and responsibilities. AWS Single Sign-On (SSO) is used to provide access with least-privilege permissions, set and manage guard rails and fine-grained access controls for workloads. AWS Organization has been introduced for managing and governing AWS accounts centrally and efficiently.
+
+- **Control on where data is stored and who can access it:**
+
+Amazon CloudFront has been used as a highly secure CDN providing both network and application level protection.
+
+Amazon EKS cluster and databases are deployed in private subnets in Amazon VPC. Database subnets do not have access to internet owing to the restrictive configurations set up in the route table.
+
+Additional layer of security has been provided in the VPC through the use of Security Groups. VPN connectivity has been used into VPC from an external network to facilitate encryption of traffic.
+
+AWS Secrets Manager is used to rotate, manage and retrieve the database credentials and API keys. AWS Key Management System (KMS) is used for encrypting data as per AES-256 standard, to guarantee high level of security for the data during the transactions. This also guarantees security provided for sensitive Personal Identifiable Information.
+
+Configuration changes enabling data encryption at rest and in transit were activated for all the AWS services.
+
+- **Reduce risk via security automation and continuous monitoring**** **
+
+Amazon GuardDuty has been used to detect suspicious activity or attempts to move data outside of defined boundaries. Amazon VPC Flow Logs, which capture network traffic information, are used with Amazon Event Bridge to trigger detection of abnormal connections–both successful and denied.
+
+API and user activity logging is done with AWS CloudTrail. AWS CloudTrail is also used to monitor and record account activity across AWS infrastructure, giving control over storage, analysis, and remediation actions. All AWS Services logs are generated and stored in Amazon S3.
+
+Amazon S3 buckets associated with Amazon CloudTrail logs are configured to use the Object Lock feature in compliance mode, in order to prevent tampering of stored logs and meet regulatory compliance. Application logs are shipped from Amazon EKS to Amazon Kinesis Firehose with Fluentbit log shipping tool.
+
+All AWS Services metrics are aggregated to create a common AWS CloudWatch Dashboard. Application metrics are exposed using Kubernetes Dashboard. Relevant alarms are configured in AWS CloudWatch Alarms for the infrastructure components.
+
+Prometheus Grafana have been configured and deployed in private subnets for metrics monitoring and visualization of analytics.
+
+AWS Config has been used to assess, audit and evaluate the configurations of AWS resources, to determine overall compliance against the guidelines.
+
+- **Integration of AWS services with solutions to support existing workflows, streamline ops and simplify compliance reporting.
+
+**
+
+AWS Security Hub has been integrated to continuously monitor the AWS cloud security posture. Customer’s AWS account has also been onboarded to Tevico – an AWS Marketplace SaaS product, developed by Comprinno, for overall cloud inventory and security management.
+
+Comprinno has been responsible for developing Incident response plans and management systems for the customer.
+
+- **Threat remediation and response:**
+
+Customer’s AWS account has been onboarded onto Tevico and any configuration changes, security issues are monitored by Tevico. Any identified issues are reported via Slack and mail notifications to the identified incident response group.
+
+- **Securely deployed business critical applications:**
+
+Infrastructure has been automated using Terraform. Terraform is an essential part of disaster recovery strategy as it helps put up new infrastructure very quickly and efficiently.
+
+Automatic Deployment is triggered whenever code is committed to GitHub repository. AWS CodeBuild is used for building the docker image and then the image is pushed to AWS ECR (Elastic Container Registry). The built-in capability of ECR to scan docker images for known vulnerabilities has been leveraged and the pipeline proceeds to deployment only when no Critical OR High severity vulnerabilities are reported by ECR. A notification alert has been setup using AWS SNS to report developers about the failed pipeline.
+
+## Results
+
+## **Benefits**
+
+- Enhanced security posture
+
+- An automated, scalable security solution has been built
+
+- Secured static website
+
+- Effective logging and monitoring of AWS services
+
+- Reduced delivery time owing to automatic deployments via CI/CD
+
+- Secure, ISO 27001 compliant infrastructure
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

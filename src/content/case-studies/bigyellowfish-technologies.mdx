@@ -9,4 +9,60 @@ solutions: ["WAFR"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+Bigyellowfish brings a workplace technology solution that will help employees solve their everyday challenges to perform better, and help employers achieve their desired business outcomes. They are an innovative employee experience platform that is an intersection of psychology, business & technology. They aim to optimize an organization’s employee experience by focusing on employee well-being, collaboration and microlearning.
+
+## **Executive Summary**
+
+Bigyellowfish is an innovative employee experience platform that is an intersection of psychology, business & technology. Bigyellowfish is poised for spectacular growth and wanted a secure cloud architecture that aligned to best practices. Comprinno, an authorized AWS Well-Architected Review partner, was engaged to conduct WAR for Bigyellowfish and remediate the identified recommendations.
+
+## The Challenge
+
+## **Challenges**
+
+Bigyellowfish wanted their infrastructure to be aligned with AWS best practices to leverage the benefits of a secure, high performing, reliable cloud infrastructure at optimal costs which would also lead to enhanced customer experience.
+
+## The Solution
+
+## **Solution**
+
+Comprinno conducted Well-Architected Review (WAR) in 4-5 sessions and helped the Bigyellowfish team in answering a few foundational questions. With this exercise the team could gain insight into how well their architecture is aligned with cloud best practices. Guidance and recommendations were provided for making improvements in the architecture.
+
+As part of the remediations, Comprinno implemented AWS Organization structure consisting of separate AWS accounts for the various environment like development, staging, pre-production, production, logging, security & a management account. AWS Organization root was managed and all other AWS accounts were configured as child accounts. Multi Factor Authentication (MFA) was enabled for the root user on all AWS accounts as it is a simple best practice that adds an extra layer of protection on top of your user name and password. IAM password policy with least privilege was configured as per AWS CIS benchmark compliance. AWS SSO with users having restrictive access to AWS accounts, was created on the management account.
+
+Logging and monitoring was enhanced by enabling VPC flow logs for production account and installing AWS CloudWatch log agent to log application logs in CloudWatch. AWS Cloudwatch agent was installed on EC2 instances to monitor memory & disk for EC2 instances or monitor the compute resources using the monitoring tool like data dog.
+
+Amazon GuardDuty and AWS Config were enabled as per security best practices.
+
+AWS WAF is configured for the application load balancer as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources. Encryption was enabled for EBS volumes, Amazon S3, Amazon RDS and other AWS services which support encryption at rest.
+
+Incident management was implemented using AWS System Manager Incident Manager which is designed to help users mitigate and recover from incidents affecting their AWS-hosted applications. Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. Alarms for critical servers were created with SNS integration for email alerts. AWS Backup service was used to backup critical resources hosted in EC2 instances, EBS volumes, RDS & S3.
+
+AWS X-Ray was integrated with APM tool in the application to help developers analyze and debug production, distributed applications. Autoscaling for compute hosting applications was implemented which assured scalability during peak demand volumes guaranteeing a better customer experience.
+
+AWS Cost and Usage Report was configured to track AWS usage and provide estimated charges associated with AWS account. AWS budget was configured and a notification was set for breach of billing threshold.
+
+## Results
+
+## **Benefits**
+
+- Custom environments for different workloads.
+
+- Centrally secure and capability to audit environment across accounts.
+
+- Enhanced security posture.
+
+- Reduced time-to-resolution of critical incidents with the introduction of incident management.
+
+- Improved performance and scalability
+
+- Improved budgetary tracking
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

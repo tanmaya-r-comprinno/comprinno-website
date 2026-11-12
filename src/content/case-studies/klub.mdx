@@ -9,4 +9,68 @@ solutions: ["Cloud Security Hardening"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+Klub is India’s leading FinTech platform focusing on growth capital for brands through revenue-based financing. They are a team of FinTech, investment banking, venture capital, and technology professionals, determined to create a seamless funding experience for business founders, through technology & data. Investment platform combines financial product innovation, deep data-driven analytics, high-frequency collections, and community engagement. Klub has facilitated over 600 investments in 250+ leading brands including SMOOR, Bewakoof, Third Wave Coffee Roasters and have onboarded 7000+ patrons.
+
+## **Executive Summary**
+
+Klub is an investment platform utilizing financial innovation and deep data-driven analytics to provide growth capital to entrepreneurs. Klub partnered with Comprinno to enhance the security landscape of its AWS cloud infrastructure to create a robust, secure and reliable environment for its customers.
+
+## The Challenge
+
+## **Challenges**
+
+As a responsible cloud adopter, Klub wanted to ensure that its AWS cloud infrastructure was robust and foolproof to avoid any security breaches. They also wanted to ensure that they were audit ready with an enhanced security landscape. To market their innovations faster, they required a setup for secure and fast deployments.
+
+## The Solution
+
+## **Solution**
+
+Klub, being a FinTech company is in a domain that has stringent security requirements. To fortify the AWS cloud architecture Comprinno undertook a series of security strengthening measures.
+
+Threat of HTTP flood attacks and distributed denial of service (DDoS) attacks designed to take down its website, loomed large. The company needed protection against rogue robots that could flood its website with traffic and SQL-injection attacks designed to extract data. Comprinno configured AWS WAF for the application load balancer as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+AWS Organizations was introduced for managing and governing AWS accounts centrally and efficiently. Separate accounts were created for all environments and a separate management account was created. AWS SSO has been used to centrally manage single sign-on access and user permissions across all the AWS accounts in AWS Organization. AWS IAM is used to provide access with least-privilege permissions. AWS SSO was integrated with G-Suite allowing users to access AWS accounts with their G-suite credentials. AWS IAM is used to provide access with least-privilege permissions. Mechanism was devised for root login notification.
+
+AWS Client VPN Endpoints were utilized for accessing private resources using SSO as identity provider. It provides a secure TLS connection from any location using the OpenVPN client and it automatically scales to the number of users connecting to your AWS resources.
+
+Amazon EKS cluster and database was deployed in private subnets in Amazon VPC. Application was deployed on Amazon EKS instances in Auto scaling group in private subnets for high scalability. Security groups were reviewed and restricted. Configuration changes were made enabling data encryption at rest in AWS EC2 and AWS RDS.
+
+AWS Secrets Manager was used to rotate, manage and retrieve the database credentials and API keys. AWS Key Management System (KMS) was used for encrypting data as per AES-256 standard, to guarantee high level of security for the data during the transactions. This also guaranteed security provided for sensitive Personal Identifiable Information.
+
+As per Security best practices, AWS GuardDuty, Amazon Inspector and AWS Security Hub have been used for security threat detection and monitoring.
+
+AWS CloudTrail was used to monitor and record account activity across AWS infrastructure, giving control over storage, analysis, and remediation actions. All AWS Services logs were generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs were configured to use the Object Lock feature in Compliance mode, in order to prevent tampering of stored logs and meet regulatory compliance. Application logs were shipped from Amazon EKS to Amazon Kinesis Firehose with Fluentbit log shipping tool. All AWS Services metrics were aggregated to create a common AWS CloudWatch Dashboard. Application metrics were exposed using Kubernetes Dashboard. Relevant alarms were configured in AWS CloudWatch Alarms for the infrastructure components.
+
+Infrastructure was automated using Terraform. Terraform was an essential part disaster recovery strategy as it helps put up new infrastructure very quickly and efficiently.
+
+CI/CD pipeline was implemented using Jenkins. Jenkins is triggered whenever code is committed to repository because of webhooks configured. Jenkins here was used for building the docker image, pushing it to AWS ECR and then deploying to AWS EKS. Whenever the new code is pushed to the repo, Jenkins is triggered which then clones the repository in its file system and sends it to SonarQube for checking the code quality.
+
+SonarQube then checks the code on the rules defined in quality gate and sends back a JSON to Jenkins which reports the status of the code. If the code passes the quality gate the code is deployed and if it does not pass the quality then the pipeline is aborted.
+
+## Results
+
+## **Benefits**
+
+- Enhanced security posture
+
+- An automated, scalable security solution has been built
+
+- DDoS attacks are thwarted
+
+- Improved incident response times by automating incident management process
+
+- Secured static website
+
+- Effective logging and monitoring of AWS services
+
+- Reduced delivery time owing to automatic deployments via CI/CD.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

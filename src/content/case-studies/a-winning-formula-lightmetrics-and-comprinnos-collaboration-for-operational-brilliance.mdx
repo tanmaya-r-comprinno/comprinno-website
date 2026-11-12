@@ -9,4 +9,60 @@ solutions: ["CloudOps Optimization", "Managed Services"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer******
+
+LightMetrics revolutionizes commercial fleets with RideView video telematics, empowering fleets worldwide with the benefits of AI on the edge and in-cab driver coaching, making it affordable and accessible for all. The system features efficient neural net inference algorithms and flexible hardware options, with consistent UX and easy engineering and customer support. RideView enables fleet managers to protect their drivers and businesses from fraudulent claims with on-demand video and enhance driver safety with in-cab coaching and driver coaching workflows.
+
+LightMetrics has been awarded the 2022 Best Practices Award by Frost and Sullivan for their AI-enabled Fleet dashcams.
+
+## The Challenge
+
+## **Executive Summary******
+
+LightMetrics, a prominent player in video telematics, collaborated and availed Comprinno's Managed Services to refine its AWS infrastructure and elevate cloud operations. The goal was to set up robust monitoring, ensure high availability, deploy proactive alerting, optimize performance, and ensure both security and cost efficiency.
+
+## The Solution
+
+## **Cloud Operations and Optimization Journey**
+
+LightMetrics and Comprinno initiated their collaborative journey a few years back to establish cutting-edge infrastructure. Commencing with Comprinno orchestrating the setup of LightMetrics' infrastructure in AWS, the partnership evolved as LightMetrics gained confidence in Comprinno's technical consulting capabilities, and opted to further enhance their collaboration by signing up for Comprinno's Managed Services.
+
+The surge in dashcam usage, particularly within transportation and logistics industries, has been remarkable in recent years. These cameras, offering real-time data capture, have revolutionized safety analysis and operational efficiency. However, managing the substantial volume of generated data poses challenges, necessitating a streamlined and scalable data routing and streaming system. Moreover, given the sensitive nature of the data, the implementation of robust security measures is paramount.
+
+The consequences of system downtime, leading to the loss of video footage, can have severe impact, underlining the need for a resilient monitoring system. The primary objective was to establish such a system, ensuring high availability, proactive alerting, optimized performance, and a balance between security and cost efficiency. The solution sought had to scale effectively to handle unpredictable workloads, ultimately achieving operational excellence and relieving the team from the complexities of backend management. Also,  LightMetrics is compliant with ISO 27001 standards and maintaining the infrastructure to adhere to the compliance standards was essential.
+
+*"LightMetrics operates globally, providing its services around the clock to transportation companies. Given the continuous operation of vehicles 24x7, it is crucial for dashcams to be operational without any downtime. We needed a technically proficient team to vigilantly monitor our systems at all times. With prior experience working with Comprinno, we had full confidence in their capabilities to take on this responsibility. Comprinno now oversees the operational aspects, allowing us to concentrate on our business and strategic objectives," affirms Pushkar Patwardhan, Co-Founder of LightMetrics.*
+
+**Managing Observability and Observing Best Practices**
+
+The Comprinno team successfully implemented robust monitoring leveraging Prometheus and Grafana. The monitoring setup itself was designed to be highly available, ensuring continuous insight into infrastructure health.
+
+Any downtime or performance anomalies trigger alerts through Prometheus, leading to the creation of an incident ticket in Comprinno’s Service Desk ITSM. The alert is then communicated through Slack, Microsoft Teams, and a phone call to notify the on-call Managed Services team member. With these comprehensive checks and balances, the automated escalation system ensures swift detection and resolution of any incidents.
+
+Streaming data from global dashcams to AWS compute meant challenges like real-time data streaming of huge data volumes from thousands of dashcams, reliable and secure video footage transmission, high availability, and scalability.  For solutioning of this complex scenario, the Managed Services team collaborated with the SMEs, leveraging their apt skills and expertise. A design was provided where data from LightMetrics devices on thousands of global vehicles is ingested into the system through a Network Load Balancer, utilizing high throughput and low latencies. The MQTT protocol used by devices is facilitated by a managed message broker service, RabbitMQ, configured with Amazon MQ. Subsequently, Apache Camel Connector extracts,  transforms, and loads the data into an appropriate topic in Amazon MSK  (Managed Streaming for Apache Kafka).
+
+To make data flows observable, locate and troubleshoot issues faster, and deliver optimal performance, KafkaUI was configured for monitoring. To make KafkaUI accessible, it is exposed through an internal load balancer. In an added layer of security, user management is implemented using Amazon Cognito, which is integrated with the load balancer. The integration of Amazon Cognito with the load balancer adds a robust user management layer, ensuring secure access to KafkaUI. The Cognito wrapper further enhances security, providing an additional layer of protection around the load balancer. This strategic implementation allows for streamlined user authentication and authorization processes.
+
+Comprinno also follows a systematic approach by conducting regular Well-Architected Framework Reviews to meticulously assess and validate the adherence to AWS best practices across all essential pillars. This structured process involves a comprehensive evaluation of the architecture, ensuring that it aligns with industry-leading standards and guidelines. Any deviations from the best practices are identified and remediated. By conducting these periodic reviews and remediations, Comprinno aims to ensure the robustness, security, and efficiency of the AWS infrastructure, addressing any potential areas of improvement and reinforcing a commitment to excellence
+
+*“We prioritize the ongoing refinement and optimization of our client's infrastructure. Conducting quarterly Well-Architected Framework Reviews is not just a practice; it's our commitment to ensuring that our customers' systems align with industry best practices. By systematically evaluating architecture periodically, we proactively identify and address any potential issues, fostering resilience, security, and operational excellence.“ says Bhupali Tambekar, CTO at Comprinno Technologies.*
+
+*“ It's a strategic investment by LightMetrics in the reliability and efficiency of our services, reflecting our dedication to delivering the best experience to our clients," adds Pushkar Patwardhan.*
+
+Unused or underutilized resources can incur high costs and negatively impact the overall budget. This calls for monitoring the costs incurred by AWS services concerning the overall budget. Periodic cost analysis reports identifying trends and highlighting cost drivers are shared with LightMetrics. Cost optimization recommendation reports along with resource inventory reports ensure rightsizing of resources. Any orphaned or stale resources can be identified to help rectify leakages and undue costs. Security is a top priority in cloud environments, and continuous evaluation is essential to mitigate risks. Thorough security assessment reports identify potential vulnerabilities, compliance issues, and recommend security enhancements to fortify the AWS infrastructure. Regular SLAs reports offer insights into service performance, uptime, and areas for improvement, thereby facilitating compliance with agreed-upon service levels. Thus, regular reporting forms an integral part of the operations, covering the crucial aspects listed above.
+
+Ensuring regular communication and transparency, these reports contribute to informed decision-making, financial management, and improvements across organizational processes.
+
+## Results
+
+## **Outcome**
+
+LightMetrics has gained valuable insights into system resilience and scalability, enabling actionable steps to enhance fault tolerance. After periodic reviews, LightMetrics decided to modernize their infrastructure; Comprinno migrated their compute from EC2 to EKS. LightMetrics has accelerated its speed to market and agility, allowing for efficient testing of business initiatives within tight delivery timelines. Internal teams are now better aligned with the business, focusing on delivering an improved customer experience and generating revenue rather than dedicating extra time to address technical incidents.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

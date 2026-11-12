@@ -9,4 +9,52 @@ solutions: ["AWS Infrastructure Setup"]
 draft: false
 ---
 
+## Overview
 
+## Overview
+
+**About Customer**
+
+Youvah is India's First Internship Platform for teenagers. They are an IIM Bangalore Incubated and CIIE.co IIM Ahmedabad funded startup focusing on enhancing the Indian education system by providing practical experience to high school students.
+
+## The Challenge
+
+## Executive Summary
+
+Youvah is an internship platform for high school students to help them gain practical experience.
+
+They wanted to set up their infrastructure on the AWS cloud to leverage the efficiency that it
+
+offers.
+
+## The Solution
+
+## Solution
+
+Youvah, a dynamic and rapidly growing startup, recognized the need for a robust and scalable infrastructure to support its internship platform. Their AWS setup was done in the ap-south-1 (Mumbai) region. The production infrastructure was designed with a 3-tier well-architected VPC, comprising 3 public subnets, 3 private application subnets, and 3 private database subnets. The VPC setup followed a resilient 3-tier architecture with internet and NAT gateways, providing controlled internet access for private application subnets.
+
+EC2 instances were utilized for computing. Amazon Machine Images (AMIs) were generated, and instances were launched from the AMIs. A mix of On-Demand and Spot Instances was used, optimizing cost efficiency without compromising availability. Dynamic scaling policies based on CPU utilization were implemented, allowing the infrastructure to adapt to varying workloads.
+
+CI/CD with AWS CodePipeline with AWS CodeBuild and AWS CodeDeploy was set up. The CI/CD workflow, comprising Source, Build, and Deploy stages, facilitated automated and controlled deployments, enhancing agility and reducing manual intervention. GitHub was used as the source code repository. Blue-Green deployment was set up in production environment. Alarms using SNS topic have been set up in the pipeline to alert the developers for any failures.
+
+For data encryption at rest, Youvah implemented Amazon KMS with customer-managed keys. KMS key rotation and key alias creation were part of the security strategy. Additionally, AWS Parameter Store was utilized to securely store and manage configuration data, ensuring a centralized and secure approach. AWS IAM was used to provide access, with least-privilege permissions, to processes/ Amazon web services. Multi-Factor Authentication (MFA) was enabled for all IAM users. Access Control Lists were set up for restricting access to infrastructure. All security best practices like enabling of Guard Duty and Security Hub, extensive logging and monitoring.
+
+Youvah's adoption of AWS not only met regulatory compliance but also transformed its infrastructure, providing scalability, security, and efficiency. The combination of well-architected VPCs, autoscaling groups, load balancing, CI/CD pipelines, and secure key management demonstrated a holistic approach to modernizing and optimizing their platform.
+
+## Results
+
+## Benefits
+
+**Scalability**: The 3-tier well-architected VPC design, coupled with autoscaling groups and a mix of On-Demand and Spot Instances, ensures that their platform can handle varying workloads, accommodating the growth in demand without compromising performance.
+
+**Agility and Efficiency through CI/CD**: The implementation of AWS CodePipeline for CI/CD streamlined Youvah's development and deployment processes. This automated workflow not only enhanced agility by enabling rapid and controlled deployments but also improved overall efficiency by reducing manual intervention.
+
+**Cost Optimization**: By leveraging a mix of On-Demand and Spot Instances and implementing dynamic scaling policies based on CPU utilization, Youvah achieved cost efficiency without sacrificing availability. The ability to automatically adapt to workload changes ensures optimal resource utilization and cost-effectiveness.
+
+**Data Security and Compliance**: The setup has all the security best practices in place. Centralized Configuration Management: AWS Parameter Store was employed for secure storage and management of configuration data. This centralized approach not only ensures consistency across the infrastructure but also enhances security by providing a controlled and secure location for sensitive information.
+
+**Centralized logging**: All application logs are going to CloudWatch log stream.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

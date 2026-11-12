@@ -9,4 +9,102 @@ solutions: ["Modernization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer**
+
+Carnot is an AI-enabled Agri IoT platform supported by Qualcomm and backed by Series B funding from Mahindra and Whiteboard Capital. Their flagship product, the Krish-e-Smart Kit, is a business management solution designed for rental tractor entrepreneurs. Customers using the Krish e Smart Kit can typically increase their tractor income by up to 30%, with a payback period of less than two months.
+
+**Executive Summary**
+
+The project involved implementing a secure, scalable multi-account AWS setup, transitioning to Infrastructure as Code (IaC) using Terraform, and integrating robust security measures. Comprinno also optimized Carnot's CI/CD processes and established comprehensive backup and disaster recovery strategies. These solutions, designed to cover all potential scenarios, have reassured Carnot's preparedness and resilience in the face of any operational challenges.
+
+## The Challenge
+
+## **Problem Statement**
+
+Carnot required a secure, scalable multi-account AWS setup, integrating best practices for managing user identities, permissions, and compliance. They sought to transition to Infrastructure as Code (IaC) using Terraform for consistent configurations across different environments. Key priorities included implementing security controls, ensuring high availability and scalability of applications on ECS and EKS, and establishing a robust CI/CD pipeline. Additionally, they needed effective backup and disaster recovery strategies to ensure business continuity.
+
+## The Solution
+
+## **Solution**
+
+##### 
+
+##### **AWS Multi-Account Setup with Security Best Practices**
+
+AWS Control Tower was enabled to automate the setup and governance of new AWS accounts, ensuring consistency and adherence to security best practices. This approach streamlined the onboarding process for new accounts and provided a centralized management framework.
+
+ 
+
+##### **Infrastructure as Code (IaaC) Implementation**
+
+Comprinno provided a comprehensive solution for Carnot’s infrastructure provisioning using Terraform, enabling Carnot to manage its entire cloud infrastructure through code. This solution ensured that all critical infrastructure components across different AWS services were consistently defined and deployed.
+
+The architecture involves multiple critical infrastructure components in streaming, real-time processing, computation, and data warehousing. Using Terraform, Comprinno structured modules for these components to ensure uniformity across all environments—whether it was for real-time streaming, batch data processing, or computational tasks. This approach reduced configuration drifts and enhanced disaster recovery preparedness, as the infrastructure could be redeployed quickly and accurately in the event of an issue.
+
+The elasticity of the infrastructure, such as the autoscaling of key services, was embedded within the IaC design. This allows Carnot to automatically scale resources based on demand, ensuring both high availability and optimized resource utilization. The Terraform configuration also integrated security components like identity management and encryption controls to maintain strict access and data protection, while AWS Control Tower facilitated multi-account governance.
+
+By managing the entire infrastructure through code, Carnot can now easily replicate and adjust environments, providing them with a scalable, maintainable, and resilient cloud architecture.
+
+ 
+
+##### **Enhanced Security and Compliance**
+
+Custom IAM policies and roles were created to ensure secure access to AWS resources, effectively managing permissions and user access. AWS WAF and associated managed rules were deployed to protect web applications from common threats, enhancing the security posture across all environments.
+
+ 
+
+##### **Scalability and High Availability**
+
+Comprinno implemented autoscaling for ECS services and EKS clusters, ensuring the infrastructure scales based on demand. The solution also involved setting up health checks and failover mechanisms, ensuring high availability and minimizing downtime.
+
+ 
+
+##### **CI/CD Pipeline Integration**
+
+Comprinno provided Carnot with a robust solution for continuous integration and continuous deployment (CI/CD) to streamline their application development lifecycle. Using AWS CodePipeline and AWS CodeBuild, the solution automates the build, testing, and deployment stages, ensuring that new updates can be released quickly and reliably across all critical infrastructure components.
+
+The CI/CD pipeline covers key areas like real-time processing, data streaming, and computational engines, ensuring seamless integration of new features into the system. By automating the deployment of these critical components, the pipeline reduces manual intervention, thus minimizing human error and ensuring consistency across different environments.
+
+AWS CodeBuild is leveraged to automatically compile and run tests on the code before deployment, ensuring that new changes meet quality and performance standards. CodePipeline orchestrates the process, from the moment new code is committed in the GitHub repository to the final deployment on various services, such as the real-time processing engines or computation engines. This integration ensures that each component, whether handling real-time data or computation tasks, remains up-to-date and functional without causing service interruptions.
+
+By incorporating automation into the CI/CD pipeline, Carnot can now benefit from faster release cycles, more frequent updates, and a highly agile development process. Additionally, the pipeline integrates with security and monitoring solutions, such as AWS CloudWatch and New Relic, to track performance and ensure that each deployment is secure and efficient.
+
+ 
+
+##### **Backup and Disaster Recovery (DR)**
+
+Comprinno provided Carnot with a robust backup and disaster recovery solution using AWS Backup, designed to automate the backup of critical services such as Amazon ElastiCache, Amazon RDS, and Amazon S3. This solution offers seamless data protection and ensures that backups are consistently managed across environments.
+
+Comprinno recommended cross-region backup strategies for Amazon RDS, ensuring that data would be securely stored in multiple regions to meet compliance requirements and mitigate risks during regional outages. Additionally, our solution includes regular backup testing to validate recovery processes, ensuring that services can be restored quickly and effectively in case of failure.
+
+Comprinno designed an automated solution for Amazon ElastiCache Redis clusters using AWS Lambda, CloudWatch Events, and S3 to manage backup creation and cross-region replication. This approach ensures that Redis snapshots can be restored quickly in the event of a disaster, reducing downtime and maintaining business continuity.
+
+Comprinno's solutions offer Carnot a proactive disaster recovery framework, ensuring uninterrupted operations and enhanced resilience against potential failures.
+
+## Results
+
+## **Benefits**
+
+**Improved Security and Compliance**
+
+The client now has a secure and compliant multi-account AWS environment with continuous monitoring and automated enforcement of security policies.
+
+**Faster and More Reliable Deployments**
+
+Infrastructure provisioning and application deployment times have been significantly reduced through the use of Terraform and CI/CD pipelines. The risk of human error has been minimized, leading to more reliable infrastructure management.
+
+**Scalable and Highly Available Infrastructure**
+
+The client's applications can scale automatically based on demand, ensuring high availability and performance during peak times.
+
+**Enhanced Backup and DR Capabilities**
+
+Automated backup processes and a documented DR strategy have increased the client's resilience against data loss and infrastructure failures.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

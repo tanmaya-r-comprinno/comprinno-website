@@ -9,4 +9,122 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer**
+
+Customer is one of the Asia’s largest FinTech companies, offering cutting-edge last mile retail technology. They have a payments terminal integrating with over two dozen banks and financial and technology partners. Their point-of-sale platform serves almost 153,000 merchants across 450,000 merchant network points.
+
+## **Executive Summary**
+
+Fintech giant, offering merchant payment terminals or point of sale (POS) machines, desired to migrate 2 of their core applications to AWS cloud. Comprinno was responsible for solutioning and migrating the application and database from on-premises datacenter to AWS cloud, meeting the PCI DSS compliance, security, reliability, scalability and performance requirements at optimal costs.
+
+## The Challenge
+
+## **Challenges**
+
+Customer’s payments terminal or POS machines offer a range of services to the merchants. They desired to migrate their existing application which handles UPI payment and Reward points transactions to AWS cloud.
+
+Being a leading FinTech company they were obligated to be PCI DSS (Payment Card Industry Data Security Standard) compliant.
+
+The requirements for PCI DSS compliance can be broadly categorized as below:
+
+- Build and maintain secure network and systems
+
+- Secure Personal Identifiable Information (PII) like the card holder’s data
+
+- Maintain Vulnerability Management Program
+
+- Implement strong access control measures
+
+- Regularly monitor and test networks
+
+## The Solution
+
+## **Solution**
+
+Comprinno was responsible for migration of applications for UPI payments and Reward points transactions, from on-premises datacenter to AWS cloud. The below solution for infrastructure was proposed and implemented.
+
+ 
+
+Comprinno architected the solution and successfully went through PCI DSS audit procedure prior to implementation. The solution addressed the PCI DSS requirements as given below:
+
+**Secure network and systems:**** **
+
+Applications from self-hosted on-premise environment were migrated to containerized applications under microservices on Amazon Elastic Kubernetes Service (EKS) cluster deployed across multiple private subnets.
+
+The cluster had Network Load Balancer at the front end and the application in the containers and the database could be accessed using AWS PrivateLink. This setup was secure as it required no special connectivity or routing configurations, because the connection between the consumer and provider accounts is on the global AWS backbone and doesn’t traverse the public internet.
+
+On-premises MS SQL database was migrated to Amazon RDS PostgreSQL. All databases, in-memory caches etc. were in dedicated DB subnets which didn't have outbound internet connectivity as per compliance requirements.
+
+AWS WAF service integrated with AWS API Gateway was used as an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+**Securing Data:**** **
+
+AWS Key Management System (KMS) was used for encrypting data as per AES-256 standard, to guarantee high level of security for the data during the transactions. Configurations were enabled to encrypt data in transit and at rest. AWS Secrets Manager was used to rotate, manage and retrieve the database credentials and API keys. Private keys and certificates were managed using AWS Certificate Manager.
+
+Configuration changes enabling data encryption at rest and in transit were activated for all the AWS services.
+
+**Vulnerability Management:**
+
+Amazon Inspector was configured to continually scan AWS workloads for software vulnerabilities and unintended network exposure.
+
+Amazon Macie was enabled to monitor security and access control of the S3 bucket.
+
+**Access control measures:**
+
+AWS IAM was used to provide access, with least-privilege permissions, to processes/ Amazon web services.  Multi-Factor Authentication (MFA) was enabled for all IAM users.
+
+Access Control Lists were set up for restricting access to infrastructure.
+
+**Logging and Monitoring:**
+
+AWS CloudTrail was used to monitor and record account activity across AWS infrastructure, giving control over storage, analysis, and remediation actions.
+
+All AWS Services logs were generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs were configured to use the Object Lock feature in Compliance mode, in order to prevent tampering of stored logs and meet regulatory compliance. Application logs were shipped from Amazon EKS to Amazon Kinesis Firehose with Fluentbit log shipping tool.
+
+All AWS Services metrics were aggregated to create a common AWS CloudWatch Dashboard. Application metrics were exposed using Kubernetes Dashboard. Relevant alarms were configured in AWS CloudWatch Alarms for the infrastructure components.
+
+AWS Config was used to assess, audit and evaluate the configurations of AWS resources, to determine overall compliance against the guidelines.
+
+**Scalable environment:**
+
+Amazon EKS offered a 99.95% uptime SLA as required by the company SLAs. Amazon EKS was used along with Kubernetes Cluster Autoscaler which uses AWS scaling groups to increase or decrease the size of Kubernetes cluster based on the presence of pending pods and node utilization metrics.
+
+Amazon ElastiCache was added to PostgreSQL database to boost performance of relational database, reduce latency, and increase throughput and scalability.
+
+Amazon API GW was used as a highly scalable entry point for the API transactions.
+
+Transactions initiated from POS machines were channeled through AWS IoT Core to securely transmit messages with low latency and high throughput. Messages were transmitted and received using MQTT protocol which also reduces the network bandwidth requirements.
+
+**Disaster Recovery**:
+
+Infrastructure was automated using Terraform. Terraform was an essential part disaster recovery
+
+strategy as it helps put up new infrastructure very quickly and efficiently.
+
+**Automated secure deployments: **
+
+Automatic Deployment is triggered whenever code is committed to GitHub repository.
+
+AWS CodeBuild was used for building the docker image and then the image was pushed to AWS ECR (Elastic Container Registry). The built-in capability of ECR to scan docker images for known vulnerabilities was leveraged and the pipeline proceeds to deployment only when no Critical OR High severity vulnerabilities are reported by ECR.
+
+A notification alert was setup using AWS SNS to report developers about the failed pipeline.
+
+## Results
+
+## **Results**
+
+-  The final set up in AWS cloud was PCI DSS compliant.
+
+-  Migrated architecture guarantees up to 99.95% availability and high scalability.
+
+-  Reduced delivery time owing to automatic deployments via CI/CD.
+
+- Identifying security vulnerabilities during the deployment lifecycle using AWS ECR.
+
+- Implemented container AWS DevSecOps.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.

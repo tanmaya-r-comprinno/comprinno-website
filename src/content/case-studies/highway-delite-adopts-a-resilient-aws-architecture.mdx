@@ -9,4 +9,74 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer******
+
+Highway Delite is a pioneering travel app specifically designed for Indian highway travelers and road trippers, offering a delightful and secure travel experience. As a data-driven highway commerce platform, Highway Delite is dedicated to connecting travelers, drivers, and merchants by building a comprehensive ecosystem of highway services. With a vast coverage of over 60,000 kilometers of highways across India and more than 100,000 verified data points, their vision is to encompass all 1.3 lakh kilometers of National Highways (NHs) and 1.5 lakh kilometers of State Highways (SHs). Their ambitious goal includes incorporating over 10 lakh highway businesses within the next 12 months, ensuring connected, safe, and personalized highway travel for all.
+
+## **Executive Summary******
+
+HighwayDelite is a prominent player in the highway services ecosystem, providing a wide range of services such as location tracking, restaurants, ATMs, pharmaceutical services, and other essential amenities for road travelers. To enhance its infrastructure and align with industry best practices, HighwayDelite sought to migrate its existing setup to the AWS Cloud platform.
+
+Comprinno, as a trusted technology partner, collaborated with HighwayDelite to seamlessly migrate its infrastructure. By leveraging a Kubernetes-based solution, Comprinno improved stability and scalability, allowing HighwayDelite to fully utilize modern cloud technologies. This transformation has resulted in enhanced user experiences, and increased operational efficiency, and showcased HighwayDelite's commitment to delivering exceptional services in the highway services ecosystem through cutting-edge technologies.
+
+## The Challenge
+
+## **Challenges**
+
+Highway Delite desired high availability and scalability for its infrastructure. They provide services like FastTag and Roadside assistance to their customers, which made the availability of the infrastructure all the more crucial. Their ambitious growth plans demanded a highly scalable architecture.
+
+## The Solution
+
+## **Solution**
+
+To meet Highway Delite's infrastructure needs and align with best practices, Comprinno devised a comprehensive solution leveraging AWS EKS.
+
+The solution is designed to implement high availability using AWS services and follows best practices for resilience and fault tolerance. The architecture incorporates auto-scaling mechanisms to automatically scale resources to match demand, ensuring optimal performance and availability. To achieve high availability, the architecture utilizes multiple Availability Zones (AZs) within AWS regions. This approach ensures that if one AZ becomes unavailable, the system can continue operating from the remaining AZs. Load balancers are employed to distribute traffic across multiple instances and AZs, providing redundancy and fault tolerance. Self-healing components are integrated into the architecture to enhance resilience.
+
+Amazon EKS automatically detects and replaces unhealthy control plane instances, restarting them across the Availability Zones within the AWS Region as needed. AWS services like Auto Scaling Groups and Elastic Load Balancers automatically monitor the health of instances and replace or redistribute resources if failures occur. This enables the system to recover from failures without manual intervention, minimizing downtime and ensuring continuous availability.
+
+Multi-AZ environment, load balancers, AWS EKS with the managed control plane, cluster autoscaling, and prevention of resource contention by using resource quotas were the major architectural decisions that contributed to static stability.
+
+AWS Multi-Account strategy is employed as part of the fault isolation capability, enabling logical separation of resources and enforcing strict access controls to prevent widespread disruptions. Management Account was created with AWS Organizations, AWS IAM Identity Center and AWS CloudTrail enabled. There were production, non-production, logging, audit, and security accounts created.
+
+Virtual Private Cloud (VPC) with three private subnets each, for application workloads and database were set up. Application subnets were connected to a NAT gateway in the public subnet, while the databases were placed in separate private subnets within the same VPC, without any NAT or Internet gateway. VPC endpoints were created for private access to services like S3. Data stores were placed in the DB subnets with no outbound rules. Separate route tables with only LOCAL rules for internal VPC traffic were utilized.
+
+Taking advantage of the flexibility provided by Amazon EKS worker nodes, Highway Delite leveraged an agile and horizontally scalable infrastructure. The backbone of Highway Delite's infrastructure relied on Amazon EC2 Reserved Instances, while Amazon EKS automatically deployed additional Amazon EC2 On-Demand Instances to cater to increased demand.
+
+For container basic metrics, Prometheus and Grafana were utilized for monitoring application health. Alerts were configured to notify downtime incidents over Slack.
+
+Service logs were aggregated to Amazon Cloudwatch. Centralized monitoring was achieved through CloudWatch dashboards, with alarms configured to alert when specific thresholds were met. CloudWatch was integrated with SNS for notification purposes.
+
+Infrastructure was automated using Terraform. Terraform was an essential part disaster recovery strategy as it helps put up new infrastructure very quickly and efficiently.
+
+Docker images were securely stored in Amazon Elastic Container Registry (ECR) with proper tagging for establishing recovery points.
+
+RDS backups were taken periodically, and the restore mechanism for RDS was validated regularly. EKS ensured resilience for the Kubernetes control plane by replicating it across multiple Availability Zones, automatically detecting and replacing unhealthy instances, and applying version upgrades and patches.
+
+Security best practices were implemented throughout the migrated infrastructure. The application and databases were set up in separate private subnets without external connectivity. Security group rules restricted access to specific subnets. Incoming traffic was routed through a landing zone equipped with firewall appliances for production setup security. No public subnet was assigned to the production environment. Additional security measures included configuring AWS WAF for the application load balancer, employing custom rate limiters, and managing set rules. AWS Key Management System (KMS) was used for data encryption, and AWS SSO centrally managed single sign-on access and user permissions. AWS IAM provided least-privilege permissions, while AWS GuardDuty and AWS Security Hub ensured security threat detection and monitoring.
+
+AWS CloudTrail was utilized to monitor and record account activity, with logs stored in Amazon S3. Compliance mode with the Object Lock feature was enabled for Amazon S3 buckets associated with CloudTrail logs to prevent tampering and ensure regulatory compliance.
+
+For streamlined deployment, a robust CI/CD pipeline was implemented using Jenkins, AWS CodeBuild and AWS CodeDeploy. Jenkins is triggered whenever code is committed to the repository because of webhooks configured. Whenever the new code is pushed to the repo, Jenkins is triggered which then clones the repository in its file system and builds the docker image using the docker file in the repository which is then pushed to AWS ECR; if no critical vulnerabilities are found then it is deployed to EKS cluster.
+
+## Results
+
+## **Benefits:**
+
+- Migrated architecture guarantees up to 99.99% durability, 99.5% availability, and high scalability.
+
+- Scalable resources and efficient infrastructure management have led to cost reduction.
+
+- AWS Best Practices best practices have been adopted ensuring high resilience, application security, optimal performance, etc.
+
+- Implementation of DevSecOps has made faster time to market possible along with vulnerability scanning at an early stage.
+
+- Terraform-based infrastructure deployments would make subsequent deployments simpler.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

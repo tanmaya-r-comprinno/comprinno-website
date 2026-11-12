@@ -9,4 +9,62 @@ solutions: ["ESG Tech"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Mantle Labs**
+
+**Mantle Labs** is at the forefront of addressing climate change by leveraging advanced remote sensing and AI-driven analytics, focusing primarily on the forestry and agricultural sectors. The company aims to provide stakeholders with valuable, data-driven insights that promote sustainable development. By integrating cutting-edge remote sensing data with robust environmental science and AI techniques, Mantle Labs empowers businesses, governments, and communities to make informed decisions that positively impact the planet.
+
+## The Challenge
+
+## **Challenges**
+
+To streamline the registration of projects within the Nature Based Carbon Markets, Mantle Labs focuses on efficiently processing and analyzing the extensive information compiled in Project Design Documents (PDDs). The evaluation of these documents is critical, as it determines whether a project can advance to the issuance stage of carbon credits. This process involves a comprehensive analysis of projected carbon sequestration, financial viability, and community impact, typically spanning 8-14 months—a period during which investors remain uncertain about the project's approval.
+
+## The Solution
+
+## **Solution**
+
+#### **1. Introduction of the PDD Generation Module**
+
+Mantle Labs has launched an innovative **Project Design Document (PDD) generation module** within its carbon platform, **Geotree**. This module aims to streamline the creation of PDDs necessary for registration in Nature-Based Carbon Markets. It begins by ingesting initial project conditions and detailed project data into a standardized template, encompassing essential environmental, financial, and socio-economic information relevant to each project.
+
+#### **2. Data Input and Dynamic Retrieval**
+
+The process begins when the user inputs the required data fields necessary for creating the PDD. Based on this user input, the system dynamically retrieves a comprehensive data corpus from regulatory bodies and external agencies using APIs. This data often consists of large files that can extend into thousands of pages. The data is stored in Amazon S3 bucket.
+
+#### **3. Embedding and Vector database**
+
+To manage this extensive information effectively, the data undergoes **chunking**, and embeddings are generated using the **embedding module** in **AWS SageMaker**. These embeddings are then stored in **AWS OpenSearch**, which functions as the Vector Database, enabling efficient search and retrieval.
+
+#### **4. Generation of PDD**
+
+After the data is processed and the embeddings are generated, the next step is to create the final PDD. This process involves:
+
+- **Model Utilization**: The embeddings are utilized by a Generative AI model hosted in **AWS SageMaker**, which synthesizes the information into a cohesive document.
+
+- **Continuous Training**: The outputs generated are continuously fed back into the model for further training, allowing it to adapt and improve over time based on real-world data and user feedback.
+
+## Results
+
+## **Result**
+
+- **Reduced Time to Market**: The PDD generation process was accelerated from several months to just a few weeks, allowing Mantle Labs to expedite project approvals.
+
+- **Enhanced Accuracy**: The fine-tuned Generative AI model not only met but exceeded accuracy expectations, ensuring high-quality outputs for PDDs.
+
+- **Improved Regulatory Compliance**: The tailored responsiveness of the model to project-specific nuances decreased compliance-related setbacks by 40%, facilitating smoother approval processes.
+
+- **Streamlined Approval Pathway**: The efficient PDD generation process allowed Mantle Labs to navigate regulatory requirements more effectively, minimizing delays.
+
+- **Scalability of Operations**: By leveraging AWS's robust cloud services, Mantle Labs can easily scale operations and adapt to increased project demands.
+
+- **Data-Driven Decision Making**: The integration of advanced AI technologies provides stakeholders with timely and accurate data, supporting informed decision-making throughout the project lifecycle.
+
+- **Cost Efficiency**: The reduction in time and resources needed for PDD generation translates into significant cost savings for Mantle Labs and their clients.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

@@ -9,4 +9,88 @@ solutions: ["Cloud Governance Security", "Cost Optimization"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client** 
+
+The client is a consumer-focused FMCG company offering personal care, grooming, and food & wellness products. Operating across multiple regions in Asia and Africa, the organization emphasizes natural, innovative, and affordable solutions for mass-market consumers, with a focus on delivering consistent quality and expanding its digital and operational capabilities.
+
+## The Challenge
+
+## **Challenges**
+
+The FMCG company manages a diverse portfolio of brands and business units, each with its own digital and operational requirements. Its AWS environment had grown complex over time, making it difficult to maintain consistent governance, security, and compliance across multiple accounts. The team faced challenges in centralizing identity and access management, enforcing multi-factor authentication, and mapping roles effectively to business functions. Fragmented logging and monitoring limited visibility into operational and security events, while inconsistent tagging and cost management made tracking cloud spend and optimizing resources challenging. These factors highlighted the need for a unified, secure, and well-governed AWS setup to support the company’s growth and operational efficiency.
+
+## The Solution
+
+## **Solution**
+
+To address the governance, security, and operational challenges within the AWS environment, Comprinno implemented a structured and well-governed AWS cloud foundation tailored to the FMCG company’s multi-account setup. The solution focused on centralizing identity and access management, strengthening security controls, improving monitoring visibility, and establishing cost governance aligned with AWS best practices. A standardized account governance framework was implemented to bring consistency across environments, while enabling better separation of workloads and controlled access. Centralized logging, compliance monitoring, and automated guardrails were introduced to enhance visibility and reduce security risks. Identity management was streamlined using role-based access controls and multi-factor authentication to ensure secure and auditable user access. In parallel, cost monitoring and tagging strategies were enforced to improve financial transparency and optimize cloud resource utilization.
+
+The resulting AWS setup provided a secure, scalable, and compliant foundation capable of supporting the company’s digital initiatives and future growth.
+
+ 
+
+### **Key Actions:**
+
+**AWS Governance & Account Structuring :**
+
+- Implemented AWS Organizations to centrally manage multiple AWS accounts.
+
+- Established standardized account configurations and governance controls across environments.
+
+- Applied Service Control Policies (SCPs) to restrict unauthorized services and enforce compliance boundaries.
+
+ 
+
+**Identity & Access Management :**
+
+- Centralized user access through IAM Identity Center (SSO) with role-based access controls.
+
+- Enforced Multi-Factor Authentication (MFA) for privileged and console access.
+
+- Defined least-privilege IAM roles aligned with business functions and operational teams.
+
+ 
+
+**Security, Logging & Compliance:**
+
+- Enabled AWS CloudTrail for centralized audit logging across accounts.
+
+- Configured AWS Config for continuous compliance monitoring and resource tracking.
+
+- Integrated Amazon GuardDuty for threat detection and security monitoring.
+
+ 
+
+**Cost Management & Optimization :**
+
+- Implemented resource tagging policies to improve cost allocation and reporting.
+
+- Enabled AWS Cost Explorer and budget alerts for proactive cost monitoring.
+
+- Implemented cost governance with anomaly detection to monitor and optimize cloud spending
+
+The AWS environment was designed using a centralized governance model built around a dedicated AWS Management Account. Core governance services including AWS Organizations and AWS Control Tower were implemented to structure and manage multiple accounts under defined Organizational Units (OUs). IAM Identity Center was configured to centralize authentication and enforce role-based access control across all accounts. The account structure was logically segmented into two primary Organizational Units: an Environment OU and a Security OU. The Environment OU included Production, Development, and Staging accounts to ensure workload isolation and controlled lifecycle management. The Security OU contained dedicated Security and Audit accounts to enable independent monitoring, compliance oversight, and log archival. AWS CloudTrail was enabled across all accounts to capture API activity and ensure auditability. Logs were centrally aggregated and stored within the Audit account using Amazon S3 for long-term retention and compliance purposes. AWS Budgets and Amazon SNS were configured within the Management Account to monitor cloud spend and trigger automated notifications for budget thresholds. 
+
+This structured, multi-account architecture provides strong governance boundaries, environment isolation, centralized visibility, and enhanced security oversight creating a scalable and compliant AWS foundation to support the organization’s enterprise operations.
+
+## Results
+
+## **Benefits**
+
+- **Proactive and Predictable Cost Governance **– A centralized organization-wide anomaly monitor enables early detection of unusual spending patterns, ensuring controlled cloud costs and eliminating billing surprises.
+
+- **Enhanced Visibility and Financial Accountability **– Consistent, cross-team visibility into cost anomalies promotes transparency, strengthens ownership, and improves financial governance across the organization.
+
+- **Reduced Monitoring Complexity** –A unified monitoring framework simplifies cost management by eliminating fragmented tools and processes, reducing operational overhead.
+
+- **Immediate Detection of Misconfigured or Runaway Workloads** –Real-time anomaly alerts quickly identify abnormal scaling or configuration issues, preventing cost overruns and ensuring operational stability.
+
+## Conclusion
+
+## **Conclusion**
+
+The implementation of an organization-wide anomaly monitoring framework established a proactive and well-governed approach to cloud cost management across the AWS environment. By centralizing anomaly detection and standardizing cost visibility, the solution reduced monitoring complexity while strengthening financial control and operational transparency. Real-time detection of unusual spending patterns and misconfigured workloads enabled faster corrective actions, minimizing cost overruns and preventing unexpected billing spikes. The unified monitoring model also enhanced cross-team accountability by providing consistent and actionable insights into cloud consumption. This initiative has positioned the organization with a more predictable, controlled, and financially disciplined cloud environment, supporting sustainable cost optimization and stronger governance as cloud adoption continues to scale.

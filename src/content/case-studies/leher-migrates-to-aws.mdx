@@ -9,4 +9,52 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About the Customer**
+
+Leher provides tools to creators for hosting exclusive communities and conversations which they can monetize via tips, gifts & subscriptions. Leher also enables creators to engage their community outside of Leher, say on Telegram and Discord by providing tools and methods for Rewards & Gamification which is called Leher Lifafa. Leher Lifafa is an envelope of GEMS, an invaluable tool for creators to engage and reward their fan base for loyalty, for joining their Live rooms, completion of micro tasks etc, and its completely facilitated via Leher Gems.
+
+## **Executive Summary**
+
+Leher AI is a creator engagement platform helping users grow, engage and monetize their community. The client wished to migrate their application and database to AWS’s secure and scalable architecture.
+
+## The Challenge
+
+## **Challenges**
+
+Leher wished to migrate the application hosted in a prior cloud environment to a more secure and scalable architecture in AWS. All microservices were hosted on the Kubernetes cluster and exposed using an ingress controller. Microservices had a separate database. The databases used were Mongo, Redis, Cassandra & Google Big Query. Asynchronous communication was handled using Google Pub/Sub CDN. Third-party DB services, Atlas Mongo, were being used. This was a significant cost component.
+
+## The Solution
+
+## **Solution**
+
+Solution provided by Comprinno is summarized below:
+
+A fine-grained approach to identity and access control is introduced. Custom IAM policies are created with the least privileged access. Read & write access to resources is controlled using tags and resource arn. The Custom IAM policies are attached to respective IAM groups & roles. The access activity of users & roles is logged using AWS CloudTrail.
+
+VPC mesh of public and private subnets is set up in AWS. Amazon EKS cluster and databases are deployed in private subnets in Amazon VPC. Database subnets do not have access to the internet owing to the restrictive configurations set up in the route table.
+
+Microservices are migrated to the Amazon EKS cluster. AWS ALB Ingress Controller triggers the creation of an ALB and the necessary supporting AWS resources whenever a Kubernetes user declares an Ingress resource in the cluster. The Ingress resource uses the ALB to route HTTP(S) traffic to different endpoints within the cluster..
+
+Data from erstwhile cloud Redis is migrated to AWS ElastiCache Redis. Amazon ElastiCache is a fully managed in-memory data store and cache service by Amazon Web Services. The service improves the performance of web applications by retrieving information from managed in-memory caches, instead of relying entirely on slower disk-based databases. Data from MongoDB in the earlier cloud environment is migrated to the Document DB cluster. Amazon Keyspaces (for Apache Cassandra) is a scalable, highly available, and managed Apache Cassandra–compatible database service.
+
+All the security best practices are implemented to create a robust infrastructure on AWS.
+
+An additional layer of security has been provided in the VPC through the use of Security Groups.
+
+AWS Key Management System (KMS) is used for encrypting data as per the AES-256 standard. AWS SSO is used to centrally manage single sign-on access and user permissions across all the AWS accounts in AWS Organization. AWS IAM is used to provide access with least-privilege permissions. AWS GuardDuty and AWS Security Hub are used for security threat detection and monitoring.
+
+AWS CloudTrail monitors and records account activity across AWS infrastructure, giving control over storage, analysis, and remediation actions.
+
+All AWS Services logs are generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs are configured to use the Object Lock feature in Compliance mode to prevent tampering with stored logs and meet regulatory compliance. Prometheus and Grafana are used for container monitoring.
+
+All AWS Services logs are generated and stored in Amazon S3. Amazon S3 buckets associated with Amazon CloudTrail logs are configured to use the Object Lock feature in Compliance mode to prevent tampering with stored logs and meet regulatory compliance. Prometheus and Grafana are used for container monitoring.
+
+AWS Config is used to assess, audit, and evaluate the configurations of AWS resources, to determine overall compliance against the guidelines.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

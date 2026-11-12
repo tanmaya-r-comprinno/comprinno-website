@@ -9,4 +9,78 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Customer******
+
+Pando, a leading global supply chain technology company, is renowned for its AI-powered Fulfillment Cloud platform. With a comprehensive solution for manufacturers, retailers, and 3PLs, Pando enables streamlined logistics management, improved service levels, reduced costs, and a smaller carbon footprint. Recognized by prestigious organizations like the World Economic Forum and Deloitte, Pando serves as a trusted partner for Fortune 500 enterprises worldwide. Seeking scalability and enhanced security, Pando embarked on a migration journey from to AWS, harnessing the power of the cloud to elevate its innovative platform and deliver exceptional supply chain solutions to its global clientele.
+
+**Executive Summary******
+
+Pando, a global supply chain technology company known for its AI-powered Fulfillment Cloud platform, partnered with Comprinno to migrate to AWS Cloud. With a focus on scalability and security, Pando sought to enhance its infrastructure and ensure high availability. Through a meticulous evaluation process and the adoption of AWS best practices, Comprinno successfully guided Pando through a seamless migration, enabling Pando to leverage the full potential of AWS cloud.
+
+## The Challenge
+
+## **Challenges**
+
+Pando wanted to achieve scalability and be assured of an overall robust solution. Additionally, Pando sought to enhance their API's performance by implementing API throttling and rate-limiting mechanisms. Efficient managing and controlling the flow of API requests was desired to prevent overload and optimize resource utilization.
+
+## The Solution
+
+## **Solution******
+
+To address Pando's challenges and meet its migration goals, Comprinno designed and implemented a comprehensive solution that encompassed various aspects of availability, observability, network topology, and security. The solution leveraged AWS services and best practices to ensure a seamless and successful migration to AWS.
+
+The architecture utilizes multiple Availability Zones (AZs) within AWS regions to achieve high availability. By spreading resources across AZs, the system can continue functioning even if one AZ becomes unavailable. Load balancers are implemented to distribute traffic across instances and AZs, ensuring redundancy and fault tolerance.
+
+All microservices were rehosted on the ECS cluster(Blue/Green) and internally exposed
+
+through internally facing NLB. APIs are publicly accessible through an API gateway via a
+
+custom domain. The databases used are RDS Postgres instance and Redis.
+
+The architecture incorporates auto-scaling mechanisms that dynamically adjust resources to meet demand, thereby optimizing performance and availability. Resilience is enhanced through the integration of self-healing components.
+
+In Amazon ECS, unhealthy tasks/container are automatically detected and replaced, with restarts occurring across the AZs within the AWS Region. AWS services like Auto Scaling Groups monitors container health and proactively replace or redistribute resources in the event of failures. This automated recovery process minimizes downtime and ensures uninterrupted availability without the need for manual intervention.
+
+To enhance fault isolation, the solution employs a multi-account strategy. This approach facilitates logical separation of resources and enforces strict access controls to prevent widespread disruptions. A Management Account is created using AWS Organizations, while separate accounts are established for production, non-production, logging, audit, and security purposes.
+
+For data resilience and redundancy, Amazon RDS offers built-in replication mechanisms that replicate data across multiple AZs. Additionally, AWS Backup is periodically executed to ensure data protection and recovery capabilities.
+
+AWS CloudWatch, a centralized monitoring and management service, played a crucial role in monitoring the health and performance of Pando's resources. The logs from ECS were directed to CloudWatch log groups, allowing Pando to visualize metrics and monitor the application's health through CloudWatch dashboards. Alerts and notifications were set up to promptly notify stakeholders of any downtime experienced, ensuring proactive issue resolution. By utilizing CloudWatch metrics, Pando could monitor other managed services like RDS and Load Balancers, providing a comprehensive view of their infrastructure's operational condition.
+
+To enhance awareness and notification capabilities, Pando utilized Amazon EventBridge to create health notifications for AWS services. An EventBridge rule was created and integrated with Amazon SNS for service notifications. Stakeholders received SNS email subscriptions to stay informed about any critical service updates or incidents. This approach ensured that Pando had real-time visibility into the availability and health of their AWS resources.
+
+Comprinno implemented a highly available DNS solution using Amazon Route53, a scalable and reliable cloud domain name system. Route 53 played a vital role in directing and supporting health checks, continuously monitoring the availability of resources and automatically routing traffic to healthy endpoints. Additionally, Route53 provided DNS failover capabilities, redirecting traffic to alternate resources in the event of a failure, and ensuring uninterrupted DNS resolution.
+
+Infrastructure was automated using Terraform.  This approach allowed for consistent and auditable deployments, ensuring that infrastructure changes were managed effectively. The Terraform code was stored in GitHub, enabling version control and collaboration among the development team.
+
+AWS Config and AWS CloudTrail were implemented to provide detailed views of the configuration of AWS resources and track changes over time. AWS Config allowed Pando to assess resource configuration compliance against desired configurations and detect any unauthorized changes. AWS CloudTrail served as a comprehensive audit trail of all actions taken within Pando's AWS account, enabling monitoring and validation of changes as part of their change management process.
+
+CI/CD pipeline was built for automated deployments. Deployment is triggered whenever code is committed to GitHub repository. AWS CodeBuild was used for building the docker image and then the image was pushed to AWS ECR (Elastic Container Registry). The built-in capability of ECR to scan docker images for known vulnerabilities was leveraged and the pipeline proceeds to deployment only when no Critical OR High severity vulnerabilities are reported by ECR.
+
+A notification alert was setup using AWS SNS to report developers about the failed pipeline.
+
+## Results
+
+## **Benefits:**
+
+- Migrated architecture guarantees up to 99.99% durability, 99.5% availability, and high scalability.
+
+- Scalable architecture: Pando achieved the ability to handle traffic spikes and scale resources dynamically, ensuring a seamless user experience even during peak periods.
+
+- Blue/green deployments with CI/CD: It helped to ensure that creating a separate green environment doesn't impact the resources supporting your existing blue environment. This approach reduced the risk when new changes were deployed.
+
+- Enhanced observability: Through the use of AWS CloudWatch, Pando gained comprehensive insights into their application's health and performance, enabling proactive monitoring and issue resolution.
+
+- Improved network management: Utilizing AWS services like Amazon VPC Flow Logs and AWS Network Manager, Pando gained visibility into network bandwidth, latency, and performance, ensuring optimized network operations.
+
+- Change management and infrastructure as code: The adoption of Terraform, AWS Config, and AWS CloudTrail allowed for controlled and auditable deployments, ensuring consistent configuration and change management practices.
+
+- ECR vulnerability scanning: This helped in scanning vulnerabilities of the Docker image.
+
+> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
+>
+> — **Prasad Puranik**, Founder & CEO | Comprinno

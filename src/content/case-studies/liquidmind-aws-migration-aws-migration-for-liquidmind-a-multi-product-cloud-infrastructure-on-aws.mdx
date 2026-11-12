@@ -9,4 +9,60 @@ solutions: ["Migration"]
 draft: false
 ---
 
+## Overview
 
+## **Overview**
+
+**About Client
+
+**Liquidmind builds a suite of AI-powered products, each running its own backend services and frontend application. Liquidmind needed dedicated development and production environments that apply consistent security, monitoring, and deployment practices across all three applications.
+
+## The Challenge
+
+## **Challenges**
+
+Liquidmind needed to move its infrastructure from Microsoft Azure to AWS with minimal disruption to active services, while building a networking and security foundation that could support three independent products within the same environment. Each product required its own backend service, its own frontend deployment, and its own routing path, and the team needed to expose and scale each of these independently without compromising network isolation. The database layer added further complexity. Liquidmind needed to move its relational workload from Azure PostgreSQL to a managed,  highly available service, and separately move its NoSQL workload from Azure Cosmos DB to an AWS-native equivalent, preserving data integrity throughout both migrations. Across every part of the environment, Liquidmind needed consistent identity and access management, encryption, audit logging, and cost visibility applied uniformly across development and production, along with an automated build and deployment pipeline to support frequent releases across three separate applications.
+
+## The Solution
+
+## **Solution**
+
+Comprinno designed and built a three-tier AWS environment for Liquidmind, using dedicated VPCs in the Mumbai region for development and production, each following the same architectural pattern. Public subnets, private application subnets, and private database subnets sit across three availability zones in each environment, with an Internet Gateway handling inbound traffic and a NAT Gateway controlling outbound access from private subnets. Dedicated VPC endpoints for object storage, container registry, and logging services round out the network, letting ECS tasks in the private application subnets reach these AWS services directly rather than through the NAT Gateway, thereby avoiding cross-AZ data transfer and internet routing charges while keeping this traffic off the public internet entirely.
+
+**Key Actions:**
+
+**Identity, Access, and Compute Foundation:**
+
+- IAM Identity Center provides centralized SSO across accounts, eliminating per-account IAM users. EC2 is limited to bastion hosts in the public subnet, which serve as the sole SSH tunnel path to the fully isolated, internet-inaccessible RDS PostgreSQL database in the private subnet.
+
+**Application Hosting and Traffic Routing: **
+
+- Backend services for all three products run on ECS with Fargate, fronted by an ALB using host-based routing, per-service target groups, HTTP-to-HTTPS redirection, and ACM-issued certificates. Frontends run on AWS Amplify, each with its own repo, dev/prod branches, custom subdomains, and ACM certificates for both CDN and regional load balancer layers. Container images sit in per-service ECR repos, with CodePipeline/CodeBuild automating branch-triggered builds, ECR pushes, and rolling ECS deployments. Dev environments use scheduled scaling to run tasks only during weekday working hours, reducing costs.
+
+**Database and Storage Migration:**
+
+- PostgreSQL moved from Azure to RDS via dump-and-restore through the bastion host, staged in S3; production runs Multi-AZ, 20GB–1000GB gp3 autoscaling storage, KMS encryption at rest, Enhanced Monitoring, and Performance Insights, with credentials in Secrets Manager. Cosmos DB data was migrated directly to DynamoDB (no S3 staging), with post-migration validation of data integrity, completeness, and connectivity. S3 serves as the central storage layer for both migrations and ongoing operations (dumps, artifacts, CloudTrail/ALB logs), with versioning, KMS encryption, and blocked public access on every bucket.
+
+**AI Integration for one of Liquidmind's AI-powered products:**
+
+- Amazon Bedrock powers search capability for Liquidmind’s product, integrated with the application's ECS-hosted backend as part of the same secure, private-subnet architecture used across Liquidmind's other services.
+
+## Results
+
+## **Benefits**
+
+**
+
+Consolidated Cloud Environment with Operational Simplicity:** By migrating from Microsoft Azure to a single, well-governed AWS environment, Comprinno gave Liquidmind one consistent platform to run three distinct products, replacing three fragmented, product-specific setups with a unified control plane for compute, storage, databases, security, and observability.
+
+**Resilient, Highly Available Infrastructure:** The three-tier VPC architecture, distributed across three availability zones, ensures fault tolerance for both application and database workloads. 
+
+**Automated, Low-Touch Deployments:** AWS CodePipeline and CodeBuild automate the build and deployment process end to end for all three products, triggering separate pipelines on pushes to development and production branches. 
+
+**Cost-Optimized Development Environment:** Scheduled scaling in development runs ECS tasks only during working hours on weekdays, cutting compute cost outside that window, while independently tracked AWS Budgets in both development and production, with alerts at 80% and 100% of threshold, give the team early visibility into spend before it approaches the limit.
+
+## Conclusion
+
+## **Conclusion**
+
+By migrating Liquidmind's infrastructure from Microsoft Azure to Amazon Web Services, Comprinno built a secure, resilient, cost-aware foundation that supports three distinct AI-powered products from a single, well-governed environment. Combining containerized compute on ECS Fargate, managed database services in RDS and DynamoDB, automated deployment through CodePipeline, and Amazon Bedrock integration for Liquidmind’s product, Comprinno delivered an infrastructure that's ready to scale alongside Liquidmind's continued product growth.
