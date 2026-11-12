@@ -1,0 +1,141 @@
+---
+title: "AWS Control Tower: The Ultimate Guide to Setting Up Your Landing Zone"
+slug: "aws-control-tower-the-ultimate-guide-to-setting-up-your-landing-zone"
+description: "Creating an efficient, secure and cost-effective cloud environment is one of the top priorities of most IT teams today. This can be achieved with the help of a Landing Zone, which is an automated architecture for centralizing the management and"
+publishedAt: "2023-03-08"
+author: "Web Admin"
+category: "Cloud Migration"
+draft: false
+---
+
+Creating an efficient, secure and cost-effective cloud environment is one of the top priorities of most IT teams today. This can be achieved with the help of a Landing Zone, which is an automated architecture for centralizing the management and governance of an AWS environment. In this blog, we will discuss what a Landing Zone is, its structure and benefits, and how it can be created using AWS Control Tower.
+
+Whether you are a seasoned AWS user or new to cloud computing, this blog will provide a comprehensive guide to help you get started with creating a Landing Zone using AWS Control Tower.
+
+## **What is a Landing zone?**
+
+A Landing Zone is a multi-account environment in Amazon Web Services (AWS) that provides a secure, scalable and centralized hub for all your AWS accounts. It acts as the foundation for your multi-account AWS environment and provides a secure and compliant baseline for your organization.
+
+The Landing Zone typically consists of a set of AWS accounts, AWS Organizations, and other AWS services that are configured to work together to provide a centralized and secure environment for your AWS resources. It also includes network, identity and access management, security and compliance controls, and other infrastructure components that are required to support your applications and services.
+
+A well-designed Landing zone will help you achieve the Well-Architected Framework principles of operational excellence, security and compliance, reliability, performance efficiency and cost optimization. 
+
+**Benefits of creating a Landing zone**
+
+- Engineers can implement multiple core accounts in an organization.
+
+- Automated setup of multiple AWS environments is made possible.
+
+- Automated account provisioning can be enabled.
+
+- Baseline for security can be created.
+
+- Allows integration with code repositories like gitlab.
+
+- Allows  security features to include monitoring, alerts, logging, identity, and access management, service control policies, and multi-factor authentication. 
+
+- Provides visibility for resource utilization.
+
+- Allows engineers to create new accounts from the Account Vending Machine (AVM). AVM is an automated process that uses features of Service Catalog, AWS Organization, CloudFormation, and Lambda to create a new account in AWS Organization with standard baselines and guardrails.
+
+**Landing zone use cases **
+
+- **Multi-account AWS environment:** With a growing team, more applications and increasing workloads, organizations need one or more environments for the developers to have some playground before release, for better performance, for creating new accounts for upcoming products etc. Here Landing zone comes handy.
+
+- **Centralized monitoring: **A Landing Zone is ideal for organizations that are using multiple AWS accounts to manage their AWS environment. By centralizing these accounts in a Landing Zone, organizations can improve security, scalability, and operational efficiency.
+
+- **Accounts isolation:** Users can have separated accounts per application which will be responsible for the specific job.
+
+- **Permission control:** You can control the permissions for your team and allow use of only permitted resources.
+
+- **Cost control:  **Organizations quickly lose control of their cloud expenses, here Landing zone helps them in cost control. You can have only one account which will be responsible for monitoring and controlling your expenses. The process can be set up in such a way that every account/subscription is visible. This avoids situations in which accounts (and therefore costs) remain under the radar.
+
+- **Disaster recovery: **With Landing zone, workloads are located in different accounts and regions, which provides high degrees of protection, faster recovery options and near to zero downtime.
+
+- **Governance and compliance:** Guardrails associated with the Landing zone enables engineers to work in observance of the compliance rules.
+
+- **Security:** With AWS Organization’s involvement, one can use Firewall Manager, a single service to create firewall rules and security policies and apply them consistently and hierarchically to the entire infrastructure from a central administrator account.
+
+- **Identity and Access management:** A centralized dashboard to manage the permissions to the various (Organization Unit) OUs or the different accounts is another certain need, Landing Page facilitates this need.
+
+- **Authorization management: ** With AWS SSO within Landing zone it is possible to manage identities and access authorizations to your multi-account structure centrally.
+
+- **Speed: **Migration to the cloud can take place much more quickly with the help of a landing zone, resulting in faster migration.
+
+- **Scalability: **It is easy to carry out an extension to new environments with the help of Landing zone making scalability efficient.
+
+**Landing Zone Architecture:**
+
+![Image](/images/blog/img-1.png)
+
+*1 Source Credit: *[*LINK*](https://aws.amazon.com/blogs/apn/reducing-the-cost-of-managing-multiple-aws-accounts-using-aws-control-tower/)
+
+A typical Landing Zone architecture is represented in the above diagram.
+
+The Landing zone is launched in the AWS organization account, which is the only payer account. Organization Unit (OU) is a logical group of accounts.
+
+- **Core OU:** The landing zone automatically creates one core OU, which contains the shared services and resources that are used across multiple AWS accounts. Examples include identity and access management (IAM), Amazon Simple Notification Service (SNS), and Amazon Simple Queue Service (SQS). The Core OU can be further categorized into the below 3 accounts:
+
+- **Shared services account:** This account hosts resources used by multiple accounts like AWS-managed active directory or Git solutions.
+
+- **Security account**: This account is used for central security management, including threat detection and incident response.
+
+- **Log archive account:** This account is used for centralized logging and auditing. Each account contains config rules to send a copy of all AWS CloudTrail and AWS Config log files to a centralized S3 bucket. These logs can be used for compliance or investigations related to account activity or can be pushed to an observability system for visualization.
+
+ **Application OU:** It is a logical container that organizes AWS accounts and resources in a way that aligns with application architecture or production/non-production environments. It usually groups accounts pertaining to one use case.The example given above has Development and Production accounts under Application OU.
+
+Now that you know what a Landing zone is and why it is crucial to set up one, we will move on to the AWS managed service that provides a simple way to set up and govern a Landing zone.
+
+## **Introduction to AWS Control Tower**
+
+AWS Control Tower is a fully managed service that can help you quickly and easily set up a Landing Zone architecture for your AWS environment. It is based on recommended methods for implementing cloud-based enterprise standards.
+
+Manually creating the multi-account architecture in the cloud calls for a high level of expertise and is subject to human mistakes. AWS Control Tower is a tool you may use to quickly set up a multi-account setup in AWS.
+
+**Typical Landing zone using AWS Control Tower**
+
+![Image](/images/blog/img02.png)
+
+***2**** Source Credit: *[*LINK*](https://aws.amazon.com/blogs/apn/reducing-the-cost-of-managing-multiple-aws-accounts-using-aws-control-tower/)
+
+**Core Organizational Unit with 3 accounts:**
+
+- Master Account – Provides the ability to create and financially manage member accounts. Also used for Account Factory provisioning and accounts, managing Organizational Units, and guardrails
+
+- Log Archive Account – Contains central Amazon S3 bucket for storing logs of API activities and resource configurations from all accounts in the solution.
+
+- Audit Account – A restricted account that’s designed to give security and compliance teams read/write access to all accounts in the landing zone. From the audit account, you have programmatic access to review accounts, by means of a role that is granted to Lambda functions only. The audit account does not allow you to log in to other accounts manually.
+
+**Within each account, an initial security baseline that includes:**
+
+- AWS CloudTrail, sent to a centrally managed S3 bucket in the Logging Account
+
+- AWS Config, also sent to a centrally managed S3 bucket in the Logging Account
+
+- AWS Config Rules enabled for monitoring encryption, IAM password policies, MFA, and security group rules
+
+- AWS IAM roles, potentially including restrictions applied from the master account
+
+- An initial Amazon VPC network
+
+**An Account Factory**
+
+This is essentially an AWS Service Catalog product that allows you to automatically create new “child” accounts to the existing Organization that maintain all predefined security baselines
+
+**The Control Tower Dashboard**
+
+This is limited as UI to the base Control Tower constructs. Only components deployed and managed by Control Tower are seen in the dashboard
+
+**How does the AWS Control Tower help in creating a landing zone?**
+
+AWS Control Tower uses AWS CloudFormation StackSets to set up resources in youraccounts. Each stack set has StackInstances that correspond to accounts, and to AWS Regions per account. AWS Control Tower deploys one stack set instance per account and Region.The template allows users to select specific and basic settings in their Landing Zone Setup. The initiation template will write to a config template on an S3 bucket, which aids in creation of the CodePipeline. The CodePipeline is used to run changes made to the config and will apply changes to the surrounding infrastructure.
+
+**Benefits of using AWS Control Tower to create a Landing zone:**
+
+- Multi-account management becomes easy.
+
+- Makes the production environment efficient.
+
+- Provides automation tools.
+
+- Better security and governance.

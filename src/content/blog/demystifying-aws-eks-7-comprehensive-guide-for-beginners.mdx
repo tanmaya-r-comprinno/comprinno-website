@@ -1,0 +1,236 @@
+---
+title: "Demystifying AWS EKS #7 Comprehensive Guide for Beginners"
+slug: "demystifying-aws-eks-7-comprehensive-guide-for-beginners"
+description: "This blog would serve as an introduction to AWS EKS, covering its basic concepts, benefits, and how it differs from self-managed Kubernetes clusters. It could include step-by-step instructions on getting started with EKS, setting up clusters, and"
+publishedAt: "2024-04-17"
+author: "Saqib Mehraj"
+authorDesignation: "Team"
+category: "AWS EKS"
+draft: false
+---
+
+This blog would serve as an introduction to[ AWS EKS](/well-architected-eks-package/), covering its basic concepts, benefits, and how it differs from self-managed Kubernetes clusters. It could include step-by-step instructions on getting started with EKS, setting up clusters, and deploying applications.
+
+AWS EKS is a fully managed service, that can operate your application in a serverless architecture. It reduces the workload to handle, scale, and install your Kubernetes clusters, which is time consuming and quite complicated. EKS makes your job easy. It takes care of these basic setups, freeing you to concentrate on developing and implementing applications.
+
+Kubernetes, an open-source platform for automating the deployment, scaling, and management of containerized applications, is the foundation upon which EKS is based. Pods are logical units that Kubernetes groups containers into for simple management and discovery. By offering a controlled environment for running Kubernetes on AWS, EKS ups the ante on this.
+
+AWS EKS is user friendly and simultaneously it offers versatility and flexibility expected by developers. You can simply scale your application in response to demand with EKS. Additionally, you can use AWS Fargate, a serverless compute engine for containers that eliminates the need to manage servers and clusters.
+
+![Image](/images/blog/what-is-eks-1024x442-1.png)
+
+## Deployment Options with [AWS EKS](/well-architected-eks-package/) BY Launching Your Kubernetes Journey
+
+**`AWS EKS offers a variety of deployment approaches to suit your needs:`**
+
+### **Managed Kubernetes with AWS EKS**
+
+The standard Amazon EKS service provides a fully-managed Kubernetes environment on AWS. Simply provision your worker nodes, and EKS handles the underlying infrastructure. Choose between deploying worker nodes on Amazon EC2 instances for granular control or leveraging Fargate’s serverless model.
+
+### **Extend Your Kubernetes Footprint to AWS Outposts**
+
+If you’re utilizing AWS Outposts in your data center, you can seamlessly extend your EKS environment to this on-premises infrastructure. This approach fosters a consistent Kubernetes experience across both cloud and on-premises deployments.
+
+### **Bring EKS Anywhere: Deploy Kubernetes On-Premises**
+
+EKS Anywhere, a recent innovation, empowers you to run EKS directly within your data center. It facilitates the creation and management of on-premises Kubernetes clusters while maintaining the familiar EKS experience from the AWS console.
+
+### **Gain Control with Amazon EKS Distro**
+
+Amazon EKS Distro is the identical Kubernetes distribution underlying Amazon EKS, but available for independent deployment. This option grants you the flexibility to create Kubernetes clusters anywhere – in the cloud, on-premises, or even on your local machine.
+
+## **Amazon EKS Architecture**
+
+AWS EKS’s architecture is made to be both scalable and highly available. Because of its geographic architecture, the master nodes are dispersed among several Availability Zones within a given area. This ensures that your applications will continue to function on the other Availability Zones in the event that one goes down.
+
+Conversely, the worker nodes can be dispersed throughout several VPCs and AWS accounts. You can now segregate your workloads in accordance with security and regulatory requirements.
+
+Elastic Load Balancing (ELB) for traffic distribution, Auto Scaling for worker node adjustments, and Identity and Access Management (IAM) for access control are just a few of the AWS services that EKS interfaces with.
+
+![Image](/images/blog/1_clvWCxU4sQGv4Ee5Y9vJgA-1024x576-1.png)
+
+## **How [AWS EKS functions](/well-architected-eks-package/)**
+
+A managed Kubernetes solution for running Kubernetes in both on-premises data centers and the AWS cloud is Amazon Elastic Kubernetes Service (Amazon EKS). The Kubernetes control plane nodes in the cloud that are in charge of scheduling containers, controlling application availability, storing cluster data, and other crucial functions are automatically managed in terms of availability and scalability by Amazon EKS. You may benefit from AWS infrastructure’s performance, size, dependability, and availability as well as its networking and security service integrations by utilizing AWS EKS. A consistent, fully-supported Kubernetes solution with integrated tooling and straightforward deployment to AWS Outposts, virtual machines, or bare metal servers is offered by EKS on-premises.
+
+## Securing Your Cloud-Based Containers with Amazon EKS
+
+In the public cloud, data security is crucial. Amazon EKS offers several features to safeguard your containerized applications:
+
+Encryption at Rest: Services like AWS Key Management Service (KMS) encrypt sensitive data stored within EKS clusters, such as information on EBS volumes attached to worker nodes.Fine-Grained Access Control: Identity and Access Management (IAM) lets you define who can access what resources and under what conditions. EKS integrates with IAM, enabling you to configure granular permissions for your containerized environment.Following Security Best Practices: AWS builds and manages EKS according to its Well-Architected Framework’s Security pillar. This ensures your EKS environment adheres to security best practices and aligns with current AWS recommendations. By leveraging these features, you can achieve a robust security posture for your containerized workloads on AWS.
+
+Read more about* AWS EKS Cost *[Optimizing AWS EKS COSTS #1 Best Practices and Strategies in 2024](/uncategorized/optimizing-aws-eks-costs/)
+
+## **Benefits of managed EKS service’s**
+
+These benefits taken together set our managed EKS solution apart from those of our rivals:
+
+- Reduce expenses: There’s no need to buy gear or cover[ costs ](/uncategorized/optimizing-aws-eks-costs/)when there’s downtime
+
+- Time-saving: The core stack doesn’t need to be set up or maintained.
+
+- Future-proof: With Comprinno and AWS’s combined strength You may create apps that are future-proof with managed services.
+
+- Improved security : Comprinno and AWS consistently make investments in security knowledge and technologies
+
+- Dynamically scale: During peak periods, our system helps quickly add capacity and scale down as necessary.
+
+- Assistance: You can create custom solutions with the assistance of comprinno AWS and CKA certified professionals.
+
+- Quick time to market: Expedite the development of your apps
+
+## AWS EKS setup guide #steps
+
+Kubernetes has become the de-facto industry standard for container orchestration. [Amazon Web Services](https://aws.amazon.com/) (AWS) is a well-known provider of cloud services, while [Kubernetes](https://kubernetes.io/) is quickly becoming the standard way to manage application containers in production environment.  
+
+[Amazon EKS (Elastic Container Service for Kubernetes)](https://aws.amazon.com/eks/) is a managed Kubernetes service that allows you to run Kubernetes on AWS without the hassle of managing the Kubernetes control plane. AWS EKS brings these two solutions together, allowing users to quickly and easily create Kubernetes clusters in the cloud. 
+
+This guide walks you, step by step, through the process of provisioning a new Kubernetes cluster using AWS EKS once the desired architecture is published. Amazon also has a setup guide, though, by itself, it will not enough to actually get started. You can find their documentation [here](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html). 
+
+### Step 1: Create a new IAM role for EKS to use.
+
+ 
+
+Using the AWS console, create a new role. You only need one role for as many EKS clusters as you plan to create, name it generically. The permissions matter, though. Choose EKS from the list of services, then Allows AWS EKS to manage your clusters on your behalf. 
+
+### Step 2: Create a new VPC using CloudFormation.
+
+You will probably want to create your own VPC. Don’t create one yourself — EKS is incredibly particular about things. Just use CloudFormation. [Use this Amazon S3 template](https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-vpc-sample.yaml) URL. The name for this VPC should be application specific. Name it “uat,” “production,” or whatever specific name you prefer. Each EKS cluster you create will have its own VPC. 
+
+### Step 3: Install the awscli version 1.16.73 or higher.
+
+ 
+
+Even on newer versions of Ubuntu, the awscli is not up-to-date enough in the apt repos. You’ll have to manually install using python’s pip utility, but first you’ll want to make sure that the awscli package is removed. Here, I’m using python3, but you could easily use python2 if you already have it. To do this, replace all instances of “python3” with “python” (not “python2”) and “pip3” with “pip” (not “pip2”). sudo apt-get remove -y –purge awscli sudo apt-get install -y python3 python3-pip sudo pip3 install awscli –upgrade aws –version
+
+### Step 4: Create your EKS cluster with the AWS CLI.
+
+I recommend not using the AWS console, because it could mess up permissions later. The IAM user who creates the EKS cluster is the only user who will have access to it once created. I created a cluster using root credentials (not realizing it), and then used kubectl with my user’s credentials. To create your cluster, use the following command, but replace the following:
+
+1) the role ARN with the role ARN in the first step of this tutorial;
+
+2) the subnet IDs with the subnets created using the CloudFormation template in this tutorial;
+
+3) the security group ID with the security group ID created using the same CloudFormation template; and
+
+4) the name “devel” with whatever you want to call your EKS cluster.
+
+To get these IDs from CloudFormation, go to the created stack, and click the Outputs tab. aws eks create-cluster –name devel –role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR –resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+
+### Step 5: Install kubectl.
+
+ 
+
+This tool (kubectl) is how you manage kubernetes clusters. This step is not specific to AWS, so if you already have kubectl, you are good to go. For Ubuntu, I recommend using the system package manager by running these simple commands: sudo apt-get update && sudo apt-get install -y apt-transport-https curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add – echo “deb https://apt.kubernetes.io/ kubernetes-xenial main” | sudo tee -a /etc/apt/sources.list.d/kubernetes.list sudo apt-get update sudo apt-get install -y kubectl
+
+### Step 6: Install Amazon’s authenticator for kubectl and IAM.
+
+ 
+
+Amazon EKS uses IAM for user management and access to clusters. Out of the box, kubectl does not support IAM. To bridge the gap, you must install a binary on your system called  aws-iam-authenticator. Run these commands on Ubuntu: curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator chmod +x aws-iam-authenticator sudo mv aws-iam-authenticator /usr/bin/aws-iam-authenticator
+
+### Step 7: Wait until the EKS cluster status is “ACTIVE”.
+
+It should take about 10 minutes from when you ran the AWS CLI command to create it. 
+
+### Step 8: Update your ~/.kube/config using AWS CLI.
+
+If you’ve followed the tutorial exactly to this point, all you need to do is run this command. It will update your kubectl configuration file with the context, user, and authentication commands. You will need to replace the name “devel” with the name of your cluster used in the “AWS EKS create-cluster” command above. Then, you can test your connection using the kubectl command listed next. AWS EKS update-kubeconfig –name devel kubectl get svc 
+
+### Step 9: Launch worker nodes into your EKS cluster.
+
+There are a lot of options here, so I’ll just defer to the AWS docs link I posted. This step will help you create EC2 instances, place them in the right subnets, and help them connect to the EKS cluster. As such, it’s important to follow the directions exactly. 
+
+### Step 10: Download, edit, and apply the AWS authenticator configuration map.
+
+This is a continuation of the previous step (even in the AWS docs), but worthy of note, since your nodes will not show up in the EKS cluster otherwise. To watch your nodes show up, run this kubectl command: kubectl get nodes –watch
+
+### Step 11: Use kubectl like you would with any other kubernetes cluster.
+
+Kubernetes has become the de-facto industry standard for container orchestration. Amazon Web Services (AWS) is a well-known provider of cloud services, while Kubernetes is quickly becoming the standard way to manage application containers in production environment.
+
+Amazon EKS (Elastic Container Service for Kubernetes) is a managed Kubernetes service that allows you to run Kubernetes on AWS without the hassle of managing the Kubernetes control plane. AWS EKS brings these two solutions together, allowing users to quickly and easily create Kubernetes clusters in the cloud.
+
+This guide walks you, step by step, through the process of provisioning a new Kubernetes cluster using Amazon EKS once the desired architecture is published. Amazon also has a setup guide, though, by itself, it will not enough to actually get started. You can find their documentation here.
+
+#### Step 1: Create a new IAM role for EKS to use.
+
+Using the AWS console, create a new role. You only need one role for as many EKS clusters as you plan to create, name it generically. The permissions matter, though. Choose EKS from the list of services, then Allows Amazon EKS to manage your clusters on your behalf.
+
+#### Step 2: Create a new VPC using CloudFormation.
+
+You will probably want to create your own VPC. Don’t create one yourself — EKS is incredibly particular about things. Just use CloudFormation. Use this Amazon S3 template URL. The name for this VPC should be application specific. Name it “uat,” “production,” or whatever specific name you prefer. Each EKS cluster you create will have its own VPC.
+
+#### Step 3: Install the awscli version 1.16.73 or higher.
+
+Even on newer versions of Ubuntu, the awscli is not up-to-date enough in the apt repos. You’ll have to manually install using python’s pip utility, but first you’ll want to make sure that the awscli package is removed. Here, I’m using python3, but you could easily use python2 if you already have it. To do this, replace all instances of “python3” with “python” (not “python2”) and “pip3” with “pip” (not “pip2”).
+
+sudo apt-get remove -y –purge awscli
+
+sudo apt-get install -y python3 python3-pip
+
+sudo pip3 install awscli –upgrade
+
+#### Step 4: Create your EKS cluster with the AWS CLI.
+
+I recommend not using the AWS console, because it could mess up permissions later. The IAM user who creates the EKS cluster is the only user who will have access to it once created. I created a cluster using root credentials (not realizing it), and then used kubectl with my user’s credentials. To create your cluster, use the following command, but replace the following:
+
+1) the role ARN with the role ARN in the first step of this tutorial;
+
+2) the subnet IDs with the subnets created using the CloudFormation template in this tutorial;
+
+3) the security group ID with the security group ID created using the same CloudFormation template; and
+
+4) the name “devel” with whatever you want to call your EKS cluster.
+
+To get these IDs from CloudFormation, go to the created stack, and click the Outputs tab.
+
+AWS EKS create-cluster –name devel –role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR –resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+
+#### Step 5: Install kubectl.
+
+This tool (kubectl) is how you manage kubernetes clusters. This step is not specific to AWS, so if you already have kubectl, you are good to go. For Ubuntu, I recommend using the system package manager by running these simple commands:
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add –
+
+echo “deb https://apt.kubernetes.io/ kubernetes-xenial main” | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt-get update
+
+sudo apt-get install -y kubectl
+
+#### Step 6: Install Amazon’s authenticator for kubectl and IAM.
+
+Amazon EKS uses IAM for user management and access to clusters. Out of the box, kubectl does not support IAM. To bridge the gap, you must install a binary on your system called  aws-iam-authenticator. Run these commands on Ubuntu:
+
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+
+chmod +x aws-iam-authenticator
+
+sudo mv aws-iam-authenticator /usr/bin/aws-iam-authenticator
+
+#### Step 7: Wait until the EKS cluster status is “ACTIVE”.
+
+It should take about 10 minutes from when you ran the AWS CLI command to create it.
+
+#### Step 8: Update your ~/.kube/config using AWS CLI.
+
+If you’ve followed the tutorial exactly to this point, all you need to do is run this command. It will update your kubectl configuration file with the context, user, and authentication commands. You will need to replace the name “devel” with the name of your cluster used in the “aws eks create-cluster” command above. Then, you can test your connection using the kubectl command listed next.
+
+aws eks update-kubeconfig –name devel
+
+#### kubectl get svc Step 9: Launch worker nodes into your EKS cluster.
+
+There are a lot of options here, so I’ll just defer to the AWS docs link I posted. This step will help you create EC2 instances, place them in the right subnets, and help them connect to the EKS cluster. As such, it’s important to follow the directions exactly.
+
+#### Step 10: Download, edit, and apply the AWS authenticator configuration map.
+
+This is a continuation of the previous step (even in the AWS docs), but worthy of note, since your nodes will not show up in the EKS cluster otherwise. To watch your nodes show up, run this kubectl command:
+
+#### kubectl get nodes –watchStep 11: Use kubectl like you would with any other kubernetes cluster.
+
+At this point, you have a fully functioning EKS cluster. Congratulations!.
+
+Read more about [What is Cloud Migration? Strategy, Process and Tools](/cloud-migration/cloud-migration-strategy/)

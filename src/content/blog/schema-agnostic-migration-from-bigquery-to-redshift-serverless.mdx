@@ -1,0 +1,211 @@
+---
+title: "Schema-Agnostic Migration from BigQuery to Redshift Serverless"
+slug: "schema-agnostic-migration-from-bigquery-to-redshift-serverless"
+description: "Modern data engineering frequently demands cloud-to-cloud migrations as organizational architectures, cost models, and ecosystem strategies evolve. While managed replication platforms and Change Data Capture (CDC) pipelines dominate high-frequency"
+publishedAt: "2026-06-30"
+author: "Sparsh Khandelwal"
+category: "Cloud Migration"
+draft: false
+---
+
+Modern data engineering frequently demands cloud-to-cloud migrations as organizational architectures, cost models, and ecosystem strategies evolve. While managed replication platforms and Change Data Capture (CDC) pipelines dominate high-frequency migration discussions, they often introduce unnecessary operational overhead, licensing fees, and infrastructure complexity for static or discrete historical data transfers.
+
+This technical case study details how our data platform team successfully migrated a multi-gigabyte analytical warehouse from Google BigQuery to Amazon Redshift Serverless. Faced with hundreds of tables exhibiting highly diverse, nested, and evolving schemas, we avoided the trap of manual schema definition or expensive third-party tools. Instead, we architected and executed a zero-infrastructure, fully automated **dump-and-restore** migration framework using Python, pyarrow, and the Amazon Redshift Data API.
+
+This post details the architectural decisions, the exact code utilized, and the production-grade optimizations that enabled a seamless multi-gigabyte cutover.
+
+## **Migration Background**
+
+The project scenario involved a high-throughput data platform that needed to transition its data storage from Google Cloud Platform (GCP) to Amazon Web Services (AWS). Specifically, the core datasets required migration into a target Redshift Serverless workgroup environment for downstream analytical modeling.
+
+The source dataset consisted of several gigabytes of data spread across hundreds of tables. The data profiles ranged from simple, flat relational tables to highly complex schemas featuring deeply nested structural features, token arrays, and high-precision metadata decimal fields.
+
+## **Why We Chose Dump and Restore**
+
+Before writing any code, we evaluated three distinct architectural patterns for the data movement phase: continuous CDC replication via managed services, an ETL-based pipeline (AWS Glue/Apache Spark), and an orchestrated **Dump and Restore** strategy.
+
+We ultimately chose the **Dump and Restore** approach based on several defining project characteristics:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+By leveraging BigQuery’s capability to export directly to storage and using Amazon S3 bucket as our staging environment, we eliminated the need for middleman replication servers.
+
+## **Architecture Overview**
+
+The migration architecture was designed to minimize compute footprint and rely completely on serverless, highly scalable cloud primitives. The entire data lifecycle bypassed traditional, long-running server instances.
+
+**Data Flow and Components**
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+![Image](/images/blog/mergation-blog.webp)
+
+## **End-to-End Migration Workflow**
+
+The execution of the migration framework follows a strict, sequential pipeline designed to isolate errors at the individual table level while maximizing concurrent processing.
+
+## **Schema Discovery Strategy**
+
+Our primary engineering challenge was the lack of detached, pre-compiled schema definition files (such as DDL scripts) from the source systems. Manually querying BigQuery information schemas for hundreds of tables and transforming them into Redshift-compatible dialects would have taken weeks and risked human error.
+
+We addressed this by implementing **In-Storage Schema Discovery**. Since Apache Parquet is a self-describing columnar storage format, every single Parquet file contains its own comprehensive schema metadata within its file footer.
+
+1. $1
+
+The data was delivered into the target S3 bucket using an explicit table-to-folder convention:
+
+`s3://s3-bucket/├── dataset_metadata_prod/│   ├── part-000.parquet│   ├── part-001.parquet│├── dynamic_token_mappings/│   └── part-000.parquet`
+
+1. $1
+
+The framework used boto3 to crawl the S3 bucket prefixes and identify unique table designations. Because every file within a specific table prefix shares an identical schema layout (guaranteed by BigQuery's export mechanism), the framework optimization engine only needed to pull a single sample file per folder.
+
+To process this efficiently without filling up the host system's disk, the script writes the sample file into an ephemeral, temporary file system location using Python’s tempfile module, reads the schema using pyarrow.parquet.read_schema(), and immediately flushes the disk space once the schema data is extracted.
+
+## **Automated Redshift Table Generation**
+
+Once the framework isolated a sample Parquet file's metadata, it passed the fields into a custom translation matrix. This translation matrix automatically mapped the physical and logical pyarrow datatypes to the appropriate Amazon Redshift relational datatypes.
+
+1. $1
+
+The framework applied the following standard type conversion matrix:
+
+**Parquet / PyArrow Logical Type****Target Redshift Datatype****Technical Justification & Scale**is_booleanBOOLEANDirect 1:1 mapping.is_int32INTEGERStandard 4-byte signed integer.is_int64BIGINT8-byte signed integer to prevent numeric overflow.is_float64DOUBLE PRECISION8-byte floating-point precision for model evaluation metrics.is_stringVARCHAR(65335)Maximum Redshift width allocated to handle long tokenized text representations.isinstance(dtype, TimestampType)TIMESTAMPNormalized to standard Redshift timestamp layouts.is_decimalDECIMAL(p, s)Dynamically extracts precision ($p$) and scale ($s$) properties up to a Redshift maximum of 38.is_list / is_structSUPERIngests complex structural arrays natively without requiring flatten schemas.
+
+1. $1
+
+BigQuery environments frequently utilize STRUCT and REPEATED fields to handle nested JSON data or hierarchical business schemas. In legacy data warehouse migrations, converting these structures required data engineers to either completely flatten the data into wide tables or break them out into separate, complex child tables with foreign key relations.
+
+Amazon Redshift’s native SUPER datatype solves this problem completely. The SUPER datatype stores schemaless or semi-structured data up to 16 MB per row in a highly optimized, internal binary format. By mapping Parquet list and struct elements directly to SUPER, we preserved the exact nested topology of the source BigQuery data. This meant downstream analytics engineers could query nested arrays using standard, intuitive dot-notation and unnesting syntax without changing their underlying data models.
+
+## **Complete Python Migration Codebase**
+
+Below is the complete, self-contained Python production script utilized to execute this automated migration framework.
+
+`import boto3import timeimport pyarrow.parquet as pqimport pyarrow as paimport tempfileimport os# ================== CONFIGURATION ==================BUCKET = ""PARENT_PREFIX = ""REDSHIFT_WORKGROUP = ""REDSHIFT_DATABASE = ""REDSHIFT_SCHEMA = ""REGION = ""IAM_ROLE_ARN = "arn:aws:iam::123456789012:role/service-role/AmazonRedshift-CommandsAccessRole-20260417T155528"FILTER_TABLES = # =================================================s3_client = boto3.client("s3", region_name=REGION)redshift_data = boto3.client("redshift-data", region_name=REGION)def execute_sql(sql: str, statement_name: str = None):    """    Submits an asynchronous statement execution to Redshift Serverless via Data API    and loops actively until the execution process finishes or fails.    """    response = redshift_data.execute_statement(        WorkgroupName=REDSHIFT_WORKGROUP,        Database=REDSHIFT_DATABASE,        Sql=sql,        StatementName=statement_name    )    query_id = response    print(f"Started: &#123;statement_name&#125; (ID: &#123;query_id&#125;)")    while True:        status = redshift_data.describe_statement(Id=query_id)        state = status        if state in :            if state == "FINISHED":                print(f"Completed: &#123;statement_name&#125;")                return            else:                raise Exception(status.get("Error"))        time.sleep(2)def arrow_to_redshift(dtype: pa.DataType) -> str:    """Translates PyArrow physical and logical datatypes to Redshift SQL syntax."""    if pa.types.is_boolean(dtype):        return "BOOLEAN"    elif pa.types.is_int64(dtype):        return "BIGINT"    elif pa.types.is_int32(dtype):        return "INTEGER"    elif pa.types.is_float64(dtype):        return "DOUBLE PRECISION"    elif pa.types.is_string(dtype):        return "VARCHAR(65535)"    elif isinstance(dtype, pa.TimestampType):        return "TIMESTAMP"    elif pa.types.is_decimal(dtype):        return f"DECIMAL(&#123;min(dtype.precision, 38)&#125;,&#123;dtype.scale&#125;)"    elif pa.types.is_list(dtype) or pa.types.is_struct(dtype):        return "SUPER"    else:        return "VARCHAR(65535)"def migrate_table(table_prefix: str, table_name_raw: str):    """Handles the end-to-end lifecycle of discovering, mapping, creating, and loading a table."""    table_name = table_name_raw.replace('"', '').strip()    print(f'Processing table: "&#123;table_name&#125;"')    paginator = s3_client.get_paginator("list_objects_v2")    parquet_key = None    for page in paginator.paginate(Bucket=BUCKET, Prefix=table_prefix):        for obj in page.get("Contents", ):            if obj.endswith(".parquet"):                parquet_key = obj                break        if parquet_key:            break    if not parquet_key:        print("No parquet found, skipping")        return    print(f"Using file: &#123;parquet_key&#125;")    #Download one file locally to extract its metadata footer structure    tmp = tempfile.NamedTemporaryFile(delete=False)    local_path = tmp.name    tmp.close()    s3_client.download_file(BUCKET, parquet_key, local_path)    schema = pq.read_schema(local_path)    # Immediately release local disk resource    os.remove(local_path)    columns =     for field in schema:        col = field.name.replace('"', '').strip()        columns.append(f'"&#123;col&#125;" &#123;arrow_to_redshift(field.type)&#125;')    create_sql = f"""    DROP TABLE IF EXISTS "&#123;REDSHIFT_SCHEMA&#125;"."&#123;table_name&#125;";    CREATE TABLE "&#123;REDSHIFT_SCHEMA&#125;"."&#123;table_name&#125;" (        &#123;", ".join(columns)&#125;    );    """    execute_sql(create_sql, f"CREATE &#123;table_name&#125;")    copy_sql = f"""    COPY "&#123;REDSHIFT_SCHEMA&#125;"."&#123;table_name&#125;"    FROM 's3://&#123;BUCKET&#125;/&#123;table_prefix&#125;'    IAM_ROLE '&#123;IAM_ROLE_ARN&#125;'    FORMAT AS PARQUET;    """    execute_sql(copy_sql, f"COPY &#123;table_name&#125;")    print(f'Finished table "&#123;table_name&#125;"\n')def main():    print("Discovering tables...")    paginator = s3_client.get_paginator("list_objects_v2")    for page in paginator.paginate(Bucket=BUCKET, Prefix=PARENT_PREFIX, Delimiter="/"):        for prefix_info in page.get("CommonPrefixes", ):            prefix = prefix_info            table_name = prefix.rstrip("/").split("/")            if FILTER_TABLES and table_name.lower() not in :                continue            migrate_table(prefix, table_name)if __name__ == "__main__":    main()`
+
+## **Detailed Code Deep-Dive**
+
+1. $1
+
+The execute_sql function abstracts away the execution of commands against Amazon Redshift Serverless. Instead of establishing a long-running, stateful database connection pool that is prone to network drops, it submits an asynchronous statement request via redshift_data.execute_statement().
+
+The Redshift cluster immediately responds with a unique execution tracker (Id). The code then enters a structured while-loop that queries the status of this ID every 2 seconds via describe_statement(). If the state transitions to FAILED or ABORTED, the script raises an exception containing the explicit database error payload, allowing for rapid debugging.
+
+1. $1
+
+The arrow_to_redshift function maps pyarrow schemas to their corresponding Amazon Redshift SQL datatypes. It handles fixed-width types (int32, int64, float64) and addresses specific database constraints like maximum column size limitations:
+
+`elif pa.types.is_string(dtype):    return "VARCHAR(65535)"`
+
+Additionally, it dynamically handles variable fixed-point numeric scales:
+
+`elif pa.types.is_decimal(dtype):    return f"DECIMAL(&#123;min(dtype.precision,38)&#125;,&#123;dtype.scale&#125;)"`
+
+This protects Redshift from processing errors by limiting the decimal precision to its maximum supported length of 38 digits.
+
+1. $1
+
+The migrate_table core function cleans up column names by removing stray quotation marks to prevent DDL syntax errors. After building the column mapping string, it drops any pre-existing table variations to guarantee a clean target environment before executing the CREATE TABLE script.
+
+Directly following successful table creation, the framework triggers a high-speed, parallelized data ingestion using Redshift's native COPY command. By pointing the COPY statement to the table's S3 folder prefix (s3://&#123;BUCKET&#125;/&#123;table_prefix&#125;), Redshift reads all underlying Parquet file chunks in parallel, distributing the loading workload evenly across all available compute nodes.
+
+## **Technical Highlights: Why This Architecture Works**
+
+This migration framework stands apart from traditional data movement methods because of several key architectural choices:
+
+1. $1
+
+S3 acts as a highly resilient, infinite buffer that decouples GCP extraction routines from AWS ingestion loops. If an ingestion task fails due to a schema constraint violation, the source files remain safely intact on S3. This eliminates the need to run expensive, concurrent extraction processes on the source systems again.
+
+1. $1
+
+Traditional migration worker nodes must establish and preserve continuous stateful JDBC/ODBC network paths. Any network blip or timeout across hours of loading can break the processing thread.
+
+The **Amazon Redshift Data API** removes this infrastructure liability. It functions entirely as a secure, stateless HTTP endpoint. Long-running SQL operations are submitted asynchronously, returning a tracking identifier immediately. The Python controller simply polls the Data API for execution completion status, making the framework resilient to local worker process restarts.
+
+## **Challenges Faced and Solutions**
+
+**Challenge 1: Double Quote Escaping in Column Names**
+
+1. $1
+
+2. $1
+
+**Challenge 2: Deeply Nested Arrays and Schema Divergence**
+
+1. $1
+
+2. $1
+
+**Challenge 3: Incompatible Date Formats**
+
+1. $1
+
+2. $1
+
+## **Performance and Security Considerations**
+
+**Performance Tuning**
+
+To achieve maximum ingestion speeds, we implemented several performance optimizations:
+
+1. $1
+
+2. $1
+
+**Security and Governance**
+
+1. $1
+
+2. $1
+
+## **Lessons Learned**
+
+1. $1
+
+2. $1
+
+3. $1
+
+## **Results and Outcomes**
+
+By deploying this automated migration framework, we completed the migration ahead of schedule while achieving several major wins:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+## **Conclusion**
+
+Migrating an enterprise analytical database between cloud ecosystems doesn't require complex, high-maintenance replication pipelines. By leveraging modern cloud primitives, the self-describing nature of Apache Parquet, and the stateless efficiency of the Amazon Redshift Data API, our team built an automated, resilient, and highly cost-effective migration pipeline.
+
+If your team is planning a similar transition from Google BigQuery to Amazon Redshift Serverless, focus on automation early. Avoid manual schema mapping, let your data describe itself, and let cloud-native bulk loading commands do the heavy lifting.
+
+## **Technical Reference Links**
+
+For deeper reference on the tools, packages, and services leveraged in this migration architectural pattern, see the official documentation below:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1

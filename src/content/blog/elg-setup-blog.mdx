@@ -1,0 +1,142 @@
+---
+title: "ELG Setup Blog"
+slug: "elg-setup-blog"
+description: "In today\u2019s fast-paced digital landscape, efficient log management and analysis are crucial for businesses to maintain operational efficiency, security, and troubleshooting capabilities. The ELG stack, comprised of Elasticsearch, Logstash, and"
+publishedAt: "2024-04-09"
+author: "Parikshit Taksande"
+authorDesignation: "Team"
+category: "Technical Deep Dive"
+draft: false
+---
+
+### Introduction:
+
+In today’s fast-paced digital landscape, efficient log management and analysis are crucial for businesses to maintain operational efficiency, security, and troubleshooting capabilities. The ELG stack, comprised of Elasticsearch, Logstash, and Grafana, emerges as a robust solution for managing and visualizing logs effectively. This stack offers a comprehensive approach to collecting, parsing, storing, and visualizing logs, empowering organizations to monitor application logs seamlessly.
+
+**Challenges in Implementing a Monitoring System:**
+
+- **Complexity of Modern Environments:** Modern, cloud-native environments bring complexity due to the proliferation of AWS managed services and diverse application architectures.
+
+- **Difficulty in Centralizing Logs: **Businesses struggle to centralize logs from various sources, including AWS managed services and applications, making it challenging to derive meaningful insights.
+
+- **Operational Issues: **Promptly addressing operational issues becomes difficult without centralized monitoring, leading to potential downtime and performance degradation.
+
+- **Cost Escalation: **Traditional log management solutions may incur high costs, particularly when dealing with large volumes of data, impacting budget allocations.
+
+### Problem statement:
+
+In today’s dynamic digital landscape, efficient log management and centralized monitoring are paramount for businesses to ensure operational efficiency, security, and troubleshooting capabilities, particularly in modern, cloud-native environments. The proliferation of AWS managed services and diverse application architectures has intensified the challenges businesses face in centralizing logs, deriving meaningful insights, and promptly addressing operational issues. Moreover, the costs associated with traditional log management solutions can escalate significantly, especially when dealing with large volumes of data.
+
+### Solution:
+
+The ELG stack, comprised of Elasticsearch, Logstash, and Grafana, presents a compelling solution to address the complexities of log management and centralized monitoring in AWS environments. This stack offers a comprehensive approach to collecting, parsing, storing, analyzing, and visualizing logs from various sources, enabling organizations to gain actionable insights and monitor their infrastructure effectively.**Summary of the Solution**Our solution revolves around establishing centralized log monitoring for infrastructure utilizing Elasticsearch and Grafana. We deploy both Elasticsearch and Grafana on a centralized EC2 server, ensuring optimal resource allocation. Additionally, we set up Filebeat on the target machine to extract logs from log files. Customized Grafana dashboards offer in-depth insights into log details and service performance across various metrics. This configuration streamlines management processes, ensures uniform monitoring setups, and empowers proactive decision-making, ultimately boosting visibility and facilitating proactive maintenance.The high-level architecture diagram provides a visual representation of the components integrated into our centralized monitoring setup.
+
+![Image](/images/blog/Image-133.png)
+
+**Prerequisites**
+
+- Familiarity with Elasticsearch and Grafana.
+
+- Basic Knowledge of AWS Cloud and cloudwatch logs.
+
+- Comfortable Working with YAML Files
+
+- Knowledge of Log Collection and Parsing
+
+### Implementation Steps:
+
+**Deployment of Centralized Log Monitoring System on AWS**To commence, establish an AWS EC2 instance running Ubuntu, designated for hosting the centralized log monitoring system. Ensure enough provisioning of resources to manage monitoring tasks effectively. Implement a high availability architecture on AWS by deploying a centralized monitoring server utilizing Auto Scaling Groups across multiple availability zones, complemented by a load balancer.**EC2 Instance Setup:**
+
+- Create an EC2 instance running Ubuntu, ensuring sufficient resources allocation for optimal performance.
+
+- Configure security groups to allow necessary inbound and outbound traffic for Elasticsearch, Logstash, Grafana.
+
+**Installation and Configuration:**
+
+- Install and configure Elasticsearch, Logstash, Grafana on the EC2 instance.
+
+- Verify the functionality and connectivity of each component within the centralized log monitoring system.
+
+Bash script for Elasticsearch
+
+#!/bin/bash# Function to display an error message and exitdisplay_error() &#123;echo “Error: $1”exit 1&#125;# Check if script is being run as rootif ]; thendisplay_error “This script must be run as root.”fi# Add the Elastic APT repository keywget -qO – https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add – || display_error “Failed to add GP# Add the Elastic APT repositoryecho “deb https://artifacts.elastic.co/packages/7.x/apt stable main” &gt; /etc/apt/sources.list.d/elastic-7.x.list# Update the package indexapt-get update || display_error “Failed to update package index.”# Install Elasticsearchapt-get install -y elasticsearch || display_error “Failed to install Elasticsearch.”# Configure Elasticsearch for external accessecho “network.host: 0.0.0.0” &gt;&gt; /etc/elasticsearch/elasticsearch.ymlecho “http.port: 9200” &gt;&gt; /etc/elasticsearch/elasticsearch.ymlecho “discovery.type: single-node” &gt;&gt; /etc/elasticsearch/elasticsearch.yml# Start and enable Elasticsearch servicesystemctl start elasticsearch || display_error “Failed to start Elasticsearch service.”systemctl enable elasticsearch || display_error “Failed to enable Elasticsearch service.”echo “Elasticsearch installed and configured for external access successfully.”
+
+Logstash bash script
+
+#!/bin/bash# Function to display an error message and exitdisplay_error() &#123;echo “Error: $1”exit 1&#125;# Check if script is being run as rootif ]; thendisplay_error “This script must be run as root.”fi# Add the Elastic APT repository keywget -qO – https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add – || display_error “Failed to add GP# Add the Elastic APT repositoryecho “deb https://artifacts.elastic.co/packages/7.x/apt stable main” &gt; /etc/apt/sources.list.d/elastic-7.x.list# Update the package indexapt-get update || display_error “Failed to update package index.”# Install Logstashapt-get install -y logstash || display_error “Failed to install Logstash.”# Configure Logstashcat  /etc/logstash/conf.d/logstash.confinput &#123;beats &#123;port => 5044&#125;&#125;output &#123;elasticsearch &#123;hosts => index => “%&#123;&#125;-%&#123;&#125;-%&#123;+YYYY.MM.dd&#125;”document_type => “%&#123;&#125;”&#125;&#125;EOF# Start and enable Logstash servicesystemctl start logstash || display_error “Failed to start Logstash service.”systemctl enable logstash || display_error “Failed to enable Logstash service.”echo “Logstash installed and configured successfully.”
+
+Grafana Bash script:
+
+#!/bin/bash# Update package indexsudo apt update# Install dependenciessudo apt install -y adduser libfontconfig1# Download Grafana packagewget https://dl.grafana.com/oss/release/grafana_8.0.6_amd64.deb# Install Grafanasudo dpkg -i grafana_8.0.6_amd64.deb# Start Grafana servicesudo systemctl start grafana-server# Enable Grafana service to start on bootsudo systemctl enable grafana-server# Display status of Grafana servicesudo systemctl status grafana-server
+
+Now Configure the datasource in Grafana to setup the dashboard.First login to Grafana using default password and navigate to the connection setting page and search for “elasticsearch” and add new data source.
+
+Now Configure the datasource in Grafana to setup the dashboard.First login to Grafana using default password and navigate to the connection setting page and search for “elasticsearch” and add new data source.
+
+![Image](/images/blog/Image-134.png)
+
+Once the data sources is added then we need to create the connection with elasticsearch,In Connection URL add “http://localhost:9200”
+
+![Image](/images/blog/Image-135.png)
+
+Save and Test
+
+![Image](/images/blog/Image-136.png)
+
+**Configure the Dashboard**
+
+1. $1
+
+2. $1
+
+3. $1
+
+**AMI Creation:**Generate an Amazon Machine Image (AMI) from the configured EC2 instance, capturing the setup and configurations of Elasticsearch, Logstash, Grafana.**Launch Configuration and Auto Scaling:**Create a launch configuration specifying the AMI, instance type, security groups, and other configurations necessary for the centralized log monitoring system.Set up an Auto Scaling Group (ASG) utilizing the created launch configuration, defining scaling policies based on metrics such as CPU utilization or incoming traffic.Activate cross-zone load balancing to distribute incoming traffic evenly across instances deployed in multiple availability zones.**Testing and Validation:**Validate the functionality of the Auto Scaling Group by closely monitoring the scaling activities and ensuring instances are provisioned and terminated appropriately based on workload demands.Evaluate the reliability and performance of the scaling policies through thorough testing scenarios, assessing the responsiveness and efficiency of the infrastructure in handling fluctuations in workload.By meticulously following these steps, organizations can establish a robust and scalable centralized log monitoring system on AWS, ensuring high availability and efficient resource utilization for effective log management and analysis.**Filebeat Setup on Target Machine**
+
+- Install Filebeat on the target machine to collect and send logs to Logstash.
+
+- Configure Filebeat to read log files and forward them to Logstash for further processing.
+
+Filebeat setup on Target MachineWhen we start Filebeat, it starts one or more inputs that look in the locations you’ve specified for log data. For each log that Filebeat locates, Filebeat starts a harvester. Each harvester reads a single log for new content and sends the new log data to libbeat, which aggregates the events and sends the aggregated data to the output that you’ve configured for Filebeat.Create the executable file to setup the Filebeat on target machine.
+
+sudo vim filebeat.sh
+
+Copy paste the below content in the in filebeat.sh
+
+#!/bin/bash# Function to display an error message and exitdisplay_error() &#123;echo “Error: $1”exit 1&#125;# Check if script is being run as rootif ]; thendisplay_error “This script must be run as root.”fi# Add the Elastic APT repository keywget -qO – https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add – || display_error “Failed to add GP# Add the Elastic APT repositoryecho “deb https://artifacts.elastic.co/packages/7.x/apt stable main” &gt; /etc/apt/sources.list.d/elastic-7.x.list# Update the package indexapt-get update || display_error “Failed to update package index.”# Install Filebeatapt-get install -y filebeat || display_error “Failed to install Filebeat.”# Start and enable Filebeat servicesystemctl start filebeat || display_error “Failed to start Filebeat service.”systemctl enable filebeat || display_error “Failed to enable Filebeat service.”echo “Filebeat installed and configured successfully.”
+
+Execute the filebeat.sh using below command.
+
+bash filebeat.sh
+
+Once the filebeat is installed the update the configuration /etc/filebeat/filebeat.yml file to send the Logs to the logstash.1. Enable the Filebeat inputs and mention the path of the log files.
+
+# Change to true to enable this input configuration.enabled: true# Paths that should be crawled and fetched. Glob based paths.paths:– /var/log/nginx/*.log
+
+For example we have define the path for nginx logs (- /var/log/nginx/*.log)2. Comment out the Elasticsearch output to disable it.
+
+#output.elasticsearch:# Array of hosts to connect to.# hosts: 
+
+3. Enable Logstash output and define the logstash host IP.
+
+output.logstash:# The Logstash hostshosts: 
+
+Once the Filebeat config file is ready then restart the filebeats.
+
+sudo systemctl restart filebeat.service
+
+To share the target logs with host expose the port 5044 with in the VPCSalient features/Benefits of Solution:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+5. $1
+
+### Conclusion
+
+By following these steps, organizations can establish a robust and scalable centralized log monitoring system on AWS, ensuring high availability and efficient resource utilization for effective log management and analysis.

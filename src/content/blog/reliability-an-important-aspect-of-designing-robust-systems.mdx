@@ -1,0 +1,140 @@
+---
+title: "Reliability - An important aspect of designing robust systems"
+slug: "reliability-an-important-aspect-of-designing-robust-systems"
+description: "For any product, it is of utmost importance that the applications and services are highly available and performant, even in the face of some unexpected events or disruptions. The infrastructure should provide a system or a service with the ability"
+publishedAt: "2023-07-19"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "Resilience"
+draft: false
+---
+
+**Introduction**
+
+For any product, it is of utmost importance that the applications and services are highly available and performant, even in the face of some unexpected events or disruptions. The infrastructure should provide a system or a service with the ability to perform its intended functions without failures or interruptions.
+
+As someone who has worked with Amazon Web Services (AWS) for years, I know firsthand the importance of building systems that are highly available, resilient, and scalable. Thankfully, AWS provides a vast array of services and features that can help you achieve just that. Although there is an abundance of documentation available on AWS design principles and best practices for achieving reliability, comprehending and interpreting it can be a daunting task. Therefore, this blog aims to simplify the process for you. In this blog, we’ll explore how to design for failure, use auto-scaling to handle traffic spikes and leverage multiple availability zones to ensure high availability. Let’s get started!
+
+## **Deep Dive into Design Principles**
+
+![Image](/images/blog/img1-1024x589-1.png)
+
+While designing a Reliable system, following design principles play an important role.
+
+### **Understanding the availability needs**
+
+This is one of the most crucial aspects of building a Reliable solution. Unless businesses understand and formalize their availability needs, it would not be possible to construct a reliable infrastructure. In AWS, achieving high availability involves leveraging various services and features such as multi-Availability Zone (AZ) deployments, load balancing, auto-scaling, and fault-tolerant designs. It is important to identify the required availability requirements for your applications and services, consider factors like user demand, acceptable downtime, and business objectives. By utilizing AWS services and implementing appropriate redundancy and failover mechanisms, organizations can ensure their systems remain available, providing a seamless and reliable experience for their users.
+
+Also, while it is easier to define overall application availability as a target, more often than not, different aspects of the application or service have distinct availability needs. For instance, certain systems prioritize the ability to receive and store new data over retrieving existing data.
+
+Availability requirements may vary based on specific timeframes, with some services needing high availability during certain hours but being more tolerant of disruptions outside those hours. By breaking down an application into its constituent parts and evaluating the availability requirements for each, you can focus efforts and resources on meeting specific needs rather than applying the strictest requirement to the entire system, resulting in more efficient engineering and cost management.
+
+**How to understand availability requirements**
+
+- Identify KPIs: Organizations employ key performance indicators (KPIs) to assess the health and risk of their business and operations. Each department within an organization may have unique KPIs tailored to measure their specific outcomes. For instance, the product team of an eCommerce application might focus on the successful processing of cart orders as their KPI, while an on-call operations team may track the mean-time to detect (MTTD) incidents. The financial team’s KPI could be the cost of resources staying within budget. Service Level Indicators (SLIs), Service Level Objectives (SLOs), and Service Level Agreements (SLAs) form essential components of service reliability management.
+
+- Define RPO and RTO: Identify the criticality and impact of downtime for each component or service within the application.
+
+- Understand dependencies: Assess the dependencies and interdependencies between different components or services to understand how failures in one area can impact the overall availability.
+
+- Conduct risk assessments: Identify potential failure scenarios and their potential impact on availability.
+
+At Comprinno, we assess the availability requirements through a formal requirements gathering session with the customers. A data-driven approach is used to understand availability requirements by analyzing logs and extracting insights. System logs are collected and analyzed to identify recurring errors, their frequency, and duration. Based on the analysis, availability requirements are established, including metrics like uptime percentage and response time targets.  
+
+### **Automatic recovery from failures**
+
+No matter how well-designed and maintained your systems are, failures can and will happen. To minimize downtime and ensure the seamless functioning of your applications, it’s essential to have mechanisms in place that can automatically detect and recover from failures. AWS provides various features and tools that can help you achieve automatic recovery, including auto-scaling groups, load balancers, and Amazon CloudWatch. In this section, we’ll explore some of the best practices and strategies for implementing automatic recovery in your AWS environment, so you can keep your applications running smoothly even in the face of unexpected failures.
+
+**How to achieve automatic recovery from failures**
+
+- Automatic Scaling: By leveraging automatic scaling, you can optimize workload availability and minimize the impact of failures. The key concept is to scale horizontally by replacing a single large resource with multiple smaller resources, reducing the vulnerability of a single point of failure. Distributing requests across these smaller resources further enhances availability by eliminating a common point of failure.Auto Scaling groups allow you to automatically increase or decrease the number of instances based on demand. By setting up Auto Scaling groups, you can ensure that your applications can handle unexpected spikes in traffic and maintain consistent performance levels. Cluster Autoscalers can be used for horizontal scaling of pods in Amazon EKS. Auto scaling for Amazon ECS integrates with AWS Auto Scaling and can be configured to scale the desired count of ECS tasks or services in a cluster, ensuring the availability of resources based on the defined scaling policies.
+
+- Implement load balancing: Load balancing helps distribute incoming traffic evenly across multiple instances, ensuring that no single instance is overloaded. This can help prevent downtime and ensure that your applications remain available even in the event of failures.
+
+- Leverage multiple availability zones and multiple regions: AWS offers multiple availability zones (AZs) within each region, which are designed to provide redundancy and failover capabilities. Introducing geographical redundancy by deploying your applications across multiple AZs and even multiple regions, can ensure that your systems remain available in the event of any disruptions or disasters.
+
+- Cell-based architecture: This is a highly scalable and fault-tolerant approach that divides a large infrastructure into smaller, independent units called cells or regions.Each cell operates as an isolated unit with its own set of resources, such as compute, storage, and networking, allowing for better isolation and reducing the blast radius of potential failures. This architectural pattern enables AWS to provide high availability and resilience by distributing workloads across multiple cells, ensuring that failures in one cell do not impact the availability of services in other cells.
+
+- Implement automated backups and recovery: Setting up automated backups and recovery can help ensure that your data is protected in the event of failures. AWS offers various backup and recovery options, such as Amazon Elastic Block Store (EBS) snapshots and Amazon Relational Database Service (RDS) automated backups. AWS Backup service can be scheduled to take periodic backups to meet the recovery point objective (RPO) and recovery time objective (RTO).
+
+While all the solutions architected by Comprinno, utilize most of the above strategies for automatic recovery, we would want to specifically elaborate how it was achieved for Highway Delite.
+
+Highway Delite is a prominent data-driven commerce platform specifically designed for Indian highways. It is dedicated to connecting travelers, drivers, and merchants by building a comprehensive ecosystem of highway services. Highway Delite provides essential services such as FastTag, GPS, and Roadside Assistance, catering to the diverse needs of highway travelers. Given the critical nature of these services, ensuring high availability was of utmost importance.
+
+The Highway Delite infrastructure was spread over multiple AZs and leveraged Amazon EKS for running its containerized application.
+
+Now Amazon EKS, a managed service,  has self-healing capabilities that automatically recover and restore a Kubernetes cluster after failures or disruptions. EKS automatically restarts failed or crashed pods on healthy nodes in the cluster, ensuring high availability and reducing manual intervention. In case of node failures, EKS detects and initiates node recovery by replacing the failed node with a new one, maintaining optimal cluster performance.
+
+EKS integrates with HPA (Horizontal Pod Autoscaler) and Cluster Auto-Scaler, enabling automatic adjustment of pod replicas and cluster scaling based on resource utilization and workload demands.
+
+Route 53, AWS’s DNS service, was used for global traffic routing and load balancing to distribute traffic across multiple endpoints to mitigate disruptions. Health checks monitor endpoint availability and automatically route traffic away from unhealthy endpoints. DNS failover and DNS-based service discovery facilitate seamless failover and promote fault-tolerant architectures in distributed systems.
+
+### **Validate recovery procedures**
+
+One crucial aspect of designing robust systems of ensuring the reliability of your cloud infrastructure is to validate whether your  recovery procedures are working as expected. In a traditional on-premises environment, testing is typically focused on validating that a workload functions correctly under normal conditions. However, in the cloud, you have the advantage of being able to test how your workload responds to failures and validate your recovery procedures. By proactively simulating different failure scenarios and automating the recreation of past failures, you can uncover and address potential failure pathways, significantly reducing the risk of downtime or data loss.
+
+**How to validate recovery procedures**
+
+- Chaos Engineering: Introduce controlled failures into your system to observe how it responds and recovers. Conduct fault injection testing to intentionally introduce failures into your system and assess its resiliency. Fault injection testing enables you to identify potential vulnerabilities and fine-tune your recovery processes to ensure they are robust and effective.
+
+- Simulate failover: Simulate a failure scenario by intentionally triggering a failure in a component or resource. For example, you can stop an EC2 instance, terminate a database instance, or disable a load balancer. Observe and validate if the system can recover successfully and restore functionality according to your recovery procedures.
+
+- Establish Well-Defined Recovery Point Objectives (RPOs) and Recovery Time Objectives (RTOs): Clearly define your recovery point objectives and recovery time objectives. RPO specifies the maximum acceptable amount of data loss in the event of a failure, while RTO determines the target time for system recovery. By setting realistic RPOs and RTOs, you can align your recovery procedures with the business’s needs and ensure an appropriate level of resilience.
+
+- Disaster Recovery Drills: Conduct disaster recovery drills to validate the effectiveness of your disaster recovery plans. This can involve simulating a catastrophic event, such as a region outage, and executing the steps outlined in the recovery plan to restore services and infrastructure in an alternative region or environment.
+
+While Disaster Recovery drills and Chaos engineering are regularly conducted for customers with managed services, there are other ways to test whether your architecture is resilient enough. Resilience Hub has capabalities to analyze the infrastructure and provide recommendations to improve the resiliency of the architecture. In addition to architectural guidance for improving your application resiliency, the recommendations provide code for meeting your resiliency policy, implementing tests, alarms, and standard operating procedures (SOPs) that you can deploy and run with your application in your integration and delivery (CI/CD) pipeline.
+
+After you deploy an application into production, you can add AWS Resilience Hub to your CI/CD pipeline to validate every build before it is released into production. It integrates with AWS Trusted Advisor which provides a resiliency score and indications of meeting or breaching the defined RPO/RTO.
+
+### **Observability strategy**
+
+Observability is an essential design principle when it comes to building robust and reliable systems. It refers to the ability to gain insights into the internal workings of a system through monitoring, logging, and tracing. By implementing observability practices, organizations can proactively identify and resolve issues, ensure optimal performance, and maintain a high level of availability. Observability provides visibility into the health, performance, and behavior of the system, allowing for effective troubleshooting and optimization. It involves capturing and analyzing metrics, logs, and distributed traces to gain a comprehensive understanding of system behavior and dependencies. With observability, organizations can detect anomalies, diagnose problems, and make informed decisions to enhance the reliability and resilience of their systems.
+
+**How to achieve observability from application stacks and infrastructure metrics**
+
+To achieve observability from application stacks and infrastructure metrics, organizations can leverage a combination of AWS services and open-source tools. Here are the key components and practices that enable effective observability:
+
+- Log monitoring: AWS CloudWatch provides a centralized platform for monitoring and collecting metrics, logs, and events from various AWS resources. It enables organizations to gain real-time visibility into the performance and health of their applications and infrastructure. AWS CloudTrail offers comprehensive logging and auditing capabilities, capturing detailed records of API calls and actions taken within an AWS environment. By analyzing CloudTrail logs, organizations can track and monitor changes, investigate security incidents, and ensure compliance with industry regulations.
+
+- Tracing: AWS X-Ray is a powerful tool for tracing requests as they flow through complex application architectures. It helps businesses understand how requests are processed, identify bottlenecks, and diagnose performance issues, providing insights into the behavior of distributed applications. By integrating with Jaeger, an open-source distributed tracing system, organizations can gain deep insights into request flows, latency analysis, and performance optimization.
+
+- Dashboards: Apart from CloudWatch dashboard, in case of containers Prometheus and Grafana can be used. Prometheus is an open-source monitoring and alerting tool and integrates with Grafana which is a popular visualization tool. AWS Container Insights offers detailed monitoring and performance metrics for containerized applications running on Amazon Elastic Container Service (ECS) or Amazon Elastic Kubernetes Service (EKS). It provides insights into resource utilization, performance bottlenecks, and container health. AWS Health Dashboard provides a centralized view of the operational status and health of AWS services. It delivers real-time notifications and updates about service disruptions, allowing businesses to quickly respond and mitigate any potential impact on their applications.
+
+- Notifications and Alerting: While its good to have all the monitoring in place, alerting mechanism is equally important to ensure corrective actions. For e.g if CPU utilization is crossing a certain threshold, timely notifications should be sent out to the relevant teams. The notification system itself should be robust. Scenarios like downtime in the email system should be envisaged and alerts should be sent to more than one channels. Ideal way is to send a notification via Amazon SNS as both an email and SMS.
+
+###  
+
+### **Capacity planning**
+
+Capacity planning is a crucial aspect of designing robust and reliable systems. It involves accurately estimating the resources required by a workload to meet the demand without over or under-provisioning. In traditional on-premises environments, resource saturation often leads to failures when workload demands exceed the capacity. However, in the cloud, capacity planning can be achieved by monitoring demand and workload utilization and automating the addition or removal of resources as needed. This approach ensures that the optimal level of resources is maintained to satisfy demand while avoiding resource saturation.
+
+**How to achieve capacity planning**
+
+- Monitor Demand and Workload Utilization: Implement monitoring solutions to track the demand and utilization of your workload. This helps you gain insights into resource usage patterns and identify any potential bottlenecks or capacity constraints.
+
+- Automate Resource Scaling: Leverage automation tools and services provided by cloud platforms like AWS to dynamically adjust resource capacity based on demand. Auto Scaling Groups, for example, can automatically scale the number of instances up or down, ensuring that the workload has the necessary resources to handle fluctuations in demand.
+
+- Utilize Cloud Quotas and Limits: Take advantage of cloud provider quotas and limits to control and manage resource allocations effectively. Understand the limits imposed by the cloud platform and adjust your capacity planning strategies accordingly.
+
+- Continuously Optimize Resource Allocation: Regularly analyze and optimize resource allocation based on historical data, performance metrics, and expected workload patterns. This iterative process allows you to fine-tune your capacity planning and ensure optimal resource utilization.
+
+### **Manage and automate infrastructure changes**
+
+Managing and automating infrastructure changes is a critical aspect of designing robust and reliable systems. By utilizing automation, organizations can ensure that changes to their infrastructure are implemented consistently, efficiently, and in a controlled manner. This includes not only making changes to the infrastructure but also managing and tracking changes to the automation itself. Automation allows for better visibility, traceability, and the ability to review and audit infrastructure changes.
+
+**How to achieve manage and automate infrastructure changes**
+
+- Use Infrastructure-as-Code (IaC) Tools: Adopt infrastructure provisioning and management tools such as Terraform, AWS CloudFormation, or Ansible to define your infrastructure in code. This allows for versioning, tracking, and automating the deployment and configuration of infrastructure resources.
+
+- Implement Continuous Integration and Deployment (CI/CD) Pipelines: Set up CI/CD pipelines that automate the build, testing, and deployment of infrastructure changes. Whenever code is committed to a repository, the pipeline automatically triggers the deployment process, ensuring that changes are deployed consistently and with minimal manual intervention.
+
+- Leverage Configuration Management: Utilize configuration management tools like AWS Config to assess, audit, and evaluate the configurations of AWS resources. This helps ensure that infrastructure resources comply with defined guidelines and enables proactive identification of configuration drift or non-compliant resources.
+
+- Monitor and Log Infrastructure Changes: Implement monitoring and logging solutions such as AWS CloudTrail and Amazon CloudWatch to capture and record account activity and infrastructure changes. This provides visibility into who made the changes, when they were made, and what changes were implemented. It also allows for analysis, alerting, and remediation actions when necessary.
+
+Let us take example of Pando, a leading global supply chain technology company known for its AI-powered Fulfillment Cloud platform. The platform offers a comprehensive solution for manufacturers, retailers, and 3PLs, enabling streamlined logistics management, improved service levels, reduced costs, and a smaller carbon footprint.
+
+Comprinno was involved in architecting a resilient infrastructure for Pando on AWS. Infrastructure was automated using Terraform. Terraform is an essential disaster recovery strategy as it helps build new infrastructure quickly and efficiently. CI/CD pipeline was built for automatic deployment using AWS CodeCommit, CodeBuild and CodeDeploy. The pipeline is triggered whenever code is committed to the GitHub repository. AWS ECR was integrated within the pipeline. The built-in capability of ECR to scan docker images for known vulnerabilities was leveraged and the pipeline proceeds to deployment only when no Critical OR High severity vulnerabilities are reported by ECR. A notification alert was set up using AWS SNS to report to developers about the failed pipeline.
+
+**Final Thoughts**By incorporating these design principles into their architecture, businesses can build reliable, scalable, and highly available systems on AWS. This enables them to deliver exceptional user experiences, meet customer expectations, and drive business success in the fast-paced and demanding digital landscape.

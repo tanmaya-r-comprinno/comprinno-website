@@ -1,0 +1,168 @@
+---
+title: "10 techniques to optimize your AWS bills"
+slug: "10-techniques-to-optimize-your-aws-bills"
+description: "What do you do when you see your AWS costs mounting? I imagine that\u2019s a topic many entrepreneurs will have to answer at some point. I frequently get inquiries about very high AWS bills, which may have been incurred  accidentally or unexpectedly. One"
+publishedAt: "2022-08-19"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "Cost Optimization"
+draft: false
+---
+
+What do you do when you see your AWS costs mounting? I imagine that’s a topic many entrepreneurs will have to answer at some point. I frequently get inquiries about very high AWS bills, which may have been incurred  accidentally or unexpectedly. One of our customers, a formidable giant in the wearables industry, approached us, as their DynamoDB table was incurring extremely high costs. We moved them from on-demand capacity to provisioned capacity reducing DynamoDB costs by more than 50%. The use of spot instances for non-critical, stateless workload execution resulted in saving of 60 to 70%.
+
+For whatever reason, whether it’s because your app is becoming increasingly popular or because you’re providing more computing resources than are required, you’ll want to stretch your budget as far as possible. Finally, ‘A penny saved is a penny earned’.
+
+So, I’ve put together some recommendations for making the most of AWS.
+
+#### Checklist for optimizing AWS Cloud spend
+
+**1. ****Use the correct processors**
+
+- Optimize your Amazon EC2 and EKS usage with AMD-based instances. Amazon introduced EC2 instances featuring AMD EPYC Processors in November 2018 at 10% lower costs. As the customers observed cost savings there was a demand for additional instance types based on AMD EPYC processors. To date, AWS has introduced over 100 EC2 instances spanning 24 regions using AMD EPYC processors.
+
+- Utilize Graviton-based RDS and AWS Elastisearch. Graviton – the first-generation processor was launched by Amazon in late 2018, followed by AWS Graviton2 which was launched in 2019. These instances provide up to a 40% better price and performance. Graviton2 currently has no Windows compatibility.
+
+**2.Stop idle or low-utilized services**
+
+- More than often the demand peaks during the daytime whereas it is significantly lower at night. To handle such a scenario, you can have an AWS Lambda function that scales down EKS nodes or shuts down EC2 instances at night and scales them up during the daytime.
+
+- Non-production environments do not require the compute instances to be running out of office hours. If the compute instances are left running inadvertently, it can lead to unwanted high costs. To avoid this you can use AWS Instance Scheduler to stop EC2 or RDS instances when they are not required.
+
+- Run AWS Cost Explorer Resource Optimization to get a report of EC2 instances that are either idle or have low utilization. You can reduce costs by either stopping or downsizing these instances.
+
+**3. Implement Trusted Advisor**
+
+AWS Trusted Advisor inspects your AWS environment and makes recommendations for saving costs apart from many other best practices. You can utilize the below Trusted Advisor checks for cost optimization:
+
+- [Amazon Comprehend Underutilized Endpoints](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-comprehend-underutilized-endpoints)
+
+- [Amazon EBS over-provisioned volumes](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-ebs-over-provisioned-volumes)
+
+- [Amazon EC2 instances consolidation for Microsoft SQL Server](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#ec2-instances-consolidation-sql-server)
+
+- [Amazon EC2 instances over-provisioned for Microsoft SQL Server](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#ec2-instance-over-provisioned-microsoft-sql-server)
+
+- [Amazon EC2 Reserved Instance Lease Expiration](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-ec2-reserved-instances-lease-expiration)
+
+- [Amazon EC2 Reserved Instance Optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-ec2-reserved-instances-optimization)
+
+- [Amazon ElastiCache Reserved Node Optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-elasticache-reserved-node-optimization)
+
+- [Amazon OpenSearch Service Reserved Instance Optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-opensearch-reserved-instance-optimization)
+
+- [Amazon RDS Idle DB Instances](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-rds-idle-dbs-instances)
+
+- [Amazon Redshift Reserved Node Optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-redshift-reserved-node-optimization)
+
+- [Amazon Relational Database Service (RDS) Reserved Instance Optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-rds-reserved-instance-optimization)
+
+- [Amazon Route 53 Latency Resource Record Sets](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-route-53-latency-resource-record-sets)
+
+- [AWS Lambda Functions with Excessive Timeouts](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#aws-lambda-functions-excessive-timeouts)
+
+- [AWS Lambda Functions with High Error Rates](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#aws-lambda-functions-with-high-error-rates)
+
+- [AWS Lambda over-provisioned functions for memory size](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#aws-lambda-over-provisioned-functions-memory-size)
+
+- [AWS Well-Architected high risk issues for cost optimization](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#well-architected-high-risk-issues-cost-optimization)
+
+- [Idle Load Balancers](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#idle-load-balancers)
+
+- [Low Utilization Amazon EC2 Instances](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#low-utilization-amazon-ec2-instances)
+
+- [Savings Plan](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#savings-plan)
+
+- [Unassociated Elastic IP Addresses](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#unassociated-elastic-ip-addresses)
+
+- [Underutilized Amazon EBS Volumes](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#underutilized-amazon-ebs-volumes)
+
+- [Underutilized Amazon Redshift Clusters](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#underutilized-amazon-redshift-clusters)
+
+**4. Choose the right pricing model**
+
+- Use Amazon EC2 Spot Instances for fault-tolerant or flexible applications. Spot instances can also be used for test and development workload, as they can be interrupted with a 2-minute warning if AWS wants the resources back. Using a combination of EC2 on-demand along with spot instances for handling peak demands can save significant costs.
+
+- For long-term and stable utilization, you can select one of the below plans:
+
+1. $1
+
+2. $1
+
+3. $1
+
+**5. Right-sizing of EC2 instances **
+
+- Using EC2 instances optimally is the key to saving on costs. Use AWS Operations Conductor to automatically resize the EC2 instances (based on the recommendations report from Cost Explorer).
+
+- You can also use AWS Compute Optimizer which recommends optimal Amazon EC2 instance types for your workload. It analyses historical utilization metrics using machine learning and gives right-sizing recommendations.
+
+**6. Optimize data transfer costs**
+
+- Determine whether most of your NAT gateway charges are from traffic to Amazon Simple Storage Service or Amazon DynamoDB in the same Region. If they are, then [set up a gateway VPC endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html). Route traffic to and from the AWS resources through the gateway VPC endpoint, rather than through the NAT gateway. There are no processing or hourly charges for using gateway VPC endpoints.
+
+- VPC endpoints for S3 and DynamoDB allow free data transfer within the region.
+
+- Data transfers within a region cost less than between 2 different regions.
+
+- Use AWS CloudFront CDN to deliver web and media content instead of S3. With AWS CloudFront CDN, when a user requests a webpage or an image, the request is routed to one of Amazon’s 225+ edge server locations. If you are transferring terra bytes of data the cost savings by serving content from CloudFront rather than S3 directly, is huge.
+
+**7. Capacity planning and Baselining**
+
+Capacity planning helps you predict the amount of computing resources your business needs to run efficiently and effectively. Baselining also allows businesses to identify any potential trends in their system’s performance or usage, as well as identify potential optimization opportunities. The combination of capacity planning and baselining provides businesses with the information they need to optimize their systems and plan for the future.
+
+Once you have an understanding of your system’s current and future needs, you can begin to use AWS autoscaling to help you streamline the allocation of resources. Autoscaling is a great way to ensure that your system’s capacity is always up to date, as it can scale up or down depending on your system’s current and future needs. Autoscaling also helps to ensure that your system’s performance is always optimal.
+
+Using AWS Auto Scaling, you can build scaling plans for EC2 instances, ECS tasks, Amazon DynamoDB tables and indexes, and Amazon Aurora scaling groups. 
+
+**8. Identify and delete idle ****EBS ****volumes**
+
+Amazon EBS provides persistent storage for EC2 instances. If you delete the associated EC2 instance, EBS is not automatically deleted. This can result in costs being incurred for idle unattached EBS storage volumes. Imagine that a large number of EC2 instances have been created using auto-scaling; now if the attached EBS volumes are not erased when the EC2 instances are scaled down, this will result in unwanted spending.
+
+**9. Right usage of S3 tiers**
+
+Amazon currently offers six tiers of S3 storage at different price points. You will need to choose the right storage tier that is most suitable depending on factors such as how often data is accessed and how quickly a business would need to retrieve data in the event of a disaster.
+
+The savings from storing infrequently accessed, non-critical data in a lower-cost tier can be substantial. The cost per month of storing up to 50 TB of data in a standard S3 storage bucket is $0.023 per GB (US East Region), whereas storing the same data in S3 Glacier Deep Archive storage is $0.00099 per GB per month. The six tiers of storage are:
+
+- S3 Standard
+
+- S3 Intelligent Tiering
+
+- S3 Infrequent Access
+
+- S3 Infrequent Access (Single Zone)
+
+- S3 Glacier
+
+- S3 Deep Archive Glacier
+
+**10. Resource Tagging**
+
+Resource tagging in AWS can be a powerful tool for cost optimization. It allows you to quickly identify, categorize, and group resources to make them easier to manage and track. By tagging your resources, you can more easily determine if there are any orphaned resources; removal of the orphaned resources identified by resource tagging can be automated. With tagging, you can also understand how much you are spending, who is in charge of the resource, and why it is being used. This makes it easier to identify and manage the resources that are costing the most. You can prioritize the resources that need to be optimized or those that can be removed or downsized to reduce costs. Resource tagging in AWS can also help to identify resources that are not being utilized.
+
+#### AWS Tools for cost monitoring and cost optimization:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+5. $1
+
+6. $1
+
+7. $1
+
+8. $1
+
+9. $1
+
+10. $1
+
+#### Final Thoughts
+
+In conclusion, when it comes to dealing with mounting AWS costs, there are many strategies you can use to reduce your spend and get the most out of your cloud budget. Cost optimization is an on-going process and by taking a proactive approach to managing your cloud spend, you can ensure your AWS costs don’t become an unexpected burden. With the right strategies and the right attitude, you can make sure your AWS bills don’t mount sky-high.

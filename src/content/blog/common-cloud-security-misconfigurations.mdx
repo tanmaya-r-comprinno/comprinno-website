@@ -1,0 +1,38 @@
+---
+title: "Common Cloud Security Misconfigurations"
+slug: "common-cloud-security-misconfigurations"
+description: "Cloud offers a myriad of benefits in terms of cost-efficiency, high availability, scalability, efficiency. Swift cloud adoption spurred on by the global pandemic, however, has led to oversights, errors, or ill-informed cloud service configuration"
+publishedAt: "2023-05-20"
+author: "Vineet Singh"
+authorDesignation: "Team"
+category: "Cloud Security"
+draft: false
+---
+
+Cloud offers a myriad of benefits in terms of cost-efficiency, high availability, scalability, efficiency. Swift cloud adoption spurred on by the global pandemic, however, has led to oversights, errors, or ill-informed cloud service configuration choices.
+
+Cloud misconfigurations can create vulnerabilities for hackers to exploit. In fact, 65 to 70% of all security challenges in the cloud arise from misconfigurations. For example, in 2020, more than 440 million Estee Lauder records that included user email addresses and audit, error, CMS, middleware, and production logs were exposed because of a database that was not password-protected. Capital One breach was traced back to a web application firewall misconfiguration that exposed Amazon S3 buckets.
+
+This blog discusses the commonly occurring AWS cloud misconfigurations that need to be mitigated promptly.
+
+**AWS CloudTrail misconfigurations:**
+
+AWS CloudTrail allows users to log and monitor account activity related to actions performed across the AWS infrastructure. It also has a feature showing AWS account activity history which can be used for security auditing and troubleshooting. When left disabled, configuration changes will not be monitored and recorded.
+
+**Amazon EBS encryption:**
+
+When the encryption is not enabled, the data stored in Amazon EBS volumes attached to app-tier EC2 instances will be exposed. This includes data at rest on the volume, disk input and output operations, and all the snapshots taken from the volume.
+
+**Amazon S3 misconfigurations:**
+
+Amazon S3 bucket owners can set up controls to limit public access to their Amazon S3 data. When this feature is not enabled, it can open Amazon S3 bucket data to the public, which can result in data breaches. Not utilizing server-side encryption for S3-managed encryption keys or not encrypting inbound and outbound S3 data traffic are some of the misconfigurations which can create vulnerabilities as well.
+
+**IAM policy errors:**
+
+Identity access management plays a key role in deciding who can access the AWS account, making it an incredibly important aspect of cloud security. Lack of multi-factor authentication, not utilizing the concept of least privileges, not rotating access key every 90 days and other similar missteps can jeopardize the security of AWS accounts.
+
+**Incorrect Security Group attachments:**
+
+The functionality of security groups is similar to a firewall and filters inbound and outbound traffic based on rules. AWS security groups that allow inbound traffic on SSH port (22) from the public internet significantly increase the risk to an organization’s security landscape. Security groups should have restrictive access control lists (ACLs) to allow only incoming traffic from specific IPs and to specific ports where the application is listening for connections.
+
+To counter potential misconfigurations and security risks, Amazon provides the AWS Well-Architected Framework, and security best practices guidelines. Visit https://tevi.co/aws-security-assessment/ now to get a free security assessment for your AWS account.

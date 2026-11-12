@@ -1,0 +1,58 @@
+---
+title: "Addressing IRDAI requirements on AWS platform (Network Security) - Part II"
+slug: "addressing-irdai-requirements-on-aws-platform-network-security-part-ii"
+description: "Welcome back to the next part of the series on achieving IRDAI requirements on AWS platform. In the first blog in the series, we talked about Data and Application security. In this blog, we do a deep dive into the network security requirements of"
+publishedAt: "2026-05-08"
+author: "Pallavi Khopkar"
+authorDesignation: "Compliance Leader at Comprinno"
+category: "BFSI"
+draft: false
+---
+
+Welcome back to the next part of the series on achieving IRDAI requirements on AWS platform. In the first blog in the series, we talked about Data and Application security. In this blog, we do a deep dive into the network security requirements of IRDAI for Insurance companies on the cloud and their solutioning on the AWS platform.
+
+**IRDAI Requirement Sub-domain**
+
+**AWS Solution**
+
+**Network Security**
+
+Network Segmentation
+
+ Amazon VPC can enable an isolated portion of the AWS cloud and launch Amazon EC2 instances that have private (RFC 1918) addresses in the range of your choice (e.g., 10.0.0.0/16). You can define subnets within your VPC, grouping similar kinds of instances based on IP address range, and then set up routing and security to control the flow of traffic in and out of the instances and subnets. AWS offers a variety of VPC architecture templates with configurations that provide varying levels of public access: 
+
+1. VPC with a single public subnet only 2. VPC with public and private subnets 3. VPC with public and private subnets and hardware VPN access 4. VPC with private subnet only and hardware VPN access Security features within Amazon VPC include security groups (instance level firewalls), network ACLs, routing tables, and external gateways. Each of these items is complementary to providing a secure, isolated network that can be extended through selective enabling of direct Internet access or private connectivity to another network. Amazon EC2 instances running within an Amazon VPC inherit all of the benefits described below related to the guest OS and protection against packet sniffing.
+
+Patching network devices
+
+AWS is responsible for patching systems supporting the delivery of service to customers, such as the hypervisor and networking services. Customers control their own guest operating systems, software and applications and are therefore responsible for patching their own systems. This can be automated using Patch manager in AWS Systems Manager.
+
+Network Security
+
+The AWS network architecture allows users to customize security and resilience levels according to their workload requirements. With a robust network infrastructure, AWS facilitates the creation of fault-tolerant web architectures across multiple geographical locations, ensuring high availability and reliability. Secure network devices, including firewalls, enforce communication controls both externally and internally, using rule sets and access control lists (ACLs). Strategically positioned access points, known as API endpoints, enable comprehensive monitoring of inbound and outbound traffic, supporting secure HTTP access (HTTPS) for storage and compute instances within AWS. SSL encryption protects data transmission, safeguarding against eavesdropping and tampering. AWS CloudTrail logs all resource requests, providing detailed insights into accessed services, actions performed, and request originators. Additionally, AWS GovCloud (US) offers FIPS 140-2-compliant SSL-terminating load balancers to meet cryptographic requirements.
+
+Monitoring
+
+AWS employs diverse automated monitoring systems to ensure optimal service performance and availability. These tools are specifically crafted to identify any abnormal or unauthorized activities at entry and exit communication points. They continuously monitor server and network usage, port scanning, application behavior, and potential intrusion attempts. Additionally, users can set personalized thresholds for performance metrics to flag unusual behavior.
+
+VA/PT
+
+Regular vulnerability scans have to be performed on the host operating system, web application, and databases in the AWS environment.
+
+Audit Logging & protection of logs
+
+For retrospective investigations and near-real-time intrusion detection, AWS CloudTrail offers a comprehensive log of requests made to AWS resources within your account for supported services. Each event recorded includes details such as the accessed service, the action taken, and the requester’s identity. CloudTrail captures data on every API call made to supported AWS resources, encompassing sign-in events as well.
+
+Once CloudTrail is activated, event logs are dispatched every 5 minutes. You have the option to configure CloudTrail to aggregate log files from multiple regions into a unified Amazon S3 bucket. Subsequently, you can transfer them to your preferred log management and analysis solutions for security assessment and identification of user behavior trends. By default, log files are securely stored in Amazon S3, but you also have the ability to archive them in Amazon Glacier to fulfill audit and compliance prerequisites.
+
+It becomes easier to meet these requirements with the assistance of a recognized AWS partner.
+
+Did you know that Comprinno is a recognized **AWS Security competency partner in the compliance category **which further fortifies our claim of helping Fintech customers achieve their regulatory compliance requirements?
+
+Comprinno has a SaaS product, **Tevico**, which you can leverage for conducting extensive Security Assessments to ensure that your infrastructure is meeting the required security protocols.
+
+Our **AWS-certified Security specialists **handhold our customers for SecOps implementation. We have **worked with 500+ organizations** in their AWS adoption journey. 
+
+With our **philosophy of 4Ps – People, Processes, Product, and Partnerships** we help our customers in the insurance domain achieve regulatory compliance. 
+
+Watch this space for a series on meeting regulatory guidelines in the cloud for Insurance companies.

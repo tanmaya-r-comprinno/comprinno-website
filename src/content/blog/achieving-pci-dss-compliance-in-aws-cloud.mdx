@@ -1,0 +1,60 @@
+---
+title: "Achieving PCI DSS compliance in AWS cloud"
+slug: "achieving-pci-dss-compliance-in-aws-cloud"
+description: "For the Banking and Finance industry, data security and regulatory compliance is of paramount importance. Compliance to the Payment Card Industry Data Security Standard (PCI DSS), which is a set of security standards designed to ensure that ALL"
+publishedAt: "2022-07-15"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "BFSI"
+draft: false
+---
+
+For the Banking and Finance industry, data security and regulatory compliance is of paramount importance. Compliance to the Payment Card Industry Data Security Standard (PCI DSS), which is a set of security standards designed to ensure that ALL companies that accept, process, store or transmit credit card information maintain a secure environment, is required.
+
+     Key Objectives for a PCI DSS compliant architecture are:
+
+- Safe and secured network
+
+- Strong access control measures
+
+- Data Protection
+
+- Monitoring for any malicious activity
+
+- Vulnerability management
+
+AWS is certified as a PCI DSS Level 1 Service Provider and can strengthen security and provision for regulatory compliance.
+
+Security and Compliance is a shared responsibility between AWS and the customer.  While customer is responsible for ‘Security in the cloud’, AWS owns ‘Security of the cloud’. 
+
+The architectural blueprint for hosting applications and data in AWS which is PCI DSS compliant is given below:
+
+![Image](/images/blog/cloud-1024x599-1.png)
+
+Figure 1. Sample PCI DSS compliant architecture
+
+- **Secure network**
+
+Deploy application and database in private subnets in Amazon Virtual Private Cloud (VPC)with multi A-Z architecture.Amazon provides two main PCI DSS compliant firewall options: Security Groups and Network Access Control Lists (NACL). **A *security group* acts as a virtual firewall, controlling the traffic that is allowed to reach and leave the resources that it is associated with.**  NACL is an optional layer of security that acts as a firewall for controlling traffic in and out of a subnet. 
+
+Application and database can be deployed in containerized cluster on private subnets with Network Load Balancer at the front end, to restrict access over public network. Application in the containers and the database can be accessed using AWS PrivateLink. This setup is secure as it requires no special connectivity or routing configurations, because the connection between the consumer and provider accounts is on the global AWS backbone and doesn’t traverse the public internet.
+
+AWS WAF service integrated with AWS API Gateway is an additional level of security against common web exploits and bots, that may affect availability, compromise security or consume excessive resources.
+
+- **Access Management**
+
+AWS IAM provides user access to APIs/Amazon web services with least-privilege permissions. Follow the standard security advice of granting only the permissions required to perform a task. Nobody should have more permissions than they actually need.   You manage access in AWS by creating policies and attaching them to IAM identities or AWS resources. When an authenticated user attempts to access a resource, IAM checks the resource’s policy to determine whether the action is permitted.AWS Secrets Manager can be used to rotate, manage and retrieve the database credentials and API keys.
+
+IAM Access Analyzer helps identify resources in your organization and accounts, such as Amazon S3 buckets or IAM roles, that are shared with an external entity.
+
+- **Data Protection**
+
+AWS services provide encryption of data in transit and at rest. AWS Key Management System (KMS) is used for encrypting data as per AES-256 standard, to guarantee high level of security for the data during the transactions.
+
+Amazon Macie is an AI-powered security service that helps you prevent data loss by automatically discovering, classifying, and protecting sensitive data stored in AWS. 
+
+Majority of AWS services encrypt data at rest and in transit.
+
+- **Incident Detection and Response**
+
+Implement logging, monitoring and alerting using AWS Cloud Trail, Amazon Cloud Watch and AWS configuration rules. Compliance issues, vulnerabilities and security threats are reported byservices like AWS SecurityHub, AWS GuardDuty and AWS Inspector.

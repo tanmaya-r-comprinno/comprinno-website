@@ -1,0 +1,82 @@
+---
+title: "Cloud Resilience for Fintechs: Designing for High Availability and Compliance"
+slug: "cloud-strategies-for-high-availability-for-fintechs"
+description: "Today resilience is not just a desirable trait, it\u2019s a necessity, especially for fintech companies operating in the cloud. Resilience ensures continuity of operations, minimizes downtime, and safeguards customer trust and loyalty."
+publishedAt: "2025-04-11"
+author: "Prasad Puranik"
+authorDesignation: "Founder &amp; CEO | Comprinno"
+category: "BFSI"
+draft: false
+---
+
+Today resilience is not just a desirable trait, it’s a necessity, especially for fintech companies operating in the cloud. Resilience ensures continuity of operations, minimizes downtime, and safeguards customer trust and loyalty.  
+
+Regulatory bodies like RBI, SEBI, PCI DSS, and others mandate stringent resilience requirements for fintech firms. Compliance with these regulations is non-negotiable and requires robust resilience measures to protect customer data and maintain trust. Fintechs failing to meet regulatory resilience standards face severe penalties, reputational damage, and loss of market credibility.
+
+Resilience has two parts to it – Disaster Recovery and High availability. In this blog, we will be focussing on a strategy to achieve high availability for Fintechs.
+
+One  of the common questions that many of the organizations that we deal with have is  – **What are we missing in this architecture to make it highly available**
+
+**Availability refers to the ability of your systems to remain operational and resilient over time.** It involves promptly restoring services in response to issues such as minor component failures, faulty code deployments, or network connectivity problems, ensuring continuous functionality and minimal disruption for users.
+
+When a system is running in a production environment, it typically follows a standard pattern of operation. It starts by running normally, but at some point, a failure or disruption may occur due to various reasons such as hardware failure, software bugs, or network issues. This cycle can be measured with the below terms:
+
+- **MTBF (Mean Time Between Failures)**: This metric measures the average time interval between one failure of the system and the next. A higher MTBF indicates greater reliability.
+
+**MTTR (Mean Time To Recover)**: MTTR represents the average time required to restore the system to normal operation after a failure occurs. MTTR can be further divided into:
+
+- **MTTD (Mean Time To Detect)**: The average time taken to detect that a failure has occurred.
+
+- **Repair Time**: The average time taken to repair the failure and resume normal operations.
+
+Availability is a measure of how consistently a system is operational and accessible to users. 
+
+**Availability = MTBF / (MTBF + MTTR).**
+
+The higher the MTBF (less frequent failures) and the lower the MTTR (faster recovery from failures), the higher the availability of the system.
+
+**The ultimate goal for improving system availability is to reduce MTTR**, which primarily consists of the detection time (MTTD) and repair time. By minimizing MTTD (quickly detecting failures) and optimizing repair processes (reducing repair time), organizations can enhance their overall system availability.
+
+![Image](/images/blog/MTTD.jpg)
+
+In cloud environments, achieving high availability involves a triad of strategies:
+
+![Image](/images/blog/triad.jpg)
+
+### **Architecting for high-availability**
+
+To achieve high availability in AWS, leveraging **multi-AZ (Availability Zone)** and **multi-region environments** is crucial. Multi-AZ architecture involves deploying your application across multiple Availability Zones within the same region to ensure redundancy and fault tolerance. This setup protects against failures that may affect a single AZ, such as hardware failures or network issues. 
+
+#### **Implementing an observability strategy**
+
+Improving observability strategy entails enhancing application monitoring and tracing to pinpoint the root cause of issues.
+
+Unhealthy application logs may not accurately reflect the real user experience; it also becomes essential to account for and diagnose issues through these logs which is a tedious task. 
+
+One approach to address this is by **utilizing synthetics**. This involves deploying configurable scripts that simulate user traffic to application endpoints, providing a real-time reflection of the customer experience. By monitoring infrastructure and applications while also sending synthetics to microservice APIs, we can emulate customer traffic and promptly detect any deviations from service level agreements (SLAs). This allows for proactive actions to be taken to address performance issues and ensure a consistent and satisfactory user experience.
+
+![Image](/images/blog/Synthetics.jpg)
+
+**AWS CloudWatch Synthetics** enables the creation of canaries, which are configurable scripts that monitor endpoints and simulate user interactions within applications. By defining specific workflows and steps for canaries to perform, such as navigating through applications or making API calls, you can simulate real user traffic at regular intervals. These canaries monitor response times, latency, and overall endpoint health, allowing you to set up CloudWatch alarms based on predefined thresholds for response times or error rates. When deviations are detected, alerts are triggered, and CloudWatch logs provide detailed execution logs to diagnose performance issues and identify root causes swiftly.
+
+On the other hand, **Amazon Managed Prometheus** facilitates monitoring containerized applications using Prometheus-compatible metrics. By configuring applications to expose metrics like HTTP request latencies or error rates, Amazon Managed Prometheus automatically collects and aggregates this data, providing centralized storage for monitoring. Integrated with Grafana, it allows the creation of dashboards and visualizations for in-depth analysis of application performance metrics. Alerting rules can be set within Prometheus to trigger notifications based on thresholds, integrating with AWS services like Amazon SNS or AWS Lambda for automated responses to performance or availability issues.
+
+**Combining AWS CloudWatch Synthetics with Amazon Managed Prometheus enables comprehensive monitoring and diagnostics.** This integration provides real-time visibility into user experiences and application performance, enabling proactive issue detection and holistic monitoring of application behavior alongside infrastructure metrics. By leveraging synthetic monitoring and real-time metric analysis, organizations can effectively optimize application performance and ensure reliable user experiences within AWS environments.
+
+**AWS CloudWatch ServiceLens** combines **AWS X-Ray** and **Amazon CloudWatch** to offer comprehensive observability for applications and microservices within AWS environments. AWS X-Ray provides distributed tracing capabilities, capturing and visualizing interactions between different components of a distributed system. ServiceLens leverages X-Ray’s tracing data to generate service maps and dependency diagrams, allowing users to identify performance bottlenecks, errors, and latency issues across their applications. This integration with X-Ray enables ServiceLens to perform root cause analysis, making it easier to troubleshoot and optimize application performance.
+
+In addition to X-Ray, Amazon CloudWatch collects metrics, logs, and events from AWS resources and applications. ServiceLens integrates CloudWatch metrics with X-Ray traces, providing unified monitoring and visualization of system behavior. By correlating CloudWatch metrics with X-Ray traces, ServiceLens offers end-to-end observability, enabling users to monitor the entire stack from individual services to high-level application components. ServiceLens insights, such as anomaly detection and SLA monitoring, help teams proactively identify and address performance regressions or deviations from service level objectives (SLOs).
+
+#### **Utilizing chaos engineering**
+
+Chaos Engineering is the discipline of experimenting on a software system to build confidence in the system’s capability to withstand turbulent and unpredictable conditions. It is more of an experimental approach for exposing the unknowns rather than testing for the known scenarios.
+
+![Image](/images/blog/Chaos-Engg.jpg)
+
+### **Final Thoughts**
+
+Start ensuring the resilience of your system today with a focus on Availability and Disaster Recovery. Stay tuned for more insights on these topics to achieve assured resilience. 
+
+**Did you know that Comprinno is an AWS Resilience competency partner?**
+
+If you have concerns about the availability of your infrastructure, reach out to us today for expert guidance and support. Let’s work together to strengthen your system’s reliability and readiness for any challenges ahead.

@@ -1,0 +1,150 @@
+---
+title: "Migration using AWS Application Migration Service (MGN)"
+slug: "migration-using-aws-application-migration-service-mgn"
+description: "Migrating to the cloud can be a complex and challenging process for organizations, especially with the increasing need for seamless and secure data transfers. AWS MGN, a fully managed service from Amazon Web Services, offers a simple and efficient"
+publishedAt: "2023-02-13"
+author: "Pallavi Khopkar"
+authorDesignation: "Compliance Leader at Comprinno"
+category: "Cloud Migration"
+draft: false
+---
+
+Migrating to the cloud can be a complex and challenging process for organizations, especially with the increasing need for seamless and secure data transfers. AWS MGN, a fully managed service from Amazon Web Services, offers a simple and efficient solution for organizations looking to migrate to the AWS cloud. With AWS MGN, organizations can easily and securely transfer their data to the cloud, reducing downtime and minimizing the risk of data loss. In this blog, we will explore the benefits of AWS MGN and discuss the steps involved in migration to AWS using AWS MGN. We will also highlight the best practices for migration and showcase real-life case studies of organizations that have successfully migrated to AWS using AWS MGN. We will also highlight the best practices for migration.
+
+## **What is AWS MGN**
+
+The AWS Application Migration Service (MGN) streamlines and simplifies the process of migrating applications to AWS, while also reducing the cost. It is a highly automated lift-and-shift solution that enables companies to seamlessly move a large number of physical, virtual, or cloud servers to AWS without encountering compatibility issues, performance disruptions, or lengthy cutover periods. 
+
+**Benefits of using AWS MGN:**
+
+- Automation: AWS MGN simplifies the migration process by automating many manual tasks and reducing the need for complex scripting.
+
+- Multi-platform support: It supports migration from multiple platforms like Windows, Linux.
+
+- Cost Optimization: By automating many manual tasks, AWS MGN reduces the cost of migration and helps organizations save money on resources and manpower.
+
+- Increased security: AWS MGN uses encryption to secure data during migration, helping organizations protect their sensitive information and comply with regulatory requirements.
+
+- Reduced downtime: AWS MGN helps organizations minimize downtime during migration by replicating source servers into your AWS account and reducing the risk of data loss.
+
+##### Steps involved in migration using AWS MGN
+
+![Image](/images/blog/Img1-1024x387-1.png)
+
+*1 Steps for Migration using AWS MGN*
+
+**Plan**
+
+When migrating to the cloud using AWS MGN, it’s important to confirm that the server can be migrated to AWS before starting the process. This helps to ensure a smooth and successful migration, while also reducing the risk of downtime and data loss.
+
+To confirm that a server can be migrated using AWS MGN, there are several key factors to consider, including:
+
+- *Supported operating systems*: AWS MGN supports a wide range of operating systems, including Windows and Linux. Check that the server you want to migrate is running a supported operating system.
+
+![Image](/images/blog/Img2-1024x502-1.png)
+
+*2 Operating systems supported by AWS MGN*
+
+- *Application compatibility*: Ensure that the applications running on the server are compatible with the AWS environment and can be migrated to AWS without any compatibility issues.
+
+- *Supported Regions*: Consider the region you’re migrating to, starting with a supported region. Refer to the list of AWS Regions supported by AWS MGN on this [LINK](https://docs.aws.amazon.com/ja_jp/mgn/latest/ug/supported-regions.html).
+
+- *Storage requirements*: Review agent/vCenter Client installation requirements.
+
+Windows source servers should meet the below requirements:
+
+- At least 2 GB of free disk space on the disk containing the “Program Files(x86)” directory
+
+- RAM – Verify that your source server has at least 300 MB of free RAM to run the AWS Replication Agent.
+
+- .Net Framework 4.5 or higher installed.
+
+Linux server should meet the below installation requirements:
+
+- Root directory – Verify that your source server has at least 2 GB of free disk space on the root directory (/).
+
+- Python 2.4 or above should be installed.
+
+- Ensure 500 MB of free disk space is available on the /tmp directory.
+
+- Ensure that /tmp is mounted as read+write and with exec option.
+
+- *Network connectivity*: Ensure that the server has network connectivity to the AWS environment and that the firewall rules and security groups are configured to allow the migration. Set up VPC and subnet which will be used by AWS MGN as a staging area for data replicated from your source servers to AWS.The replication servers launched by MGN in your Staging Area Subnet need to be able to send data over TCP port 443 to the Application Migration Service API endpoint. The source servers on which the AWS Replication Agent is installed need to be able to send data over TCP port 1500 to the Replication Servers in the Staging Area Subnet.Test and cutover instances are launched in a subnet you specify in the Amazon EC2 launch template associated with each source server.
+
+![Image](/images/blog/img3-1024x646-1.png)
+
+*3 Sample MGN Network Diagram (Source Credit – *[*AWS Reference Document)*](https://docs.aws.amazon.com/mgn/latest/ug/Network-Settings-Video.html)
+
+- *Licensing requirements*: Ensure that the licenses for the applications and software on the server are compatible with the AWS environment and that you have the necessary licenses to use the applications in AWS.
+
+Licensing requirements can vary depending on the specific applications and software you plan to use in the cloud. Some applications may have licenses specific to on-premise environments and may not be valid for use in the cloud. On the other hand, some cloud-based applications may require separate licenses for use in AWS.Additionally, you may need to obtain new licenses or modify existing licenses to meet the specific requirements of using the applications in the AWS cloud. For example, some licenses may need to be updated to allow for use in a multi-tenant cloud environment, while others may require changes to accommodate different security or compliance requirements in the cloud.
+
+For example, Microsoft Windows Server and SQL Server licenses, Oracle database licenses are typically tied to the hardware on which they are installed. When migrating to the AWS cloud, you’ll need to ensure that you have licenses that are compatible with the AWS environment, as well as the necessary licenses to use these applications or databases in the cloud.
+
+Many commercial off-the-shelf (COTS) software applications have licenses that are tied to the number of users or devices that will be accessing the software. When migrating to AWS, you’ll need to ensure that you have the necessary licenses to use the COTS software in the cloud, taking into account any changes to the number of users or devices that will be accessing the software.
+
+**Prepare**
+
+![Image](/images/blog/img4-1024x243-1.png)
+
+Now that you have planned the essentials for migrating servers to AWS using MGN, you need to start preparing for the migration.
+
+- *Initial settings to use AWS MGN*: Perform initialization in the AWS account and region that uses AWS MGN. Define templates for settings related to replication (instance to be used and network)
+
+![Image](/images/blog/img5-1024x799-1.png)
+
+- *Create an IAM access key and run the installation scripts: *Prepare an access key to use during installation. For this, create an IAM user for program execution and grant users an IAM policy for AWS MGN.Download and run the AWS MGN agent installation script on the source server.
+
+![Image](/images/blog/img6-1024x417-1.png)
+
+- *For agentless migration, install vCenter Client on the source server: *AWS MGN vCenter client is a software bundle that is installed on a dedicated VM in your vCenter environment in order to facilitate agentless replication.
+
+When migrating VMs to the AWS cloud, it’s often important to replicate the VMs from the on-premise environment to the cloud environment in order to minimize downtime and ensure that the applications running on the VMs are fully functional in the cloud. The AWS Migration Hub vCenter Client enables this replication process to be performed agentlessly, which means that there is no need to install agents on the VMs being replicated.
+
+Create an IAM user for program execution and grant users an IAM policy for AWS MGN. Create a VM to install the client and run the installation script on the installation VM.
+
+- *Replication: *An initial full replication or synchronization is performed and ongoing changes are synchronized after completion.
+
+![Image](/images/blog/img7-1024x567-1.png)
+
+**Test**
+
+Now that the installation scripts are executed, run migration tests at least 2 weeks prior to the cutover.
+
+Confirm that the migration source server actually starts as a target machine as defined in the EC2 Launch Template. It is recommended to stop services running on the migration source server. Perform a test migration with the “Launch test instances” feature.
+
+You can connect to the EC2 instance you’ve launched for testing and run your own tests. When logging in to the instance, SSH/RDP login is possible using the credentials of the migration source server as is. You can also use the Systems Manager session manager feature (if required settings are in place).
+
+**Cutover**
+
+Confirm that the migration source server actually starts as a target machine as defined in the EC2 Launch Template. It is recommended to stop services running on the migration source server. Perform a test migration with the “Launch test instances” feature.
+
+You can connect to the EC2 instance you’ve launched for testing and run your own tests. When logging in to the instance, SSH/RDP login is possible using the credentials of the migration source server as is. You can also use the Systems Manager session manager feature (if required settings are in place)
+
+**Troubleshooting**
+
+During or post the migration, if you encounter any issues, please refer to the [AWS reference document](https://docs.aws.amazon.com/mgn/latest/ug/troubleshooting.html) for a comprehensive troubleshooting guide for issues during migration using AWS MGN.
+
+##### Best practices for migration using AWS MGN
+
+- *Plan your migration*: Before starting the migration, it is important to plan it properly. This includes determining the source and target environments, identifying the data and workloads to be migrated, and estimating the time and resources required for the migration.
+
+- *Choose the right migration approach*: AWS MGN provides several migration options, such as lift-and-shift, refactoring, and re-platforming. Choose the right approach based on the complexity of your migration and the desired outcome.
+
+- *Ensure compatibility*: Ensure that the source environment and target environment are compatible.
+
+- *Secure your data*: Ensure that your data is secure during the migration. This includes encrypting data at rest and in transit, and following security best practices for cloud migration.
+
+- *Monitor the migration*: Monitor the migration process to ensure it runs smoothly and identify and resolve any issues. AWS MGN provides several monitoring and reporting options to help with this.
+
+- *Test the migration*: After the migration, it is important to test the migrated environment to ensure that it is functioning as expected. This includes testing applications, databases, and other components.
+
+- *Update documentation*: Update the documentation to reflect the changes made during the migration. This includes updating the inventory of the target environment and documenting the migration process.
+
+By following these best practices, you can ensure a successful migration using AWS Migration (AWS MGN).
+
+## **Final Thoughts**
+
+In conclusion, AWS Application Migration Service (AWS MGN) is a powerful tool for migrating to the cloud. By following the best practices outlined in this article, you can ensure a successful migration that meets your organization’s needs and goals.
+
+So why wait? Start your migration journey today and reap the benefits of the cloud!

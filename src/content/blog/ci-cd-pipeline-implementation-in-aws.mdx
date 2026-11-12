@@ -1,0 +1,68 @@
+---
+title: "CI/CD pipeline implementation in AWS"
+slug: "ci-cd-pipeline-implementation-in-aws"
+description: "Continuous Integration/Continuous Delivery (CI/CD) is a DevOps approach consisting of a series of steps that must be performed in order to deliver a new version of software. The below article provides an overview of setting up CI/CD pipeline for"
+publishedAt: "2022-11-15"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "DevOps"
+draft: false
+---
+
+Continuous Integration/Continuous Delivery (CI/CD) is a DevOps approach consisting of a series of steps that must be performed in order to deliver a new version of software. The below article provides an overview of setting up CI/CD pipeline for container orchestration in AWS.
+
+**Pre-requisites:**
+
+- Amazon EKS cluster is set up with nodes joined to the cluster.
+
+- IAM role having access to the EKS cluster to perform deployments has been created.
+
+![Image](/images/blog/Image-CICD-1024x564.png)
+
+**AWS services used in various stages in CI/CD pipeline:**
+
+- Build & Deploy – AWS CodeBuild, AWS CodePipeline
+
+- Container Orchestration – Amazon EKS
+
+- Image Repository – Amazon ECR
+
+- Access Management – AWS IAM, AWS STS
+
+- Encryption at Rest – AWS KMS
+
+- Logging – Amazon Cloudwatch, Amazon S3
+
+- Notifications/Alerts – AWS Chatbot & Slack
+
+**Purpose of AWS services in CI/CD pipeline:**
+
+- AWS IAM – To manage Access using IAM roles, policies for relevant components like Amazon EKS, AWS CodeBuild service role and relevant policies, AWS CodePipeline and relevant policies.
+
+- AWS STS (Access Management) – This service helps the AWS CodeBuild role to assume a role which has permissions to access Kubernetes cluster and perform operations since CodeBuild service role isn’t provided access to EKS cluster.
+
+- AWS KMS (Encryption at Rest) – To create custom CMKs for encrypting CloudWatch Logs, S3 objects, EBS volumes of EKS Nodes, Parameter Store, ECR Repository images etc.
+
+- Amazon Cloudwatch (Logging) – Logs of Amazon EKS and AWS CodeBuild are sent here.
+
+- Amazon S3 (Logging) – AWS CodePipeline stores its artifacts, logs in Amazon S3
+
+- AWS Parameter Store – This is used to store all environment variables required for building and deploying the binaries with custom key encryption. These parameters will be used by AWS CodeBuild during runtime.
+
+- Amazon ECR (Image Repository) – When a microservice image is built, it will be published to Amazon ECR.
+
+- Amazon EKS (Container Orchestration) – Managed Kubernetes service to deploy microservices. EKS cluster would have private API endpoint access for added security.
+
+- AWS CodeBuild (Build & Deploy) – CodeBuild project when triggered will build docker image, deploy the image to Amazon EKS. CodeBuild must be deployed in the same VPC as the Amazon EKS cluster for it to be able to connect to the Private API endpoint of the control plane successfully.
+
+- AWS CodePipeline (Automation) – To add source stage, automate the execution of building and deployment of microservices on code push (with manual approval stage if need be)
+
+- AWS Chatbot – Used to send notifications to slack on Pipeline and build execution updates
+
+**Solution/Flow:**
+
+When code is pushed to the application repository, AWS CodePipeline’s Source stage gets triggered, which in turn triggers CodeBuild project. We can use distributed SCMs like GitHub, Bitbucket, GitHub Enterprise, AWS CodeCommit as “Source” in AWS CodePipeline. Authenticate your SCMs using any of the ways mentioned in this documentation applicable for your SCM.
+
+The source is given as input to AWS CodeBuild project chosen as build stage in AWS CodePipeline. CodeBuild project contains necessary steps to build the binaries for the application, create container image out of the binaries and push it to ECR. Test cases can be added for the application before pushing it to Amazon ECR. The image scan result is taken from ECR and evaluated for any high/critical vulnerabilities. If vulnerabilities are found, the build is immediately exited with error code. If no vulnerabilities are identified, AWS CodeBuild assumes a “Kubernetes IAM role” that would have permissions to deploy applications to EKS cluster; it then deploys the application image to the EKS Cluster as a rolling update.
+
+Across all this process, you can configure AWS CodePipeline and AWS CodeBuild to send notifications at various stages of pipeline execution directly to Slack via AWS ChatBot.

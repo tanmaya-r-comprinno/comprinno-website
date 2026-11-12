@@ -1,0 +1,96 @@
+---
+title: "Cyber Security Month: Tips to protect your AWS Cloud from cyber attacks and cyber crime"
+slug: "cyber-security-month-tips-to-protect-your-aws-cloud-from-cyber-attacks-and-cyber-crime"
+description: "It\u2019s October and apart from the scary Halloween movies, do you know what else we should be scared of? Cyber Attacks!"
+publishedAt: "2022-10-07"
+author: "Pallavi Khopkar"
+authorDesignation: "Compliance Leader at Comprinno"
+category: "Cloud Security"
+draft: false
+---
+
+It’s October and apart from the scary Halloween movies, do you know what else we should be scared of? Cyber Attacks!
+
+Yes, you read it right.
+
+With October comes Cybersecurity Awareness Month. Cybersecurity is rather like brushing teeth…not limited to a month but a year-round, day and night practice that is inculcated in us since our childhood. This month is directed towards raising general awareness so that people aren’t just putting on cybersecurity costume once a year, but acting out the role year-round.
+
+Cybersecurity Awareness month was a concept launched in 2004, by the National Cybersecurity Alliance (NCA) and the U.S. Department of Homeland Security (DHS), which has now been adopted globally.
+
+At Comprinno, we know how hard it can be to foster a culture of security at an organization, and that’s why we’re taking part in promoting the message of Cybersecurity Awareness Month.
+
+**“See yourself in Cyber” – slogan of this year’s campaign encourages everyone to protect themselves in cyberspace, regardless of the function they play.**
+
+So, let’s kick things off with some tips to protect your AWS Cloud from Cyber-attacks.
+
+**Account hijacking:**
+
+![Image](/images/blog/Account-Hijacking-768x350-1.png)
+
+Not enough stress can be laid on the importance of strong identity management. Businesses are facing a surge in attacks using stolen identity credentials — now the largest source of breaches. While there’s no cure-all, experts recommend a strategy involving the adoption of stronger authentication and authorization systems.
+
+Rotating passwords and choosing complex passwords that are unique to each account are good cybersecurity practices for anyone. But they’re not sufficient, since password-only authentication remains a massive risk for businesses.
+
+In AWS, centralized access management can be done using AWS Single Sign-On (SSO) or AWS IAM Identity Centre. Human users, workloads or external parties requiring access to AWS accounts should be assigned IAM roles and temporary credentials to AWS accounts.
+
+Requiring a second form of verification for a user to log in — known as Multi Factor Authentication (MFA) continues to be recommended as step No. 1 to preventing security breaches.
+
+Unfortunately, MFA is not a silver bullet against identity theft.
+
+In the breach of Uber in September 2022, for instance, an attacker posing as an IT staffer convinced a contractor to approve a login push notification, allowing the attacker to bypass Uber’s MFA requirement.
+
+**“Zero Trust strategy has to be the maxim of every modern-day business”**
+
+Give access to only what is required. If you require an apple, you get an apple, not a fruit basket. This is achieved by least-privilege permissions applied with IAM policies, using IAM Access Analyzer.
+
+Separate AWS accounts are also a key to limit an intrusion or what is called the blast radius. With AWS Organizations create multiple AWS accounts based on function and business criticality. Organizations service control policies (SCPs) should be used to establish permissions guardrails to control access for all IAM users and roles across AWS accounts.
+
+Unused, idle credentials/roles can be a boon to a hacker. Businesses need to cultivate practice of regular clean-up of unused users, roles, permissions, policies.
+
+**Data Threats:**
+
+![Image](/images/blog/Data-threats-768x350-1.png)
+
+It was not so long back that data protection meant locking up data. However, with the cloud-based environment, and data moving between workloads, this is no longer a guarantee against data thefts.  And we cannot miss the fact that hackers have also upped their game.
+
+**“45% of businesses have experienced a cloud-based data breach or failed audit in the past 12 months” – 2022 Thales Cloud Security Report**
+
+The only way to make data security possible is data encryption, when data is in transit and at rest.
+
+AWS Key Management System (KMS) encrypts all of your data and metadata at rest using an industry standard AES-256 encryption algorithm. AWS CloudHSM is a cloud-based hardware security module (HSM) that enables customers to easily generate and use their own encryption keys with AWS services. AWS Certificate Manager can be used to provision, manage, and deploy public and private Transport Layer Security (TLS) certificates for use with AWS services and connected resources. TLS certificates are used to secure network communications.
+
+Insecure protocols, such as HTTP, should be audited and blocked in a VPC through the use of Security Groups. HTTP requests can also be automatically redirected to HTTPS in Amazon CloudFront or on an Application Load Balancer.
+
+AWS PrivateLink is used as a secure and private network connection between Amazon Virtual Private Cloud (Amazon VPC) or on-premises connectivity to services hosted in AWS.
+
+**Cloud API vulnerabilities:**
+
+![Image](/images/blog/Cloud-API-vulnerabilities-768x350-1.png)
+
+Businesses use APIs to connect services and to transfer data. API vulnerability occurs when certain functions within an API are not properly authorized, which could allow unauthorized users access to sensitive data and systems. Attackers can exploit this vulnerability by calling APIs that are intended to be used by one actor but used with malicious intent by another.
+
+The most critical API security risks include: Broken object level, user- and function-level authorization, excessive data exposure, lack of resource, security misconfiguration, and insufficient logging and monitoring. The implications of these and other risks are huge.
+
+API Gateway provides a number of ways to protect your API from certain threats, like malicious users or spikes in traffic. You can protect your API using strategies like generating SSL certificates, configuring a web application firewall, setting throttling targets, and only allowing access to your API from a Virtual Private Cloud (VPC).
+
+**Denial of Service:**
+
+![Image](/images/blog/Denial-of-Service-768x350-1.png)
+
+Distributed Denial of Service (DDoS) is a dreaded cyberattack in which the attacker floods a server with internet traffic to prevent users from accessing connected online services and sites. This can be perpetrated by a disgruntled individual or a competitor with malicious intent or even by cyber criminals with the intent of extortion.
+
+In today’s day, when unavailability or a slow online service is a big no-no, DDoS attacks can cause substantial pain in terms of loss of money and reputation.
+
+AWS WAF has been designed to protect your Cloud from bad bots. You can have rate limiters, managed and custom rules, that give you control over how traffic reaches your application.
+
+Whether your business has just taken wings or is already soaring high in the sky, Cybersecurity is something that cannot be brushed under the carpet.
+
+At times Cloud security can be an overwhelming business.
+
+There are multiple aspects of Cloud Security, ranging from the correct configurations, fortification of data, compliance related requirements and monitoring and threat detection. Getting involved in the nitty gritties of managing Cloud security can be cumbersome.
+
+This is where partnering with Comprinno can prove to be a game changer. Comprinno has a dedicated team of AWS Cloud specialists who can set up a secure, compliant cloud, review your existing architecture and tie any loose ends, enhance security.
+
+500+ businesses have trusted Comprinno to build and secure fool-proof Cloud solutions.
+
+Finally, your security is our commitment!

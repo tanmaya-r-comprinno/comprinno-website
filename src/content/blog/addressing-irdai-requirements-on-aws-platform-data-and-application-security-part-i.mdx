@@ -1,0 +1,102 @@
+---
+title: "Addressing IRDAI requirements on AWS platform (Data and Application Security) - Part I"
+slug: "addressing-irdai-requirements-on-aws-platform-data-and-application-security-part-i"
+description: "In today\u2019s digital age, security is paramount, especially in industries dealing with sensitive information like the insurance sector. The Insurance Regulatory and Development Authority of India (IRDAI) mandates stringent data security requirements"
+publishedAt: "2026-05-06"
+author: "Pallavi Khopkar"
+authorDesignation: "Compliance Leader at Comprinno"
+category: "BFSI"
+draft: false
+---
+
+In today’s digital age, security is paramount, especially in industries dealing with sensitive information like the insurance sector. The Insurance Regulatory and Development Authority of India (IRDAI) mandates stringent data security requirements to safeguard customer information and ensure compliance with regulatory standards. This blog explores how insurance firms can address IRDAI’s application and data security requirements effectively on the AWS platform. By leveraging AWS’s robust security features and implementing best practices, insurers can ensure the confidentiality, integrity, and availability of their data while meeting regulatory obligations. 
+
+**IRDAI Requirement Sub-domain**
+
+**Requirement**
+
+**AWS Solution**
+
+**Data Security**
+
+Data Backup & Restoration
+
+Ensure the presence of backup and restoration controls to prevent loss of critical information.
+
+AWS offers native capabilities for backup of hot storage devices, server stores, and databases, storing backups on highly durable S3 for easy retrieval.
+
+Data Access
+
+Implement adequate access controls to prevent unauthorized access and data leakage.
+
+Implement access controls in Amazon S3 using IAM policies, ACLs, and bucket policies to restrict access to resources based on conditions. Provide access using the principle of least privilege.
+
+Data Encryption
+
+ Implement encryption controls for data at rest and in transit to prevent unauthorized access.
+
+Utilize AWS KMS for EBS volumes and S3 to encrypt data at rest, and use HTTPS/TLS for securing data in transit.
+
+Data Classification
+
+Implement data classification controls to organize and segregate data effectively for easy retrieval.
+
+Data classification of any data in AWS can be done by the customer using existing organization policies AWS has controls in place to limit access to systems and data and ensure that access to systems or data is restricted and monitored. In addition, customer data and server instances are logically isolated from other customers by default.
+
+Data Segregation and Isolation
+
+Implement controls to segregate and isolate data to prevent mingling or leakage of data in multi-tenancy environments.
+
+All data stored by AWS on behalf of customers has strong tenant isolation security and control capabilities. Customers retain control and ownership of their data, thus it is their responsibility to choose to encrypt the data. AWS allows customers to use their own encryption mechanisms for nearly all the services, including S3, EBS and EC2. VPC sessions are also encrypted. Amazon S3 also offers Server Side Encryption as an option for customers.
+
+Data Sovereignty
+
+Recognize and comply with data sovereignty requirements to avoid legal issues.
+
+Comply with data sovereignty requirements by designating the physical region for data storage and notifying customers before any content movement.
+
+Secure Disposal
+
+Implement controls for secure disposal of data to prevent unauthorized data recovery.
+
+Implement secure disposal procedures following industry standards like DoD 5220.22-M or NIST 800-88 to prevent unauthorized data recovery.
+
+Availability
+
+ Implement DDoS controls to ensure service availability and prevent service disruptions.
+
+Use AWS Shield, a managed DDoS protection service, to safeguard web applications running on AWS and ensure service availability.
+
+**Application Security**
+
+Application Security
+
+Ensure sufficient security measures to render the application immune to various threats
+
+By implementing a multi-layered security approach, utilizing tools such as private subnets, AWS WAF (Web Application Firewall), security groups, , and AWS Config, organizations can fortify their defenses against various threats.
+
+a. Account lockout: Implementing account lockout mechanisms helps prevent unauthorized access by locking out users after a specified number of failed login attempts, thwarting brute force attacks.
+
+b. Strong password policies: Enforcing strong password policies, including requirements for length, complexity, and regular updates, adds an extra layer of defense against unauthorized access.
+
+c. Session cleanout on timeout and logout: Automatically clearing user sessions upon timeout or logout reduces the risk of session hijacking and unauthorized access.
+
+d. Data Encrypted at rest & in transit: Encrypting data both at rest and in transit using AWS services such as AWS Key Management Service (KMS) and SSL/TLS encryption ensures data remains secure throughout its lifecycle.
+
+e. Granular access and policy controls: Utilizing AWS IAM (Identity and Access Management) allows organizations to define fine-grained access policies, limiting access to resources based on roles and permissions.
+
+f. Intelligent DDoS attack prevention: Leveraging AWS Shield, organizations can benefit from intelligent DDoS attack prevention, which detects and mitigates volumetric and application layer attacks, ensuring high availability of applications.
+
+g. Up-to-date component library: Regularly updating and patching software components and libraries helps mitigate vulnerabilities and reduces the risk of exploitation by attackers.
+
+h. Using AWS API Gateway to secure interfaces: AWS API Gateway provides a secure and managed entry point for APIs, allowing organizations to enforce authentication, authorization, and encryption for API endpoints.
+
+Whether you are meeting these requirements can also be verified by conducting **Well-Architected Framework Reviews**. Well-Architected Framework is a set of best practices identified by AWS and detailed reviews of the infrastructure against this framework can help organizations identify gaps and bridge them.
+
+Do you know that Comprinno has a SaaS product, **Tevico**, which you can leverage for conducting Well-Architected Framework Reviews. 
+
+Tevico’s custom **gamification engine** elevates engagement, boosting remediation rates in Well-Architected review. This transforms assessments into interactive, enjoyable experiences. Our solution provides comprehensive, precise risk assessments and enhanced auto-discovery for detecting a wide range of gaps. Facilitating seamless virtual team collaboration, the solution’s multi-user feature enhances productivity. With distinct phases, we’ve streamlined the process, ensuring a faster, more efficient path to compliance and optimization. 
+
+With our **philosophy of 4Ps – People, Processes, Product and Partnerships** we help our customers int he insurance domain achieve regulatory compliance. We are also a recognized **AWS Security competency partner in the compliance category **which further fortifies our claim of helping Fintech customers achieve their regulatory compliance requirements.
+
+Watch this space for series on meeting regulatory guidelines in cloud for Insurance companies.

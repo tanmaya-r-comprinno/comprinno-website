@@ -1,0 +1,372 @@
+---
+title: "Building a multi-region serverless application with AWS Lambda and strategizing DR"
+slug: "building-a-multi-region-serverless-application-with-aws-lambda-and-strategizing-dr"
+description: "There are numerous strategies used for serverless backend deployment. This article is focussed on designing a reliable system to automatically deploy large-sized Lambda functions in multiple AWS regions and planning  disaster recovery in a separate"
+publishedAt: "2023-01-21"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "Technical Deep Dive"
+draft: false
+---
+
+There are numerous strategies used for serverless backend deployment. This article is focussed on designing a reliable system to automatically deploy large-sized Lambda functions in multiple AWS regions and planning  disaster recovery in a separate AWS account leveraging the Amazon S3 replication, IAM policies and build tools for seamless integration.
+
+####  
+
+#### **Challenges:**
+
+There could be challenges faced especially when you have a large serverless backend.
+
+- **Lambda Function Quota Limit**When you want to deploy the Lambda function to AWS, there will be a point where you’ll get hit by the size exceeding error. The error occurs because AWS imposes a certain limit and quota for the Lambda deployment package. As of now AWS allows about 50MB for zipped + direct upload, and 250MB for uncompressed packages.
+
+- **Version Control & CI/CD Workflow**Packaging and deploying your function and its dependencies with AWS Lambda can sometimes be a tedious job. Let’s say you also want to make use of source code management platforms like CodeCommit or GitHub to develop your code before deploying it as an AWS Lambda function.Since in this scenario Lambda package is large it can’t be deployed directly as a back-end service after the CodeBuild builds it into a zip/bundle/image; rather the CodeBuild service first needs to push this build into some sort of storage service which easily integrates with CodeBuild at one end and serverless services such as Lambda and API gateway at the other
+
+- **Managing Multi-Region Setup**High availability is the main reason for deploying to more than one region. Also to reduce latency, you may want to go for multi-region deployments.  In some cases, there  are compliance reasons. The requirement is to store the data in a specific geographical location. Certain types of data are not supposed to cross state borders. In those cases you may have to deploy the lambda function in more than one region.Although this article advocates strongly for keeping Lambda back-end code in a storage (S3 to be precise), doing this will make the Lambda back-end limited to that very region in which the S3 bucket stores it. So there is a need to make it multi-regional deployment.
+
+- **Disaster Recovery**Your workload must perform its intended function correctly and consistently. To achieve this, you must architect for resiliency.Disaster recovery (DR) is an important part of your resiliency strategy and concerns with how your workload responds when a disaster strikes This response must be based on your organization’s business objectives which specify your workload’s strategy for avoiding loss of data, known as the [Recovery Point Objective (RPO)](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html#recovery-objectives-rto-and-rpo), and reducing downtime where your workload is not available for use, known as the [Recovery Time Objective (RTO)](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html#recovery-objectives-rto-and-rpo).
+
+####  
+
+#### **Solution Overview:**
+
+In order to overcome the above listed problems, we propose the following solution.
+
+**Methods to deploy large Lambda package:**There can be 3 possible methods to deploy large deployment files
+
+- Using S3 to store certain files/data
+
+- Using Amazon Elastic File System — EFS
+
+- Using Container Image
+
+Most of the workarounds boil down to one key idea: to move the large files or large dependencies away from the function code.
+
+There is also a suggestion to use AWS Lambda Layer to move some function dependencies or data to reduce the overall package size.
+
+**Managing CI/CD workflow and SVC:**An integral part of DevOps is adopting the culture of continuous integration and continuous delivery/deployment (CI/CD), where a commit or change to code passes through various automated stage gates, all the way from building and testing to deploying applications, from development to production environments.There can be many sources for source version control (SVC) for example **GitHub** or **CodeCommit**. However AWS CodeCommit is a source control service that is provided by Amazon Web Service which is fully managed. It is a version code service. It helps to manage and store assets such as codes or documents or any other type of file such as binary file etc.AWS CodeCommit is more secure than the git as AWS uses IAM roles for securing techniques which allows users to share their repositories to the limited person and in a highly secure environment.In a nutshell, the solution has the following workflow:
+
+- A change or commit to the code in the CodeCommit application repository triggers CodeBuild with the help of a CloudWatch event.
+
+- It then downloads the code from the CodeCommit repository, initiates the Build and Test action using CodeBuild, and securely saves the built artifact on the S3 bucket.
+
+**Managing multi-region setup:**Multi-region application architecture makes applications more resilient, fault tolerant and improves end-user experiences by keeping latencies low for a distributed user base.This solution leverages the S3 cross-region replication to enable  multi-region setup to handle the regional failure and increase and manage the global outreach.
+
+**DR planning:**When we consider storing data on AWS, S3 is probably the most commonly used service. That is the reason why, by default, S3 duplicates your data behind the scene to multiple locations within a region. This creates high durability, but data is still vulnerable if your region is affected by a disaster event.In order to make a DR plan, we recommend to use a different AWS account, completely different from the production account and to add an extra caution to that, use a different region for the DR S3 bucket too. This DR s3 bucket in the DR account will store all the deployment packages and can be accessed at the time of recovery.Considering all these real world problems, here is a stable and secure approach to have large lambda deployment packages stored in S3. Making the application easily approachable to global users by taking advantage of S3 cross-region-replication feature.To make the architecture better equipped for disaster response, this solution walks you through cross-account S3 replication. This solution also highlights importance and use of data encryption, IAM roles and required IAM policies.The proposed architecture is as shown below:
+
+![Image](/images/blog/Picture11.png)
+
+As per the architecture given above, the detailed workflow is as shown below:
+
+- The latest code is developed and pushed to the GitHub repository by developers.
+
+- As soon as GitHub detects new code, it creates an event which pushes the code to AWS CodeBuild in the production account.
+
+- AWS CodeBuild builds the code into a bundle/zip.
+
+- Once the build job is done, the bundled artifact goes into a SSE-S3 encrypted S3 bucket(artifact bucket) in the production account.
+
+- The S3 event detects the new object and deploy the bundled artifact deployment package to AWS lambda in a region where S3 bucket is situated.
+
+- IAM policy CRR and bucket owner permission is created and attached to an IAM role in the production account.
+
+- S3-CRR for a different region is initiated with the help of a replication rule in the production account. The replication rule enforces the encryption in the destination region bucket.
+
+- A bucket policy in the DR account is created for the destination S3 Bucket.
+
+- Cross-account CRR/SRR is initiated with another replication rule in the production account. The replication rule enforces the encryption in the destination region bucket of the DR account.
+
+#### **Components:**
+
+- [**CodeCommit**](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)** / **[**GitHub**](https://en.wikipedia.org/wiki/GitHub)
+
+- [**Amazon S3**](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
+
+- [**AWS Lambda Function**](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+
+- [**AWS CodeBuild**](https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html)
+
+- [**IAM Role**](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+
+- [**Bucket Policy**](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-policies.html)
+
+#### **Salient Features:**
+
+The following are some salient features of this solution.
+
+- Uses S3 to store large sized lambda deployment packages.
+
+- Achieves continuous integration and continuous deployment (CI/CD) AWS CodeBuild is used.
+
+- Integrates with version control system (SVC).
+
+- Uses IAM roles and policies for keeping people away from data and to implement the principle of least privileges.
+
+- Implements the replication rules for multi-region, multi-account S3-CRR.
+
+- Includes disaster recovery (DR) plan.
+
+**What is S3 Replication?**
+
+S3 Replication refers to the process of copying the contents of a S3 bucket to another S3 bucket automatically without any manual intervention, post the setup process. The destination bucket can be in the same region as the source bucket or in a different region.
+
+**What is S3 Cross Account Replication?**
+
+S3 Cross Account Replication refers to copying the content of the S3 bucket from one account to another S3 bucket in a different account. It’s possible that both the accounts may or may not be owned by the same individual or organization.
+
+#### **Implementation Details**
+
+**Prerequisites- Cross account S3 replication**
+
+- Enable bucket versioning for all the S3 buckets (This can be set at the time of bucket creation).
+
+- Enable the encryption for objects in the bucket while creating the bucket.
+
+**S3 cross account replication:**
+
+To perform S3 cross-account-replication follow the steps:
+
+- ** Create an IAM Policy for cross account replication in the source account:** Create a policy. Provide a name to the policy (say ‘cross-account-bucket-replication-policy’) and add policy contents based on the below syntax
+
+&#123;
+
+“Version”: “2012-10-17”,
+
+“Statement”: [
+
+&#123;
+
+“Sid”: “GetSourceBucketConfiguration”,
+
+“Effect”: “Allow”,
+
+“Action”: [
+
+“s3:ListBucket”,
+
+“s3:GetBucketLocation”,
+
+“s3:GetBucketAcl”,
+
+“s3:GetReplicationConfiguration”,
+
+“s3:GetObjectVersionForReplication”,
+
+“s3:GetObjectVersionAcl”,
+
+“s3:GetObjectVersionTagging”,
+
+“s3-object-lambda:*”
+
+],
+
+“Resource”: [
+
+“arn:aws:s3:::”,
+
+“arn:aws:s3:::/*”
+
+]
+
+&#125;,
+
+&#123;
+
+“Sid”: “ReplicateToDestinationBuckets”,
+
+“Effect”: “Allow”,
+
+“Action”: [
+
+“s3:List*”,
+
+“s3:*Object”,
+
+“s3:ReplicateObject”,
+
+“s3:ReplicateDelete”,
+
+“s3:ReplicateTags”,
+
+“s3-object-lambda:*”
+
+],
+
+“Resource”: [
+
+“arn:aws:s3:::/*”
+
+]
+
+&#125;,
+
+&#123;
+
+“Sid”: “PermissionToOverrideBucketOwner”,
+
+“Effect”: “Allow”,
+
+“Action”: [
+
+“s3:ObjectOwnerOverrideToBucketOwner”,
+
+“s3-object-lambda:*”
+
+],
+
+“Resource”: [
+
+“arn:aws:s3:::/*”
+
+]
+
+&#125;
+
+]
+
+&#125;
+
+**Kindly note, the above policy has 3 statements**
+
+- Sid — ‘GetSourceBucketConfiguration’ → provides access to get replication configuration and to get object version for replication on the source bucket
+
+- Sid — ‘ReplicateToDestinationBuckets’ → provides access to replicate to the destination buckets. Multiple destination buckets can be specified in the array
+
+- Sid — ‘PermissionToOverrideBucketOwner’ → provides access to ObjectOwnerOverrideToBucketOwner so that the destination bucket can own the replicated objects in the destination account that were replicated from the source account
+
+**Create an IAM Role.**Navigate to the IAM console and create a role with following:
+
+- Select S3 as the service.
+
+- Select use case as ‘Allow S3 to call AWS Services on your behalf’ (as this role will be assumed by S3 for implementing replication rules)
+
+![Image](/images/blog/Picture2-768x295-1.png)
+
+- Go to the next.
+
+- Attach the policy created in the previous step.
+
+- Give this role a name and save the role.
+
+**Create a replication rule in the source bucket in the source account**Navigate to the source bucket in source account and go to the ‘Management’ and create a replication rule with the following as inputs:
+
+- Provide a rule name.
+
+- Set status as ‘Enabled’.
+
+![Image](/images/blog/Picture3-1.png)
+
+Choose rule scope as “This rule applies to all objects in the bucket” (Choose as needed).
+
+![Image](/images/blog/Picture5-1.png)
+
+Select the destination to be a bucket in another account. Enter the destination account and the destination bucket name.
+
+![Image](/images/blog/Picture6-1.png)
+
+- Select option to change object ownership to destination bucket owner.
+
+- Select IAM role as the role created as part of step-1 .
+
+![Image](/images/blog/Picture7.png)
+
+- Allow replication rule to replicate the encrypted data.
+
+- Select all the available additional replication options. These provide the ability to replicate content quickly, monitor the progress of replication through cloudwatch metrics, replicate delete markers and replicate metadata changes.
+
+- Save
+
+**Note: **In case of multiple destination buckets, create another replication rules with their respective bucket names
+
+- Apply a bucket policy on the destination bucket in DR account
+
+- This step has to be performed for each destination bucket individually in each of the DR accounts
+
+- Navigate to the destination bucket in its respective account.
+
+- Navigate to the permissions tab, edit bucket policy by providing the below and save the policy:
+
+&#123;
+
+    “Version”: “2012-10-17″,
+
+    “Id”: “PolicyForDestinationBucket”,
+
+    “Statement”: [
+
+        &#123;
+
+            “Sid”: “Permissions on objects and buckets”,
+
+            “Effect”: “Allow”,
+
+            “Principal”: &#123;
+
+                “AWS”: “arn:aws:iam::XXXXXXXXXXXX:role/s3-replication-role”
+
+            &#125;,
+
+            “Action”: [
+
+                “s3:List*“,
+
+                “s3:GetBucketVersioning”,
+
+                “s3:PutBucketVersioning”,
+
+                “s3:ReplicateDelete”,
+
+                “s3:ReplicateObject”
+
+            ],
+
+            “Resource”: [
+
+                “arn:aws:s3:::”,
+
+                “arn:aws:s3:::/*”
+
+            ]
+
+        &#125;,
+
+        &#123;
+
+            “Sid”: “Permission to override bucket owner”,
+
+            “Effect”: “Allow”,
+
+            “Principal”: &#123;
+
+                “AWS”: “arn:aws:iam::XXXXXXXXXXXX:role/s3-replication-role”
+
+            &#125;,
+
+            “Action”: “s3:ObjectOwnerOverrideToBucketOwner”,
+
+            “Resource”: “arn:aws:s3:::/*”
+
+        &#125;
+
+    ]
+
+&#125;
+
+Kindly note the above specified bucket policy statement
+
+- Sid — ‘Permissions on objects and buckets’ → Indicates that the destination bucket can replicate content based on the role defined in the source account. The role will have the source bucket.
+
+- Sid — ‘Permission to override bucket owner’ → Indicates that the destination bucket specified has permission to override the ownership from source account.
+
+**Note:** If there are multiple destination buckets to replicate in different accounts, repeat the above steps.
+
+#### **Verification:**
+
+- Add an object in the source bucket
+
+- The added object will reflect in the destination buckets under their respective accounts
+
+- To watch cloud watch metrics, go to the source bucket: Select the tab ‘Metrics’
+
+- Scroll down to the sub-section: ‘Replication Metrics’ and select a replication rule
+
+- Select the option to ‘Display Charts’. This will show charts for: Operations pending replication, Replication Latency and Bytes pending replication. This will help to reflect the state of replication

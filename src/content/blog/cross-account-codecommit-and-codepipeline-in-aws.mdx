@@ -1,0 +1,158 @@
+---
+title: "Cross-Account CodeCommit and CodePipeline in AWS"
+slug: "cross-account-codecommit-and-codepipeline-in-aws"
+description: "Continuous Integration and Continuous Deployment, or CI/CD, is a software development approach that entails automatically creating, testing, and deploying software to a production environment, as well as routinely integrating code changes into a"
+publishedAt: "2023-03-24"
+author: "Zuhair Wani"
+authorDesignation: "Team"
+category: "CI/CD"
+draft: false
+---
+
+### What is CI/CD?
+
+Continuous Integration and Continuous Deployment, or CI/CD, is a software development approach that entails automatically creating, testing, and deploying software to a production environment, as well as routinely integrating code changes into a central repository.
+
+The CI/CD pipeline enables consistent, dependable, and effective testing and deployment of code changes. Additionally, it makes it easier for developers to work together and lowers the chance that bugs and errors will enter the production environment.
+
+### How we usually do things
+
+![Image](/images/blog/img1-2-1024x427.png)
+
+A well-structured and efficient development process is critical in today’s world of software development. Multiple environments, like development, staging, and production, are essential. AWS provides a range of services to manage different environments for each account, including development, staging, and production. To ensure efficient and seamless continuous integration and continuous deployment (CI/CD), each environment in an AWS account has its own CodeCommit repository and CodePipeline configuration. A CodeCommit repository is where the source code is stored, and the CodePipeline uses this repository as a source. When managing multiple environments, it can be difficult and time-consuming to maintain and replicate a large number of repositories. Multiple repositories for the same source code must be kept up to date.
+
+To tackle this issue, it is essential to have a single source of truth (SSOT) while making changes to the source code. The SSOT is a single location where all the changes to the source code are made and stored, making it easy to track, replicate, and maintain the changes across all environments. By having the SSOT, all code modifications and updates can be made in one place and then propagated to all other environments. By ensuring that the code is consistent across all environments, the likelihood of errors or discrepancies is reduced.
+
+### Proposed Solution
+
+![Image](/images/blog/img2-2-1-1024x501.png)
+
+Since this setup can be used for multiple AWS accounts, we have shown two AWS accounts, Account A and Account B.
+
+Account A facilitates the CodeCommit repository as a Single Source of Truth (SSOT), which means that the same CodeCommit repository will be used in Account B. The Event-Bridge in Account A serves as a trigger for Account B. Whenever new code is pushed or any changes are made in the source code of any pipeline in Account B, this event bridge will trigger the code pipeline in the respective account with the latest changes.
+
+This solution also uses cross-account IAM roles and the KMS service to store the KMS keys for artifacts in S3 buckets.
+
+### Cross-Account CodeCommit and CodePipeline
+
+As there is no direct connection between the cross-account setup for CI/CD, this solution when used with a multi-account setup, offers a comprehensive framework for the management of cross-account CodeCommit and CodePipeline.
+
+In order to get started with the solution, it is required to consider two environment accounts, Account A and Account B. Account A will be designated to host a CodeCommit repository, while Account B will host a CodePipeline. The CodeCommit Repository, created in Account A, will function as the source for the CodePipeline, set up in Account B.
+
+### Setting up the CodeCommit Repository in Account A
+
+It is essential to follow certain guidelines and rules in order to set up the CodeCommit repository, the details of which are given below:
+
+1. $1
+
+2. $1
+
+3. $1
+
+&#123;    “Version”: “2012-10-17”,    “Statement”: ,            “Resource”:         &#125;,        &#123;            “Effect”: “Allow”,            “Action”: ,            “Resource”:         &#125;,        &#123;            “Sid”: “VisualEditor0”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: ,            “Condition”: &#123;                “Bool”: &#123;                    “kms:GrantIsForAWSResource”: true                &#125;            &#125;        &#125;,        &#123;            “Sid”: “VisualEditor1”,            “Effect”: “Allow”,            “Action”: ,            “Resource”:         &#125;,        &#123;            “Sid”: “VisualEditor2”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: “*”        &#125;    ]&#125;
+
+Additionally, add a full access AWS Managed Policy for CodeCommit, and update the Trust Entities permissions as shown below:
+
+&#123;    “Version”: “2012-10-17”,    “Statement”:             &#125;,            “Action”: “sts:AssumeRole”        &#125;    ]&#125;
+
+4. Now in the CloudWatch service, create a rule and give the following permissions:
+
+&#123;  “detail-type”: ,  “resources”: ,  “source”: ,  “detail”: &#123;    “referenceType”: ,    “event”: ,    “referenceName”:   &#125;&#125;
+
+5. In the targets section, select “Even Bus in another AWS account” and create a new role by providing the ID of Account B.
+
+Please be aware that some parts of the aforementioned policies will not be available until the corresponding resources are created in AWS Account B. After the creation of these resources, the policies need to be revised and updated with the necessary information.
+
+### Setting up the CodePipeline in Account B
+
+The instructions presented below provide specific guidelines and regulations to be followed while setting up the CI/CD Pipeline in account B:
+
+1. $1
+
+2. $1
+
+SSM Role Permissions:
+
+&#123;    “Version”: “2012-10-17”,    “Statement”: ,            “Resource”: “arn of KMS key in account B”,            “Condition”: &#123;                “Bool”: &#123;                    “kms:GrantIsForAWSResource”: true                &#125;            &#125;        &#125;,        &#123;            “Sid”: “VisualEditor1”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: “arn of KMS key in Account B”        &#125;,        &#123;            “Sid”: “VisualEditor2”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: “*”        &#125;    ]&#125;
+
+Additionally, add the following AWS managed permissions:
+
+AmazonEC2RoleforSSM
+
+AmazomS3FullAccess
+
+CloudWatchAgentServicePolicy
+
+AmazonSSMManagedInstanceCore
+
+S3 Role Permissions:
+
+Add the below AWS managed policy
+
+AmazonS3FullAccess
+
+3. Now create an S3 bucket and add the bucket policies given below:
+
+&#123;    “Version”: “2012-10-17”,    “Id”: “SSEAndSSLPolicy”,    “Statement”: ,            “Resource”: “/*”        &#125;,        &#123;            “Sid”: “AllowListObjects”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”: “arn:aws:iam:::root”            &#125;,            “Action”: “s3:ListBucket”,            “Resource”: “”        &#125;    ]&#125;
+
+4. Under the KMS Key service, create a customer-managed key and attach the following policy:
+
+&#123;    “Version”: “2012-10-17”,    “Id”: “key-consolepolicy-3”,    “Statement”: ,            “Resource”: “*”        &#125;,        &#123;            “Sid”: “Allow use of the key”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”: “”            &#125;,            “Action”: ,            “Resource”: “*”        &#125;,        &#123;            “Sid”: “Allow attachment of persistent resources”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”: “”            &#125;,            “Action”: ,            “Resource”: “*”,            “Condition”: &#123;                “Bool”: &#123;                    “kms:GrantIsForAWSResource”: “true”                &#125;            &#125;        &#125;,        &#123;            “Sid”: “Allow access for Key Administrators”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”: “”            &#125;,            “Action”: ,            “Resource”: “*”        &#125;,        &#123;            “Sid”: “Allow use of the key”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”:             &#125;,            “Action”: ,            “Resource”: “*”        &#125;,        &#123;            “Sid”: “Allow attachment of persistent resources”,            “Effect”: “Allow”,            “Principal”: &#123;                “AWS”:             &#125;,            “Action”: ,            “Resource”: “*”,            “Condition”: &#123;                “Bool”: &#123;                    “kms:GrantIsForAWSResource”: “true”                &#125;            &#125;        &#125;    ]&#125;
+
+5.  Now go to the CloudWatch service and under the event buses section, add permissions for the default event bus. Keeping the account permissions, provide Account A ID.
+
+Following the completion of the aforementioned steps, a mock pipeline must be created in the CodePipeline service with a temporary CodeCommit repository attached to it as a source. Later, the Account A CodeCommit repository will be added to the source of this mock pipeline using the CLI. That is because the pipeline does not allow changing the source directly from the AWS Console.
+
+6.  Go to the CodeCommit service and create a temporary repository for the mock CodePipeline.
+
+7. Navigate to the CodeDeploy service and create a sample application with a sample deployment group.
+
+8. Now, create a mock pipeline under the CodePipeline service with the CodeCommit repository in Account B as its source. The build stage can be skipped based on the use case. Also, provide the details of your sample application and sample deployment group in the deploy stage.
+
+9. Observe a role being created while creating the mock pipeline. Navigate to the IAM service and add the following policies in the same role:
+
+Custom Policies:
+
+1. $1
+
+&#123;    “Version”: “2012-10-17”,    “Statement”: &#123;        “Effect”: “Allow”,        “Action”: “sts:AssumeRole”,        “Resource”:     &#125;&#125;
+
+2. KMS Policy:
+
+&#123;    “Version”: “2012-10-17”,    “Statement”: ,            “Resource”: “”,            “Condition”: &#123;                “Bool”: &#123;                    “kms:GrantIsForAWSResource”: true                &#125;            &#125;        &#125;,        &#123;            “Sid”: “VisualEditor1”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: “”        &#125;,        &#123;            “Sid”: “VisualEditor2”,            “Effect”: “Allow”,            “Action”: ,            “Resource”: “*”        &#125;    ]&#125;
+
+Add the following AWS managed policy as well:
+
+AmazonS3FullAccess
+
+Under the trust relationship section, add the following policy:
+
+&#123;    “Version”: “2012-10-17”,    “Statement”: &#125;
+
+After the above steps are completed, the mock pipeline must be updated through the CLI. In order to do that, configure the CLI with Account B configurations and extract the JSON file for the mock pipeline.
+
+10. Run the following command in the CLI to extract the JSON file:
+
+$ aws codepipeline get-pipeline –name “” &gt; “”/””.json
+
+11. Once the JSON file is extracted, edit the file in the file editor of your choice as shown below:
+
+&#123;   “pipeline”: &#123;       “name”: “”,       “roleArn”: “”,       “artifactStore”: &#123;           “type”: “S3”,           “location”: “”,   ##—–&gt; Add the below section to provide the KMS key   “encryptionKey”: &#123;               “id”: “”,               “type”: “KMS”           &#125;       &#125;,       “stages”: ,                       “inputArtifacts”: ,                       “roleArn”: “”,                       “region”: “ap-south-1”,                       “namespace”: “SourceVariables”                   &#125;               ]           &#125;,           &#123;               “name”: “Deploy”,               “actions”: ,                       “inputArtifacts”: ,                       “region”: “ap-south-1”,                       “namespace”: “DeployVariables”                   &#125;               ]           &#125;       ],       “version”: 1   &#125;&#125;
+
+12. Once the file is edited, run the following command to enable the cross-account CodeCommit in the mock pipeline:
+
+$ aws codepipeline create-pipeline –cli-input-json file:///.json
+
+The mock CodePipeline will be triggered in Account B with CodeCommit from Account A attached to it as the source.
+
+13. Navigate to the pipeline in the CodePipeline service and stop the execution by abandoning the process.
+
+14. Now go to the CloudWatch service and create a new rule with the following permissions:
+
+&#123;  “detail-type”: ,  “resources”: ,  “source”: ,  “detail”: &#123;    “referenceType”: ,    “event”: ,    “referenceName”:   &#125;&#125;
+
+15. Add a new target by selecting CodePipeline in the dropdown menu, and provide the ARN of the CodePipeline triggered earlier.
+
+With this, the managed CodeCommit and CodePipeline setup across multiple accounts is complete.
+
+To sum up, creating a managed cross-account CodeCommit and CodePipeline setup can bring benefits to your software development workflow by enhancing collaboration and security. This setup allows you to share CodeCommit repositories and CodePipeline pipelines across multiple AWS accounts, which saves you from the hassle of managing complex IAM policies and duplicating multiple repositories. Moreover, it enables you to work more efficiently by maintaining a clear separation between different environments for development, testing, and production. As a result, you can save time managing multiple repositories as sources for various pipelines across multiple accounts.

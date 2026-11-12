@@ -1,0 +1,590 @@
+---
+title: "Deploying a trained ML Algorithm to AWS Sagemaker"
+slug: "deploying-a-trained-ml-algorithm-to-aws-sagemaker"
+description: "If we google for the ways to deploy a ML model in AWS, we will find quite a few videos and articles which talk about deployment of ML model on Amazon EC2 instance. They talk of launching a AWS EC2 instance to host our own Flask App and ML model;"
+publishedAt: "2022-11-25"
+author: "Deepak Puri"
+authorDesignation: "Team"
+category: "Technical Deep Dive"
+draft: false
+---
+
+## **Introduction:**
+
+If we google for the ways to deploy a ML model in AWS, we will find quite a few videos and articles which talk about deployment of ML model on Amazon EC2 instance. They talk of launching a AWS EC2 instance to host our own Flask App and ML model; where a client (browser) would be used to send the test data to the flask server hosted on EC2, which in turn invokes the model hosted on the same EC2 to get the prediction and then sends the prediction result to the client.
+
+But this approach is just another generic use-case of using a cloud VM ( EC2) to launch an application, and does not have anything much specific to do with ML model deployment. It does not use any fully managed / server-less facilities and benefits like scalability on demand (Auto Scaling ) that AWS SageMaker endpoints can provide for ML inference. Moreover, EC2 instances can also end up costly both in terms of resource usage charges and management work involved.
+
+AWS SageMaker provides more elegant ways to train, test and deploy models with tools like Inference pipelines, Batch transform, multi model endpoints, A/B testing with production variants, Hyper-parameter tuning, Auto scaling etc.
+
+**What do we want?**
+
+This article will show you how to deploy a trained model using the test data and deploy an endpoint to run predictions against on Amazon Sagemaker. With Sagemaker, you have the option to either create your own custom machine learning algorithms or use one of the several built-in machine learning algorithms. For this article we will use the trained solution.
+
+### **Components:**
+
+[**AWS SageMaker**](https://aws.amazon.com/sagemaker/)**:**
+
+Amazon SageMaker is a fully managed machine learning service. It helps data scientists and developers to prepare, build, train, and deploy high-quality machine learning (ML) models quickly. It provides an integrated Jupyter authoring notebook instance for easy access to your data sources for exploration and analysis.
+
+[**Amazon S3**](https://aws.amazon.com/s3/?did=ft_card&trk=ft_card)**:**
+
+Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security, and performance. We can use S3 to store any files, models, input data for training models, etc.
+
+[**Lambda**](https://aws.amazon.com/lambda/)**:**
+
+AWS Lambda is a serverless compute service that lets you run code without provisioning or managing servers. Just upload your code as a ZIP file or container image, and Lambda automatically and precisely allocates compute execution power and runs your code based on the incoming request or event, for any scale of traffic.
+
+[**AWS API Gateway**](https://aws.amazon.com/api-gateway/)**:**
+
+Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. APIs act as the “front door” for applications to access data, business logic, or functionality from your backend services. Using API Gateway, you can create RESTful APIs and WebSocket APIs that enable real-time two-way communication applications.
+
+[**Boto3**](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+The AWS SDK for Python. You use the AWS SDK for Python (Boto3) to create, configure, and manage AWS services, such as Amazon Elastic Compute Cloud (Amazon EC2) and Amazon Simple Storage Service (Amazon S3). The SDK provides an object-oriented API as well as low-level access to AWS services.
+
+[**Amazon SageMaker Python SDK**](https://sagemaker.readthedocs.io/en/stable/index.html)**:**
+
+SageMaker Python SDK provides several high-level abstractions for working with Amazon SageMaker.
+
+**Pre-requisite:**
+
+- AWS account to avail Amazon’s cloud services
+
+- familiarity with launching these services on AWS console
+
+- Familiarity with Python
+
+**Proposed Architecture:**
+
+![Image](/images/blog/Picture2-2.png)
+
+**Deploying a model on AWS cloud:**
+
+Here, we used a simple, yet a popular classification model example ML world, the prediction of Iris flowers type. As our focus here is only about deployment, we are not going to spend time on the dataset EDA, data preparation, hyper-parameters tuning, model selection etc.
+
+The brief steps to this exercise are as follows.
+
+1. $1
+
+2. $1
+
+3. $1
+
+**Let us go through the detailed step-by-step exercise.**
+
+## **Training the Model:**
+
+1. $1
+
+2. $1
+
+# Import libraries and packages
+
+from sklearn import datasets
+
+    import numpy as np
+
+    import joblib
+
+    import xgboost as xgb
+
+from sklearn.model_selection import train_test_split
+
+#### Load Iris data set
+
+# Load Iris Data
+
+iris = datasets.load_iris()
+
+# Split dataset into features and target variable
+
+X = iris.data
+
+y = iris.target
+
+print(X.shape)
+
+print(y.shape)
+
+print(xgb.__version__)
+
+#### Split Train, Test data sets for modeling
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=100, stratify=y)
+
+X_train.shape
+
+#### Train a XGBoost Classifier Model
+
+bt = xgb.XGBClassifier(
+
+   max_depth=5, learning_rate=0.2, n_estimators=10, objective=”multi:softmax”
+
+)  # Setup xgboost model
+
+bt.fit(X_train, y_train, verbose=False)  # Train it to our data
+
+# Predict and compare with real labels
+
+bt.predict(X_test)
+
+y_test
+
+#### Save the model as a file using joblib dump
+
+model_file_name = “DEMO-local-xgboost-model”
+
+# Save model using pickle – Recommended according to https://github.com/dmlc/xgboost/pull/3829
+
+# Use joblib which is considered better than pickling
+
+joblib.dump(bt, model_file_name)
+
+#### Try loading the saved model and test it to make sure everything is fine for deployment
+
+point_X = X_test
+
+print(point_X)
+
+np.savetxt(“test_point.csv”, point_X, delimiter=”,”)
+
+file_name = (
+
+   “test_point.csv”  # customize to your test file, will be ‘mnist.single.test’ if use data above
+
+)
+
+with open(file_name, “r”) as f:
+
+   mypayload = np.loadtxt(f, delimiter=”,”)
+
+print(mypayload)
+
+bt1 = joblib.load(model_file_name)
+
+bt1.predict(mypayload)
+
+In this model, basically we download the iris flower data set, run a simple XGBoost model on it, test it and save the model as a local file using joblib dump. We save some sample flower data in test_point.csv for testing purposes
+
+## **Deploying the Model in SageMaker:**
+
+For the next to happen, please use the following deployment-model.
+
+## XGBoost Model deployment in Amazon Sagemaker.
+
+#### This notebook should be run in an Amazon Sagemaker notebook instance.
+
+#### Before running this notebook,
+
+# you should have uploaded the pre-trained model and test_point.csv from your laptop to the
+
+# same folder where you have this notebook file. test_point.csv contains few sample test data in csv format.
+
+# This loads the pre-trained XGBoost model and saves in a S3 bucket in .tar.gz format as required by Sagemaker.
+
+# Then it creates a sagemaker model from the model file stored in S3.
+
+# Then configures and creates an Endpoint to deploy the model and also tests invoking the endpoint to get prediction.
+
+#### Please remember not to run the last “Delete the Endpoint” cell if you want to test the deployed model from a client.
+
+### Import libraries
+
+from time import gmtime, strftime
+
+    import os
+
+    import boto3
+
+    import sagemaker
+
+    import joblib
+
+    import xgboost
+
+from sagemaker import get_execution_role
+
+    import numpy as np
+
+from sagemaker.amazon.amazon_estimator import get_image_uri
+
+    import time
+
+    import json
+
+region = boto3.Session().region_name
+
+role = get_execution_role()
+
+### Create S3 bucket
+
+# This creates a default S3 bucket where we will upload our model.
+
+bucket = sagemaker.Session().default_bucket()
+
+bucket_path = “https://s3-&#123;&#125;.amazonaws.com/&#123;&#125;”.format(region, bucket)
+
+print(role)
+
+print(region)
+
+print(bucket)
+
+print(bucket_path)
+
+#### Install xgboost as it is needed for loading the model from the joblib dump file and test it before deployment.
+
+#### Please note that the XGBoost version should be the same as the version with which the model was trained locally in the laptop.
+
+model_file_name = “DEMO-local-xgboost-model”
+
+### Load the pre-trained model and test it before deployment
+
+mymodel = joblib.load(model_file_name)
+
+file_name = (
+
+   “test_point.csv”  # customize to your test file, will be ‘mnist.single.test’ if use data above
+
+)
+
+with open(file_name, “r”) as f:
+
+   mypayload = np.loadtxt(f, delimiter=”,”)
+
+print(mypayload)  
+
+mymodel.predict(mypayload)
+
+#### Create a tar.gz model file as this is the format required by Sagemaker for deployment.
+
+#### This step Booster.save_model was needed before creating a tar.gz . Otherwise I faced issues with prediction on deployment.
+
+mymodel._Booster.save_model(model_file_name)
+
+#!tar czvf model.tar.gz $model_file_name
+
+### Upload the pre-trained model to S3
+
+#### prefix in S3
+
+prefix = “sagemaker/DEMO-xgboost-byo”
+
+fObj = open(“model.tar.gz”, “rb”)
+
+key = os.path.join(prefix, model_file_name, “model.tar.gz”)
+
+print(key)
+
+boto3.Session().resource(“s3”).Bucket(bucket).Object(key).upload_fileobj(fObj)
+
+#### Create a Sagemaker model
+
+#### Get the built-in xgboost container image in Pagemaker to host our model
+
+container = get_image_uri(boto3.Session().region_name, “xgboost”, “0.90-1”)
+
+model_name = model_file_name + strftime(“%Y-%m-%d-%H-%M-%S”, gmtime())
+
+model_url = “https://s3-&#123;&#125;.amazonaws.com/&#123;&#125;/&#123;&#125;”.format(region, bucket, key)
+
+sm_client = boto3.client(“sagemaker”)
+
+print(model_url)
+
+primary_container = &#123;
+
+   “Image”: container,
+
+   “ModelDataUrl”: model_url,
+
+&#125;
+
+create_model_response2 = sm_client.create_model(
+
+   ModelName=model_name, ExecutionRoleArn=role, PrimaryContainer=primary_container
+
+)
+
+print(create_model_response2)
+
+### Create endpoint configuration
+
+endpoint_config_name = “DEMO-XGBoostEndpointConfig-” + strftime(“%Y-%m-%d-%H-%M-%S”, gmtime())
+
+print(endpoint_config_name)
+
+create_endpoint_config_response = sm_client.create_endpoint_config(
+
+   EndpointConfigName=endpoint_config_name,
+
+   ProductionVariants=[
+
+       &#123;
+
+           “InstanceType”: “ml.m4.xlarge”,
+
+           “InitialInstanceCount”: 1,
+
+           “InitialVariantWeight”: 1,
+
+           “ModelName”: model_name,
+
+           “VariantName”: “AllTraffic”,
+
+       &#125;
+
+   ],
+
+)
+
+print(“Endpoint Config Arn: ” + create_endpoint_config_response)
+
+### Create endpoint
+
+endpoint_name = “DEMO-XGBoostEndpoint-” + strftime(“%Y-%m-%d-%H-%M-%S”, gmtime())
+
+print(endpoint_name)
+
+create_endpoint_response = sm_client.create_endpoint(
+
+   EndpointName=endpoint_name, EndpointConfigName=endpoint_config_name
+
+)
+
+print(create_endpoint_response)
+
+resp = sm_client.describe_endpoint(EndpointName=endpoint_name)
+
+status = resp
+
+print(“Status: ” + status)
+
+while status == “Creating”:
+
+   time.sleep(60)
+
+   resp = sm_client.describe_endpoint(EndpointName=endpoint_name)
+
+   status = resp
+
+   print(“Status: ” + status)
+
+print(“Arn: ” + resp)
+
+print(“Status: ” + status)
+
+### Validate the model for use
+
+#Now you can obtain the endpoint from the client library using the result from previous operations and generate classifications from the model using that endpoint.
+
+runtime_client = boto3.client(“runtime.sagemaker”)
+
+#Lets generate the prediction. We’ll pick csv data from the test data file
+
+file_name = (
+
+   “test_point.csv”  # customize to your test file, will be ‘mnist.single.test’ if use data above
+
+)
+
+with open(file_name, “r”) as f:
+
+   payload = f.read().strip()     
+
+print(“Payload :\n”)
+
+print(payload)
+
+response = runtime_client.invoke_endpoint(
+
+   EndpointName=endpoint_name, ContentType=”text/csv”, Body=payload
+
+)
+
+print(“Results :\n”)
+
+result = response.read().decode(“ascii”)
+
+# Unpack response
+
+print(“\nPredicted Class Probabilities: &#123;&#125;.”.format(result))
+
+### (Optional) Delete the Endpoint
+
+#If you’re ready to be done with this notebook, please run the delete_endpoint line in the cell below.  This will remove the hosted endpoint you created and avoid any charges from a stray instance being left on.
+
+#sm_client.delete_endpoint(EndpointName=endpoint_name)
+
+We have to upload and run this notebook in SageMaker, not locally.
+
+1. $1
+
+2. $1
+
+**Important-** Run all the cells in the notebook except for the last one- ‘Delete the Endpoint’.
+
+Select and set conda_python3 as kernel, when you see “Kernel not found” pop-up.
+
+This notebook code does the following.
+
+- Load the model file, open it and test and then upload it to a S3 bucket ( from where SageMaker will take the model artifacts).
+
+- Create a SageMaker model object from the model stored in S3. We will use SageMaker built-in XGBoost container for this purpose, as the model was locally trained with the XGBoost algorithm. Depending on the algorithm you use for modeling, you have to properly pick the corresponding built-in container and deal with the nuances associated with that..SageMaker developer guide should help in that.
+
+- Create an Endpoint Configuration. Endpoint is the interface through which the outer world can use a deployed model for predictions. More details about Endpoints can be found in SageMaker documentation.
+
+- Create an Endpoint for the model.
+
+- Invoke the endpoint from within the deployment notebook to confirm the endpoint and the model are working fine.
+
+After running the notebook till this point, you can see the endpoint created under
+
+Sagemaker &gt; Inference &gt; Endpoints in AWS console.
+
+**You have to note down the endpoint name displayed.** This will be used while creating the Lambda function ( described in the following section ).
+
+## **Launching necessary AWS Services for  End to End Communications:**
+
+After completing the above steps, we will have the model deployed and a SageMaker endpoint ready to be invoked from the outside world to get real time predictions from the deployed model.
+
+The following diagram shows how the deployed model can be called using a serverless AWS architecture. A client script calls an [Amazon API Gateway](https://aws.amazon.com/api-gateway) API action and passes parameter values. API Gateway is a layer that provides the API to the client. API Gateway passes the parameter values to the Lambda function. The Lambda function parses the value and invokes the SageMaker model endpoint, passing the parameters to the same. The model performs the prediction task and returns the prediction results to Lambda. The Lambda function parses the returned value and sends it back to API Gateway. API Gateway responds to the client with that value.
+
+![Image](/images/blog/Picture3.gif)
+
+We will use Amazon’s Rest API gateway for our purpose. Instead of a web browser as the client, we will use the Postman app to keep things simple ( If you want to use a browser web interface, you need Flask to be packed in a container which needs to be placed and run inside SageMaker ). In our example, Postman will be used to send the Restful POST method to call the API gateway and get the response (Predictions) back.
+
+So we need to set up an API gateway and Lambda. Let us go through the remaining few steps.
+
+1. $1
+
+&#123;
+
+  “Version”: “2012-10-17”,
+
+  “Statement”: [
+
+      &#123;
+
+          “Sid”: “VisualEditor0”,
+
+          “Effect”: “Allow”,
+
+          “Action”: “sagemaker:InvokeEndpoint”,
+
+          “Resource”: “*”
+
+      &#125;
+
+  ]
+
+&#125;
+
+Select Lambda as the use case in AWS service, while creating the role and attach the policy to the role.
+
+1. $1
+
+    import os
+
+    import boto3
+
+    import json
+
+# grab environment variables
+
+ENDPOINT_NAME = os.environ
+
+runtime= boto3.client(‘runtime.sagemaker’)
+
+def lambda_handler(event, context):
+
+   print(“Received event: ” + json.dumps(event, indent=2))
+
+   data = json.loads(json.dumps(event))
+
+   payload = data
+
+   #print(payload)
+
+   response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
+
+                                      ContentType=’text/csv’,
+
+                                      Body=payload)
+
+   #print(response)
+
+   result = json.loads(response.read().decode())
+
+   classes = 
+
+   res_list =  
+
+   return classes
+
+Select “Author from Scratch” and give a function name and select Runtime as Python 3.8 and Select **“Use an existing role” **and pick the role you created in the previous step.
+
+Under the code section of the lambda, enter the python code given at the beginning of this step. **Remember to click “Deploy” after entering the code.**
+
+Go to the Configuration tab of the Lambda function and add an environment variable **“ENDPOINT_NAME”** and set its value as the same endpoint that was created in the preceding steps. Note that this environment variable is used in the Lambda function’s code.
+
+**7. Create a REST API and integrate with the Lambda function.**
+
+Select API Gateway service on AWS console, and select REST API.
+
+Click on Build and select “New API” . In the next window you get, select “Create Resource” from Actions drop-down menu, and enter a Resource Name.
+
+![Image](/images/blog/Picture4.jpg)
+
+**Note down the Resource Name you choose.** It will be a part of the URL created by this service and will be used later when we test the deployment from Postman. Here we have chosen resource name as “irisprediction”. After creating the resource, select “Create Method” from Actions drop-down menu.
+
+![Image](/images/blog/Picture5.jpg)
+
+Select POST method and “Lambda Function” as Integration type. Enter the name of the Lambda Function you created in the previous steps. Then, select “Deploy API” from the Actions drop-down menu. Select Deployment stage “New Stage” and give some stage name. I chose to enter “test”.
+
+![Image](/images/blog/Picture6.jpg)
+
+Then, finally when you click “Deploy”, you will be given a “Invoke URL” as shown below.
+
+![Image](/images/blog/Picture7-1.png)
+
+Please note down the URL displayed on the window as “Invoke URL”. It will be used in Postman to contact the API gateway, as described below.
+
+Now we are done with the deployment and setup of the end-to-end communication path.
+
+## **Testing the final Deployment from local client**
+
+1. $1
+
+Example URL : ( **Remember to replace with the API URL you got when you created the API in the preceding steps, and append the resource name at the end.)**
+
+For example, if the Invoke URL you got was
+
+https://kmnia554df.execute-api.us-east-1.amazonaws.com/test
+
+append the resource name to the above URL and use in the postman. For example in our case it was “irisprediction” . You can see the screen snapshot given below for the full example URL.
+
+Use method : POST
+
+In the Body, raw input can be given like :
+
+&#123;“data”:”5.099999999999999645e+00,3.299999999999999822e+
+
+00,1.699999999999999956e+00,5.000000000000000000e-01″&#125;
+
+You can refer to the test_point.csv for sample data. The four numerical parameters given as data are nothing but sample sepal length, sepal width, petal length and petal width of some Iris flower data point.
+
+![Image](/images/blog/Picture8.png)
+
+When we send the data, we successfully invoke the deployed model endpoint and receive back the flower prediction as “Setosa” in the example above.
+
+**So, we have successfully deployed a locally trained model on the AWS cloud using SageMaker and seen it working for real-time inference.**
+
+## **Few references for further readings :**
+
+[Amazon SageMaker Documentation](https://docs.aws.amazon.com/sagemaker/index.html)
+
+[SageMaker Example Notebooks](https://github.com/aws/amazon-sagemaker-examples)
+
+[Amazon SageMaker Technical Deep Dive Series](https://www.youtube.com/playlist?list=PLhr1KZpdzukcOr_6j_zmSrvYnLUtgqsZz)

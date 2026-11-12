@@ -1,0 +1,68 @@
+---
+title: "Data Migration to AWS cloud for FinTech"
+slug: "data-migration-to-aws-cloud-for-fintech"
+description: "Fintech businesses prefer to implement a data warehouse as separation of analytics processing from transactional databases results in improved performance and keeps the original dataset safe."
+publishedAt: "2023-09-15"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "Cloud Migration"
+draft: false
+---
+
+Fintech businesses prefer to implement a data warehouse as separation of analytics processing from transactional databases results in improved performance and keeps the original dataset safe.
+
+**Amazon Redshift** is a fast, fully-managed, and cost-effective data warehouse service. It gives you petabyte-scale data warehousing and exabyte-scale data lake analytics together in one service, for which you only pay for what you use. Redshift has a columnar structure and is optimized for fast retrieval of columns. Amazon Redshift’s lake house architecture makes an integration of database, data lake and data warehousing, easy.
+
+Data Migration to AWS cloud for Fintech
+
+Fintech businesses prefer to implement a data warehouse as separation of analytics processing from transactional databases results in improved performance and keeps the original dataset safe.
+
+**Amazon Redshift** is a fast, fully-managed, and cost-effective data warehouse service. It gives you petabyte-scale data warehousing and exabyte-scale data lake analytics together in one service, for which you only pay for what you use.
+
+Redshift has a columnar structure and is optimized for fast retrieval of columns. Amazon Redshift’s lake house architecture makes an integration of database, data lake and data warehousing, easy.
+
+Migration of on-premises data warehouse to AWS Redshift is a 2-stage process.
+
+![Image](/images/blog/data.jpg)
+
+*Figure 1. Overview of Data Migration (Source credit: *[*click here*](https://aws.amazon.com/blogs/database/how-to-migrate-your-data-warehouse-to-amazon-redshift-using-the-aws-schema-conversion-tool-data-extractors/)*)*
+
+1. $1
+
+Connect on-premises data center to AWS cloud using AWS Direct Connect or AWS Client VPN to securely transfer data. With AWS S3 Multipart Upload or Amazon Snowball, load data on to S3.
+
+Amazon Data pipeline also helps to move data reliably between various AWS compute and storage services.
+
+1. $1
+
+Amazon provides 2 services for this purpose AWS Schema Conversion Tool (SCT) and AWS Data Migration Services (DMS).
+
+This is a 2-step process:
+
+![Image](/images/blog/DATABASE.png)
+
+*  Figure 2. Data upload from S3 to Redshift*
+
+- Convert or copy your schema using AWS SCT
+
+AWS SCT accelerates migrations by automatically converting the source database schemas and the majority of the objects, including views, stored procedures and functions to a format compatible with Amazon Redshift.
+
+SCT generates holistic migration assessment report which educates on the specific manual interventions required.
+
+- Bulk upload data to Amazon Redshift using AWS SCT and AWS DMS
+
+Once schema is mapped and data transformations are done, bulk upload the data or capture updates based on transformations to Redshift, using AWS SCT or AWS DMS
+
+- In the 1st stage a full copy of the legacy data is replicated to the target system. This is called “full load”. It can take considerable time depending on the quantity of data to move.
+
+AWS SCT extractors allow faster migration of large number of records using multi-threaded data extraction
+
+AWS DMS is highly resilient and self-healing and helps migrate databases to AWS quickly and securely.
+
+The source database remains fully operational during the migration minimizing the downtime to apps that are on the database
+
+In case of failure, extraction process, for both SCT and DMS, can restart from the point of failure, rather than from the beginning of the entire data extract.
+
+- In the second stage, SCT provides support for point-in-time data extracts so that “change deltas” since the full load can be captured and migrated. The SCT client application issues commands to the extractors to pull data from the source system, upload the data to S3 and copy data into Redshift.
+
+Visit comprinno.net to know more on how we can assist you in your cloud journey.

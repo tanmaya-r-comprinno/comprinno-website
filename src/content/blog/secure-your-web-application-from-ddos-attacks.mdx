@@ -1,0 +1,50 @@
+---
+title: "Secure Your Web Application from DDoS attacks"
+slug: "secure-your-web-application-from-ddos-attacks"
+description: "In 2021, cybercriminals launched approximately 9.75 million Distributed Denial of Service (DDoS) attacks, a NETSCOUT report reveals. The size of the attacks is growing bigger. Some of the biggest threats to the applications today are DDoS attacks"
+publishedAt: "2023-07-09"
+author: "Vineet Singh"
+authorDesignation: "Team"
+category: "Cloud Security"
+draft: false
+---
+
+In 2021, cybercriminals launched approximately 9.75 million Distributed Denial of Service (DDoS) attacks, a NETSCOUT report reveals. The size of the attacks is growing bigger. Some of the biggest threats to the applications today are DDoS attacks (HTTP floods, abusive users), bad bots (crawlers, content scrapers, scanners & probes) and OWASP (Open Web Application Security Project) Top 10 vulnerabilities (SQL injection, XSS, application exploits).
+
+The cost of legitimate traffic being blocked by accessing the websites is not only of monetary value but involves a lot of other costs such as –
+
+- Bad customer experience
+
+- Loss of reputation
+
+- Financial losses
+
+- Repair and rebuild
+
+The below blog describes how you can mitigate DDoS attacks by deploying AWS CloudFront with AWS WAF and Route 53.
+
+![Image](/images/blog/Picture1-1-1.png)
+
+To take advantage of application delivery with DDoS mitigations at the edge, start by creating a CloudFront distribution and configuring origins. To ensure that all traffic to CloudFront is encrypted and to enable SSL termination from clients at global edge locations, specify Redirect HTTP to HTTPS for Viewer Protocol Policy. Moving SSL termination to CloudFront offloads computationally expensive SSL negotiation, helps mitigate SSL abuse, and reduces latency with the use of OCSP stapling and session tickets. When a web distribution is created, CloudFront assigns a domain name to the distribution.
+
+Next, configure Route 53 to route traffic to this CloudFront distribution domain name. Route 53 DNS requests and subsequent application traffic routed through CloudFront are inspected inline. Always-on monitoring, anomaly detection, and mitigation against common infrastructure DDoS attacks are built into both Route 53 and CloudFront. Route 53 is also designed to withstand DNS query floods, which are real DNS requests that can continue for hours and attempt to exhaust DNS server resources.
+
+You might prefer to use your own domain name in URLs, such as: http://example.com/logo.jpg. You can accomplish this by creating a Route 53 alias resource record set that routes dynamic web application traffic to your CloudFront distribution by using your domain name. If your dynamic web application requires geo redundancy, you can use latency-based routing in Route 53 to run origin servers in different AWS regions. Route 53 is integrated with CloudFront to collect latency measurements from each edge location. With Route 53 latency-based routing, each CloudFront edge location goes to the region with the lowest latency for the origin fetch.
+
+Now we need to enable AWS WAF. AWS WAF is a web application firewall that can be deployed on CloudFront to help protect your application against DDoS attacks by giving you control over which traffic to allow or block by defining security rules. AWS WAF monitors HTTP and HTTPS requests, and protects web applications from malicious activities. You can define custom security rules (also called web ACLs) that contain a set of conditions, rules, and actions to block attacking traffic. After you define web ACLs, you can apply them to CloudFront distributions. Web ACLs are evaluated in the priority order you specified when you configured them. Real-time metrics and sampled web requests are provided for each web ACL.
+
+At the simplest level, AWS WAF lets you choose one of the following behaviours:
+
+- Allow all requests except the ones that you specify
+
+- Block all requests except the ones that you specify
+
+- Count requests that match your criteria
+
+- Run CAPTCHA checks against requests that match your criteria
+
+With this setup, you can leverage the global Amazon network of edge locations for DDoS resiliency.
+
+**Comprinno has implemented numerous projects aimed at improving cloud security posture of companies. If you want a free security assessment and remediation report and/or need help with strengthening security of your infrastructure, contact us now.**
+
+Reference article: [AWS blog](https://aws.amazon.com/blogs/security/how-to-protect-dynamic-web-applications-against-ddos-attacks-by-using-amazon-cloudfront-and-amazon-route-53/#:~:text=AWS%20WAF%20is%20a%20web,block%20by%20defining%20security%20rules)

@@ -1,0 +1,182 @@
+---
+title: "Creating Hyperledger Fabric on AMD based VM"
+slug: "creating-hyperledger-fabric-on-amd-based-vm"
+description: "Amazon Web Services offers Amazon Managed Blockchain in select regions like US East (N. Virginia), Asia Pacific (Seoul, Singapore, Tokyo), and Europe (Ireland, London). A setup for blockchain using Hyperledger Fabric on AMD based instances had to be"
+publishedAt: "2022-11-30"
+author: "Vineet Singh"
+authorDesignation: "Team"
+category: "Technical Deep Dive"
+draft: false
+---
+
+Amazon Web Services offers Amazon Managed Blockchain in select regions like US East (N. Virginia), Asia Pacific (Seoul, Singapore, Tokyo), and Europe (Ireland, London). A setup for blockchain using Hyperledger Fabric on AMD based instances had to be prepared for the India region. A separate blockchain setup was required for the India region to achieve data localization as per RBI guidelines and PCI DSS compliance. Comprinno was engaged for the Hyperledger Fabric set up.
+
+To keep the solution cost effective, Hyperledger Fabric had to be set up on an AMD based VM. Documentation was available for Intel based machines but not for AMD. Comprinno team had to do extensive research to set up the Hyperledger on an AMD based VM.
+
+Understanding the solution provided to set up Hyperledger Fabric requires an understanding of a few key concepts given below:
+
+**What is Blockchain?**
+
+Blockchain is a growing chain of records or blocks with each block representing a set of transactions. The blocks are linked together using cryptography. Blockchains are managed by peer-to-peer networks and run on distributed ledgers to maintain transactions. Each block is linked to the previous block/transaction using the cryptographic hash and a chain is formed. The first block on any block chain is called the genesis block.
+
+![Image](/images/blog/Picture11-1.png)
+
+Distributed ledgers are replicated, shared and synchronized data that are geographically spread across multiple sites rather than in a centralized database. Nodes are computers in the decentralized system which host the copy of a blockchain. They help in relaying the blockchain to other computers and nodes. Nodes are generally volunteers or organizations.
+
+In a distributed ledger, when a new block is added, it is sent to each node. Each node then verifies the block and if valid adds it to their block chain. All the nodes in the network create consensus and agree about which blocks are valid and which are not. Blocks that are tampered with will be rejected by other nodes in the network.
+
+![Image](/images/blog/Picture22.png)
+
+So, to tamper with a block on the block chain, one will need to tamper each block on the network and take control of more than 50% of the peer-to-peer network. Only then will the tampered block become acceptable to everyone else. This is impossible!
+
+###### Blockchain Analogies to the real world:
+
+*Transparent Bank Vaults:* Imagine 100s of bank vaults and all the owners know the contents of all the other bank vaults but own keys and transact for only their own vault.
+
+*Bank Account Statements: *These are duplicated across 100 of computers; everyone records every transaction you make thereby rendering the records tamper-proof.
+
+*A google doc shared between multiple parties: *Here workbook is a block chain, each worksheet is a block and data in the worksheets are transactions.
+
+**What is Hyperledger Fabric?**
+
+Hyperledger is an open source blockchain framework hosted by The Linux Foundation. Hyperledger Fabric is a plug and play implementation of blockchain technology with a flexible degree of permissions. It is a platform for distributed ledger solutions built upon a modular architecture providing high degrees of confidentiality, resiliency, flexibility and scalability.
+
+*Hyperledger Fabric Functionalities:*
+
+- Identity Management
+
+- Privacy and Confidentiality
+
+- Efficient processing
+
+- Chaincode functionality
+
+- Modular design
+
+*Key benefits:*
+
+- Plug-n-play ability to integrate components such as consensus algorithm and membership services
+
+- Smart contracts called ‘chaincode’, which are hosted using the container technology
+
+- Channel technology for confidential transactions.
+
+- Permissioned and Modular
+
+**Solution implemented for AWS?**
+
+Multi-host setup was created for Hyperledger Fabric. Setup involved Raft-based ordering service using Docker Swarm as the multi-host container environment. Let’s dig deep into all the concepts behind the setup one-by-one.
+
+Hyperledger Fabric components are deployed as containers. When they are running in different hosts, we need to find a way to make these containers talk to one another. *Docker swarm*, a container orchestration tool, is used for this purpose. It allows the user to manage multiple containers deployed across multiple host machines. In this scenario, Docker Swarm version 20.10.18 was used to deploy the containers.
+
+Containers were deployed on Amazon EC2 instances on a Docker Swarm network. EC2 instances powered by AMD processors were used instead of Intel processors. This gave the benefit of running memory and compute intensive workloads at a significant price advantage. Using AMD powered EC2 instances gives a **cost benefit of almost 30%** over Intel based EC2 instances.
+
+![Image](/images/blog/Picture33.png)
+
+The blockchain network in Hyperledger fabric consists of Orderer nodes, Peer nodes, Fabcar chaincode and Ledger.
+
+###### Components of Hyperledger Fabric: 
+
+The overall components of the Hyperledger Fabric can be represented by the below diagram:
+
+![Image](/images/blog/Picture44.png)
+
+##### Orderer containers:
+
+In a Hyperledger Fabric network, a node or collection of nodes together form what’s called an “ordering service”.  It receives endorsed transactions, and after validating these, arranges them in order. These order transactions are placed into blocks, and the new block is broadcasted to peers on the channel. Peers will then validate and commit to their ledgers.
+
+##### Peer containers:
+
+It’s a one of the main fundamental elements comprising primarily a set of peer nodes in HLF network. It is a kind of node that hosts the ledger and chain code in the Hyperledger Fabric System. Peers are connected by channels to each other and can be grouped as per the needs to manage the ledgers and contracts.
+
+The Ordered and the Peer nodes communicate over a secure channel. Channel is a private communication pathway between two or more members of a Hyperledger Fabric network on Amazon Managed Network.
+
+![Image](/images/blog/Picture222.png)
+
+##### RAFT network
+
+Now while the ordering services handle transactions and create blocks in the same way, there has to be a consensus amongst the order nodes to approve the block. For this, RAFT consensus mechanism has been employed.
+
+![Image](/images/blog/Picture333.png)
+
+Raft is a crash fault tolerant (CFT) ordering service based on an implementation of Raft protocol in etcd. Raft follows a “leader and follower” model. A leader is dynamically elected among the ordering nodes in a channel and its decisions are replicated by the followers. RAFT is crash fault tolerant in the sense that out of 5 nodes, if 2 fail (including the leader node), the decision or the transaction is still made.
+
+##### Fabcar Chaincode
+
+A complete blockchain application contains two portions of code: the Chaincode which is deployed and executed inside a fabric network, and the Client Application is where the external world interacts with the chaincode deployed on this fabric network.
+
+Fabcar is a database of car records stored in the ledger of a fabric network. We can consider this as a traditional database storing the data.
+
+Interaction with the data is through chaincode. Fabcar comes with a Chaincode, containing the functions which can interact with the stored data in the ledger.
+
+##### Ledger
+
+A ledger is a transactional log that keeps a complete record of the entire history of data changes.
+
+To summarize, there are four AMD powered Amazon EC2 machines acting as host to containers. Docker Swarm is used as the container orchestration platform. 5 Orderer containers using the RAFT consensus network are deployed. There are 4 Peer containers for approving the blocks created by the Orderer service. Fabcar Chaincode and Ledger are deployed in an additional container.
+
+**Hyperledger tansaction flow?**
+
+Inside the Hyperledger, a transaction is an entity which changes the state of the blockchain. A transaction has to run through the Fabcar chaincode. Transaction has to specify the chaincode and function to be performed. e.g., you could have created a chaincode for a rental agreement and from there it might be calling a function for distribution of digital signatures.
+
+Transaction flow assumptions:
+
+- Channel or Ledger is up and running.
+
+- Application users have registered and enrolled with the organization with proper certificates. The network has a certificate authority; they have generated cryptographic material to authenticate all the participants inside the network.
+
+- Chaincode is installed on the peers and instantiated on the channel
+
+- The chaincode contains logic defining a set of transaction instructions, agreed upon by all the participants on the network.
+
+- An endorsement policy has been set up for this chaincode.
+
+The transaction flow in Hyperledger Fabric can be summarized in the below steps:
+
+![Image](/images/blog/Picture444.png)
+
+##### Step 1: Application connects to peer:
+
+A client uses Amazon Managed Blockchain to initiate the transaction. Amazon Managed Blockchain will have the Hyperledger SDK at the backend which will help them to create the transaction proposal in a format accepted by the Hyperledger blockchain.
+
+##### Step 2:  Transaction proposal is sent to the endorsing peers:
+
+Transaction proposal contains details like the transaction itself, the chaincode which is being called upon, the function inside the chaincode which is called upon and the client signature.
+
+###### Step 2.1 Peer invokes chaincode with proposal:
+
+The endorsing peers will receive this proposal to validate the transaction. They will do a simulation of the transaction on their copy of the ledgers to check for the duplicity of the transaction proposal. Peers will also check the validity of the transaction format as per the defined chaincode policies and client signature.
+
+###### Step 2.2 Chaincode generates proposal response
+
+The simulation of the transaction proposal on the peer ledger will generate a response value, read set and a write set.
+
+![Image](/images/blog/Picture55.png)
+
+##### Step 3: Peer sends the endorsement response to the application:
+
+The read and write set along with the endorsing peer’s signature is passed back as a “endorsement response” to the SDK.
+
+![Image](/images/blog/Picture66.png)
+
+##### Step 4: Invocation request sent to ordering services
+
+Application verifies endorsing peer signature and compares the endorsement response to determine if the proposal responses are the same. The application also determines if the specified endorsement policy has been fulfilled before submitting the transaction to the ordering service. Application then broadcasts the transaction proposal and response within a transaction message to the Ordering service. The ordering service receives the transactions from all the channels in the network, orders them chronologically by channel, and creates blocks of transactions per channel.
+
+![Image](/images/blog/Picture77.png)
+
+###### Step 4.1 : Invocation response sent to peers by validating and committing the transactions
+
+The blocks of transactions in the form of invocation response are sent to all the peers on the channel. The transactions within the block are validated to ensure that endorsement policy is fulfilled. Transaction blocks are then tagged as valid or invalid.
+
+![Image](/images/blog/Picture88.png)
+
+###### Step 4.2 : Peer updates ledger with transaction blocks
+
+After the committing of the block, all peers append the block to the channel’s chain and the ledger is updated.
+
+##### Step 5:  Peer sends ledger update event to the application
+
+An event is sent to the application regarding the ledger update along with the notification of whether the transaction was validated or invalidated.
+
+![Image](/images/blog/Picture99.png)

@@ -1,0 +1,66 @@
+---
+title: "Enhancing High Availability with Chaos Engineering"
+slug: "enhancing-high-availability-with-chaos-engineering"
+description: "Maintaining high availability and resilience is critical for organizations. In the pursuit of achieving high availability and resilience in AWS environments, chaos engineering emerges as a powerful methodology. By embracing chaos engineering"
+publishedAt: "2024-04-19"
+author: "Bhupali Tambekar"
+authorDesignation: "Co-Founder &amp; CTO, Comprinno"
+category: "Resilience"
+draft: false
+---
+
+Maintaining high availability and resilience is critical for organizations. In the pursuit of achieving high availability and resilience in AWS environments, chaos engineering emerges as a powerful methodology. By embracing chaos engineering practices, organizations can proactively identify and address potential points of failure, ultimately strengthening their ability to maintain continuous service delivery and meet stringent availability requirements. In this blog, we will discuss the various ways to conduct chaos engineering in AWS.
+
+### **What is Chaos Engineering**
+
+Chaos Engineering is the discipline of experimenting on a software system to build confidence in the system’s capability to withstand turbulent and unpredictable conditions. It is more of an experimental approach for exposing the unknowns rather than testing for the known scenarios.
+
+In chaos engineering an application is stressed in testing or production environments by creating disruptive events, such as outages, the system response is observed, and improvements are implemented. Chaos engineering helps you create the real-world conditions needed to uncover hidden issues and performance bottlenecks that are challenging to find in distributed applications.
+
+![Image](/images/blog/Steps.png)
+
+### **How to Perform Chaos Testing**
+
+Various fault injection tools are available for practicing chaos engineering, a discipline focused on intentionally introducing failures into systems to test resilience and identify weaknesses. These tools enable organizations to simulate real-world scenarios and assess system behavior under stress. Here are some examples of fault injection tools commonly used in chaos engineering:
+
+**AWS Fault Injection Service (FIS):**
+
+- AWS FIS is a managed service that allows users to inject faults into AWS services to simulate failures and test the resilience of their applications and infrastructure.
+
+- FIS supports various fault types, including latency injection, service disruption, resource exhaustion, and more.
+
+-  
+
+**AWS Systems Manager:**
+
+- AWS FIS also supports fault injection actions through the AWS Systems Manager SSM Agent. 
+
+- Systems Manager uses an SSM document that defines actions to perform on EC2 instances. You can use your own document to inject custom faults, or you can use pre-configured SSM documents.
+
+-  
+
+**APIs and Scripting:**
+
+- Organizations can develop custom fault injection tools using APIs and scripting languages to interact with AWS services and simulate failure scenarios.
+
+- By leveraging AWS SDKs (Software Development Kits) and scripting languages like Python or Node.js, users can programmatically introduce faults into their systems.
+
+-  
+
+**AWS Step Functions:**
+
+- AWS Step Functions is a serverless orchestration service that allows you to coordinate workflows and automate tasks.
+
+- Step Functions can be used to create fault injection workflows, defining the sequence of actions to introduce failures and observe system behavior in response.
+
+**Third-Party Tools**:
+
+- There are various third-party chaos engineering tools available that can be integrated with AWS environments to perform fault injection experiments.
+
+- These tools often provide advanced features for chaos engineering, such as scenario-based testing, automated fault injection, and comprehensive reporting.
+
+In conclusion, chaos engineering emerges as a transformative practice for fortifying the resilience and high availability of AWS environments. By embracing chaos engineering principles, organizations can proactively identify weaknesses, validate system behaviors, and enhance overall readiness to withstand disruptions. The deliberate introduction of controlled chaos through chaos experiments empowers teams to uncover hidden vulnerabilities, optimize recovery processes, and ultimately build more robust cloud infrastructures on AWS.
+
+**Did you know that Comprinno is an AWS Resilience competency partner?**
+
+If you are looking for a resilient architecture for your infrastructure, look no further. Contact us today for expert guidance.

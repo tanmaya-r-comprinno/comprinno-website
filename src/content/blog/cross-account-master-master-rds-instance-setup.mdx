@@ -1,0 +1,240 @@
+---
+title: "Cross Account Master-Master RDS instance setup"
+slug: "cross-account-master-master-rds-instance-setup"
+description: "Ensuring the resilience and availability of your databases is crucial considering the negative aspects of application downtime. This blog dives deep into setting up a resilient and highly available database. It explains the process to set up"
+publishedAt: "2024-03-27"
+author: "Devender Rawat"
+authorDesignation: "Team"
+category: "Cloud Migration"
+draft: false
+---
+
+### Introduction
+
+Ensuring the resilience and availability of your databases is crucial considering the negative aspects of application downtime. This blog dives deep into setting up a resilient and highly available database. It explains the process to set up Disaster Recovery (DR) for Amazon RDS instances in AWS, shedding light on the essential ‘why’ and ‘how’ aspects of this critical process. Whether you are contemplating migration or fortifying your existing infrastructure with a robust DR setup, understanding the nuances of RDS instance management across different AWS accounts and regions is crucial. Let us navigate through the rationale behind Disaster Recovery, uncover the intricacies of RDS in multi-account, multi-region scenarios, and provide actionable insights to strengthen your AWS database strategy.
+
+### Problem Statement
+
+The majority of software companies operate their infrastructure in the cloud in today’s world of digitization. Operating infrastructure solely in a single cloud locality is insufficient, as any issues in that specific zone could result in a complete application failure. DR infrastructure is put up in several cloud regions to prevent such scenarios by allowing traffic to fall back to it if the primary configuration fails. A portion of the DR setup database has to synchronize with the primary database due to business requirements, such as a lower RPO. Cross-account creation is possible with AWS RDS Aurora, but it is not possible with RDS instances. 
+
+### Solution
+
+The solution that we suggest is to enable scenarios like disaster recovery and AWS Region migration by building a cross-region duplicate of an Amazon RDS for MySQL instance from Account A (Production) and region 1 to Account B and region 2. To implement binlog-based replication between two instances in separate AWS accounts and Regions, the blog demonstrates how to use AWS read replica to switch traffic and replicate data bidirectionally without data loss.
+
+### Steps for creating a cross-region Master-Master setup of Production RDS in DR account:
+
+1. $1
+
+Note: An outage occurs if you change the backup retention period from “0” to a non-zero value, or vice versa.
+
+    2.  Update your binlog retention period using the following command:
+
+For example, the following syntax sets the binlog retention period to 24 hours:
+
+mysql> call mysql.rds_set_configuration(‘binlog retention hours’, 24);
+
+Make sure to choose a time period that retains the binary log files on your replication source long enough for changes to be applied before deletion. Amazon RDS retains binlog files on a MySQL instance for up to 168 hours (7 days). For more information, refer to [mysql.rds_set_configuration](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql_rds_set_configuration.html).
+
+    3. Create a replication user on the primary instance in Account A, and then grant the required privileges:
+
+mysql> CREATE USER ‘repl_user’@'’ IDENTIFIED BY ‘’;
+
+     4. Grant the (required) [REPLICATION CLIENT](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_replication-client) and [REPLICATION SLAVE](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-slave) privileges to the user created in Step 3:
+
+mysql> GRANT REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO  ‘repl_user’@'’;
+
+     5.  [Create a cross-Region read replica in the primary account](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.XRgn.html) (Account A) with the target Region selected.
+
+     6.  Log in to the created replica instance in Account A. Then, confirm that the replica is caught up with the primary DB instance:
+
+mysql> SHOW SLAVE STATUS\G
+
+**Note:** Check to make sure that the Seconds_Behind_Master value is “0”. When the value is “0”, the replica is caught up to the primary DB instance. For more information, see [Monitoring read replication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html#USER_ReadRepl.Monitoring).
+
+    7.  After the read replica is caught up to the primary DB instance, stop replication on the replica instance created in Step 5. To stop replication, use the following syntax:
+
+mysql> call mysql.rds_stop_replication();
+
+    8.   Run the command on the replica:
+
+mysql> SHOW SLAVE STATUS
+
+then record the output values for Relay_Master_Log_File and Exec_Master_Log_Pos. The Relay_Master_Log_File and Exec_Master_Log_Pos values are your binary log coordinates, which are used for setting up external replication in later steps.
+
+     9.    [Create a DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html) of your replica instance in Account A.
+
+(Optional) Or, you can use a native tool that generates logical backups (such as [mysqldump](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html)) to export data from the replica instance in Account A. The native tool can then be used to import the data to a newly created RDS for MySQL instance of the same version in Account B. With this approach, you don’t have to copy and share snapshots or AWS KMS keys between the two accounts. If you decide to use this approach, skip to Step 12 to set up network access and replication between both instances. Before you take this approach, you must import data into the Amazon RDS for MySQL instance in Account B.
+
+    10. [Share the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html) with Account B.
+
+Note: If your DB snapshot is encrypted, then the AWS KMS key used to encrypt the snapshot must be shared with the target account. For more information, see [Sharing encrypted snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html#USER_ShareSnapshot.Encrypted).
+
+    11.[Restore the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html) in Account B.
+
+**Note:** A DB instance can’t be restored from a shared encrypted snapshot. Instead, [make a copy of the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot) and restore the DB instance from the copied version.
+
+    12. Set up network access between Account A (the source account) and Account B (destination account). The network access allows traffic to flow between the source and destination accounts.
+
+    13. Configure the inbound security group rules for Account A’s primary DB instance. This configuration allows traffic to flow over the public internet from the newly created RDS for MySQL instance in Account B (the destination account). The security groups protect your Amazon RDS for MySQL instance.
+
+For private replication traffic, a [VPC peering connection must be created and accepted](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html) between the two AWS accounts.
+
+    14. Set up external replication on your target instance in Account B. Use repl_user within the command as a parameter. 
+
+**Note: **The CALL mysql.rds_set_external_master command should be run by a DB user with execute command privileges.
+
+mysql> CALL mysql.rds_set_external_master (  host_name  , host_port  , replication_user_name  , replication_user_password  , mysql_binary_log_file_name  , mysql_binary_log_file_location  );
+
+For example:
+
+mysql> CALL mysql.rds_set_external_master (‘’, 3306, ‘repl_user’, ‘’, ‘mysql-bin-changelog.000031’, 107, 0);
+
+**Values provided:**
+
+primary_instance_endpoint: primary instance endpoint 
+
+3306: primary instance port 
+
+repl_user: replication user name created in Step 3
+
+password: user password created in Step 3 
+
+mysql-bin-changelog.000031: binary log file name from the output of Step 8 
+
+107: binary log position from the output of Step 8
+
+    15. Start the replication on the restored instance in Account B:
+
+CALL mysql.rds_start_replication;
+
+Expected output:
+
++————————-+| Message                 |+————————-+| Slave running normally. |+————————-+
+
+    16. Run the following command on Account B instance to check your replication status:
+
+mysql> show replica status \G
+
+    17. Check to make sure that the Seconds_Behind_Master value is “0”. When the value is “0”, the replica is caught up to the primary DB instance you can switch traffic to this new replication instance in account B and once traffic is switched you can stop replication as this DB is still replicating changes from the primary instance. 
+
+To stop replication ue the following command in this replica:
+
+mysql> call mysql.rds_stop_replication();
+
+    18. Delete the replica (which acted as an intermediate instance) created in Step 5.
+
+### Switch Back to the source account without data loss:
+
+1. $1
+
+2. $1
+
+For example, the following syntax sets the binlog retention period to 24 hours:
+
+mysql> call mysql.rds_set_configuration(‘binlog retention hours’, 24);
+
+Make sure to choose a time period that retains the binary log files on your replication source long enough for changes to be applied before deletion. Amazon RDS retains binlog files on a MySQL instance for up to 168 hours (7 days). For more information, refer to [mysql.rds_set_configuration](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql_rds_set_configuration.html).
+
+    3. Create a replication user on the primary instance in Account B, and then grant the required privileges:
+
+mysql> CREATE USER ‘repl_user’@'’ IDENTIFIED BY ‘’;
+
+    4. Grant the (required) [REPLICATION CLIENT](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_replication-client) and [REPLICATION SLAVE](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-slave) privileges to the user created in Step 3:
+
+mysql> GRANT REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO  ‘repl_user’@'’;
+
+    5.  [Create a cross-Region read replica in the primary account](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.XRgn.html) (Account B) with the target Region selected.
+
+**Note: ** The target region here will be the region where account A’s primary instance was located.
+
+    6.  Log in to the created replica instance in Account B. Then, confirm that the replica is caught up with the primary DB instance:
+
+mysql> SHOW SLAVE STATUS\G
+
+**Note:** Check to make sure that the Seconds_Behind_Master value is “0”. When the value is “0”, the replica is caught up to the primary DB instance. For more information, see [Monitoring read replication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html#USER_ReadRepl.Monitoring).
+
+    7.  After the read replica is caught up to the primary DB instance, stop replication on the replica instance created in Step 5. To stop replication, use the following syntax:
+
+mysql> call mysql.rds_stop_replication();
+
+    8.   Run the command on the replica:
+
+mysql> SHOW SLAVE STATUS
+
+then record the output values for Relay_Master_Log_File and Exec_Master_Log_Pos. The Relay_Master_Log_File and Exec_Master_Log_Pos values are your binary log coordinates, which are used for setting up external replication in later steps.
+
+    9.   [Create a DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html) of your replica instance in Account B.
+
+(Optional) Or, you can use a native tool that generates logical backups (such as [mysqldump](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html)) to export data from the replica instance in Account B. The native tool can then be used to import the data to a newly created RDS for MySQL instance of the same version in Account A. With this approach, you don’t have to copy and share snapshots or AWS KMS keys between the two accounts. If you decide to use this approach, skip to Step 12 to set up network access and replication between both instances. Before you take this approach, you must import data into the Amazon RDS for MySQL instance in Account A.
+
+    10. [Share the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html) with Account A.
+
+Note: If your DB snapshot is encrypted, then the AWS KMS key used to encrypt the snapshot must be shared with the target account. For more information, see [Sharing encrypted snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html#USER_ShareSnapshot.Encrypted).
+
+    11.  [Restore the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html) in Account A.
+
+**Note:** A DB instance can’t be restored from a shared encrypted snapshot. Instead, [make a copy of the DB snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot) and restore the DB instance from the copied version.
+
+    12. Set up network access between Account B (the source account) and Account A (destination account). The network access allows traffic to flow between the source and destination accounts.
+
+    13. Configure the inbound security group rules for Account B’s primary DB instance. This configuration allows traffic to flow over the public internet from the newly created RDS for MySQL instance in Account A (the destination account). The security groups protect your Amazon RDS for MySQL instance.
+
+For private replication traffic, a [VPC peering connection must be created and accepted](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html) between the two AWS accounts.
+
+     14. Set up external replication on your target instance in Account A. Use repl_user within the command as a parameter. 
+
+**Note: **The CALL mysql.rds_set_external_master command should be run by a DB user with execute command privileges.
+
+mysql> CALL mysql.rds_set_external_master (  host_name  , host_port  , replication_user_name  , replication_user_password  , mysql_binary_log_file_name  , mysql_binary_log_file_location  );
+
+For example:
+
+mysql> CALL mysql.rds_set_external_master (‘’, 3306, ‘repl_user’, ‘’, ‘mysql-bin-changelog.000031’, 107, 0);
+
+**Values provided:**
+
+primary_instance_endpoint: primary instance endpoint 
+
+3306: primary instance port 
+
+repl_user: replication user name created in Step 3
+
+password: user password created in Step 3 
+
+mysql-bin-changelog.000031: binary log file name from the output of Step 8 
+
+107: binary log position from the output of Step 8
+
+    15. Start the replication on the restored instance in Account A:
+
+CALL mysql.rds_start_replication;
+
+Expected output:
+
++————————-+| Message                 |+————————-+| Slave running normally. |+————————-+
+
+    16. Run the following command on Account A instance to check your replication status:
+
+mysql> show replica status \G
+
+    17. Check to make sure that the Seconds_Behind_Master value is “0”. When the value is “0”, the replica is caught up to the primary DB instance you can switch traffic to this new replication instance in account A and once traffic is switched you can stop replication as this DB is still replicating changes from the primary instance. 
+
+To stop replication ue the following command in this replica:
+
+mysql> call mysql.rds_stop_replication();
+
+     18. Delete the replica (which acted as an intermediate instance) created in Step 5 and you may now terminate the old primary instance in account B as we now have a new instance with the latest data.
+
+### Benefits
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+### Conclusion
+
+In conclusion, setting up a cross-account master-master RDS instance setup is a crucial step towards building a resilient and highly available database infrastructure in AWS. By replicating data bidirectionally across different accounts and regions, organizations can improve resilience, ensure high availability, and achieve robust disaster recovery capabilities. This approach not only enhances the overall reliability of the infrastructure but also helps organizations meet their business continuity objectives. As organizations continue to prioritize uptime and data integrity, implementing such cross-account setups becomes essential for mitigating risks and ensuring seamless operations in today’s digital landscape.
