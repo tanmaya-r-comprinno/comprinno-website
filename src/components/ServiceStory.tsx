@@ -5,7 +5,8 @@ import { Icon, IconTile, type IconName } from "./Icon";
 import GridGlow from "./GridGlow";
 import LogoMarquee from "./LogoMarquee";
 import FlowLoop from "./FlowLoop";
-import OutcomeArt from "./OutcomeArt";
+import Credentials from "./Credentials";
+import OutcomeCards, { type OutcomePick } from "./OutcomeCards";
 import RainField from "./RainField";
 
 /**
@@ -34,8 +35,8 @@ export type ServiceStoryData = {
     title: ReactNode;
     desc: string;
     more: string;
-    items: { tag: string; metric: string; what: string; title: string; href: string; icon: IconName }[];
-    art: number; // first OutcomeArt variant to use
+    /** real stories from src/content/case-studies, with a figure quoted from each */
+    picks: OutcomePick[];
   };
   faq: { title: ReactNode; desc: string; items: { q: string; a: string }[]; groups?: { label: string; items: { q: string; a: string }[] }[] };
   cta: { title: ReactNode; desc: string; steps: string[]; label: string; next: ReactNode };
@@ -43,7 +44,7 @@ export type ServiceStoryData = {
 
 export default function ServiceStory({ d }: { d: ServiceStoryData }) {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -116,8 +117,8 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
         </ul>
       </Section>
 
-      {/* NUMBERS */}
-      <Section>
+      {/* NUMBERS: dark navy band, as on the home page */}
+      <Section className="brand-dark">
         <dl className="stats">
           {d.numbers.map((st) => (
             <div key={st.label} className="stat">
@@ -191,36 +192,13 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       {/* CREDENTIALS */}
       <Section>
         <SectionHead eyebrow="Credentials" title={d.credentials.title} desc={d.credentials.desc ?? "Independently validated for exactly this kind of work."} />
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {d.credentials.items.map((c) => (
-            <li key={c} className="card flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
-              <IconTile name="check" />
-              {c}
-            </li>
-          ))}
-        </ul>
+        <Credentials items={d.credentials.items} />
       </Section>
 
       {/* OUTCOMES */}
       <Section tone="surface">
         <SectionHead eyebrow="Outcomes" title={d.outcomes.title} desc={d.outcomes.desc} />
-        <div className="grid gap-4 md:grid-cols-3">
-          {d.outcomes.items.map((o, i) => (
-            <Link key={o.title} href={o.href} className="card block">
-              <div className="flex items-center justify-between">
-                <IconTile name={o.icon} />
-                <span className="tag">{o.tag}</span>
-              </div>
-              <div className="mt-5 border border-line bg-surface p-3">
-                <OutcomeArt variant={d.outcomes.art + i} />
-              </div>
-              <p className="mt-5 text-4xl font-semibold text-ink sm:text-5xl">{o.metric}</p>
-              <p className="mt-1 text-ink-2">{o.what}</p>
-              <p className="mt-4 font-semibold text-ink">{o.title}</p>
-              <p className="mt-3 text-sm font-medium text-ink">Read the story <span className="go">→</span></p>
-            </Link>
-          ))}
-        </div>
+        <OutcomeCards picks={d.outcomes.picks} />
         <div className="mt-8 flex justify-center">
           <Button href="/resources/case-studies" variant="ghost">{d.outcomes.more} →</Button>
         </div>
@@ -251,6 +229,6 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       <CtaBand title={d.cta.title} desc={d.cta.desc} steps={d.cta.steps} label={d.cta.label}>
         <p className="mt-8 font-mono text-xs text-muted [&_a]:text-ink [&_a]:underline [&_a]:underline-offset-4">{d.cta.next}</p>
       </CtaBand>
-    </>
+    </div>
   );
 }

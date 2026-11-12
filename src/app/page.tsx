@@ -6,9 +6,11 @@ import { services } from "@/content/services";
 import { phases } from "@/content/company";
 import { partnerPages } from "@/content/products";
 import { partnerLogo } from "@/content/partnerLogos";
-import { ImageSlot } from "@/components/Illustrations";
+import { caseStudy } from "@/lib/caseStudies";
+import { serviceIcon } from "@/lib/caseStudyIcons";
 import LogoMarquee from "@/components/LogoMarquee";
-import OutcomeArt from "@/components/OutcomeArt";
+import ProductDiagram from "@/components/ProductDiagram";
+import ArtTile, { tileFor, ART_TILE_COUNT } from "@/components/ArtTile";
 import FlowLoop from "@/components/FlowLoop";
 import ParticleWave from "@/components/ParticleWave";
 import RainField from "@/components/RainField";
@@ -16,11 +18,18 @@ import RainField from "@/components/RainField";
 
 
 // Results told as one big number each (from comprinno.net case studies)
-const proof = [
-  { metric: "[X%]", what: "faster root-cause analysis", track: "AI & GenAI · Maximize", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/resources/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName, },
-  { metric: "50% fewer", what: "compliance errors · months → weeks", track: "AI & GenAI · Maximize", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName, },
-  { metric: "Near-real-time", what: "MongoDB synchronization during cutover", track: "Migrate", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "migrate" as IconName, },
+// Outcomes: three real stories from src/content/case-studies. Figures are quoted from each story's results.
+const proofPicks: { slug: string; metric: string; what: string }[] = [
+  { slug: "sirovate-genai-accelerating-speed-accuracy-of-clinical-research-summary-reports-csrs-with-gen-ai", metric: "50%", what: "fewer compliance-related errors in clinical research summaries" },
+  { slug: "highway-delite-adopts-a-resilient-aws-architecture", metric: "99.99%", what: "data durability on AWS, with 99.5% availability" },
+  { slug: "achieving-cost-optimization-and-operational-efficiency-for-the-financial-services-company", metric: "15%", what: "lower cloud costs in the first month of optimization" },
 ];
+const proof = proofPicks.flatMap((p) => {
+  const c = caseStudy(p.slug);
+  return c ? [{ ...p, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: `/resources/case-studies/${c.slug}`, icon: serviceIcon[c.service], art: tileFor(c.slug) }] : [];
+});
+// keep the three pictures different from each other
+proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art)) p.art = (p.art + 1) % ART_TILE_COUNT; });
 
 const homeProducts: { name: string; line: string; href: string; screen: string; img?: string }[] = [
   { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen", img: "/products/tevico-dashboard.webp" },
@@ -44,16 +53,10 @@ const heroStats = [
 
 // Official badges live in /public/badges. OpenAI shows its logo (from partnerLogos).
 const credentials: { label: string; badges: { src: string; alt: string; w: number; h: number }[] }[] = [
-  { label: "AWS Premier Tier Partner", badges: [{ src: "/badges/aws-premier-tier.webp", alt: "AWS Partner, Premier Tier Services badge", w: 240, h: 240 }] },
-  { label: "AWS MSP & Level 1 MSSP", badges: [
-    { src: "/badges/aws-msp.webp", alt: "AWS Partner, Managed Service Provider badge", w: 294, h: 294 },
-    { src: "/badges/aws-l1-mssp.webp", alt: "AWS Partner, L1 MSSP Services Competency badge", w: 292, h: 294 },
-  ] },
-  { label: "ISO 27001 & SOC 2 Type II", badges: [
-    { src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 299, h: 250 },
-    { src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 307, h: 250 },
-  ] },
-  { label: "OpenAI Select Partner", badges: [] },
+  { label: "AWS Premier Tier Partner", badges: [{ src: "/badges/aws-premier-tier-color.webp", alt: "AWS Partner, Premier Tier Services badge", w: 120, h: 120 }] },
+  { label: "AWS MSP", badges: [{ src: "/badges/aws-msp.webp", alt: "AWS Partner, Managed Service Provider badge", w: 294, h: 294 }] },
+  { label: "ISO 27001", badges: [{ src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 299, h: 250 }] },
+  { label: "SOC 2 Type II", badges: [{ src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 307, h: 250 }] },
 ];
 
 const stages: Record<string, { title: string; desc: string; includes: string[] }> = {
@@ -189,14 +192,9 @@ export default function Home() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {homeProducts.map((p) => (
             <Link key={p.name} href={p.href} className="card group flex flex-col !p-0 overflow-hidden">
-              {p.img ? (
-                <div className="aspect-[16/10] w-full overflow-hidden border-b border-line bg-surface">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.img} alt={`${p.name} dashboard`} loading="lazy" className="h-full w-full object-cover object-left-top transition duration-500 group-hover:scale-[1.03]" />
-                </div>
-              ) : (
-                <ImageSlot label={p.screen} />
-              )}
+              <div className="aspect-[16/10] w-full overflow-hidden border-b border-line">
+                <ProductDiagram product={p.name} />
+              </div>
               <div className="flex flex-1 flex-col p-5">
                 <h3 className="text-xl font-semibold">{p.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{p.line}</p>
@@ -279,19 +277,22 @@ export default function Home() {
       <Section tone="surface">
         <SectionHead eyebrow="Outcomes" title={<><strong>Production results</strong>, not pilots.</>} desc="Customer outcomes across cloud transformation and enterprise AI." />
         <div className="grid gap-4 md:grid-cols-3">
-          {proof.map((p, i) => (
-            <Link key={p.href} href={p.href} className="card block">
+          {proof.map((p) => (
+            <Link key={p.href} href={p.href} className="card flex flex-col">
               <div className="flex items-center justify-between">
                 <IconTile name={p.icon} />
                 <span className="tag">{p.track}</span>
               </div>
-              <div className="outcome-art mt-5 p-3">
-                <OutcomeArt variant={i} />
+              <ArtTile variant={p.art} className="mt-5" />
+              <p className="mt-5 font-semibold leading-snug text-ink">{p.title}</p>
+              <p className="mb-5 mt-1 text-sm text-muted">{p.client}</p>
+              {/* the story's headline result, shown as a labelled data point */}
+              <div className="outcome-result">
+                <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted">Key result</p>
+                <p className="outcome-num mt-2">{p.metric}</p>
+                <p className="mt-1.5 min-h-[2.75em] text-sm leading-snug text-ink-2">{p.what}</p>
               </div>
-              <p className="mt-5 text-4xl font-semibold tabular-nums text-ink sm:text-5xl">{p.metric}</p>
-              <p className="mt-1 text-ink-2">{p.what}</p>
-              <p className="mt-4 font-semibold text-ink">{p.title}</p>
-              <p className="mt-3 text-sm font-medium text-ink">Read the story <span className="go">→</span></p>
+              <p className="mt-5 text-sm font-medium text-ink">Read the story <span className="go">→</span></p>
             </Link>
           ))}
         </div>

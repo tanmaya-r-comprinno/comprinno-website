@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const input =
-  "mt-1 w-full border border-line-strong bg-bg px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-ink focus:outline-none";
+  "mt-1 w-full border border-line-strong bg-bg px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-[#006bc9] focus:outline-none";
 const label = "text-sm font-medium text-ink";
 
 const next = [
@@ -51,7 +51,7 @@ const faqs = [
 
 export default function ContactPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO + FORM */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -69,7 +69,7 @@ export default function ContactPage() {
               <ol className="mt-4 grid gap-4">
                 {next.map((s, i) => (
                   <li key={s.title} className="flex gap-3">
-                    <span className="grid h-7 w-7 shrink-0 place-items-center border border-ink bg-bg font-mono text-xs text-ink">{i + 1}</span>
+                    <span className="grid h-7 w-7 shrink-0 place-items-center border border-[#9cc6ee] bg-[#e3f0fc] font-mono text-xs font-semibold text-[#006bc9]">{i + 1}</span>
                     <span>
                       <span className="block text-sm font-semibold text-ink">{s.title}</span>
                       <span className="block text-sm text-muted">{s.desc}</span>
@@ -83,7 +83,7 @@ export default function ContactPage() {
             </div>
 
             {/* Works with zero JavaScript: plain POST to a route handler */}
-            <form action="/api/contact" method="post" className="grid gap-3.5 border border-line border-t-2 border-t-ink bg-bg p-5 shadow-sm sm:px-6">
+            <form action="/api/contact" method="post" className="grid gap-3.5 border border-line border-t-2 border-t-[#006bc9] bg-bg p-5 shadow-sm sm:px-6">
               <div>
                 <h2 className="text-lg font-semibold text-ink">Tell us about your project</h2>
                 <p className="mt-0.5 text-xs text-muted">All fields are required unless marked optional.</p>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                   {topics.map((t, i) => (
                     <label key={t} className="cursor-pointer">
                       <input type="radio" name="topic" value={t} required={i === 0} className="peer sr-only" />
-                      <span className="block border border-line-strong bg-bg px-2.5 py-1.5 text-xs text-ink transition hover:bg-surface peer-checked:border-ink peer-checked:bg-ink peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-accent">{t}</span>
+                      <span className="block border border-line-strong bg-bg px-2.5 py-1.5 text-xs text-ink transition hover:border-[#006bc9] hover:text-[#006bc9] peer-checked:border-[#006bc9] peer-checked:bg-[#006bc9] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-accent">{t}</span>
                     </label>
                   ))}
                 </div>
@@ -118,11 +118,11 @@ export default function ContactPage() {
               </label>
               <div className="grid gap-1.5 text-xs text-ink-2">
                 <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#1c1c1c]" />
+                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#006bc9]" />
                   <span>I agree to Comprinno processing my information in line with the <a href="/privacy-policy" className="underline underline-offset-2">Privacy policy</a>.</span>
                 </label>
                 <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="marketing" className="mt-0.5 h-4 w-4 shrink-0 accent-[#1c1c1c]" />
+                  <input type="checkbox" name="marketing" className="mt-0.5 h-4 w-4 shrink-0 accent-[#006bc9]" />
                   <span>Send me occasional emails from Comprinno. I can unsubscribe at any time.</span>
                 </label>
               </div>
@@ -175,6 +175,6 @@ export default function ContactPage() {
           <Faq items={faqs} />
         </div>
       </Section>
-    </>
+    </div>
   );
 }

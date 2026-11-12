@@ -72,10 +72,11 @@ const plans = [
 
 const credentials = ["AWS Managed Service Provider (MSP)", "AWS Level 1 MSSP Competency", "AWS Resilience Competency", "ISO 27001 & SOC 2 Type II"];
 
+// Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Fintech · Compliance", metric: "Audit cleared", what: "RBI data localization, ~37 million customers", title: "A fintech with about 37 million customers clears its RBI data localization audit in the cloud", href: "/resources/case-studies/fintech-rbi-data-localization", icon: "bank" as IconName },
-  { tag: "Consumer · Cost", metric: "−40%", what: "cloud costs in one year", title: "boAt cuts cloud costs by 40% in a year with Comprinno managed services", href: "/resources/case-studies/boat-aws-cost-reduction", icon: "coin" as IconName },
-  { tag: "IoT · Monitoring", metric: "24/7", what: "highly available monitoring and on-call alerting", title: "LightMetrics gets highly available monitoring and on-call alerting for its 24/7 dashcam platform", href: "/resources/case-studies/lightmetrics-24x7-monitoring", icon: "eye" as IconName },
+  { slug: "boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management", metric: "40%", what: "lower cloud costs over a year" },
+  { slug: "a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance", metric: "24x7", what: "dashcam platform kept running around the clock" },
+  { slug: "achieving-cost-optimization-and-operational-efficiency-for-the-financial-services-company", metric: "15%", what: "lower cloud costs in the first month" },
 ];
 
 const faqs = [
@@ -120,7 +121,7 @@ export default function ManagePage() {
           plans,
         },
         credentials: { title: <>Managed services credentials you can <strong>trust</strong>.</>, items: credentials },
-        outcomes: { title: <><strong>Cloud environments actively managed</strong>, not just monitored.</>, desc: "Results from customers who entrust their operations to us.", more: "All managed services stories", items: outcomes, art: 2 },
+        outcomes: { title: <><strong>Cloud environments actively managed</strong>, not just monitored.</>, desc: "Results from customers who entrust their operations to us.", more: "All managed services stories", picks: outcomes },
         faq: { title: <>Questions before you<Br /> <strong>hand over</strong>?</>, desc: "Quick answers to common questions about managed services.", items: faqs },
         cta: {
           title: <>Want a <strong>managed, secure</strong> cloud environment<Br /> that is <strong>ready for audit</strong>?</>,

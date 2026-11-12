@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { getJobs } from "@/lib/keka";
+import JobsBoard from "./JobsBoard";
 import { Button, Container, CtaBand, Eyebrow, Section, SectionHead } from "@/components/ui";
 import { IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
-import KekaJobsWidget from "@/components/KekaJobsWidget";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -47,9 +49,14 @@ const photos: { src?: string; alt: string; cls?: string }[] = [
   { alt: "Candid photo 10" },
 ];
 
+async function OpenRoles() {
+  const jobs = await getJobs();
+  return <JobsBoard jobs={jobs} mail={site.emails.careers} />;
+}
+
 export default function CareersPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -99,7 +106,9 @@ export default function CareersPage() {
       {/* OPEN ROLES */}
       <Section tone="surface" id="roles" background={<RainField />}>
         <SectionHead eyebrow="Open roles" title={<>Explore opportunities <strong>at Comprinno.</strong></>} desc="Find a role across engineering, data and AI, presales, sales and operations." />
-        <KekaJobsWidget />
+        <Suspense fallback={<div className="h-64 animate-pulse border border-line bg-bg" />}>
+          <OpenRoles />
+        </Suspense>
       </Section>
 
       {/* LIFE */}
@@ -112,7 +121,7 @@ export default function CareersPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={p.src} alt={p.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0 motion-reduce:transition-none" />
               ) : (
-                <div className="bg-grid absolute inset-0 flex items-center justify-center bg-gradient-to-br from-sky-200 to-violet-200 grayscale transition duration-500 group-hover:grayscale-0 motion-reduce:transition-none">
+                <div className="bg-grid absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#cfe5fb] to-[#ffe7a3] grayscale transition duration-500 group-hover:grayscale-0 motion-reduce:transition-none">
                   <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">{p.alt}</span>
                 </div>
               )}
@@ -129,6 +138,6 @@ export default function CareersPage() {
         label="Send your resume"
         href={mail}
       />
-    </>
+    </div>
   );
 }

@@ -56,6 +56,9 @@ p { text-wrap: pretty; }
   outline-offset: 3px;
   border-radius: 6px;
 }
+/* text fields inside a bordered search/field box: the box shows focus, not an outline */
+input[type="search"]:focus-visible,
+input[type="email"]:focus-visible { outline: none; }
 
 ::selection { background: var(--color-accent-soft); }
 

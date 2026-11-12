@@ -59,7 +59,7 @@ export default function OfficeMap() {
       <svg viewBox={`-0.5 -0.5 ${W} ${H}`} className="block h-auto w-full" aria-hidden="true">
         {LAND.flatMap(([, runs], r) =>
           runs.flatMap(([a, b]) =>
-            Array.from({ length: b - a + 1 }, (_, k) => <circle key={`${r}-${a + k}`} cx={a + k} cy={r} r={0.2} className="fill-line-strong" />),
+            Array.from({ length: b - a + 1 }, (_, k) => <circle key={`${r}-${a + k}`} cx={a + k} cy={r} r={0.2} fill="#9cc6ee" />),
           ),
         )}
       </svg>
@@ -72,14 +72,14 @@ export default function OfficeMap() {
           <span
             key={o.city}
             onMouseEnter={() => setActive(site.offices.indexOf(o))}
-            className={`absolute -translate-x-1/2 -translate-y-1/2 cursor-default transition-opacity duration-300 ${activeCity && activeCity !== o.city ? "opacity-40" : ""} ${on ? "z-10" : ""}`}
+            className={`absolute -translate-x-1/2 -translate-y-1/2 cursor-default transition-opacity duration-300 ${activeCity && activeCity !== o.city ? "opacity-70" : ""} ${on ? "z-10" : ""}`}
             style={{ left: `${((x(o.lon) + 0.5) / W) * 100}%`, top: `${((y(o.lat) + 0.5) / H) * 100}%` }}
           >
-            <span className={`block border-2 border-white bg-ink shadow transition-transform duration-300 h-3 w-3 ${on ? "scale-150" : ""}`}>
-              {on && <span className="absolute inset-0 bg-ink motion-safe:animate-[ping-soft_1.8s_ease-out_infinite]" />}
+            <span className={`block border-2 border-[#d89f04] bg-[#ffbb00] shadow-[0_0_0_3px_#fff,0_2px_8px_rgb(10_19_75_/.3)] transition-transform duration-300 h-3.5 w-3.5 ${on ? "scale-150" : ""}`}>
+              {on && <span className="absolute inset-0 bg-[#ffbb00] motion-safe:animate-[ping-soft_1.8s_ease-out_infinite]" />}
             </span>
-            <span className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap border px-2 py-0.5 font-mono text-[0.65rem] shadow-sm transition-colors duration-300 ${side} ${on ? "border-ink bg-ink text-white" : "border-line bg-bg text-ink"}`}>
-              {o.city}{o.region !== "India" || hq ? <span className={on ? "text-white/70" : "text-muted"}> · {hq ? "HQ" : o.region}</span> : null}
+            <span className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap border px-2 py-1 font-mono text-[0.72rem] font-semibold shadow-md transition-colors duration-300 ${side} ${on ? "border-[#ffbb00] bg-[#ffbb00] text-[#1c1c1c]" : "border-[#0a134b] bg-white text-[#0a134b]"}`}>
+              {o.city}{o.region !== "India" || hq ? <span className={on ? "text-[#1c1c1c]/70" : "text-muted"}> · {hq ? "HQ" : o.region}</span> : null}
             </span>
           </span>
         );
@@ -92,12 +92,12 @@ export default function OfficeMap() {
             <li
               key={o.address}
               onMouseEnter={() => setActive(i)}
-              className={`border-t-2 p-4 transition duration-300 ${on ? "-translate-y-1 border-ink bg-bg shadow-md" : "border-line-strong"} ${active !== null && !on ? "opacity-50" : ""}`}
+              className={`border-t-2 p-4 transition duration-300 ${on ? "-translate-y-1 border-[#006bc9] bg-bg shadow-md" : "border-[#9cc6ee]"} ${active !== null && !on ? "opacity-50" : ""}`}
             >
               <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted">{o.label}</p>
               <h3 className="mt-1 font-semibold text-ink">{o.city}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{o.address}</p>
-              <a href={directions(o.address)} target="_blank" rel="noopener noreferrer" onFocus={() => setActive(i)} onBlur={() => setActive(null)} className="mt-3 inline-block text-sm font-medium text-ink underline underline-offset-2">Directions →</a>
+              <a href={directions(o.address)} target="_blank" rel="noopener noreferrer" onFocus={() => setActive(i)} onBlur={() => setActive(null)} className="mt-3 inline-block text-sm font-semibold text-[#006bc9] underline underline-offset-4 hover:text-[#0a134b]">Directions →</a>
             </li>
           );
         })}

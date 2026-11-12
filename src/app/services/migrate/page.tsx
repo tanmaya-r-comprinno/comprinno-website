@@ -64,12 +64,13 @@ const included = [
   "One team from assessment to managed operations",
 ];
 
-const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "AWS Premier Tier Partner", "ISO 27001 & SOC 2 Type II"];
+const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "ISO 27001", "SOC 2 Type II"];
 
+// Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Cloud to cloud · Data", metric: "Near-real-time", what: "MongoDB synchronization through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "database" as IconName },
-  { tag: "Cloud to cloud", metric: "Zero downtime", what: "validated cutover", title: "An industrial intelligence provider moves from Google Cloud to AWS", href: "/resources/case-studies/industrial-intelligence-gcp-to-aws", icon: "migrate" as IconName },
-  { tag: "Data center exit", metric: "95%+", what: "of services now serverless or managed", title: "MediBuddy moves from its data center to AWS", href: "/resources/case-studies/medibuddy-data-center-to-aws", icon: "building" as IconName },
+  { slug: "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization", metric: "Near-real-time", what: "MongoDB sync from Azure Cosmos DB to AWS" },
+  { slug: "highway-delite-adopts-a-resilient-aws-architecture", metric: "99.99%", what: "data durability on AWS, with 99.5% availability" },
+  { slug: "medibuddy", metric: "95%+", what: "of services now serverless or managed" },
 ];
 
 const faqs = [
@@ -100,7 +101,7 @@ export default function MigratePage() {
         steps: { eyebrow: "How a migration runs", title: <>Five steps, <strong>one team</strong>, <strong>no surprises</strong>.</>, desc: "The team that plans your migration waves also migrates and operates your workloads.", items: steps, icons: ["search", "layers", "migrate", "shield", "chart"], caption: "→ then on to Modernize: your workloads arrive ready for the next stage" },
         included: { title: <>What <strong>every migration</strong><Br /> includes.</>, items: included },
         credentials: { title: <>Migration credentials you can <strong>trust</strong>.</>, items: credentials },
-        outcomes: { title: <><strong>Migrations delivered</strong>, not just planned.</>, desc: "Real cutovers from teams that moved with us.", more: "All migration stories", items: outcomes, art: 3 },
+        outcomes: { title: <><strong>Migrations delivered</strong>, not just planned.</>, desc: "Real cutovers from teams that moved with us.", more: "All migration stories", picks: outcomes },
         faq: { title: <>Questions before you<Br /> <strong>move</strong>?</>, desc: "Quick answers to what teams ask us before a migration.", items: faqs },
         cta: {
           title: <>Planning a <strong>data center</strong><Br /> or <strong>VMware exit</strong>?</>,

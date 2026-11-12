@@ -1,80 +1,76 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CtaBand, PageHero, Section } from "@/components/ui";
-import { getAllNews } from "@/lib/content";
+import NewsBanner from "@/components/NewsBanner";
+import { Container, CtaBand, Eyebrow } from "@/components/ui";
+import GridGlow from "@/components/GridGlow";
+import RainField from "@/components/RainField";
+import { KINDS, newsDate, releases } from "@/lib/news";
+import NewsBrowser from "./NewsBrowser";
 
 export const metadata: Metadata = {
   title: "Newsroom",
-  description: "Press, announcements and milestones from Comprinno.",
+  description: "Press releases, AWS milestones and partner news from Comprinno.",
   alternates: { canonical: "/resources/newsroom" },
 };
 
-const badgeColors: Record<string, string> = {
-  award: "text-amber-700 bg-amber-50 border-amber-300",
-  certification: "text-emerald-700 bg-emerald-50 border-emerald-300",
-  partnership: "text-sky-700 bg-sky-50 border-sky-300",
-  announcement: "text-violet-700 bg-violet-50 border-violet-300",
-};
-
 export default function NewsroomPage() {
-  const news = getAllNews();
+  const all = releases();
+  const [latest] = all;
+  const rows = all.slice(1).map((r) => ({ slug: r.slug, title: r.title, kind: r.kind, date: r.date, dateLabel: newsDate(r.date), image: r.image }));
+  const kinds = KINDS.filter((k) => rows.some((r) => r.kind === k));
 
   return (
-    <>
-      <PageHero
-        eyebrow="Newsroom"
-        title="Press and announcements"
-        desc="Milestones, partnerships, certifications and press coverage."
-      />
+    <div className="brand">
+      {/* HERO */}
+      <section className="hero-block relative overflow-hidden border-b border-line">
+        <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
+        <Container className="py-14 sm:py-20">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <Eyebrow>Newsroom</Eyebrow>
+            <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
+              News and milestones <strong className="sweep">from Comprinno.</strong>
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">Press releases, AWS milestones and partner news from Comprinno.</p>
+          </div>
+        </Container>
+      </section>
 
-      <Section>
-        <div className="flex flex-col gap-3 max-w-3xl mx-auto">
-          {news.map((item) => {
-            const type = item.frontmatter.newsType ?? "announcement";
-            const colorClass = badgeColors[type] ?? badgeColors.announcement;
-            return (
-              <Link
-                key={item.slug}
-                href={`/resources/newsroom/${item.slug}`}
-                className="card flex items-start gap-4 hover:border-line-strong"
-              >
-                <span
-                  className={`tag shrink-0 mt-0.5 capitalize ${colorClass}`}
-                >
-                  {type}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-sm font-semibold text-ink line-clamp-2 leading-snug">
-                    {item.frontmatter.title}
-                  </h2>
-                  <time
-                    dateTime={item.frontmatter.publishedAt}
-                    className="mt-1 block text-xs text-muted"
-                  >
-                    {new Date(item.frontmatter.publishedAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
+      {/* LATEST RELEASE */}
+      {latest && (
+        <section className="relative overflow-hidden border-b border-line bg-surface py-8 sm:py-10">
+          {/* existing site motion: falling light */}
+          <RainField />
+          <Container className="relative">
+            <Link href={`/resources/newsroom/${latest.slug}`} className="group grid items-center gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
+              <div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="bg-[#ffbb00] px-2 py-0.5 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-[#1c1c1c]">Latest release</span>
+                  <span className="font-mono text-[0.7rem] uppercase tracking-widest text-muted">{latest.kind} · {newsDate(latest.date)}</span>
                 </div>
-                <span className="shrink-0 text-sm text-muted go">→</span>
-              </Link>
-            );
-          })}
+                <h2 className="mt-4 text-[clamp(1.4rem,2.8vw,2.1rem)] font-semibold leading-tight text-ink transition-colors group-hover:text-[#006bc9]">{latest.title}</h2>
+                <p className="mt-3 line-clamp-2 max-w-2xl text-muted">{latest.lead}</p>
+                <span className="btn btn-primary mt-5">Read the announcement <span className="go">→</span></span>
+              </div>
+              <div className="aspect-[16/9] overflow-hidden border border-line">
+                <NewsBanner title={latest.title} kind={latest.kind} className="transition duration-500 group-hover:scale-[1.03]" />
+              </div>
+            </Link>
+          </Container>
+        </section>
+      )}
 
-          {news.length === 0 && (
-            <p className="text-center text-muted py-16">No news items yet.</p>
-          )}
-        </div>
-      </Section>
+      {/* ALL NEWS + SIDEBAR */}
+      <section className="py-14 sm:py-20">
+        <Container>
+          <NewsBrowser rows={rows} kinds={kinds} />
+        </Container>
+      </section>
 
       <CtaBand
-        title={<>Writing about <strong>Comprinno</strong>?</>}
-        desc="Get in touch and we'll connect you with the right person."
-        label="Contact us"
-        href="/contact"
+        title={<>Planning a cloud, <strong>data or AI project?</strong></>}
+        desc="Work with an AWS Premier Tier Services Partner. An expert will reply within 24 to 48 hours."
+        steps={[]}
       />
-    </>
+    </div>
   );
 }

@@ -1,5 +1,9 @@
-import Image from "next/image";
 import type { Metadata } from "next";
+import ProductDiagram from "@/components/ProductDiagram";
+import OutcomeCards from "@/components/OutcomeCards";
+import AwsPremierBadge from "@/components/AwsPremierBadge";
+import TiltBadge from "@/components/TiltBadge";
+import ParticleWave from "@/components/ParticleWave";
 import Link from "next/link";
 import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
@@ -80,11 +84,11 @@ const ownProducts = [
   { tag: "Multi-agent", name: "Decivo", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/decivo" },
 ];
 
+// Real stories from src/content/case-studies; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Data center exit", metric: "95%+", what: "of services now serverless or managed", title: "MediBuddy moves from its data center to AWS", href: "/resources/case-studies/medibuddy-data-center-to-aws" },
-  { tag: "Cloud to cloud", metric: "Near real-time", what: "MongoDB sync through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws" },
-  { tag: "Resilience · Fintech", metric: "RBI", what: "data localization audit cleared", title: "A fintech with about 37M customers keeps its data in India", href: "/resources/case-studies/fintech-rbi-data-localization" },
-  { tag: "Managed services", metric: "−40%", what: "AWS costs in one year", title: "boAt cuts AWS costs by 40% with Comprinno managed services", href: "/resources/case-studies/boat-aws-cost-reduction" },
+  { slug: "medibuddy", metric: "95%+", what: "of services now serverless or managed" },
+  { slug: "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization", metric: "Near-real-time", what: "MongoDB sync from Azure Cosmos DB to AWS" },
+  { slug: "boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management", metric: "40%", what: "lower cloud costs over a year" },
 ];
 
 const starts = ["Moving to AWS", "A generative AI pilot", "Managed services", "AWS billing transfer", "A Well-Architected review", "Something else"];
@@ -101,7 +105,7 @@ const faqs = [
 
 export default function AwsPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -128,10 +132,11 @@ export default function AwsPage() {
               </dl>
             </div>
             <div className="flex justify-center lg:justify-end">
-              <div className="relative w-[18.5rem] sm:w-[21.1rem] lg:w-[23.8rem]">
-                <Image src="/partners/aws-premier-tier-award.webp" alt="AWS Partner Premier Tier Services award" width={1302} height={1710} priority unoptimized className="award-sway relative z-10 h-auto w-full drop-shadow-md" />
-                {/* soft floor shadow under the stand */}
-                <span className="absolute -bottom-3 left-1/2 h-5 w-3/4 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgb(15_23_42/0.18),transparent_70%)]" aria-hidden="true" />
+              <div className="relative w-[19.5rem] sm:w-[22rem] lg:w-[24.7rem]">
+                {/* official AWS Partner badge, turned on the Y axis; stacked shadows give it physical thickness */}
+                <TiltBadge><AwsPremierBadge className="award-sway badge-thick relative z-10 block h-auto w-full" /></TiltBadge>
+                {/* soft floor shadow */}
+                <span className="absolute -bottom-6 left-1/2 h-5 w-3/4 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgb(15_23_42/0.18),transparent_70%)]" aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -143,7 +148,7 @@ export default function AwsPage() {
       {/* WHAT YOU GET */}
       <Section>
         <SectionHead eyebrow="What the partnership gets you" title={<>Three things teams need from AWS.<Br /> <strong>One partner for all three.</strong></>} desc="Many partners only plan, or build, or run. We stay with you across all three, so nothing is lost between handovers." />
-        <div className="grid border-t-2 border-ink md:grid-cols-3">
+        <div className="grid border-t-2 border-[#006bc9] md:grid-cols-3">
           {pillars.map((p, i) => (
             <div key={p.title} className="card flex flex-col">
               <IconTile name={p.icon} />
@@ -232,33 +237,29 @@ export default function AwsPage() {
             </ul>
             <div className="mt-6"><Button href="/contact" variant="ghost">Ask about AWS billing →</Button></div>
           </div>
-          <figure className="bg-grid border border-line-strong p-5">
-            <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted">How it works · Illustrative</p>
-            <div className="mt-4 flex items-center justify-between border border-line bg-bg p-4">
-              <span className="font-semibold text-ink">Your AWS accounts</span>
-              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-muted">Unchanged</span>
-            </div>
-            <p className="my-3 text-center text-sm text-muted">↓ billing transfer</p>
-            <div className="flex flex-wrap items-center justify-between gap-2 border border-ink bg-surface p-4">
-              <span className="font-semibold text-ink">Comprinno</span>
-              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-muted">Invoice · Cost reviews · Support</span>
-            </div>
-            <p className="my-3 text-center text-sm text-muted" aria-hidden="true">↓</p>
-            <div className="border border-line bg-bg p-4 font-semibold text-ink">One invoice, one accountable partner</div>
-          </figure>
+          {/* illustration in the same style as the home page product scenes */}
+          <div className="card no-bar !p-0 overflow-hidden">
+            <div className="aspect-[16/10] w-full"><ProductDiagram product="billing" /></div>
+          </div>
         </div>
       </Section>
 
-      {/* OUR PRODUCTS */}
-      <Section tone="surface">
+      {/* OUR PRODUCTS: same treatment as the home page products section */}
+      <Section tone="surface" background={<ParticleWave />}>
         <SectionHead eyebrow="Built on AWS, by us" title={<>We don’t just deploy AWS. <strong>We build products on it.</strong></>} desc="Our own platforms run on the same AWS services we recommend to you, so our advice comes from production, not slides." />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {ownProducts.map((p) => (
-            <Link key={p.name} href={p.href} className="card group flex flex-col">
-              <span className={`self-start ${p.tag === "Beta" ? "border border-amber-400 bg-amber-50 px-1.5 py-px font-mono text-[0.6rem] font-semibold uppercase tracking-widest text-amber-700" : "tag"}`}>{p.tag}</span>
-              <h3 className="mt-4 text-xl font-semibold text-ink">{p.name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{p.desc}</p>
-              <span className="mt-auto pt-5 text-sm font-medium text-ink group-hover:underline">Explore {p.name} →</span>
+            <Link key={p.name} href={p.href} className="card group flex flex-col !p-0 overflow-hidden">
+              {/* same product scene as the home page */}
+              <div className="aspect-[16/10] w-full overflow-hidden border-b border-line">
+                <ProductDiagram product={p.name} />
+              </div>
+              <div className="flex flex-1 flex-col p-5">
+                <span className="tag self-start">{p.tag}</span>
+                <h3 className="mt-3 text-xl font-semibold text-ink">{p.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{p.desc}</p>
+                <span className="mt-auto pt-5 text-sm font-medium text-ink underline underline-offset-4">Explore {p.name} <span className="go">→</span></span>
+              </div>
             </Link>
           ))}
         </div>
@@ -267,17 +268,7 @@ export default function AwsPage() {
       {/* OUTCOMES */}
       <Section>
         <SectionHead eyebrow="Outcomes on AWS" title={<><strong>Results on AWS</strong>, not just badges.</>} />
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {outcomes.map((o) => (
-            <Link key={o.href} href={o.href} className="card group flex flex-col">
-              <span className="tag self-start">{o.tag}</span>
-              <p className="mt-4 text-3xl font-semibold text-ink">{o.metric}</p>
-              <p className="mt-1 text-sm text-muted">{o.what}</p>
-              <p className="mt-3 font-semibold leading-snug text-ink">{o.title}</p>
-              <span className="mt-auto pt-5 text-sm font-medium text-ink group-hover:underline">Read the story →</span>
-            </Link>
-          ))}
-        </div>
+        <OutcomeCards picks={outcomes} />
         <div className="mt-8 flex justify-center"><Button href="/resources/case-studies" variant="ghost">All case studies →</Button></div>
       </Section>
 
@@ -302,6 +293,6 @@ export default function AwsPage() {
           {starts.map((s) => <li key={s} className="tag">{s}</li>)}
         </ul>
       </CtaBand>
-    </>
+    </div>
   );
 }

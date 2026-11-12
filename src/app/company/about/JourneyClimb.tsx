@@ -6,10 +6,10 @@ export type Kind = "tier" | "program" | "competency" | "award" | "recognition";
 export type Year = { year: string; short: string; items: { k: Kind; text: string }[] };
 
 const kinds: Record<Kind, { label: string; dot: string }> = {
-  tier: { label: "Partner tier", dot: "bg-blue-500" },
+  tier: { label: "Partner tier", dot: "bg-[#006bc9]" },
   program: { label: "Program", dot: "bg-teal-500" },
   competency: { label: "Competency", dot: "bg-violet-500" },
-  award: { label: "Award", dot: "bg-amber-500" },
+  award: { label: "Award", dot: "bg-[#ffbb00]" },
   recognition: { label: "Recognition", dot: "bg-rose-500" },
 };
 
@@ -71,15 +71,15 @@ export default function JourneyClimb({ years }: { years: Year[] }) {
                 </li>
               </ul>
               <div
-                className={`relative origin-bottom border-t-2 ${hover === i && !today ? "!bg-white shadow-md" : ""} transition-transform duration-700 motion-reduce:transition-none ease-out ${today ? "border-ink bg-ink" : tierUp ? "border-blue-500 bg-blue-50" : "border-ink bg-surface"}`}
+                className={`relative origin-bottom border-t-2 ${hover === i && !today ? "!bg-white shadow-md" : ""} transition-transform duration-700 motion-reduce:transition-none ease-out ${today ? "border-[#0088ff] bg-[linear-gradient(180deg,#006bc9,#0a134b)]" : tierUp ? "border-[#006bc9] bg-[#e3f0fc]" : "border-[#9cc6ee] bg-white"}`}
                 style={{ height: `${h}rem`, transitionDelay: `${delay}ms`, transform: on ? "scaleY(1)" : "scaleY(0)" }}
               >
                 {hop === i && (
-                  <span className="absolute -top-[9px] left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-ink bg-bg motion-safe:animate-[ping-soft_1.6s_ease-out_infinite]" aria-hidden="true" />
+                  <span className="absolute -top-[9px] left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-[#ffbb00] bg-bg motion-safe:animate-[ping-soft_1.6s_ease-out_infinite]" aria-hidden="true" />
                 )}
-                {hop > i && <span className="absolute -top-[5px] left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-ink" aria-hidden="true" />}
+                {hop > i && <span className="absolute -top-[5px] left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-[#006bc9]" aria-hidden="true" />}
                 {tierUp && (
-                  <span className={`absolute left-2 top-2 border px-1.5 py-px font-mono text-[0.58rem] font-semibold uppercase tracking-widest ${today ? "border-white/40 text-white" : "border-blue-400 bg-white text-blue-700"}`}>
+                  <span className={`absolute left-2 top-2 border px-1.5 py-px font-mono text-[0.58rem] font-semibold uppercase tracking-widest ${today ? "border-white/40 text-white" : "border-[#006bc9] bg-white text-[#006bc9]"}`}>
                     {y.items.find((x) => x.k === "tier")!.text.replace("AWS ", "").replace(/ (Services|Consulting) Partner$/, "").replace(" Tier", "")}
                   </span>
                 )}
@@ -92,12 +92,12 @@ export default function JourneyClimb({ years }: { years: Year[] }) {
       </ol>
 
       {/* Mobile and tablet: vertical climb */}
-      <ol className="relative grid gap-5 border-l-2 border-ink pl-6 lg:hidden">
+      <ol className="relative grid gap-5 border-l-2 border-[#006bc9] pl-6 lg:hidden">
         {years.map((y, i) => {
           const today = i === n - 1;
           return (
             <li key={y.year} className="relative">
-              <span className={`absolute -left-[1.95rem] top-1 h-3 w-3 border-2 border-ink ${today ? "bg-ink" : "bg-bg"}`} aria-hidden="true" />
+              <span className={`absolute -left-[1.95rem] top-1 h-3 w-3 border-2 border-[#006bc9] ${today ? "bg-[#006bc9]" : "bg-bg"}`} aria-hidden="true" />
               <p className="flex items-center gap-2 font-mono text-lg font-semibold text-ink">
                 {y.year}
                 {today && <span className="text-[0.6rem] font-normal uppercase tracking-widest text-muted">Today</span>}

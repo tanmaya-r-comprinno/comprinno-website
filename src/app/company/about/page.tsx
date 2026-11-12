@@ -61,7 +61,7 @@ const faqs = [
 
 export default function AboutPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -196,6 +196,6 @@ export default function AboutPage() {
         desc="Tell us where you are in your cloud journey and what you want to achieve. We'll help you plan the next step."
         label="Talk to our team"
       />
-    </>
+    </div>
   );
 }

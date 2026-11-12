@@ -359,7 +359,6 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .cta-step { position: relative; z-index: 1; display: flex; flex-direction: column; gap: .35rem; padding: 1.1rem 1.25rem; border: 1px solid var(--color-line-strong); background: var(--color-bg);
   opacity: 0; transform: translateY(12px); animation: cta-rise .6s var(--d, 0s) cubic-bezier(.2,.7,.2,1) forwards;
   transition: border-color .3s, transform .3s; }
-.cta-step:hover { border-color: var(--color-ink); transform: translateY(-3px); }
 .cta-step-k { display: flex; align-items: center; gap: .5rem; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); }
 .cta-step-k::before { content: ""; width: 6px; height: 6px; background: var(--color-ink); animation: cta-blink 2.4s var(--d, 0s) ease-in-out infinite; }
 .cta-step-t { font-weight: 600; color: var(--color-ink); }

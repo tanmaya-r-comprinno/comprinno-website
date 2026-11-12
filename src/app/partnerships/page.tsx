@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function PartnershipsPage() {
   if (HIDDEN) notFound();
   return (
-    <>
+    <div className="brand">
       <PageHero eyebrow="Official partners" title="Built with the best in cloud and AI" desc="Four partnerships, one stack." />
       <Section>
         <SectionHead
@@ -41,6 +41,6 @@ export default function PartnershipsPage() {
         </div>
       </Section>
       <CtaBand title={<>Want to build on<Br /> <strong>this stack</strong>?</>} desc="Talk to us about which partner fits your project." />
-    </>
+    </div>
   );
 }

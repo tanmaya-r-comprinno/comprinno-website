@@ -1,78 +1,86 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CtaBand, PageHero, Section, SectionHead } from "@/components/ui";
-import { getAllCaseStudies, getCaseStudyIndustries } from "@/lib/content";
+import { Button, Container, CtaBand, Eyebrow } from "@/components/ui";
+import GridGlow from "@/components/GridGlow";
+import ArtTile, { tileFor } from "@/components/ArtTile";
+import { caseStudies, SERVICES } from "@/lib/caseStudies";
+import CaseStudyBrowser, { CaseTags } from "./CaseStudyBrowser";
 
 export const metadata: Metadata = {
-  title: "Case studies",
-  description: "Real results from cloud migration, modernization, managed operations and AI projects.",
+  title: "Customer stories",
+  description: "See how companies use Comprinno to migrate, modernize, secure their cloud and put AI into production.",
   alternates: { canonical: "/resources/case-studies" },
 };
 
+// Lead with a production AI story
+const FEATURED = "ai-enabled-shopfloor-video-intelligence";
+
 export default function CaseStudiesPage() {
-  const caseStudies = getAllCaseStudies();
-  const industries = getCaseStudyIndustries();
+  const all = caseStudies();
+  const featured = all.find((c) => c.slug === FEATURED) ?? all.find((c) => c.service === "Generative AI") ?? all[0];
+  const cards = all.filter((c) => c.slug !== featured.slug).map(({ slug, title, client, industry, service }) => ({ slug, title, client, industry, service }));
+  const services = SERVICES.filter((s) => cards.some((c) => c.service === s));
+  const facts = featured.metrics.length >= 2
+    ? featured.metrics.slice(0, 2)
+    : [...featured.metrics, { value: featured.industry, label: "Industry" }, { value: featured.builtWith[0] ?? "AWS", label: "Built on" }].slice(0, 2);
 
   return (
-    <>
-      <PageHero
-        eyebrow="Case studies"
-        title="Results from the field"
-        desc={`${caseStudies.length}+ migrations, modernizations, managed operations and AI projects.`}
-      />
-
-      <Section>
-        <SectionHead
-          eyebrow="Results"
-          title="Production results, not pilots."
-          desc="Real outcomes from teams we have worked with."
-        />
-
-        {/* Industry filter */}
-        {industries.length > 1 && (
-          <div className="mb-8 flex flex-wrap gap-2">
-            {industries.slice(0, 10).map((ind) => (
-              <span key={ind} className="tag">{ind}</span>
-            ))}
+    <div className="brand">
+      {/* HERO */}
+      <section className="hero-block relative overflow-hidden border-b border-line">
+        <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
+        <Container className="py-14 sm:py-20">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <Eyebrow>Customer stories</Eyebrow>
+            <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
+              Real results, <strong className="sweep">from cloud</strong> to <strong>AI in production.</strong>
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              See how companies use Comprinno to migrate, modernize, secure their cloud and put AI into production.
+            </p>
+            <div className="mt-8">
+              <Button href="/contact">Talk to an expert →</Button>
+            </div>
           </div>
-        )}
+        </Container>
+      </section>
 
-        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {caseStudies.map((cs) => (
-            <Link
-              key={cs.slug}
-              href={`/resources/case-studies/${cs.slug}`}
-              className="card flex flex-col"
-            >
-              <span className="tag self-start">{cs.frontmatter.industry ?? cs.frontmatter.category ?? "AWS"}</span>
-              <h2 className="mt-3 text-base font-semibold leading-snug line-clamp-3 flex-1">
-                {cs.frontmatter.title}
-              </h2>
-              {cs.frontmatter.client && (
-                <p className="mt-2 text-sm font-medium text-ink-2">{cs.frontmatter.client}</p>
-              )}
-              <p className="mt-1 text-sm leading-relaxed text-muted line-clamp-2">
-                {cs.frontmatter.description}
-              </p>
-              {cs.frontmatter.results && cs.frontmatter.results.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1">
-                  {cs.frontmatter.results.slice(0, 2).map((r) => (
-                    <span key={r} className="tag text-[0.65rem]">{r}</span>
-                  ))}
-                </div>
-              )}
-              <span className="mt-auto pt-4 text-sm font-medium text-ink">
-                Read more <span className="go">→</span>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </Section>
+      {/* FEATURED */}
+      <section className="py-14 sm:py-20">
+        <Container>
+          <Link href={`/resources/case-studies/${featured.slug}`} className="cs-featured group">
+            <div className="brand-dark cs-featured-copy">
+              <p className="font-mono text-[0.7rem] uppercase tracking-widest text-[#a3a9d6]">Featured story</p>
+              <div className="mt-3"><CaseTags industry={featured.industry} service={featured.service} /></div>
+              <h2 className="mt-4 text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-tight text-white">{featured.title}</h2>
+              <p className="mt-3 max-w-xl leading-relaxed text-[#d9dcf5]">{featured.description}</p>
+              <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
+                {facts.map((f) => (
+                  <div key={f.label}>
+                    <dt className="text-2xl font-semibold text-white sm:text-3xl">{f.value}</dt>
+                    <dd className="mt-1 max-w-[14rem] text-xs leading-snug text-[#a3a9d6]">{f.label}</dd>
+                  </div>
+                ))}
+              </dl>
+              <span className="btn btn-primary mt-8 self-start">Read the story <span className="go">→</span></span>
+            </div>
+            <ArtTile variant={tileFor(featured.slug)} fill className="cs-featured-art" />
+          </Link>
+        </Container>
+      </section>
+
+      {/* ALL */}
+      <section id="stories" className="scroll-mt-20 pb-14 sm:pb-20">
+        <Container>
+          <CaseStudyBrowser cards={cards} services={services} />
+        </Container>
+      </section>
 
       <CtaBand
-        title={<>Want results <strong>like these</strong>?</>}
-        desc="Tell us about your project and we'll show you what's possible."
+        title={<>Want results <strong>like these?</strong></>}
+        desc="Tell us where you are and what you want to achieve. An expert will reply within 24 to 48 hours."
+        steps={[]}
       />
-    </>
+    </div>
   );
 }

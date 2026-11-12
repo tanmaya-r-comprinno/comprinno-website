@@ -79,7 +79,7 @@ const faqs = [
 
 export default function OpenAIPartnerPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -233,6 +233,6 @@ export default function OpenAIPartnerPage() {
           {starts.map((s) => <li key={s} className="tag">{s}</li>)}
         </ul>
       </CtaBand>
-    </>
+    </div>
   );
 }

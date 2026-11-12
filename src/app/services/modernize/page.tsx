@@ -64,12 +64,13 @@ const included = [
   "Handover and training for your engineering team",
 ];
 
-const credentials = ["[Modernization / DevOps credential]", "AWS Premier Tier Partner", "AWS MSP & Level 1 MSSP", "ISO 27001 & SOC 2 Type II"];
+const credentials = ["AWS DevOps Competency", "AWS Premier Tier Partner", "AWS Managed Service Provider (MSP)", "ISO 27001 & SOC 2 Type II"];
 
+// Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Monolith to microservices", metric: "[X%]", what: "faster release cycles", title: "[Customer] breaks its monolith into services on Amazon EKS", href: "/resources/case-studies", icon: "puzzle" as IconName },
-  { tag: "Database", metric: "[X%]", what: "lower database licensing cost", title: "[Customer] moves from a commercial database to Amazon Aurora", href: "/resources/case-studies", icon: "database" as IconName },
-  { tag: "Serverless · DevOps", metric: "[X×]", what: "more deployments per week", title: "[Customer] moves to serverless and automated releases", href: "/resources/case-studies", icon: "rocket" as IconName },
+  { slug: "fintech-aws-cloud-modernization-scaling-secure-workloads-with-aws-cloud-infrastructure-for-a-digital-lending-and-financial-services-provider", metric: "25+", what: "metric alarms plus synthetic canaries watching the platform" },
+  { slug: "fintech-aws-cloud-modernization-from-monolith-to-cloud-native-modernizing-a-global-index-platform-on-aws", metric: "24x7", what: "proactive monitoring after the move to cloud-native" },
+  { slug: "octet-opts-for-modernized-workloadswith-amazon-eks" },
 ];
 
 const faqs = [
@@ -103,7 +104,7 @@ export default function ModernizePage() {
         steps: { eyebrow: "How modernization runs", title: <>Five steps, <strong>one service at a time</strong>.</>, desc: "Each increment ships to production before the next one starts.", items: steps, icons: ["search", "layers", "code", "loop", "chart"], caption: "→ then on to Manage: we run what we modernized, 24/7" },
         included: { title: <>What <strong>every modernization engagement</strong><Br /> includes.</>, items: included },
         credentials: { title: <>Modernization credentials you can <strong>trust</strong>.</>, items: credentials },
-        outcomes: { title: <><strong>Platforms rebuilt</strong>, not just rehosted.</>, desc: "Real results from teams that modernized with us.", more: "All modernization stories", items: outcomes, art: 0 },
+        outcomes: { title: <><strong>Platforms rebuilt</strong>, not just rehosted.</>, desc: "Real results from teams that modernized with us.", more: "All modernization stories", picks: outcomes },
         faq: { title: <>Questions before you<Br /> <strong>modernize</strong>?</>, desc: "Quick answers to common questions about modernization.", items: faqs },
         cta: {
           title: <>Held back by a <strong>monolith</strong><Br /> or <strong>legacy licensing</strong>?</>,

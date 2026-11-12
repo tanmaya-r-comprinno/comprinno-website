@@ -80,7 +80,7 @@ const faqs = [
 
 export default function AnthropicPartnerPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -186,7 +186,7 @@ export default function AnthropicPartnerPage() {
             </figcaption>
             <div className="grid gap-3 p-5 text-sm">
               <p className="border border-line p-3 font-mono text-[0.78rem] text-ink">&gt; explain the billing module and list what blocks moving it to a service</p>
-              <div className="border border-ink bg-surface p-3 text-ink">
+              <div className="border border-[#9cc6ee] bg-[#f2f8fe] p-3 text-ink">
                 <p className="font-semibold">Read 42 files. 3 blockers found:</p>
                 <p className="mt-1 text-muted">Shared database tables with orders · Tax rules hard-coded in 6 places · No tests on invoice rounding</p>
               </div>
@@ -251,6 +251,6 @@ export default function AnthropicPartnerPage() {
           {starts.map((s) => <li key={s} className="tag">{s}</li>)}
         </ul>
       </CtaBand>
-    </>
+    </div>
   );
 }

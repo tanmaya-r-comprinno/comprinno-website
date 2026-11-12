@@ -66,10 +66,11 @@ const included = [
 
 const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "AWS Strategic Collaboration Agreement for generative AI", "OpenAI Select Partner"];
 
+// Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Agentic AI", metric: "[X%]", what: "faster root-cause analysis", title: "An IT operations platform automates root cause analysis with Amazon Bedrock AgentCore", href: "/resources/case-studies/it-ops-rca-agentcore", icon: "agent" as IconName },
-  { tag: "Generative AI", metric: "50% fewer", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "spark" as IconName },
-  { tag: "Computer vision", metric: "14×", what: "faster image processing", title: "[Customer] processes images 14× faster with computer vision in the cloud", href: "/resources/case-studies", icon: "eye" as IconName },
+  { slug: "sirovate-genai-accelerating-speed-accuracy-of-clinical-research-summary-reports-csrs-with-gen-ai", metric: "50%", what: "fewer compliance-related errors in clinical research summaries" },
+  { slug: "ai-enabled-shopfloor-video-intelligence", metric: "70%", what: "less manual monitoring of the shop floor" },
+  { slug: "mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation", metric: "40%", what: "fewer compliance setbacks in climate project approvals" },
 ];
 
 const faqs = [
@@ -109,7 +110,7 @@ export default function MaximizePage() {
           items: included,
         },
         credentials: { title: <>AI credentials you can <strong>trust</strong>.</>, items: credentials },
-        outcomes: { title: <><strong>Production results</strong>, not pilots.</>, desc: "AI that's live and doing real work for our clients.", more: "All AI stories", items: outcomes, art: 1 },
+        outcomes: { title: <><strong>Production results</strong>, not pilots.</>, desc: "AI that's live and doing real work for our clients.", more: "All AI stories", picks: outcomes },
         faq: { title: <>Questions before you<Br /> <strong>build</strong>?</>, desc: "Quick answers to what teams ask us before an AI project.", items: faqs },
         cta: {
           title: <>Have an AI use case that needs<Br /> to reach <strong>production</strong>?</>,

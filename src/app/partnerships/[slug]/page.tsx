@@ -24,7 +24,7 @@ export default async function PartnerPage({ params }: PageProps<"/partnerships/[
   const p = find(slug);
   if (!p || p.slug === "aws") notFound();
   return (
-    <>
+    <div className="brand">
       <PageHero
         eyebrow={`${p.name} partnership`}
         title={`Comprinno × ${p.name}`}
@@ -48,6 +48,6 @@ export default async function PartnerPage({ params }: PageProps<"/partnerships/[
         </div>
       </Section>
       <CtaBand title={<>Planning a project with<Br /> <strong>{p.name}</strong>?</>} desc="Talk to us about how the partnership can help your team." />
-    </>
+    </div>
   );
 }

@@ -65,10 +65,11 @@ const included = [
 
 const credentials = ["AWS Premier Tier Partner", "AWS Security Competency", "AWS Resilience Competency", "AWS Level 1 MSSP Competency"];
 
+// Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { tag: "Fintech · Disaster recovery", metric: "1 TB+", what: "database replicated for RBI requirements", title: "Fibe sets up disaster recovery in the Hyderabad region", href: "/resources/case-studies", icon: "bank" as IconName },
-  { tag: "Healthcare · Migration", metric: "Near-real-time", what: "MongoDB synchronization through cutover", title: "PocoCare moves from Azure Cosmos DB to AWS", href: "/resources/case-studies/pococare-azure-cosmos-db-to-aws", icon: "heart" as IconName },
-  { tag: "Life sciences · GenAI", metric: "50% fewer", what: "compliance errors · months → weeks", title: "Sirovate cuts plain-language summary production from months to weeks", href: "/resources/case-studies/sirovate-genai-csr", icon: "flask" as IconName },
+  { slug: "fibe-collaborates-with-comprinno-to-build-a-resilient-architecture" },
+  { slug: "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization", metric: "Near-real-time", what: "MongoDB sync from Azure Cosmos DB to AWS" },
+  { slug: "sirovate-genai-accelerating-speed-accuracy-of-clinical-research-summary-reports-csrs-with-gen-ai", metric: "50%", what: "fewer compliance-related errors in clinical research summaries" },
 ];
 
 const indiaFaqs = [
@@ -116,7 +117,7 @@ export default function IndustriesPage() {
           },
         },
         credentials: { title: <>Credentials your auditors will <strong>recognize</strong>.</>, desc: "Relevant AWS partner credentials.", items: credentials },
-        outcomes: { title: <><strong>Customer outcomes</strong> across industries.</>, desc: "Real outcomes from regulated and fast-growing teams.", more: "All industry stories", items: outcomes, art: 4 },
+        outcomes: { title: <><strong>Customer outcomes</strong> across industries.</>, desc: "Real outcomes from regulated and fast-growing teams.", more: "All industry stories", picks: outcomes },
         faq: { title: <>Questions about your<Br /> <strong>industry requirements</strong>?</>, desc: "Quick answers on data residency, security, compliance and AI oversight.", items: [...generalFaqs, ...indiaFaqs], groups: [{ label: "General", items: generalFaqs }, { label: "India-specific requirements", items: indiaFaqs }] },
         cta: {
           title: <>Building in a <strong>regulated industry</strong>?</>,
