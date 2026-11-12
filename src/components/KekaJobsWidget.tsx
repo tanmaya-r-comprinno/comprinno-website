@@ -10,21 +10,28 @@ export default function KekaJobsWidget() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Define the khConfig global before loading the script
+    (window as any).khConfig = {
+      domain: "https://comprinno.keka.com/",
+      portalName: "default",
+      identifier: "1f7a7e3f-2b83-448c-a9f3-368f72583618",
+      targetContainer: containerRef.current,
+    };
+
     // Load the Keka embed script
     const script = document.createElement("script");
     script.src = "https://comprinno.keka.com/careers/api/embedjobs/js/1f7a7e3f-2b83-448c-a9f3-368f72583618";
     script.async = true;
     script.defer = true;
 
-    if (containerRef.current) {
-      containerRef.current.appendChild(script);
-    }
+    document.body.appendChild(script);
 
     return () => {
       // Cleanup on unmount
-      if (containerRef.current && script.parentNode === containerRef.current) {
-        containerRef.current.removeChild(script);
+      if (script.parentNode) {
+        document.body.removeChild(script);
       }
+      delete (window as any).khConfig;
     };
   }, []);
 
