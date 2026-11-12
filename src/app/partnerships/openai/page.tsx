@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
@@ -85,7 +84,7 @@ export default function OpenAIPartnerPage() {
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.25fr_1fr]">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.6fr_1fr]">
             <div>
               <Eyebrow>OpenAI Select Partner · OpenAI Partner Network</Eyebrow>
               <h1 className="mt-5 text-[clamp(1.9rem,4.4vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
@@ -100,7 +99,8 @@ export default function OpenAIPartnerPage() {
               <p className="mt-5 font-mono text-[0.7rem] text-muted">OpenAI Select Partner since July 2026</p>
             </div>
             <div className="flex justify-center lg:justify-end">
-              <Image src="/partners/openai-select-shield.png" alt="OpenAI Partner, Select Tier badge" width={1440} height={2080} priority className="h-auto w-56 drop-shadow-xl sm:w-72 lg:w-80" />
+              {/* TODO: hero visual placeholder, replace with final artwork */}
+              <div className="grid aspect-[3/4] w-56 place-items-center border border-dashed border-line-strong bg-bg/60 font-mono text-[0.65rem] uppercase tracking-widest text-muted sm:w-64 lg:w-72">Hero visual</div>
             </div>
           </div>
         </Container>

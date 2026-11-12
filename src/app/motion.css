@@ -259,11 +259,12 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .hero-grid {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(circle at 1px 1px, #cfd5de 1.8px, transparent 2.4px),
+    radial-gradient(circle at 36px 36px, #cfd5de 1.8px, transparent 2.4px),
     linear-gradient(to right, #eceff3 1px, transparent 1px),
     linear-gradient(to bottom, #eceff3 1px, transparent 1px);
   background-size: 72px 72px; /* = CELL in GridGlow.tsx */
-  background-position: -1px -1px;
+  /* dot drawn mid-tile, then shifted so it sits exactly on each line crossing (never clipped at a tile edge) */
+  background-position: -35.5px -35.5px, 0 0, 0 0;
 }
 .grid-glow {
   position: absolute;
@@ -537,4 +538,9 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 
 @keyframes hop { 0% { transform: translate(-60%, 6px) rotate(-10deg); opacity: .4; } 100% { transform: translate(0,0) rotate(0); opacity: 1; } }
 
-@keyframes ping-soft { 0% { box-shadow: 0 0 0 0 rgb(15 23 42 / .35); } 100% { box-shadow: 0 0 0 10px rgb(15 23 42 / 0); } }
+@keyframes ping-soft { 0% { box-shadow: 0 0 0 0 rgb(28 28 28 / .35); } 100% { box-shadow: 0 0 0 10px rgb(28 28 28 / 0); } }
+
+/* AWS award: slow turn on the Y axis, 5deg each side */
+.award-sway { transform-origin: 50% 50%; animation: award-sway 6s ease-in-out infinite alternate; }
+@keyframes award-sway { from { transform: perspective(900px) rotateY(-5deg); } to { transform: perspective(900px) rotateY(5deg); } }
+@media (prefers-reduced-motion: reduce) { .award-sway { animation: none; } }

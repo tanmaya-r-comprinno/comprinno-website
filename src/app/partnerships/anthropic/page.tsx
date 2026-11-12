@@ -13,38 +13,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/partnerships/anthropic" },
 };
 
-/** Hero visual: where Claude sits in a Comprinno-built stack. */
-function StackCard() {
-  const layers: { k: string; v: string; icon: IconName; strong?: boolean }[] = [
-    { k: "Your teams", v: "Legal, finance, engineering, support", icon: "users" },
-    { k: "Claude", v: "Opus · Sonnet · Haiku, matched per task", icon: "spark", strong: true },
-    { k: "MCP connectors", v: "Only the tools and actions you approve", icon: "puzzle" },
-    { k: "Amazon Bedrock", v: "Inside your AWS account, run by Comprinno", icon: "cloud" },
-  ];
-  return (
-    <figure className="border border-line-strong bg-bg shadow-xl">
-      <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span>How we deploy Claude</span>
-        <span className="uppercase tracking-widest">Typical setup</span>
-      </figcaption>
-      <ol className="grid gap-2 p-5">
-        {layers.map((l, i) => (
-          <li key={l.k}>
-            <div className={`flex items-center gap-3 border p-3 ${l.strong ? "border-ink bg-surface" : "border-line"}`}>
-              <IconTile name={l.icon} />
-              <span>
-                <span className="block text-sm font-semibold text-ink">{l.k}</span>
-                <span className="block text-xs text-muted">{l.v}</span>
-              </span>
-            </div>
-            {i < layers.length - 1 && <p className="py-0.5 text-center font-mono text-xs text-muted" aria-hidden="true">↓</p>}
-          </li>
-        ))}
-      </ol>
-    </figure>
-  );
-}
-
 const strengths: { title: string; desc: string; icon: IconName }[] = [
   { title: "Reads long material in depth", desc: "Contracts, policies, reports and whole codebases, analyzed end to end rather than skimmed.", icon: "layers" },
   { title: "Strong at code", desc: "Claude Code brings Claude into your engineering workflow, from the terminal to code review.", icon: "code" },
@@ -117,20 +85,23 @@ export default function AnthropicPartnerPage() {
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.6fr_1fr]">
             <div>
               <Eyebrow>Claude by Anthropic · On Amazon Bedrock</Eyebrow>
-              <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
+              <h1 className="mt-5 text-[clamp(1.9rem,4.4vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
                 Claude, put to work <strong className="sweep">across your enterprise.</strong>
               </h1>
-              <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
                 Agents, document work and engineering on Claude, run in your own AWS account by the team that manages it.
               </p>
               <div className="mt-8">
                 <Button href="/contact">Talk to our Claude team →</Button>
               </div>
             </div>
-            <StackCard />
+            <div className="flex justify-center lg:justify-end">
+              {/* TODO: hero visual placeholder, replace with final artwork */}
+              <div className="grid aspect-[3/4] w-56 place-items-center border border-dashed border-line-strong bg-bg/60 font-mono text-[0.65rem] uppercase tracking-widest text-muted sm:w-64 lg:w-72">Hero visual</div>
+            </div>
           </div>
         </Container>
       </section>

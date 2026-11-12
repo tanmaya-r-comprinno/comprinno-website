@@ -34,12 +34,18 @@ const reasons: { title: string; desc: string; icon: IconName }[] = [
 
 const departments = ["Engineering", "Data and AI", "Presales", "Sales", "Operations"];
 
-const photos = [
-  { label: "Candid photo 1", cls: "" },
-  { label: "Candid photo 2", cls: "sm:row-span-2" },
-  { label: "Candid photo 3", cls: "" },
-  { label: "Candid photo 4", cls: "" },
-  { label: "Candid photo 5", cls: "" },
+// TODO: add real photos (set src, e.g. "/careers/team-1.jpg"). Shown greyscale, full colour on hover.
+const photos: { src?: string; alt: string; cls?: string }[] = [
+  { alt: "Candid photo 1", cls: "lg:row-span-2" },
+  { alt: "Candid photo 2" },
+  { alt: "Candid photo 3" },
+  { alt: "Candid photo 4" },
+  { alt: "Candid photo 5" },
+  { alt: "Candid photo 6", cls: "lg:col-span-2" },
+  { alt: "Candid photo 7" },
+  { alt: "Candid photo 8" },
+  { alt: "Candid photo 9" },
+  { alt: "Candid photo 10" },
 ];
 
 export default function CareersPage() {
@@ -119,11 +125,17 @@ export default function CareersPage() {
       {/* LIFE */}
       <Section>
         <SectionHead eyebrow="Life at Comprinno" title={<>More than code. <strong>More than cloud.</strong></>} desc="Team days, offsites and the everyday moments in between." />
-        {/* TODO: swap placeholders for candid greyscale photos */}
-        <div className="grid gap-3 sm:grid-cols-[1fr_1.2fr_1fr] sm:grid-rows-2">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {photos.map((p) => (
-            <figure key={p.label} className={`bg-grid flex min-h-44 items-center justify-center border border-line bg-surface ${p.cls}`}>
-              <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">{p.label} · greyscale</span>
+            <figure key={p.alt} className={`group relative min-h-44 overflow-hidden border border-line bg-surface ${p.cls ?? ""}`}>
+              {p.src ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={p.src} alt={p.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0 motion-reduce:transition-none" />
+              ) : (
+                <div className="bg-grid absolute inset-0 flex items-center justify-center bg-gradient-to-br from-sky-200 to-violet-200 grayscale transition duration-500 group-hover:grayscale-0 motion-reduce:transition-none">
+                  <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">{p.alt}</span>
+                </div>
+              )}
             </figure>
           ))}
         </div>

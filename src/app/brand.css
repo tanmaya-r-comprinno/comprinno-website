@@ -1,0 +1,247 @@
+/*
+  Comprinno brand colour layer (Brand Guidelines 2026).
+  Applied page by page: wrap a page in <div className="brand"> to switch it on.
+  Pages without the wrapper keep the neutral low-fi look.
+
+  Palette
+    Dark Purple  #0A134B  headings, text, dark bands
+    Primary Blue #006BC9  accent: highlights, icons, lines
+    Soft Blue    #0088FF  accent gradient partner
+    Warm Yellow  #FFBB00  primary buttons, small sparks only
+    Yellow Ochre #D89F04  button hover, yellow on light backgrounds
+    Snowy Purple #F4F3FF  alternate section background
+  Balance: ~60% white + snowy, ~30% navy, ~10% blue/yellow.
+*/
+
+.brand {
+  --brand-navy: #0a134b;
+  --brand-blue: #006bc9;
+  --brand-sky: #0088ff;
+  --brand-yellow: #ffbb00;
+  --brand-ochre: #d89f04;
+  --brand-snow: #f4f3ff;
+  --brand-grad: linear-gradient(90deg, var(--brand-blue), var(--brand-sky));
+
+  /* remap the neutral design tokens to the brand */
+  --color-surface: #f5f8fd; /* light cool blue: pairs with brand blue better than lilac */
+  --color-surface-2: #eaf1fb;
+  --color-line: #e3eaf4;
+  --color-line-strong: #c8d5e8;
+  --color-ink: #1c1c1c; /* site black; navy is kept for dark bands */
+  --color-ink-2: #3d3d3d;
+  --color-muted: #6b6b6b;
+  --color-accent: var(--brand-blue);
+  --color-accent-soft: #e3f0fc;
+  --color-accent-line: #9cc6ee;
+  color: var(--color-ink-2);
+}
+.brand ::selection { background: #cfe5fb; }
+
+/* ---------- Headlines: blue keywords, yellow highlighter on the hero word ---------- */
+.brand :is(h1, h2) strong:not(.sweep) {
+  background: var(--brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand .sweep {
+  color: var(--brand-blue);
+  background-image: linear-gradient(rgb(255 187 0 / 0.38), rgb(255 187 0 / 0.38));
+}
+
+/* ---------- Buttons: yellow primary, navy outline secondary ---------- */
+.brand .btn-primary { background: var(--brand-yellow); color: #1c1c1c; border-color: var(--brand-yellow); }
+.brand .btn-primary:hover { background: var(--brand-ochre); border-color: var(--brand-ochre); }
+.brand .btn-ghost { background: transparent; color: #1c1c1c; border-color: #1c1c1c; }
+.brand .btn-ghost:hover { background: #1c1c1c; color: #fff; }
+
+/* ---------- Section labels: one brand colour instead of a rainbow ---------- */
+.brand .eyebrow { --eb: var(--brand-blue) !important; --eb-soft: #e3f0fc !important; color: #1c1c1c; }
+.brand .eyebrow .pulse-dot { background: var(--brand-yellow); box-shadow: 0 0 0 3px rgb(255 187 0 / 0.25); }
+
+/* ---------- Icons: soft blue tile, fills blue on hover ---------- */
+.brand .icon-tile { background: #e3f0fc; border-color: #c9e0f6; color: var(--brand-blue); }
+@media (hover: hover) {
+  .brand .card:hover .icon-tile { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+}
+
+/* ---------- Cards and path cards: blue edge on hover ---------- */
+.brand .card { transition: border-color .3s, box-shadow .3s; }
+@media (hover: hover) {
+  .brand .card:hover { border-color: #9cc6ee; box-shadow: 0 18px 40px -24px rgb(0 107 201 / 0.35); }
+}
+.brand .path-card::before { background: var(--brand-grad); }
+.brand .path-card:hover .path-mark { color: #b9d8f5; }
+.brand .path-card:hover .path-inc { border-color: var(--brand-blue); }
+
+/* ---------- Hero: lavender grid, brand-blue glow, soft colour wash ---------- */
+.brand .hero-grid {
+  background-image:
+    radial-gradient(circle at 36px 36px, #c6d3e6 1.8px, transparent 2.4px),
+    linear-gradient(to right, #eaeff7 1px, transparent 1px),
+    linear-gradient(to bottom, #eaeff7 1px, transparent 1px);
+}
+.brand .hero-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 320px at 15% 0%, rgb(0 136 255 / 0.10), transparent 70%),
+    radial-gradient(520px 300px at 88% 10%, rgb(255 187 0 / 0.10), transparent 70%);
+  pointer-events: none;
+}
+.brand .grid-glow {
+  background: radial-gradient(circle, rgb(0 136 255 / 0.95) 0 4px, rgb(0 136 255 / 0.5) 9px, rgb(0 107 201 / 0.15) 26px, transparent 55px);
+}
+
+/* ---------- Dark navy bands (numbers, closing CTA) ---------- */
+.brand .brand-dark,
+.brand .cta-full {
+  --color-bg: rgb(255 255 255 / 0.04);
+  --color-surface: rgb(255 255 255 / 0.06);
+  --color-line: rgb(255 255 255 / 0.12);
+  --color-line-strong: rgb(255 255 255 / 0.22);
+  --color-ink: #ffffff;
+  --color-ink-2: #d9dcf5;
+  --color-muted: #a3a9d6;
+  color: var(--color-ink-2);
+  border-color: transparent;
+  background:
+    radial-gradient(700px 360px at 85% 0%, rgb(0 136 255 / 0.28), transparent 70%),
+    radial-gradient(520px 300px at 0% 100%, rgb(0 107 201 / 0.25), transparent 70%),
+    var(--brand-navy);
+}
+.brand .brand-dark :is(h1, h2, h3), .brand .cta-full :is(h1, h2, h3) { color: #fff; }
+.brand .brand-dark :is(h1, h2) strong:not(.sweep),
+.brand .cta-full :is(h1, h2) strong:not(.sweep) {
+  background: linear-gradient(90deg, #5cb2ff, #9fd3ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.brand .brand-dark .stats { border-top-color: rgb(255 255 255 / 0.5); }
+.brand .brand-dark .stat::before { background: var(--brand-yellow); }
+.brand .brand-dark .stat-num { color: #fff; }
+.brand .cta-full .cta-step { background: #141e5c; }
+.brand .cta-full .cta-steps::before { background: rgb(255 255 255 / 0.3); }
+.brand .cta-full .cta-step:hover { border-color: var(--brand-yellow); }
+.brand .cta-full .cta-step-k::before { background: var(--brand-yellow); }
+.brand .cta-full .eyebrow { background: rgb(255 255 255 / 0.06); color: #fff; }
+
+/* =====================================================================
+   LIVELY LAYER: cards, stage cards, product slots and numbers
+   ===================================================================== */
+
+/* ---------- Cards: one brand blue (--hue), soft tint behind the icon ---------- */
+.brand { --hue: var(--brand-blue); --hue-soft: #e3f0fc; }
+
+.brand .card .icon-tile { background: var(--hue-soft); border-color: color-mix(in srgb, var(--hue) 25%, white); color: var(--hue); }
+.brand .card::after { background: var(--hue); }
+@media (hover: hover) {
+  .brand .card:hover { border-color: color-mix(in srgb, var(--hue) 45%, white); box-shadow: 0 20px 44px -26px var(--hue); }
+  .brand .card:hover .icon-tile { background: var(--hue); border-color: var(--hue); color: #fff; }
+  .brand .card:hover::after { transform: scaleX(1); }
+}
+.brand .card::before {
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), var(--hue-soft), transparent 70%);
+}
+
+/* stage cards: coloured rule always on, big faint verb in the stage colour */
+.brand .path-card::before { background: var(--hue); transform: scaleX(1); height: 3px; z-index: 1; }
+.brand .path-mark { color: color-mix(in srgb, var(--hue) 14%, white); }
+.brand .path-card:hover .path-mark { color: color-mix(in srgb, var(--hue) 30%, white); }
+.brand .path-card:hover { background: var(--hue-soft); }
+.brand .path-card:hover .path-inc { border-color: var(--hue); }
+
+/* product image slots: tinted per card instead of grey */
+.brand .card > .bg-grid { background-color: var(--hue-soft); border-color: color-mix(in srgb, var(--hue) 30%, white); color: var(--hue); }
+
+/* numbers band: gradient figures */
+.brand .brand-dark .stat-num {
+  background: linear-gradient(180deg, #ffffff, #9fd3ff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.brand .brand-dark .stat-suffix { color: var(--brand-yellow); -webkit-text-fill-color: var(--brand-yellow); }
+
+
+/* ---------- Outcome card art: glowing night panel ---------- */
+.brand .outcome-art {
+  /* the SVG draws with these tokens, so remapping them recolours the art */
+  --color-ink: #e8f3ff;
+  --color-line-strong: rgb(110 190 255 / 0.75);
+  --color-line: rgb(140 200 255 / 0.22);
+  --color-accent: var(--brand-yellow);
+  --color-bg: #0d1a5c;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgb(0 136 255 / 0.35);
+  background:
+    radial-gradient(60% 70% at 50% 45%, rgb(0 136 255 / 0.45), transparent 70%),
+    radial-gradient(40% 50% at 85% 10%, rgb(255 187 0 / 0.16), transparent 70%),
+    linear-gradient(180deg, #0a134b, #0b1f6b);
+}
+/* soft light pool that breathes */
+.brand .outcome-art::after {
+  content: "";
+  position: absolute;
+  inset: 15% 25%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(62 162 255 / 0.55), transparent);
+  animation: oa-breathe 5s ease-in-out infinite;
+}
+.brand .outcome-art svg {
+  filter: drop-shadow(0 0 3px rgb(62 162 255 / 0.7)) drop-shadow(0 0 10px rgb(0 136 255 / 0.35));
+  animation: oa-float 7s ease-in-out infinite;
+}
+@keyframes oa-breathe { 50% { opacity: 0.55; transform: scale(1.15); } }
+@keyframes oa-float { 50% { transform: translateY(-4px); } }
+@media (hover: hover) {
+  .brand .card:hover .outcome-art { border-color: rgb(255 187 0 / 0.6); }
+  .brand .card:hover .outcome-art svg { filter: drop-shadow(0 0 4px rgb(62 162 255 / 0.9)) drop-shadow(0 0 16px rgb(255 187 0 / 0.35)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand .outcome-art::after, .brand .outcome-art svg { animation: none; }
+}
+
+/* falling-light background (RainField.tsx): brand yellow drops */
+.brand { --rain: #f2b000; }
+
+/* ---------- "How we work" loop: blue progress instead of black ---------- */
+.brand .loop-node { border-color: #c9e0f6; background: #fff; }
+.brand .loop-step.is-done .loop-node { border-color: var(--brand-blue); color: var(--brand-blue); background: #e3f0fc; }
+.brand .loop-step.is-run { border-color: var(--brand-blue); }
+.brand .loop-step.is-run .loop-node {
+  background: var(--brand-grad); border-color: var(--brand-blue); color: #fff;
+  box-shadow: 0 0 0 6px rgb(0 136 255 / 0.15), 0 10px 24px -8px rgb(0 107 201 / 0.6);
+}
+.brand .loop-step.is-run .loop-status { color: var(--brand-blue); }
+.brand .loop-step.is-run .loop-status::before { background: var(--brand-yellow); }
+.brand .loop-fill { background: var(--brand-grad); height: 2px; }
+.brand .loop-signal { background: var(--brand-yellow); box-shadow: 0 0 0 4px rgb(255 187 0 / 0.25); }
+
+/* ---------- "Built for you" segment cards: soft blue frame, blue on hover ---------- */
+.brand .seg-card { border-color: #c9e0f6; }
+.brand .seg-card::before { background: var(--brand-grad); }
+.brand .seg-card .flow-node { border-color: #c9e0f6; background: #e3f0fc; color: var(--brand-blue); }
+.brand .seg-card:hover { border-color: var(--brand-blue); box-shadow: 0 20px 44px -26px rgb(0 107 201 / 0.55); }
+.brand .seg-card:hover .flow-node { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.brand .seg-card:hover .go { color: var(--brand-blue); }
+.brand .seg-chip:hover { border-color: var(--brand-blue); background: #e3f0fc; color: var(--brand-blue); }
+.brand .seg-card .go { color: #6aa9e6; }
+
+/* ======================================================================
+   Site navigation (global, every page): brand blue menus, yellow button
+   ====================================================================== */
+.site-nav .btn-primary { background: #ffbb00; color: #1c1c1c; border-color: #ffbb00; box-shadow: 0 6px 18px -10px rgb(255 187 0 / 0.9); }
+.site-nav .btn-primary:hover { background: #d89f04; border-color: #d89f04; }
+.site-nav .nav-top:hover, .site-nav .group:hover > .nav-top, .site-nav .group:focus-within > .nav-top { background: #e3f0fc; color: #006bc9; }
+.site-nav .group:hover > .nav-top span { color: #006bc9; }
+/* dropdown: blue top accent, soft shadow, blue hover rows */
+.site-nav .nav-drop { position: relative; border-color: #d6e6f7; box-shadow: 0 18px 40px -18px rgb(0 107 201 / 0.35); overflow: hidden; }
+.site-nav .nav-drop::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #006bc9, #0088ff 60%, #ffbb00); }
+.site-nav .nav-item { position: relative; transition: background-color .2s, padding-left .2s; }
+.site-nav .nav-item:hover { background: #e3f0fc; padding-left: 1rem; }
+.site-nav .nav-item:hover > span:first-child { color: #006bc9; }
+.site-nav .nav-item::before { content: ""; position: absolute; left: 0; top: 25%; bottom: 25%; width: 3px; background: #006bc9; transform: scaleY(0); transition: transform .2s; }
+.site-nav .nav-item:hover::before { transform: scaleY(1); }
+.site-nav .nav-mobile-item:hover { color: #006bc9; }

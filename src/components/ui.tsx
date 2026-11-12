@@ -67,14 +67,16 @@ export function Button({
   children,
   variant = "primary",
   className = "",
+  newTab = false,
 }: {
   href: string;
   children: ReactNode;
   variant?: "primary" | "ghost";
   className?: string;
+  newTab?: boolean;
 }) {
   return (
-    <Link href={href} className={`btn btn-${variant} ${className}`}>
+    <Link href={href} className={`btn btn-${variant} ${className}`} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       {children}
     </Link>
   );
