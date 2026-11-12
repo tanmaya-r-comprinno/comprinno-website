@@ -94,7 +94,7 @@ export default function AboutPage() {
           <div className="card">
             <IconTile name="eye" />
             <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">Our vision</p>
-            <h3 className="mt-2 text-xl font-semibold leading-snug text-ink">Become the world&apos;s most trusted brand for cloud solutions and operations.</h3>
+            <h3 className="mt-2 text-xl font-semibold leading-snug text-ink">Become the world&apos;s most trusted brand for cloud, data and AI solutions.</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">Earn that trust one engagement, one environment and one outcome at a time.</p>
           </div>
         </div>

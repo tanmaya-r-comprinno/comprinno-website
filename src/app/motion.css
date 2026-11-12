@@ -259,11 +259,12 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .hero-grid {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(circle at 1px 1px, #cfd5de 1.8px, transparent 2.4px),
+    radial-gradient(circle at 36px 36px, #cfd5de 1.8px, transparent 2.4px),
     linear-gradient(to right, #eceff3 1px, transparent 1px),
     linear-gradient(to bottom, #eceff3 1px, transparent 1px);
   background-size: 72px 72px; /* = CELL in GridGlow.tsx */
-  background-position: -1px -1px;
+  /* dot drawn mid-tile, then shifted so it sits exactly on each line crossing (never clipped at a tile edge) */
+  background-position: -35.5px -35.5px, 0 0, 0 0;
 }
 .grid-glow {
   position: absolute;

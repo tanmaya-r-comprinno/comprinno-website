@@ -13,7 +13,8 @@ export async function POST(request: Request) {
   if (get("website")) return NextResponse.redirect(new URL("/contact/thanks", request.url), 303);
 
   const email = get("email");
-  if (!get("name") || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !get("message")) {
+  const required = ["name", "company", "country", "topic", "consent"];
+  if (required.some((k) => !get(k)) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.redirect(new URL("/contact?error=1", request.url), 303);
   }
 

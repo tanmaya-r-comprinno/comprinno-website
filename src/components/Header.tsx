@@ -5,13 +5,10 @@ import NavCloser from "./NavCloser";
 
 export function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-2 text-ink" aria-label={`${site.name} home`}>
-      {/* paper-plane mark: placeholder until final logo */}
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-        <path d="M3 12.5L23 3l-6 20-4.5-7.5L3 12.5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-        <path d="M12.5 15.5L23 3" stroke="currentColor" strokeWidth="1.6" />
-      </svg>
-      <span className="text-lg font-semibold tracking-tight">{site.name}</span>
+    <Link href="/" className="flex items-center" aria-label={`${site.name} home`}>
+      {/* Brand files live in /public/brand. Swap the file there to update the logo everywhere. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/comprinno-logo.webp" alt={site.name} width={600} height={125} className="h-7 w-auto mix-blend-multiply" />
     </Link>
   );
 }

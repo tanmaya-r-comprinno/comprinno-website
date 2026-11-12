@@ -166,7 +166,7 @@ export default function AwsPage() {
           ))}
         </ul>
         <div className="mt-8 flex justify-center">
-          <Button href={APN_PROFILE_URL}>View Comprinno on the AWS Partner Network ↗</Button>
+          <Button href={APN_PROFILE_URL} newTab>View Comprinno on the AWS Partner Network ↗</Button>
         </div>
       </Section>
 

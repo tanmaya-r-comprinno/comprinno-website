@@ -16,30 +16,18 @@ export const site = {
     linkedin: "https://www.linkedin.com/company/comprinnotech/",
     instagram: "https://www.instagram.com/comprinnotech/",
   },
+  // lat/lon place the pins on the contact page map
   offices: [
-    {
-      city: "Bengaluru",
-      label: "Headquarters",
-      address:
-        "#77, 4th Cross, Reliable Tranquil Layout, Harlur Road, Bengaluru, Karnataka 560102",
-    },
-    {
-      city: "Bengaluru",
-      label: "Canvas Workspace, HSR Layout",
-      address:
-        "1331 Canvas Workspace, 2nd Floor, 24th Main Road, 2nd Sector, HSR Layout, Bengaluru, Karnataka 560102",
-    },
-    {
-      city: "Pune",
-      label: "Teerth Techno Space",
-      address:
-        "Office A 1101, VeerBhadra Nagar Road, Mahalunge, Pune, Maharashtra 411045",
-    },
-    {
-      city: "Pune",
-      label: "Sadanand Business Center",
-      address: "Pashan Highway Side Road, Mahalunge, Pune, Maharashtra 411045",
-    },
+    { city: "Bengaluru", label: "Headquarters", region: "India", lat: 12.9, lon: 77.6,
+      address: "#77, 4th Cross, Reliable Tranquil Layout, Harlur Road, Bengaluru, Karnataka 560102, India" },
+    { city: "Bengaluru", label: "Canvas Workspace", region: "India", lat: 12.9, lon: 77.6,
+      address: "1331 Canvas Workspace, 2nd Floor, 24th Main Road, 2nd Sector, HSR Layout, Bengaluru, Karnataka 560102, India" },
+    { city: "Pune", label: "SBC", region: "India", lat: 18.5, lon: 73.8,
+      address: "Sadanand Business Center, Pashan Highway Side Road, Mahalunge, Pune, Maharashtra 411045, India" },
+    { city: "Sunnyvale", label: "United States", region: "US", lat: 37.4, lon: -122,
+      address: "1087 Rembrandt Dr, Sunnyvale, CA 94087, United States" },
+    { city: "Cardiff", label: "United Kingdom", region: "UK", lat: 51.5, lon: -3.2,
+      address: "9 Sherborne Avenue, Cardiff, Wales CF23 6SJ, United Kingdom" },
   ],
 };
 
