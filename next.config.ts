@@ -70,6 +70,11 @@ const nextConfig: NextConfig = {
       "/.well-known/poppy.json",
       "/.well-known/agent-skills/index.json",
       "/.well-known/agent-skills/:name/SKILL.md",
+      // OAuth (src/lib/oauth.ts); 404 unless OAUTH_SIGNING_KEY is configured
+      "/.well-known/oauth-authorization-server",
+      "/.well-known/oauth-protected-resource",
+      "/.well-known/oauth-protected-resource/mcp",
+      "/.well-known/jwks.json",
     ].map((source) => ({ source, destination: source.replace("/.well-known/", "/api/agents/") }));
   },
   // Agent routes read src/content at request time on Vercel.

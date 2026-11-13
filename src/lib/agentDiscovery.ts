@@ -6,6 +6,7 @@
 import { createHash } from "node:crypto";
 import { site } from "@/lib/site";
 import { MCP_PATH, SERVER_INFO, abs, hostname, tools } from "@/lib/agentApi";
+import { SCOPE, endpoints, oauthEnabled } from "@/lib/oauth";
 
 const sha256 = (s: string) => `sha256:${createHash("sha256").update(s, "utf8").digest("hex")}`;
 const toolList = () => tools.map((t) => `- \`${t.name}\`: ${t.description}`).join("\n");
@@ -19,7 +20,9 @@ export function serverCard() {
     endpoint: abs(MCP_PATH),
     capabilities: { tools: { listChanged: false } },
     tools: tools.map(({ name, title, description, inputSchema }) => ({ name, title, description, inputSchema })),
-    authentication: { required: false, schemes: [] },
+    authentication: oauthEnabled()
+      ? { required: false, schemes: ["oauth2"], protectedResourceMetadata: endpoints.prmMcp, scopes: [SCOPE] }
+      : { required: false, schemes: [] },
     documentation: abs("/llms.txt"),
   };
 }
@@ -145,6 +148,36 @@ export function skillsIndex() {
 export function authMd() {
   const reg = abs("/auth.md#anonymous-public-access");
   const claim = abs("/auth.md#claim-and-revocation");
+  const oauth = oauthEnabled();
+  const discover = oauth
+    ? `1. Fetch ${endpoints.prmRoot} (or ${endpoints.prmMcp} for the MCP server). It lists the authorization server and the scope \`${SCOPE}\`.
+2. Fetch ${endpoints.asMetadata} and read its \`agent_auth\` block. The only supported identity type is \`anonymous\`.
+3. Fetch ${abs("/.well-known/api-catalog")} to find the agent interfaces.`
+    : `1. Read this page and the \`agent_auth\` block below. The only supported identity type is \`anonymous\`.
+2. Fetch ${abs("/.well-known/api-catalog")} to find the agent interfaces.
+3. There is no OAuth authorization server: do not send an \`Authorization\` header.`;
+  const tokens = oauth
+    ? `
+## Optional access tokens
+
+Tokens are optional: every interface also works without one. Some agent tools expect OAuth, so a real authorization server issues tokens for scope \`${SCOPE}\`, which grants exactly the public, read-only access above and nothing more.
+
+Anonymous agents (no user, no client secret):
+
+\`\`\`http
+POST ${endpoints.token}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&scope=${encodeURIComponent(SCOPE)}&resource=${encodeURIComponent(abs(MCP_PATH))}
+\`\`\`
+
+\`\`\`json
+{ "access_token": "<jwt>", "token_type": "Bearer", "expires_in": 3600, "scope": "${SCOPE}" }
+\`\`\`
+
+MCP clients may instead use authorization code with PKCE (S256): register at ${endpoints.register} (optional, stateless), send the user to ${endpoints.authorize}, then exchange the code at ${endpoints.token}. Present the token as \`Authorization: Bearer <access_token>\`. Tokens are ES256 JWTs (keys at ${endpoints.jwks}), expire after one hour and have no refresh token: request a new one.
+`
+    : "";
   return `# auth.md
 
 You are an agent accessing **${site.url}**, the public website of Comprinno, an AWS Premier Tier cloud and AI partner.
@@ -152,9 +185,7 @@ This service supports anonymous public access only. Registration is documentatio
 
 ## Discover
 
-1. Read this page and the \`agent_auth\` block below. The only supported identity type is \`anonymous\`.
-2. Fetch ${abs("/.well-known/api-catalog")} to find the agent interfaces.
-3. There is no OAuth authorization server and no protected resource: do not send an \`Authorization\` header.
+${discover}
 
 ## Anonymous public access
 
@@ -167,11 +198,11 @@ This service supports anonymous public access only. Registration is documentatio
    - Any page URL with the header \`Accept: text/markdown\`: the page as Markdown
    - ${abs(MCP_PATH)}: MCP server (Streamable HTTP, JSON-RPC over POST), described at ${abs("/.well-known/mcp/server-card.json")}
 
-No account, token, API key or user claim is created. Registration has no server-side state and grants only the same public, read-only access every visitor has.
-
+No account, API key or user claim is created. Registration has no server-side state and grants only the same public, read-only access every visitor has.
+${tokens}
 ## Claim and revocation
 
-\`${claim}\` is the claim information URI. Anonymous public access has no owner, credential or registration record, so there is nothing to claim or revoke. Do not send claim or revocation requests.
+\`${claim}\` is the claim information URI. Anonymous public access has no owner, account or registration record, so there is nothing to claim. ${oauth ? "Access tokens are short-lived (one hour) and grant only public data, so there is no revocation endpoint: discard a token you no longer need." : "Do not send claim or revocation requests."}
 
 ## agent_auth
 
@@ -193,7 +224,7 @@ agent_auth:
 | --- | --- |
 | API catalog | ${abs("/.well-known/api-catalog")} |
 | MCP server card | ${abs("/.well-known/mcp/server-card.json")} |
-| Agent Skills | ${abs("/.well-known/agent-skills/index.json")} |
+${oauth ? `| Protected Resource Metadata | ${endpoints.prmRoot} |\n| Authorization Server Metadata | ${endpoints.asMetadata} |\n` : ""}| Agent Skills | ${abs("/.well-known/agent-skills/index.json")} |
 | AI catalog | ${abs("/.well-known/ai-catalog.json")} |
 | Site index | ${abs("/llms.txt")} |
 | Sitemap | ${abs("/sitemap.xml")} |

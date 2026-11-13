@@ -7,8 +7,8 @@ const btn = "grid h-9 w-9 place-items-center border border-line-strong bg-bg tex
 /**
  * X, LinkedIn and copy-link buttons for an article.
  * The link is built from the address the reader is actually on (live domain or preview),
- * so the shared link always opens the article. X and LinkedIn both open with the title
- * and the link already filled in.
+ * so the shared link always opens the article. X opens with the title and link filled in;
+ * LinkedIn opens its share dialog with the link card (title + image from the og: tags).
  */
 export default function Share({ title, path }: { title: string; path: string }) {
   const [copied, setCopied] = useState(false);
@@ -20,7 +20,8 @@ export default function Share({ title, path }: { title: string; path: string }) 
     window.open(make(urlNow()), "_blank", "noopener,noreferrer");
   };
   const x = (url: string) => `https://twitter.com/intent/tweet?text=${enc(title)}&url=${enc(url)}`;
-  const linkedin = (url: string) => `https://www.linkedin.com/feed/?shareActive=true&text=${enc(`${title}\n\n${url}`)}`;
+  // Official share endpoint: works logged-out (login then returns here) and in the mobile app. LinkedIn builds the card from the page's og: tags.
+  const linkedin = (url: string) => `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`;
   const fallback = `https://comprinno.net${path}`;
 
   return (

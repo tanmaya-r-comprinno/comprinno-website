@@ -16,7 +16,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/"],
+      disallow: ["/api/", "/oauth/"],
       // Agentmap points agents at the AI catalog (ARD discovery).
       other: { "Content-Signal": PRODUCTION_SIGNALS, Agentmap: `${site.url}/.well-known/ai-catalog.json` },
     },

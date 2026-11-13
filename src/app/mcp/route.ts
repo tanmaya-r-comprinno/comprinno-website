@@ -4,6 +4,7 @@
  * Tools are defined in src/lib/agentApi.ts; none of them write data or call other services.
  */
 import { SERVER_INFO, tools, toolByName } from "@/lib/agentApi";
+import { MCP_RESOURCE, oauthEnabled, verifyAccessToken, wwwAuthenticate } from "@/lib/oauth";
 import { site } from "@/lib/site";
 
 const SUPPORTED_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
@@ -19,7 +20,8 @@ const fail = (id: JsonRpcId, code: number, message: string) => ({ jsonrpc: "2.0"
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Accept, Mcp-Protocol-Version, Mcp-Session-Id",
+  "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization, Mcp-Protocol-Version, Mcp-Session-Id",
+  "Access-Control-Expose-Headers": "WWW-Authenticate",
 };
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...CORS } });
@@ -66,6 +68,17 @@ function handle(msg: JsonRpcRequest): object | null {
 }
 
 export async function POST(request: Request) {
+  // Tokens are optional (all content is public). A token that is sent must be valid.
+  const auth = request.headers.get("authorization");
+  if (auth && oauthEnabled()) {
+    const token = auth.match(/^Bearer\s+(\S+)$/i)?.[1];
+    if (!token || !verifyAccessToken(token, MCP_RESOURCE)) {
+      return new Response(JSON.stringify(fail(null, -32001, "Invalid or expired access token")), {
+        status: 401,
+        headers: { "Content-Type": "application/json", "WWW-Authenticate": wwwAuthenticate("invalid_token"), ...CORS },
+      });
+    }
+  }
   const text = await request.text();
   if (text.length > MAX_BODY_BYTES) return json(fail(null, -32600, "Request too large"), 413);
   let body: unknown;
