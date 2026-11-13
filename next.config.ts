@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const isProduction =
+  (process.env.NEXT_PUBLIC_SITE_URL ?? "https://comprinno.net") === "https://comprinno.net";
+
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
@@ -36,6 +39,7 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          ...(isProduction ? [] : [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]),
         ],
       },
     ];

@@ -1,6 +1,8 @@
+export const PRODUCTION_URL = "https://comprinno.net";
+
 export const site = {
   name: "Comprinno",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://comprinno.net",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? PRODUCTION_URL,
   tagline: "Agentic AI first. Built for the cloud.",
   description:
     "Comprinno is an agentic-AI-first Premier Tier cloud partner. We migrate, modernize and run your cloud, then build, govern and scale AI agents on it.",
@@ -86,3 +88,6 @@ export const nav: NavGroup[] = [
     ],
   },
 ];
+
+/** Only the production origin may be indexed; staging and anything else is noindex. */
+export const isProduction = site.url === PRODUCTION_URL;
