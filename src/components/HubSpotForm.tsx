@@ -86,6 +86,7 @@ const FORM_CSS = `
   .hs-form .hs-button:hover, .hs-form input[type="submit"]:hover { background: var(--ochre) !important; border-color: var(--ochre) !important; }
   .hs-form .hs-button:active { transform: translateY(1px); }
   .hs-form .hs-button:focus-visible { outline: 2px solid var(--blue) !important; outline-offset: 2px; }
+  .hubspot-link__container, .hubspot-link, [class*="hubspot-link"], a[href*="hubspot.com/products/marketing/forms"] { display: none !important; } /* HubSpot free-plan branding */
   .submitted-message { font-size: 1rem; line-height: 1.6; color: var(--ink); }
 `;
 
