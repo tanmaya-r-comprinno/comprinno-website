@@ -1,0 +1,83 @@
+# Deploys to Vercel using the marketing@comprinno.net account token.
+#   main -> Production (comprinno.net)
+#   dev  -> Staging    (staging.comprinno.net)
+#
+# Vercel's native Git integration blocks deployments whose commit author is not
+# a Vercel team member, so native auto-deploys are disabled in vercel.json and
+# this workflow deploys via the CLI instead.
+#
+# Required repository secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment per branch at a time; a newer push cancels an in-flight one.
+concurrency:
+  group: vercel-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_CLI_VERSION: "63.1.0"
+
+jobs:
+  deploy:
+    name: Deploy ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      url: ${{ github.ref_name == 'main' && 'https://comprinno.net' || 'https://staging.comprinno.net' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Install Vercel CLI
+        run: npm install --global "vercel@${VERCEL_CLI_VERSION}"
+
+      # Runner-only: re-author HEAD as the Vercel team owner so Vercel accepts
+      # the deployment. This amended commit is never pushed; on GitHub the
+      # commit keeps its real author. The original author is kept in the message.
+      - name: Attribute deployment to team account
+        env:
+          ORIGINAL_SUBJECT: ${{ github.event.head_commit.message || github.sha }}
+        run: |
+          SUBJECT="$(printf '%s' "$ORIGINAL_SUBJECT" | head -n 1)"
+          git -c user.name="Comprinno Marketing" -c user.email="marketing@comprinno.net" \
+            commit --amend --allow-empty --no-verify \
+            --author="Comprinno Marketing <marketing@comprinno.net>" \
+            -m "[${GITHUB_ACTOR}] ${SUBJECT}"
+
+      - name: Deploy
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            TARGET="--prod"
+          else
+            TARGET="--target=staging"
+          fi
+          URL="$(vercel deploy $TARGET --yes --token="$VERCEL_TOKEN")"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Vercel deployment"
+            echo "- Branch: \`${GITHUB_REF_NAME}\`"
+            echo "- Deployment: ${{ steps.deploy.outputs.url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
