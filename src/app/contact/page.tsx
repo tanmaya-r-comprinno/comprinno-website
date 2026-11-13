@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
+import HubSpotForm from "@/components/HubSpotForm";
 import { site } from "@/lib/site";
 import OfficeMap from "./OfficeMap";
 
@@ -11,21 +12,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-const input =
-  "mt-1 w-full border border-line-strong bg-bg px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-[#006bc9] focus:outline-none";
-const label = "text-sm font-medium text-ink";
+// Same HubSpot form as the WordPress contact page.
+const HUBSPOT_PORTAL_ID = "4699526";
+const HUBSPOT_FORM_ID = "aa061395-24b5-4af9-b053-79820f06dd18";
 
 const next = [
   { title: "We read your request", desc: "Your details go straight to our team, not a general inbox." },
   { title: "An expert replies in 24 to 48 hours", desc: "Usually to set up a short call about your goals." },
   { title: "We agree next steps", desc: "A plan, an assessment or a proposal, depending on what you need." },
-];
-
-const topics = ["Migrate to the cloud", "Modernize applications", "Managed services", "Cost and performance", "AI and agents", "Our products", "Something else"];
-
-const countries = [
-  "India", "United States", "United Kingdom", "United Arab Emirates", "Saudi Arabia", "Singapore", "Australia", "Canada",
-  "Germany", "France", "Netherlands", "Ireland", "Malaysia", "Indonesia", "South Africa", "Other",
 ];
 
 const teams: { title: string; desc: string; email: string; icon: IconName }[] = [
@@ -82,54 +76,13 @@ export default function ContactPage() {
               </p>
             </div>
 
-            {/* Works with zero JavaScript: plain POST to a route handler */}
-            <form action="/api/contact" method="post" className="grid gap-3.5 border border-line border-t-2 border-t-[#006bc9] bg-bg p-5 shadow-sm sm:px-6">
-              <div>
-                <h2 className="text-lg font-semibold text-ink">Tell us about your project</h2>
-                <p className="mt-0.5 text-xs text-muted">All fields are required unless marked optional.</p>
+            {/* HubSpot embedded form, same as the WordPress site (HubSpot handles captcha and consent) */}
+            <div className="border border-line border-t-2 border-t-[#006bc9] bg-bg p-5 shadow-sm sm:px-6">
+              <h2 className="text-lg font-semibold text-ink">Tell us about your project</h2>
+              <div className="mt-3">
+                <HubSpotForm portalId={HUBSPOT_PORTAL_ID} formId={HUBSPOT_FORM_ID} region="na2" fallbackEmail={site.emails.sales} />
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <label className={label}>Full name<input name="name" required autoComplete="name" className={input} /></label>
-                <label className={label}>Work email<input name="email" type="email" required autoComplete="email" className={input} /></label>
-                <label className={label}>Company<input name="company" required autoComplete="organization" className={input} /></label>
-                <label className={label}>Phone <span className="font-normal text-muted">(optional)</span><input name="phone" type="tel" autoComplete="tel" className={input} /></label>
-              </div>
-              <label className={label}>
-                Country
-                <select name="country" required defaultValue="" className={input}>
-                  <option value="" disabled>Select a country</option>
-                  {countries.map((c) => <option key={c}>{c}</option>)}
-                </select>
-              </label>
-              <fieldset>
-                <legend className={label}>What can we help with?</legend>
-                <div className="mt-1.5 flex flex-wrap gap-1.5">
-                  {topics.map((t, i) => (
-                    <label key={t} className="cursor-pointer">
-                      <input type="radio" name="topic" value={t} required={i === 0} className="peer sr-only" />
-                      <span className="block border border-line-strong bg-bg px-2.5 py-1.5 text-xs text-ink transition hover:border-[#006bc9] hover:text-[#006bc9] peer-checked:border-[#006bc9] peer-checked:bg-[#006bc9] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-accent">{t}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <label className={label}>
-                Tell us a little more <span className="font-normal text-muted">(optional)</span>
-                <textarea name="message" rows={2} placeholder="Your goals, timeline or current setup" className={input} />
-              </label>
-              <div className="grid gap-1.5 text-xs text-ink-2">
-                <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#006bc9]" />
-                  <span>I agree to Comprinno processing my information in line with the <a href="/privacy-policy" className="underline underline-offset-2">Privacy policy</a>.</span>
-                </label>
-                <label className="flex items-start gap-2.5">
-                  <input type="checkbox" name="marketing" className="mt-0.5 h-4 w-4 shrink-0 accent-[#006bc9]" />
-                  <span>Send me occasional emails from Comprinno. I can unsubscribe at any time.</span>
-                </label>
-              </div>
-              {/* honeypot */}
-              <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-              <div><button type="submit" className="btn btn-primary">Talk to an expert →</button></div>
-            </form>
+            </div>
           </div>
         </Container>
       </section>
