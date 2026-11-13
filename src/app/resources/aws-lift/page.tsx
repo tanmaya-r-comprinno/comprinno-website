@@ -44,7 +44,7 @@ const programs = [
 const faq = [
   {
     q: "How do I know if my project qualifies?",
-    a: "Eligibility depends on workload type, cloud spend, company stage, and AWS region. Comprinno runs a quick eligibility check in the first conversation — no paperwork needed.",
+    a: "Eligibility depends on workload type, cloud spend, company stage, and AWS region. Comprinno runs a quick eligibility check in the first conversation, with no paperwork needed.",
   },
   {
     q: "Does AWS funding reduce our cost?",
@@ -56,7 +56,7 @@ const faq = [
   },
   {
     q: "How long does the application process take?",
-    a: "MAP and POC applications typically take 1–2 weeks once documentation is submitted. Activate is faster — usually a few days.",
+    a: "MAP and POC applications typically take 1–2 weeks once documentation is submitted. Activate is faster and usually takes a few days.",
   },
   {
     q: "What is Comprinno's role?",
@@ -108,7 +108,7 @@ export default function AwsLiftPage() {
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { step: "01", title: "Eligibility check", desc: "We review your workload type, company stage, and AWS spend against program requirements." },
-            { step: "02", title: "Documentation", desc: "We prepare the technical documentation — architecture diagrams, migration plans, ROI estimates." },
+            { step: "02", title: "Documentation", desc: "We prepare the technical documentation: architecture diagrams, migration plans and ROI estimates." },
             { step: "03", title: "Application", desc: "We submit to AWS and liaise directly with your AWS account team to accelerate approval." },
             { step: "04", title: "Milestone tracking", desc: "We track deliverables and submit evidence to ensure credits are released on schedule." },
           ].map((s) => (

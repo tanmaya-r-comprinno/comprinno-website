@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br } from "@/components/ui";
+import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
@@ -89,6 +89,8 @@ export default function MaximizePage() {
   return (
     <ServiceStory
       d={{
+        contact: contactHref("AI and agents", "/services/maximize"),
+        stories: "/resources/case-studies?service=Generative%20AI#stories",
         hero: {
           eyebrow: "Maximize",
           title: <><span className="lg:whitespace-nowrap">Move AI beyond <strong className="font-bold">pilots</strong> and put it</span><Br /> to work in <strong className="sweep font-bold">production</strong>.</>,

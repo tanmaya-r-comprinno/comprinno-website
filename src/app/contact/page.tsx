@@ -4,6 +4,7 @@ import { IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import { site } from "@/lib/site";
 import OfficeMap from "./OfficeMap";
+import TopicPicker from "./TopicPicker";
 
 export const metadata: Metadata = {
   title: "Talk to an expert",
@@ -101,17 +102,7 @@ export default function ContactPage() {
                   {countries.map((c) => <option key={c}>{c}</option>)}
                 </select>
               </label>
-              <fieldset>
-                <legend className={label}>What can we help with?</legend>
-                <div className="mt-1.5 flex flex-wrap gap-1.5">
-                  {topics.map((t, i) => (
-                    <label key={t} className="cursor-pointer">
-                      <input type="radio" name="topic" value={t} required={i === 0} className="peer sr-only" />
-                      <span className="block border border-line-strong bg-bg px-2.5 py-1.5 text-xs text-ink transition hover:border-[#006bc9] hover:text-[#006bc9] peer-checked:border-[#006bc9] peer-checked:bg-[#006bc9] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-accent">{t}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
+              <TopicPicker topics={topics} label={label} />
               <label className={label}>
                 Tell us a little more <span className="font-normal text-muted">(optional)</span>
                 <textarea name="message" rows={2} placeholder="Your goals, timeline or current setup" className={input} />

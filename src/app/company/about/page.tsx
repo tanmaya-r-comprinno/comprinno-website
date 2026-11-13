@@ -39,7 +39,7 @@ const numbers = [
   { value: "42+", label: "Certifications" },
 ];
 
-// TODO: answers drafted from page copy — confirm.
+// TODO: answers drafted from page copy: confirm.
 const faqs = [
   { q: "Who we are", a: "Comprinno is a cloud and AI company headquartered in Bengaluru, founded in 2013, and an AWS Premier Tier Services Partner. We help teams migrate, modernize, run and secure their cloud, and put AI into production." },
   { q: "Where we work", a: "From offices in Bengaluru and Pune, with a presence in the US and UK, we work with fintech, healthcare, SaaS and enterprise teams around the world." },

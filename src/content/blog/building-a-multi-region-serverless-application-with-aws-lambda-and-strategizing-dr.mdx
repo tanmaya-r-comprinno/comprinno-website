@@ -35,7 +35,7 @@ In order to overcome the above listed problems, we propose the following solutio
 
 - Using S3 to store certain files/data
 
-- Using Amazon Elastic File System — EFS
+- Using Amazon Elastic File System (EFS)
 
 - Using Container Image
 
@@ -227,11 +227,11 @@ To perform S3 cross-account-replication follow the steps:
 
 **Kindly note, the above policy has 3 statements**
 
-- Sid — ‘GetSourceBucketConfiguration’ → provides access to get replication configuration and to get object version for replication on the source bucket
+- Sid ‘GetSourceBucketConfiguration’ → provides access to get replication configuration and to get object version for replication on the source bucket
 
-- Sid — ‘ReplicateToDestinationBuckets’ → provides access to replicate to the destination buckets. Multiple destination buckets can be specified in the array
+- Sid ‘ReplicateToDestinationBuckets’ → provides access to replicate to the destination buckets. Multiple destination buckets can be specified in the array
 
-- Sid — ‘PermissionToOverrideBucketOwner’ → provides access to ObjectOwnerOverrideToBucketOwner so that the destination bucket can own the replicated objects in the destination account that were replicated from the source account
+- Sid ‘PermissionToOverrideBucketOwner’ → provides access to ObjectOwnerOverrideToBucketOwner so that the destination bucket can own the replicated objects in the destination account that were replicated from the source account
 
 **Create an IAM Role.**Navigate to the IAM console and create a role with following:
 
@@ -353,9 +353,9 @@ Select the destination to be a bucket in another account. Enter the destination 
 
 Kindly note the above specified bucket policy statement
 
-- Sid — ‘Permissions on objects and buckets’ → Indicates that the destination bucket can replicate content based on the role defined in the source account. The role will have the source bucket.
+- Sid ‘Permissions on objects and buckets’ → Indicates that the destination bucket can replicate content based on the role defined in the source account. The role will have the source bucket.
 
-- Sid — ‘Permission to override bucket owner’ → Indicates that the destination bucket specified has permission to override the ownership from source account.
+- Sid ‘Permission to override bucket owner’ → Indicates that the destination bucket specified has permission to override the ownership from source account.
 
 **Note:** If there are multiple destination buckets to replicate in different accounts, repeat the above steps.
 

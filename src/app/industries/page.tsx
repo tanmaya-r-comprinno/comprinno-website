@@ -7,7 +7,7 @@ import ServiceStory from "@/components/ServiceStory";
 export const metadata: Metadata = {
   title: "Industries: enterprise AI and cloud expertise",
   description:
-    "We help fintech, healthcare, life sciences and retail companies put AI to work, modernize their cloud environments and manage operations—with security and governance aligned to their business needs.",
+    "We help fintech, healthcare, life sciences and retail companies put AI to work, modernize their cloud environments and manage operations, with security and governance aligned to their business needs.",
   alternates: { canonical: "/industries" },
 };
 
@@ -96,7 +96,7 @@ export default function IndustriesPage() {
           title: <><span className="lg:whitespace-nowrap"><strong className="sweep font-bold">Enterprise AI</strong> and cloud expertise</span><Br /> for <strong className="font-bold">your industry</strong>.</>,
           lines: [
             "We help fintech, healthcare, life sciences and retail companies put AI to work, modernize their cloud environments",
-            "and manage operations—with security and governance aligned to their business needs.",
+            "and manage operations, with security and governance aligned to their business needs.",
           ],
           cta: "Talk to an industry expert",
         },

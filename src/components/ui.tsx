@@ -134,8 +134,12 @@ export function SectionHead({
   );
 }
 
+/** Contact link that preselects a topic on the form and records the page it came from. */
+export const contactHref = (topic: string, from: string) => `/contact?topic=${encodeURIComponent(topic)}&from=${encodeURIComponent(from)}`;
+
 /** Line break that only applies from tablet up; phones wrap naturally. */
-export const Br = () => <br className="hidden sm:block" />;
+// The leading space keeps words apart on phones, where the <br> is hidden ("case<Br />to" must not read "caseto").
+export const Br = () => <>{" "}<br className="hidden sm:block" /></>;
 
 export function PageHero({
   eyebrow,

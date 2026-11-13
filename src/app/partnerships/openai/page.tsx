@@ -1,7 +1,7 @@
 import PartnerPairArt from "@/components/PartnerPairArt";
 import TiltBadge from "@/components/TiltBadge";
 import type { Metadata } from "next";
-import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import FlowLoop from "@/components/FlowLoop";
@@ -69,7 +69,7 @@ const why: { title: string; desc: string; icon: IconName }[] = [
 
 const starts = ["An AI use-case workshop", "Building an AI agent", "Connecting AI to our systems", "Governing and running AI", "Something else"];
 
-// TODO: answers drafted from page copy — confirm with the OpenAI partnership team.
+// TODO: answers drafted from page copy: confirm with the OpenAI partnership team.
 const faqs = [
   { q: "What does OpenAI Select Partner mean?", a: "It means OpenAI has admitted Comprinno to the OpenAI Partner Network at the Select tier, to help organizations plan, build and run solutions on OpenAI models." },
   { q: "Where should we start?", a: "Usually with a short discovery workshop. We shortlist use cases by value, feasibility and risk, check your data and systems, and pick one to prototype." },
@@ -96,7 +96,7 @@ export default function OpenAIPartnerPage() {
                 Use cases, agents, integration and operations on OpenAI models, built on a cloud foundation we already manage.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Talk to our OpenAI team →</Button>
+                <Button href={contactHref("AI and agents", "/partnerships/openai")}>Talk to our OpenAI team →</Button>
               </div>
               <p className="mt-5 font-mono text-[0.7rem] text-muted">OpenAI Select Partner since July 2026</p>
             </div>
@@ -228,7 +228,7 @@ export default function OpenAIPartnerPage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("AI and agents", "/partnerships/openai")}
         title={<>Ready to put OpenAI <strong>to work</strong>?</>}
         desc="Pick a starting point and we'll connect you with the right team."
         steps={[]}

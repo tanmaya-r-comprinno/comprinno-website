@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
@@ -8,7 +8,7 @@ import RainField from "@/components/RainField";
 import { VeriqHero, WorkspaceView, ReviewView, KnowledgeView } from "./Art";
 
 export const metadata: Metadata = {
-  title: "VeriQ agentic due-diligence workspace | Comprinno",
+  title: "VeriQ agentic due-diligence workspace",
   description:
     "VeriQ reads your questionnaire, drafts every answer from your own evidence with citations, and hands it to your team to review and approve.",
   alternates: { canonical: "/products/veriq" },
@@ -73,7 +73,7 @@ const lifecycle = [
 
 const trust = ["Data residency controls", "Audit and compliance trail", "End-to-end encryption", "Sensitive-data protection", "Role-based access control", "Expired and excluded files never cited"];
 
-// TODO: answers drafted from page copy — confirm with the VeriQ team.
+// TODO: answers drafted from page copy: confirm with the VeriQ team.
 // From the Comprinno GenAI use-case sheet (Due Diligence solution).
 const useCases: { team: string; title: string; desc: string; icon: IconName }[] = [
   { team: "Investment firms", title: "Fund due diligence (DDQs)", desc: "Answer investor due-diligence questionnaires from your approved fund documents, policies and reports.", icon: "bank" },
@@ -111,7 +111,7 @@ export default function VeriQPage() {
                 Security checks, supplier forms and tenders: VeriQ drafts each answer from your own documents, and your team approves it.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Book a demo →</Button>
+                <Button href={contactHref("Our products", "/products/veriq")}>Book a demo →</Button>
               </div>
               <p className="mt-6 font-mono text-xs text-muted">For fintech, healthcare, SaaS, life sciences, retail and manufacturing teams</p>
             </div>
@@ -286,7 +286,7 @@ export default function VeriQPage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("Our products", "/products/veriq")}
         title={<>Ready to answer your next questionnaire<Br /> in <strong>minutes</strong>?</>}
         desc="See VeriQ draft real answers from your own evidence, with every source cited."
         steps={["Share a sample questionnaire", "Watch VeriQ draft it from your evidence", "Review the cited answers with us"]}

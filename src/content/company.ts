@@ -34,7 +34,7 @@ export const partners = [
 export const phases = [
   { title: "Assess & plan", desc: "Discovery, assessment, compliance mapping, security gap analysis and cloud funding alignment." },
   { title: "Build & modernize", desc: "Secure cloud foundations, migration, CI/CD, containers and managed databases." },
-  { title: "Operate & manage", desc: "Up to 24×7 operations: patching, monitoring, alerting, auto-remediation and RCA reports." },
+  { title: "Operate & manage", desc: "Operations matched to your support plan: patching, monitoring, alerting, auto-remediation and RCA reports." },
   { title: "Optimize & evolve", desc: "Continuous cost, performance and security optimization, plus AI and ML automation." },
 ];
 

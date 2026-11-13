@@ -5,7 +5,7 @@ import AwsPremierBadge from "@/components/AwsPremierBadge";
 import TiltBadge from "@/components/TiltBadge";
 import ParticleWave from "@/components/ParticleWave";
 import Link from "next/link";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import FlowLoop from "@/components/FlowLoop";
@@ -101,7 +101,7 @@ const outcomes = [
 
 const starts = ["Moving to AWS", "A generative AI pilot", "Managed services", "AWS billing transfer", "A Well-Architected review", "Something else"];
 
-// TODO: answers drafted from page copy — confirm with the AWS alliance team.
+// TODO: answers drafted from page copy: confirm with the AWS alliance team.
 const faqs = [
   { q: "What does AWS Premier Tier mean?", a: "Premier Tier is the highest tier in the AWS Partner Network for services partners. AWS awards it based on validated expertise, certified people, customer outcomes and delivery track record." },
   { q: "Which AWS programs could support our project?", a: "We review your workloads and plans against current AWS programs and tell you which are likely to fit. Programs and credits are subject to AWS eligibility and approval." },
@@ -128,7 +128,7 @@ export default function AwsPage() {
                 One team for the whole AWS relationship, with credentials you can check on AWS.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Talk to an AWS expert →</Button>
+                <Button href={contactHref("", "/partnerships/aws")}>Talk to an AWS expert →</Button>
               </div>
               <dl className="stats stats-words stats-compact mt-10 bg-bg">
                 {numbers.map((st) => (
@@ -214,7 +214,7 @@ export default function AwsPage() {
           ))}
         </ol>
         <div className="mt-16">
-          <SectionHead eyebrow="How it works" title={<>Four steps from <strong>idea</strong> to <strong>approved</strong>.</>} />
+          <SectionHead eyebrow="How it works" title={<>Four steps from <strong>idea</strong> to <strong>funding request</strong>.</>} />
           <FlowLoop items={fundingSteps} />
         </div>
         <p className="mt-4 text-center text-xs text-muted">AWS programs and credits are subject to eligibility and approval.</p>
@@ -258,7 +258,7 @@ export default function AwsPage() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6"><Button href="/contact" variant="ghost">Ask about AWS billing →</Button></div>
+            <div className="mt-6"><Button href={contactHref("", "/partnerships/aws")} variant="ghost">Ask about AWS billing →</Button></div>
           </div>
           {/* illustration in the same style as the home page product scenes */}
           <div className="overflow-hidden">
@@ -306,7 +306,7 @@ export default function AwsPage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("", "/partnerships/aws")}
         title={<>What do you want to do <strong>on AWS</strong>?</>}
         desc="Pick a starting point and we'll route you to the right AWS expert."
         steps={[]}

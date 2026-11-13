@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
@@ -10,7 +10,7 @@ import TevicoHero from "@/components/TevicoHero";
 import { CostView, SecurityView, WarView } from "./InsideViews";
 
 export const metadata: Metadata = {
-  title: "Tevico-powered managed cloud services | Comprinno",
+  title: "Tevico-powered managed cloud services",
   description:
     "Keep your AWS environment secure, reliable and cost-efficient with Comprinno's managed cloud services, supported by Tevico's monitoring, governance and automation capabilities.",
   alternates: { canonical: "/products/tevico" },
@@ -62,7 +62,7 @@ const results = [
   { metric: "$7,000+", what: "saved, with more than 65% less effort", name: "Kamal Aggarwal", role: "Co-founder & CEO, Autowiz" },
 ];
 
-// TODO: answers drafted from page copy — confirm with the managed services team.
+// TODO: answers drafted from page copy: confirm with the managed services team.
 const faqs = [
   { q: "What is Tevico’s role in Comprinno’s managed services?", a: "Tevico is the platform that consolidates cost information, security findings, monitoring, inventory and review progress. Comprinno’s engineers use it to support the operational work in your plan, and it gives you visibility into your environment." },
   { q: "What does Comprinno manage?", a: "Comprinno manages the operational activities, investigations and improvements defined in your managed services plan. The exact scope, coverage and responsibilities are agreed before onboarding." },
@@ -90,8 +90,9 @@ export default function TevicoPage() {
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
                 A secure, reliable, cost-efficient AWS cloud, run by our engineers.
               </p>
-              <div className="mt-8">
-                <Button href="https://tevi.co">Explore Tevico →</Button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button href={contactHref("Managed services", "/products/tevico")}>Discuss managed cloud services →</Button>
+                <Button href="https://tevi.co" variant="ghost" newTab>Explore the Tevico platform ↗</Button>
               </div>
             </div>
             <div>
@@ -197,7 +198,7 @@ export default function TevicoPage() {
 
       {/* ACCESS */}
       <Section tone="surface">
-        <SectionHead eyebrow="Access, approvals and control" title={<>Access aligned with <strong>the work you authorize.</strong></>} desc="Platform assessment and monitoring access should be distinguished from the permissions needed to operate or change your environment. Access, responsibilities and approval requirements are defined as part of the engagement." />
+        <SectionHead eyebrow="Access, approvals and control" title={<>Access aligned with <strong>the work you authorize.</strong></>} desc="Monitoring access is kept separate from the permissions needed to change your environment. We agree the access, responsibilities and change approvals for your service before onboarding." />
         <div className="grid gap-4 md:grid-cols-3">
           {access.map((p) => (
             <div key={p.title} className="card">
@@ -238,7 +239,7 @@ export default function TevicoPage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("Managed services", "/products/tevico")}
         title={<>Ready to put your cloud operations<Br /> in <strong>experienced hands</strong>?</>}
         desc="Discuss your AWS environment, priorities and support needs. We'll define a managed services approach supported by Tevico."
         steps={["30-minute operational review", "Scope, access and approvals agreed", "Onboarding into managed operations"]}

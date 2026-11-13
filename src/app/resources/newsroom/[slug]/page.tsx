@@ -66,7 +66,7 @@ export default async function ReleasePage({ params }: Props) {
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1fr_17rem] lg:gap-14">
             <article className="cs-prose blog-prose min-w-0">
-              <p><strong>{r.place.split(",")[0]}</strong> — {r.lead}</p>
+              <p><strong>{r.place.split(",")[0]}</strong>: {r.lead}</p>
               {r.body && <MDXRemote source={r.body} options={{ mdxOptions: { remarkPlugins: [remarkGfm], format: "md" } }} />}
               {r.quote && (
                 <figure className="mt-8 border-l-[3px] border-[#ffbb00] bg-surface p-6">

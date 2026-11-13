@@ -34,15 +34,15 @@ proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art))
 
 const homeProducts: { name: string; line: string; href: string; screen: string; img?: string }[] = [
   { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen", img: "/products/tevico-dashboard.webp" },
-  { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
-  { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen", img: "/products/voxsphere-dashboard.webp" },
+  { name: "VeriQ", line: "Prepare evidence-backed answers to customer security questionnaires, with human review.", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
+  { name: "VoxSphere", line: "Build voice agents for customer conversations, with human handoff when needed.", href: "/products/voxsphere", screen: "VoxSphere product screen", img: "/products/voxsphere-dashboard.webp" },
   { name: "Weave", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/weave", screen: "Weave run outcome screen", img: "/products/weave-dashboard.webp" },
 ];
 
 const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
-  { name: "SaaS Startups", desc: "Launch fast on a secure baseline, with the credits you qualify for.", icon: "rocket", href: "/industries#saas-isv" },
-  { name: "ISVs", desc: "Multi-tenant SaaS, CI/CD and AWS Marketplace readiness.", icon: "store", href: "/industries#saas-isv" },
-  { name: "Tech-led Enterprises", desc: "Modernize legacy platforms and scale AI across teams.", icon: "building", href: "/industries#tech-enterprises" },
+  { name: "SaaS Startups", desc: "Launch fast on a secure baseline, with the credits you qualify for.", icon: "rocket", href: "/services/migrate" },
+  { name: "ISVs", desc: "Multi-tenant SaaS, CI/CD and AWS Marketplace readiness.", icon: "store", href: "/services/modernize" },
+  { name: "Tech-led Enterprises", desc: "Modernize legacy platforms and scale AI across teams.", icon: "building", href: "/services/maximize" },
 ];
 
 const heroStats = [
@@ -178,7 +178,7 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-8 flex justify-center">
-          <Button href="/contact" variant="ghost" className="stage-check">Which stage are you at? Take the 2-min check →</Button>
+          <Button href="/contact" variant="ghost" className="stage-check">Not sure where to start? Discuss your priorities →</Button>
         </div>
       </Section>
 

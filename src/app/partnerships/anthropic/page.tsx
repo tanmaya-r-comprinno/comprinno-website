@@ -1,7 +1,7 @@
 import PartnerPairArt from "@/components/PartnerPairArt";
 import TiltBadge from "@/components/TiltBadge";
 import type { Metadata } from "next";
-import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import LogoMarquee from "@/components/LogoMarquee";
@@ -70,7 +70,7 @@ const why: { title: string; desc: string; icon: IconName }[] = [
 
 const starts = ["A Claude use-case workshop", "Building an AI agent", "Claude Code for our engineers", "Connecting Claude to our systems", "Something else"];
 
-// TODO: answers drafted from page copy — confirm with the Anthropic partnership team.
+// TODO: answers drafted from page copy: confirm with the Anthropic partnership team.
 const faqs = [
   { q: "Which Claude model should we use?", a: "It depends on the task. We test your use case on the models that fit and pick the one that balances quality, speed and cost, often mixing models within one workflow." },
   { q: "Can Claude connect to our systems?", a: "Yes. Through the Model Context Protocol (MCP) we connect Claude to the tools and data you approve, and nothing else." },
@@ -97,7 +97,7 @@ export default function AnthropicPartnerPage() {
                 Agents, document work and engineering on Claude, run in your own AWS account by the team that manages it.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Talk to our Claude team →</Button>
+                <Button href={contactHref("AI and agents", "/partnerships/anthropic")}>Talk to our Claude team →</Button>
               </div>
             </div>
             <div className="flex justify-center lg:justify-end">
@@ -246,7 +246,7 @@ export default function AnthropicPartnerPage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("AI and agents", "/partnerships/anthropic")}
         title={<>Ready to put Claude <strong>to work</strong>?</>}
         desc="Pick a starting point and we'll connect you with the right team."
         steps={[]}

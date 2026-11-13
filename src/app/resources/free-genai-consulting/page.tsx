@@ -18,7 +18,7 @@ const what = [
 const faq = [
   {
     q: "Is it really free?",
-    a: "Yes. No strings attached. Around 60% of teams continue to work with us after the session, but only because they want to — not because they have to.",
+    a: "Yes. No strings attached. Around 60% of teams continue to work with us after the session, because they choose to, not because they have to.",
   },
   {
     q: "Who runs the session?",
@@ -30,7 +30,7 @@ const faq = [
   },
   {
     q: "What if we already have an AI initiative running?",
-    a: "Even better. We can review what you have built, identify gaps, and recommend improvements — including cost and governance controls for production AI.",
+    a: "Even better. We can review what you have built, identify gaps, and recommend improvements, including cost and governance controls for production AI.",
   },
   {
     q: "Which AI platforms do you work with?",
@@ -46,7 +46,7 @@ export default function FreeGenAIConsultingPage() {
         title={
           <>
             Find your <strong>highest-value AI use case</strong>
-            <Br /> in two hours — at no cost.
+            <Br /> in two hours, at no cost.
           </>
         }
         desc="A focused session with Comprinno's AI specialists. We help you identify the right use case, assess data readiness, and build a production roadmap. No sales pitch."
