@@ -30,6 +30,7 @@ export function llmsTxt(): string {
   out.push(
     `${site.name} is an AWS Premier Tier Services Partner with offices in India, the United States and the United Kingdom.`,
     `Every page below is also available as Markdown: request it with the header \`Accept: text/markdown\`.`,
+    `A public, read-only MCP server is at ${abs("/mcp")} (Streamable HTTP, no authentication; described at ${abs("/.well-known/mcp/server-card.json")}).`,
     "",
   );
 

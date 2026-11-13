@@ -45,16 +45,38 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Agent discovery (RFC 8288): point agents at the plain-text site index.
+        // Agent discovery (RFC 8288): site index, API catalog (RFC 9727) and AI catalog.
         source: "/((?!api/|_next/).*)",
-        headers: [{ key: "Link", value: '</llms.txt>; rel="describedby"; type="text/plain"' }],
+        headers: [
+          {
+            key: "Link",
+            value: [
+              '</llms.txt>; rel="describedby"; type="text/plain"',
+              '</.well-known/api-catalog>; rel="api-catalog"',
+              '</.well-known/ai-catalog.json>; rel="ai-catalog"',
+            ].join(", "),
+          },
+        ],
       },
     ];
   },
-  // /llms.txt and the Markdown route read src/content at request time on Vercel.
+  // Discovery documents for AI agents (src/app/api/agents). Listed one by one so
+  // nothing else under /.well-known (e.g. certificate challenges) is affected.
+  async rewrites() {
+    return [
+      "/.well-known/mcp/server-card.json",
+      "/.well-known/api-catalog",
+      "/.well-known/ai-catalog.json",
+      "/.well-known/poppy.json",
+      "/.well-known/agent-skills/index.json",
+      "/.well-known/agent-skills/:name/SKILL.md",
+    ].map((source) => ({ source, destination: source.replace("/.well-known/", "/api/agents/") }));
+  },
+  // Agent routes read src/content at request time on Vercel.
   outputFileTracingIncludes: {
     "/api/md/*": ["./src/content/**/*"],
     "/llms.txt": ["./src/content/**/*"],
+    "/mcp": ["./src/content/**/*"],
   },
 };
 

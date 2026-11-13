@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
+import WebMcpTools from "@/components/WebMcpTools";
 import { isProduction, site } from "@/lib/site";
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main">{children}</main>
         <Footer />
         <Spotlight />
+        <WebMcpTools />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -13,7 +13,13 @@ export default function robots(): MetadataRoute.Robots {
     return { rules: { userAgent: "*", disallow: "/", other: { "Content-Signal": STAGING_SIGNALS } } };
   }
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/api/"], other: { "Content-Signal": PRODUCTION_SIGNALS } },
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/"],
+      // Agentmap points agents at the AI catalog (ARD discovery).
+      other: { "Content-Signal": PRODUCTION_SIGNALS, Agentmap: `${site.url}/.well-known/ai-catalog.json` },
+    },
     sitemap: `${site.url}/sitemap.xml`,
   };
 }
