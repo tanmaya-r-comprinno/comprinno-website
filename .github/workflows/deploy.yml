@@ -1,5 +1,5 @@
 # Deploys to Vercel using the marketing@comprinno.net account token.
-#   main -> Production (comprinno.net)
+#   main -> Production (comprinno.net), tagged prod-YYYY.MM.DD.N once verified live
 #   dev  -> Preview    (staging.comprinno.net, aliased after each deploy)
 #
 # Vercel's native Git integration blocks deployments whose commit author is not
@@ -33,6 +33,9 @@ jobs:
     name: Deploy ${{ github.ref_name == 'main' && 'production' || 'preview' }}
     if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
+    # contents: write is only used to push the production release tag.
+    permissions:
+      contents: write
     environment:
       name: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
       url: ${{ github.ref_name == 'main' && 'https://comprinno.net' || 'https://staging.comprinno.net' }}
@@ -100,10 +103,44 @@ jobs:
           echo "::error::$SITE is not serving commit $GITHUB_SHA"
           exit 1
 
+      # Every verified production deployment gets an annotated tag on the exact
+      # GitHub commit that is live (not the runner-only amended commit above).
+      # Format: prod-YYYY.MM.DD.N (UTC date, N counts deployments that day).
+      - name: Tag production release
+        id: tag
+        if: github.ref_name == 'main'
+        env:
+          DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          DAY="$(date -u +%Y.%m.%d)"
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          for attempt in 1 2 3; do
+            # Next free number for today, from the tags already on GitHub
+            LAST="$(git ls-remote --tags origin "refs/tags/prod-${DAY}.*" \
+              | sed -nE "s#.*refs/tags/prod-${DAY//./\\.}\.([0-9]+)\$#\1#p" | sort -n | tail -1)"
+            TAG="prod-${DAY}.$(( ${LAST:-0} + 1 ))"
+            git -c user.name="github-actions[bot]" \
+                -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              tag -f -a "$TAG" "$GITHUB_SHA" \
+                -m "Production deployment ${TAG}" \
+                -m "Commit: ${GITHUB_SHA}" -m "Deployment: ${DEPLOY_URL}" -m "Workflow run: ${RUN_URL}"
+            if git push origin "refs/tags/${TAG}"; then
+              echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+              echo "Tagged $GITHUB_SHA as $TAG"
+              exit 0
+            fi
+            echo "Tag $TAG was taken, retrying"; git tag -d "$TAG"; sleep 2
+          done
+          echo "::error::Could not push a production tag"
+          exit 1
+
       - name: Summary
         run: |
           {
             echo "### Vercel deployment"
             echo "- Branch: \`${GITHUB_REF_NAME}\`"
             echo "- Deployment: ${{ steps.deploy.outputs.url }}"
+            if [ -n "${{ steps.tag.outputs.tag }}" ]; then
+              echo "- Release tag: \`${{ steps.tag.outputs.tag }}\`"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
