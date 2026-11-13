@@ -505,7 +505,7 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 /* ---------- One hero height on every page (matches the home hero) ---------- */
 @media (min-width: 640px) {
   /* 45rem = 10 grid cells (72px), so the grid ends on a full row; padding trimmed so every hero's content fits */
-  .hero-block { display: flex; flex-direction: column; justify-content: center; height: 45rem; }
+  .hero-block { display: flex; flex-direction: column; justify-content: center; min-height: 45rem; }
   .hero-block > :not(.hero-grid) { padding-top: 3rem; padding-bottom: 3rem; }
 }
 
