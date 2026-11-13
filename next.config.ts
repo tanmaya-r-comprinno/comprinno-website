@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+// Old WordPress URLs -> their new home (generated from the old site's sitemap).
+import wordpressRedirects from "./src/content/wordpressRedirects.json";
 
 const isProduction =
   (process.env.NEXT_PUBLIC_SITE_URL ?? "https://comprinno.net") === "https://comprinno.net";
@@ -29,6 +31,7 @@ const nextConfig: NextConfig = {
       { source: "/products/navitus", destination: "/products/tevico", permanent: true },
       { source: "/products/decivo", destination: "/products/weave", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
+      ...wordpressRedirects,
     ];
   },
   async headers() {
