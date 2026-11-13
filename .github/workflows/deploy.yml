@@ -1,6 +1,6 @@
 # Deploys to Vercel using the marketing@comprinno.net account token.
 #   main -> Production (comprinno.net)
-#   dev  -> Staging    (staging.comprinno.net)
+#   dev  -> Preview    (staging.comprinno.net, aliased after each deploy)
 #
 # Vercel's native Git integration blocks deployments whose commit author is not
 # a Vercel team member, so native auto-deploys are disabled in vercel.json and
@@ -30,11 +30,11 @@ env:
 
 jobs:
   deploy:
-    name: Deploy ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    name: Deploy ${{ github.ref_name == 'main' && 'production' || 'preview' }}
     if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      name: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
       url: ${{ github.ref_name == 'main' && 'https://comprinno.net' || 'https://staging.comprinno.net' }}
     steps:
       - name: Checkout
@@ -69,10 +69,16 @@ jobs:
           if [ "$GITHUB_REF_NAME" = "main" ]; then
             TARGET="--prod"
           else
-            TARGET="--target=staging"
+            TARGET=""
           fi
           URL="$(vercel deploy $TARGET --yes --token="$VERCEL_TOKEN")"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Alias preview to staging domain
+        if: github.ref_name != 'main'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel alias set "${{ steps.deploy.outputs.url }}" staging.comprinno.net --token="$VERCEL_TOKEN"
 
       - name: Summary
         run: |
