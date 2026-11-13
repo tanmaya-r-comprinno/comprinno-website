@@ -67,11 +67,10 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           if [ "$GITHUB_REF_NAME" = "main" ]; then
-            URL="$(vercel deploy --prod --yes --token="$VERCEL_TOKEN")"
+            URL="$(vercel deploy --prod --yes --build-env DEPLOY_SHA="$GITHUB_SHA" --token="$VERCEL_TOKEN")"
           else
             # Staging is the built-in Preview environment, aliased to staging.comprinno.net
-            URL="$(vercel deploy --yes --token="$VERCEL_TOKEN")"
-            vercel alias set "$URL" staging.comprinno.net --token="$VERCEL_TOKEN"
+            URL="$(vercel deploy --yes --build-env DEPLOY_SHA="$GITHUB_SHA" --token="$VERCEL_TOKEN")"
           fi
           echo "url=$URL" >> "$GITHUB_OUTPUT"
 
@@ -80,6 +79,26 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: vercel alias set "${{ steps.deploy.outputs.url }}" staging.comprinno.net --token="$VERCEL_TOKEN"
+
+      - name: Verify live site serves this commit
+        run: |
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            SITE="https://comprinno.net"
+          else
+            SITE="https://staging.comprinno.net"
+          fi
+          for i in $(seq 1 12); do
+            CODE="$(curl -s -o /dev/null -w '%{http_code}' "$SITE/")"
+            SHA="$(curl -sI -H 'Cache-Control: no-cache' "$SITE/" | tr -d '\r' | awk -F': ' 'tolower($1)=="x-deploy-sha"{print $2}')"
+            echo "attempt $i: HTTP $CODE, live sha=${SHA:-none}, expected=$GITHUB_SHA"
+            if [ "$CODE" = "200" ] && [ "$SHA" = "$GITHUB_SHA" ]; then
+              echo "Verified: $SITE is serving $GITHUB_SHA"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::$SITE is not serving commit $GITHUB_SHA"
+          exit 1
 
       - name: Summary
         run: |

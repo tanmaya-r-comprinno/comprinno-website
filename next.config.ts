@@ -39,6 +39,8 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // Commit SHA injected by the deploy workflow; lets CI verify the live site.
+          { key: "X-Deploy-Sha", value: process.env.DEPLOY_SHA ?? "dev" },
           ...(isProduction ? [] : [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]),
         ],
       },
