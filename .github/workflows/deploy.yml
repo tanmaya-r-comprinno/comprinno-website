@@ -67,11 +67,12 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           if [ "$GITHUB_REF_NAME" = "main" ]; then
-            TARGET="--prod"
+            URL="$(vercel deploy --prod --yes --token="$VERCEL_TOKEN")"
           else
-            TARGET=""
+            # Staging is the built-in Preview environment, aliased to staging.comprinno.net
+            URL="$(vercel deploy --yes --token="$VERCEL_TOKEN")"
+            vercel alias set "$URL" staging.comprinno.net --token="$VERCEL_TOKEN"
           fi
-          URL="$(vercel deploy $TARGET --yes --token="$VERCEL_TOKEN")"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
 
       - name: Alias preview to staging domain
