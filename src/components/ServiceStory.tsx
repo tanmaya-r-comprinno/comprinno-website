@@ -245,7 +245,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       </Section>
 
       <CtaBand href={contact} title={d.cta.title} desc={d.cta.desc} steps={d.cta.steps} label={d.cta.label}>
-        <p className="mt-8 font-mono text-xs text-muted [&_a]:text-ink [&_a]:underline [&_a]:underline-offset-4">{d.cta.next}</p>
+        <p className="mt-8 font-mono text-xs leading-[2.4] text-muted [&_a]:text-ink [&_a]:underline [&_a]:underline-offset-4">{d.cta.next}</p>
       </CtaBand>
     </div>
   );
