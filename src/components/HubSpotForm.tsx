@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import Script from "next/script";
 
 type HubSpotForms = {
@@ -87,6 +87,7 @@ const FORM_CSS = `
   .hs-form .hs-button:active { transform: translateY(1px); }
   .hs-form .hs-button:focus-visible { outline: 2px solid var(--blue) !important; outline-offset: 2px; }
   .hs-form__virality-link, iframe[src*="embedded-viral-link"] { display: none !important; } /* HubSpot free-plan branding */
+  .hs-form .hs_recaptcha .input { height: 4.75rem; } /* room for the reCAPTCHA widget, which is positioned over this slot from the parent page */
   .submitted-message { font-size: 1rem; line-height: 1.6; color: var(--ink); }
 `;
 
@@ -110,7 +111,57 @@ function fontFaceCss(): string {
   return rules.join("\n");
 }
 
-function styleIframe(target: HTMLElement) {
+/** The reCAPTCHA widget HubSpot renders for this form: a loose div appended to the end of <body>. */
+function findCaptcha(): HTMLElement | null {
+  const badge = Array.from(document.querySelectorAll<HTMLElement>('body > div > .grecaptcha-badge')).find(
+    (el) => el.getAttribute("data-style") === "inline",
+  );
+  return badge?.parentElement ?? null;
+}
+
+/**
+ * HubSpot mounts its reCAPTCHA in the parent page (Google's script can't run inside
+ * the form iframe), which drops it below the footer. Keep it where it is (moving it
+ * would reload and break the widget) and overlay it on the empty slot the form
+ * reserves for it. Returns a cleanup function.
+ */
+function placeCaptcha(iframe: HTMLIFrameElement, doc: Document): () => void {
+  let box: HTMLElement | null = null;
+
+  const place = () => {
+    box = box ?? findCaptcha();
+    const slot = doc.querySelector<HTMLElement>(".hs_recaptcha .input");
+    if (!box || !slot) return;
+    const f = iframe.getBoundingClientRect();
+    const s = slot.getBoundingClientRect();
+    Object.assign(box.style, {
+      position: "absolute",
+      top: `${window.scrollY + f.top + s.top}px`,
+      left: `${window.scrollX + f.left + s.left}px`,
+      width: "auto",
+      zIndex: "1",
+    });
+  };
+
+  place();
+  const resize = new ResizeObserver(place);
+  resize.observe(doc.documentElement);
+  resize.observe(document.documentElement);
+  // The widget can mount after the form is ready.
+  const mutations = new MutationObserver(place);
+  mutations.observe(document.body, { childList: true });
+  window.addEventListener("resize", place);
+  document.fonts?.ready.then(place);
+
+  return () => {
+    resize.disconnect();
+    mutations.disconnect();
+    window.removeEventListener("resize", place);
+    box?.remove(); // otherwise it lingers at the end of other pages
+  };
+}
+
+function styleIframe(target: HTMLElement): (() => void) | undefined {
   const iframe = target.querySelector("iframe");
   const doc = iframe?.contentDocument;
   if (!iframe || !doc?.head || doc.getElementById("site-form-styles")) return;
@@ -127,6 +178,7 @@ function styleIframe(target: HTMLElement) {
   };
   fit();
   if (doc.body) new ResizeObserver(fit).observe(doc.body);
+  return placeCaptcha(iframe, doc);
 }
 
 /**
@@ -146,6 +198,8 @@ export default function HubSpotForm({
 }) {
   // useId output contains ":" which isn't valid in a CSS selector.
   const targetId = `hs-form-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const cleanup = useRef<(() => void) | undefined>(undefined);
+  useEffect(() => () => cleanup.current?.(), []);
 
   return (
     <>
@@ -173,7 +227,10 @@ export default function HubSpotForm({
             portalId,
             formId,
             target: `#${targetId}`,
-            onFormReady: () => styleIframe(el),
+            onFormReady: () => {
+              cleanup.current?.();
+              cleanup.current = styleIframe(el);
+            },
           });
         }}
       />
