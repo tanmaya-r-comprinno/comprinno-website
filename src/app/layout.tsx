@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
-import { site } from "@/lib/site";
+import { isProduction, site } from "@/lib/site";
 import "./globals.css";
 
 // One variable font, latin subset only, self-hosted by Next. System fallback shows instantly.
@@ -24,6 +26,7 @@ export const metadata: Metadata = {
     description: site.description,
   },
   alternates: { canonical: "/" },
+  robots: isProduction ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
@@ -44,6 +47,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main">{children}</main>
         <Footer />
         <Spotlight />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

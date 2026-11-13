@@ -2,6 +2,9 @@
   "name": "comprinno-website",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,6 +12,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "2.0.1",
+    "@vercel/speed-insights": "2.1.0",
     "gray-matter": "^4.0.3",
     "next": "16.4.5",
     "next-mdx-remote": "^6.0.0",
