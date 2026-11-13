@@ -40,9 +40,14 @@ export type ServiceStoryData = {
   };
   faq: { title: ReactNode; desc: string; items: { q: string; a: string }[]; groups?: { label: string; items: { q: string; a: string }[] }[] };
   cta: { title: ReactNode; desc: string; steps: string[]; label: string; next: ReactNode };
+  /** contact link with the topic and source preselected, e.g. contactHref("Managed services", "/services/manage") */
+  contact?: string;
+  /** case-study index filtered to this offering */
+  stories?: string;
 };
 
 export default function ServiceStory({ d }: { d: ServiceStoryData }) {
+  const contact = d.contact ?? "/contact";
   return (
     <div className="brand">
       {/* HERO */}
@@ -57,7 +62,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
               <span className="lg:block lg:whitespace-nowrap">{d.hero.lines[1]}</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href="/contact">{d.hero.cta} →</Button>
+              <Button href={contact}>{d.hero.cta} →</Button>
             </div>
           </div>
         </Container>
@@ -107,7 +112,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {d.scope.items.map((m) => (
               <li key={m.title}>
-                <Link href="/contact" className="scope-tile group">
+                <Link href={contact} className="scope-tile group">
                   <Icon name={m.icon} className="scope-tile-art" />
                   <span className="scope-tile-title">{m.title}</span>
                 </Link>
@@ -118,7 +123,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
         <ul className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {d.scope.items.map((m) => (
             <li key={m.title}>
-              <Link href="/contact" className="move-tile group">
+              <Link href={contact} className="move-tile group">
                 <span className="move-tile-top">
                   <span className="move-tile-icon" aria-hidden="true"><Icon name={m.icon} className="h-5 w-5" /></span>
                 </span>
@@ -132,7 +137,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
 
       {/* NUMBERS: dark navy band, as on the home page */}
       <Section className="brand-dark">
-        <dl className="stats">
+        <dl className={`stats ${d.numbers.length === 2 ? "stats-2" : d.numbers.length === 3 ? "stats-3" : ""}`}>
           {d.numbers.map((st) => (
             <div key={st.label} className="stat">
               <dt className="stat-label">{st.label}</dt>
@@ -194,7 +199,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
                 <h3 className="mt-2 text-xl font-semibold text-ink">{p.name}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.desc}</p>
                 <div className="mt-6">
-                  <Button href="/contact" variant="ghost">Contact sales{p.featured ? " →" : ""}</Button>
+                  <Button href={contact} variant="ghost">Contact sales{p.featured ? " →" : ""}</Button>
                 </div>
               </div>
             ))}
@@ -213,7 +218,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
         <SectionHead eyebrow="Outcomes" title={d.outcomes.title} desc={d.outcomes.desc} />
         <OutcomeCards picks={d.outcomes.picks} />
         <div className="mt-8 flex justify-center">
-          <Button href="/resources/case-studies" variant="ghost">{d.outcomes.more} →</Button>
+          <Button href={d.stories ?? "/resources/case-studies"} variant="ghost">{d.outcomes.more} →</Button>
         </div>
       </Section>
 
@@ -239,7 +244,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
         </div>
       </Section>
 
-      <CtaBand title={d.cta.title} desc={d.cta.desc} steps={d.cta.steps} label={d.cta.label}>
+      <CtaBand href={contact} title={d.cta.title} desc={d.cta.desc} steps={d.cta.steps} label={d.cta.label}>
         <p className="mt-8 font-mono text-xs text-muted [&_a]:text-ink [&_a]:underline [&_a]:underline-offset-4">{d.cta.next}</p>
       </CtaBand>
     </div>

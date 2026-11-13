@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br } from "@/components/ui";
+import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
@@ -88,6 +88,8 @@ export default function MigratePage() {
   return (
     <ServiceStory
       d={{
+        contact: contactHref("Migrate to the cloud", "/services/migrate"),
+        stories: "/resources/case-studies?service=Migration#stories",
         hero: {
           eyebrow: "Migrate",
           title: <><span className="lg:whitespace-nowrap">Move to the cloud in <strong className="sweep font-bold">planned waves</strong>,</span><Br /> not <strong className="font-bold">one risky leap</strong>.</>,

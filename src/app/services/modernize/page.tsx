@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br } from "@/components/ui";
+import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
@@ -22,7 +22,7 @@ const disciplines = [
   { k: "01 · Solves: slow releases", mark: "Apps", title: "Application Modernization", desc: "Monoliths split into services one piece at a time, using the strangler pattern, so nothing has to be rewritten in a single leap.", tags: ["Microservices", "Incremental, no big bang"] },
   { k: "02 · Solves: legacy costs", mark: "Run", title: "Containers & Serverless", desc: "We move suitable workloads to Amazon EKS, Amazon ECS or AWS Lambda, selecting the deployment model to support scalability and cost efficiency.", tags: ["Pay for use", "Auto-scaling"] },
   { k: "03 · Solves: manual releases", mark: "Ship", title: "DevOps & Platform Engineering", desc: "CI/CD pipelines, infrastructure as code and a shared platform help developers provision resources and deploy applications consistently.", tags: ["CI/CD", "Infrastructure as code"] },
-  { k: "04 · Ready for Maximize", mark: "Data", title: "Database & Data Modernization", desc: "Commercial databases moved to open-source engines such as Amazon Aurora, and silos joined into a data platform that analytics and AI can use.", tags: ["Off legacy licenses", "AI-ready data"] },
+  { k: "04 · Ready for Maximize", mark: "Data", title: "Database & Data Modernization", desc: "Commercial databases moved to managed database services such as Amazon Aurora, and silos joined into a data platform that analytics and AI can use.", tags: ["Off legacy licenses", "AI-ready data"] },
 ];
 
 const scope: { title: string; icon: IconName }[] = [
@@ -38,8 +38,8 @@ const scope: { title: string; icon: IconName }[] = [
 
 const numbers = [
   { value: "1,000", suffix: "+", label: "Projects delivered" },
-  { value: "[X]", suffix: "+", label: "Applications modernized" },
-  { value: "[X]", suffix: "+", label: "CI/CD pipelines automated" },
+  { value: "8", suffix: "", label: "AWS Competencies" },
+  { value: "19", suffix: "", label: "AWS Service Validations" },
   { value: "98", suffix: "%", label: "Client satisfaction (CSAT)" },
 ];
 
@@ -78,7 +78,7 @@ const faqs = [
   { q: "How long does modernization take?", a: "It depends on the size of the portfolio. Because the work runs in increments, the first modernized service reaches production early and value builds from there. The assessment gives you a timeline before you commit." },
   { q: "Can we get funding for modernization?", a: "Some projects qualify, especially when modernization is part of a migration, including Microsoft workloads. We assess eligibility for relevant funding programs during the assessment. Availability depends on the program, project, geography and provider approval." },
   { q: "Should we use containers or serverless?", a: "It depends on the workload. Amazon ECS is simpler for teams new to containers, Amazon EKS suits teams that want Kubernetes, and AWS Lambda suits event-driven and batch work. We recommend one based on your team, workloads and cost." },
-  { q: "Can you move us off Oracle or SQL Server?", a: "Yes. We move commercial databases to open-source engines such as Amazon Aurora, with schema conversion, data validation and a planned cutover." },
+  { q: "Can you move us off Oracle or SQL Server?", a: "Yes. We move commercial databases to managed database services such as Amazon Aurora, with schema conversion, data validation and a planned cutover." },
   { q: "Will our team be able to run the new platform?", a: "Yes. Every engagement includes handover and training. CI/CD pipelines and infrastructure as code help your engineers deploy applications and manage infrastructure consistently. We can also provide ongoing managed operations." },
   { q: "How do you keep security and compliance intact?", a: "Security and compliance controls are integrated into the architecture and delivery pipelines, aligned with your applicable requirements." },
   { q: "What happens after modernization?", a: "We can run what we modernized, up to 24/7, as part of Manage: monitoring, patching, security operations and cost reviews." },
@@ -88,6 +88,8 @@ export default function ModernizePage() {
   return (
     <ServiceStory
       d={{
+        contact: contactHref("Modernize applications", "/services/modernize"),
+        stories: "/resources/case-studies?service=Modernization#stories",
         hero: {
           eyebrow: "Modernize",
           title: <><span className="lg:whitespace-nowrap">Make your apps <strong className="sweep font-bold">AI-ready</strong>, without</span><Br /> a <strong className="font-bold">risky rewrite</strong>.</>,

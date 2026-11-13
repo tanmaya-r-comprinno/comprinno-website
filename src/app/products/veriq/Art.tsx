@@ -165,7 +165,7 @@ export function KnowledgeView() {
   const id = "vqk";
   const docs: [string, string, string, boolean][] = [
     ["SOC 2 Report 2026.pdf", "Audit", "Expires Mar 2027", true],
-    ["ISO 27001 Certificate.pdf", "Certificate", "Expires Aug 2026", true],
+    ["ISO 27001 Certificate.pdf", "Certificate", "Expires Aug 2027", true],
     ["Security Policy v4.pdf", "Policy", "Review Jan 2027", true],
     ["SOC 2 Report 2024.pdf", "Audit", "Expired", false],
   ];

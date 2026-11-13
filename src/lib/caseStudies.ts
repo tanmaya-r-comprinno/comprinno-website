@@ -136,8 +136,13 @@ function metricsOf(sections: Section[]): Metric[] {
   for (const l of lines) {
     const m = l.match(/(\d+(?:\.\d+)?\s?%|\d+(?:\.\d+)?\s?[xX]\b|\d+\+)/);
     if (!m) continue;
-    // drop a leading "Heading:" or "Heading – " so only the description remains
-    let label = l.replace(/^[^:]{0,60}:\s*/, "").replace(/^[^–—]{0,70}\s?[–—]\s?(?=[A-Z0-9])/, "");
+    // drop a leading "Heading:" or "Heading – ", then keep only the sentence (or clause)
+    // that contains the number, so the label says what the figure measures
+    const stripped = l.replace(/^[^:]{0,60}:\s*/, "").replace(/^[^–—]{0,70}\s?[–—]\s?(?=[A-Z0-9])/, "");
+    const body = stripped.includes(m[1]) ? stripped : l;
+    const sentence = body.split(/(?<=[.!?])\s+/).find((x) => x.includes(m[1])) ?? body;
+    const clause = sentence.length > 90 ? sentence.split(/,\s+|;\s+/).find((x) => x.includes(m[1])) ?? sentence : sentence;
+    let label = clause.replace(/^(and|while|with|which|thereby)\s+/i, "").replace(/[.;,]\s*$/, "");
     label = label.charAt(0).toUpperCase() + label.slice(1);
     label = label.length > 90 ? label.slice(0, label.lastIndexOf(" ", 86)) + "…" : label;
     out.push({ value: m[1].replace(/\s/g, "").replace(/X$/, "x"), label });
@@ -153,6 +158,29 @@ function builtWithOf(body: string) {
   return AWS.filter((s) => lower.includes(s.toLowerCase()) || lower.includes(s.replace(/^(Amazon|AWS) /, "").toLowerCase() + " ")).slice(0, 8);
 }
 
+/**
+ * Imported excerpts were cut at a fixed length ("…on its web portal and").
+ * Finish the sentence from the body paragraph it was taken from, or trim to the last full sentence.
+ */
+function completeDescription(raw: string, content: string) {
+  const d = raw.trim();
+  if (!d || /[.!?)”"]$/.test(d)) return d;
+  const norm = (x: string) => x.replace(/[*_\\]/g, "").replace(/[’‘]/g, "'").replace(/\s+/g, " ").toLowerCase();
+  const head = norm(d).slice(0, 40);
+  const para = content.split(/\n\s*\n/).map((x) => x.replace(/\*\*/g, "").trim()).find((x) => norm(x).startsWith(head));
+  if (para) {
+    const out: string[] = [];
+    for (const sen of para.split(/(?<=[.!?])\s+/)) {
+      if (out.join(" ").length >= d.length - 5) break;
+      out.push(sen);
+    }
+    const full = out.join(" ").trim();
+    if (/[.!?]$/.test(full)) return full;
+  }
+  const end = Math.max(d.lastIndexOf(". "), d.lastIndexOf("! "), d.lastIndexOf("? "));
+  return end > 40 ? d.slice(0, end + 1) : d + "…";
+}
+
 let cache: CaseStudy[] | null = null;
 
 /** Every case study with real content, newest first. */
@@ -163,7 +191,7 @@ export function caseStudies(): CaseStudy[] {
     .map((cs) => {
       const fm = cs.frontmatter;
       const industry = industryLabel(fm.industry);
-      const description = decode(fm.description).replace(/\*+/g, "");
+      const description = completeDescription(decode(fm.description).replace(/\*+/g, ""), decode(cs.content));
       const { headline, client, named } = splitTitle(fm.title, fm.client ?? "", industry, description);
       // restore architecture / flow diagrams the import dropped, under their original headings
       const { body: withDiagrams, unplaced } = withImages(`case-studies/${cs.slug}`, dedupeHeadings(cs.content).replace(/^(#{2,4})\s+\**\s*(.+?)\s*\**\s*$/gm, "$1 $2"));

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
@@ -12,7 +12,7 @@ import { WeaveHero, IntakeView, ExecutionView, IntegrationView, GovernanceView }
 const INSIDE_VIEWS = [IntakeView, ExecutionView, IntegrationView, GovernanceView];
 
 export const metadata: Metadata = {
-  title: "Weave enterprise agentic process transformation | Comprinno",
+  title: "Weave enterprise agentic process transformation",
   description:
     "Turn business processes into AI-powered operations. Weave coordinates AI-agent workflows with human oversight, in your cloud, with engineers from discovery to production.",
   alternates: { canonical: "/products/weave" },
@@ -125,7 +125,7 @@ const outcomes: { title: string; desc: string; icon: IconName }[] = [
   { title: "Hours redeployed", desc: "Time your team moves to higher-value work.", icon: "users" },
 ];
 
-// TODO: answers drafted from the product brief — confirm with the Weave team.
+// TODO: answers drafted from the product brief: confirm with the Weave team.
 const faqs = [
   { q: "Is Weave available today?", a: "Yes. We're working with teams to take their first workflows to production." },
   { q: "Is this a chatbot or a copilot?", a: "No. Weave runs whole business processes as workflows of specialized agents, with people supervising approvals and exceptions." },
@@ -151,7 +151,7 @@ export default function WeavePage() {
                 Move beyond AI experiments. Coordinated agent workflows for real processes, with human oversight, in your cloud, and engineers from discovery to production.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Explore your first workflow →</Button>
+                <Button href={contactHref("Our products", "/products/weave")}>Explore your first workflow →</Button>
               </div>
             </div>
             <WeaveHero />
@@ -318,7 +318,7 @@ export default function WeavePage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("Our products", "/products/weave")}
         title={<>Which business process should<Br /> you <strong>transform first</strong>?</>}
         desc="Bring us a workflow with repetitive digital work, clear decision points and a measurable outcome. We'll help assess whether it suits agentic automation."
         steps={["Walk us through the process", "Assess its suitability together", "Agree a first workflow to validate"]}

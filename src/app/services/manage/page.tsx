@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br } from "@/components/ui";
+import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
 export const metadata: Metadata = {
-  title: "Manage: your cloud environment—managed, secure and ready for audit",
+  title: "Manage: your cloud environment, managed, secure and ready for audit",
   description:
-    "One accountable team runs your cloud environment 24/7: monitoring, patching, incident response, security operations, compliance evidence, disaster recovery and cost control. Every plan includes Tevico Premium.",
+    "One accountable team runs your cloud environment, with coverage matched to your plan: monitoring, patching, incident response, security operations, compliance evidence, disaster recovery and cost control. Every plan includes Tevico Premium.",
   alternates: { canonical: "/services/manage" },
 };
 
@@ -99,11 +99,13 @@ export default function ManagePage() {
   return (
     <ServiceStory
       d={{
+        contact: contactHref("Managed services", "/services/manage"),
+        stories: "/resources/case-studies?service=Cost%20and%20operations#stories",
         hero: {
           eyebrow: "Manage",
-          title: <><span className="lg:whitespace-nowrap">Your cloud environment—<strong className="sweep font-bold">managed</strong>,</span><Br /> <strong className="font-bold">secure</strong> and <strong className="font-bold">ready for audit</strong>.</>,
+          title: <><span className="lg:whitespace-nowrap">Your cloud environment: <strong className="sweep font-bold">managed</strong>,</span><Br /> <strong className="font-bold">secure</strong> and <strong className="font-bold">ready for audit</strong>.</>,
           lines: [
-            "One accountable team runs your cloud environment 24/7: monitoring, patching, incident response,",
+            "One accountable team runs your cloud environment, with coverage matched to your plan: monitoring, patching, incident response,",
             "security operations, compliance evidence, disaster recovery and cost control. Every plan includes Tevico Premium.",
           ],
           cta: "Talk to our CloudOps team",

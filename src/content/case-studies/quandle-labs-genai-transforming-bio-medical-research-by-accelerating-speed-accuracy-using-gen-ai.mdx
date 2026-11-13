@@ -39,7 +39,7 @@ At the heart of Comprinno’s solution is the **Retrieval-Augmented Generation 
 
 #### ****Generating Output and Ensuring Accuracy****
 
-Once embeddings are retrieved, the next step is to generate highly accurate responses. To minimize **hallucinations**—where models might produce information not grounded in the data—the pipeline uses SageMaker to rank the **top-k chunks** of relevant data from the vector database. These chunks are then re-ranked according to the user’s query, ensuring the most precise and meaningful results are returned. Additionally, **Amazon SageMaker** enables the pipeline to provide **citations** alongside responses, referencing the original sources from the vector store to maintain accuracy and trustworthiness in the output.
+Once embeddings are retrieved, the next step is to generate highly accurate responses. To minimize **hallucinations**, where models produce information not grounded in the data, the pipeline uses SageMaker to rank the **top-k chunks** of relevant data from the vector database. These chunks are then re-ranked according to the user’s query, ensuring the most precise and meaningful results are returned. Additionally, **Amazon SageMaker** enables the pipeline to provide **citations** alongside responses, referencing the original sources from the vector store to maintain accuracy and trustworthiness in the output.
 
 - 
 
@@ -64,7 +64,3 @@ Throughout the entire process, **SageMaker** is central to ensuring that the s
 - **Streamlined Workflow**: The automation provided by the RAG pipeline, powered by SageMaker, simplified previously labor-intensive processes, allowing researchers to focus on the core analysis rather than technical setup.
 
 - **Compliance and Security**: The solution maintained strict data isolation and encryption practices, ensuring that Quandle Labs met regulatory requirements, especially important in the healthcare and biomedical sectors.
-
-> Our collaboration with Comprinno helped us transform carbon market participation. By using GenAI, we’re not just accelerating approvals, we’re enabling sustainable projects to reach the market faster and at scale.
->
-> — **Prasad Puranik**, Founder & CEO | Comprinno

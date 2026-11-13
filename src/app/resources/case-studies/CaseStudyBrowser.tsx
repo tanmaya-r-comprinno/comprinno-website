@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Icon, IconTile } from "@/components/Icon";
 import { serviceIcon } from "@/lib/caseStudyIcons";
@@ -44,9 +45,25 @@ export function CaseCardView({ c }: { c: CaseCard }) {
   );
 }
 
+type Props = { cards: CaseCard[]; services: string[] };
+
+/** Reads ?service=… so service pages can link straight to their own stories. */
+function FromUrl(props: Props) {
+  const want = useSearchParams().get("service");
+  return <Browser {...props} initial={want && props.services.includes(want) ? want : "All"} />;
+}
+
 /** "All customer stories": filter by service, search, load more. */
-export default function CaseStudyBrowser({ cards, services }: { cards: CaseCard[]; services: string[] }) {
-  const [svc, setSvc] = useState("All");
+export default function CaseStudyBrowser(props: Props) {
+  return (
+    <Suspense fallback={<Browser {...props} initial="All" />}>
+      <FromUrl {...props} />
+    </Suspense>
+  );
+}
+
+function Browser({ cards, services, initial }: Props & { initial: string }) {
+  const [svc, setSvc] = useState(initial);
   const [q, setQ] = useState("");
   const [shown, setShown] = useState(PAGE);
 

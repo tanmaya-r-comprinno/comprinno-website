@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
@@ -8,7 +8,7 @@ import RainField from "@/components/RainField";
 import { ConfigView, DashboardView, PipelinesView, VoxsphereHero } from "./Art";
 
 export const metadata: Metadata = {
-  title: "VoxSphere AI voice agents on AWS | Comprinno",
+  title: "VoxSphere AI voice agents on AWS",
   description:
     "Automate post-sales support and outbound calls with real-time, multilingual AI voice agents grounded in your own knowledge, deployed by Comprinno in your AWS account.",
   alternates: { canonical: "/products/voxsphere" },
@@ -69,7 +69,7 @@ const engagements = [
 
 const aims = ["Lower cost per interaction on high-volume, repetitive calls", "24/7 availability with instant answers and no wait", "A consistent experience, without variation between agents and shifts", "Structured post-call intelligence for better decisions"];
 
-// TODO: answers drafted from page copy — confirm with the VoxSphere team.
+// TODO: answers drafted from page copy: confirm with the VoxSphere team.
 const faqs = [
   { q: "What is VoxSphere?", a: "VoxSphere is a platform for real-time, multilingual AI voice agents. It runs serverless in your AWS account, grounds answers in your own knowledge and handles post-sales support and outbound calls." },
   { q: "What does Comprinno do in a VoxSphere engagement?", a: "Comprinno deploys VoxSphere in your AWS account and sets up the integrations, agent workflows and rollout included in your engagement. Support and escalation paths are agreed up front." },
@@ -98,7 +98,7 @@ export default function VoxSpherePage() {
                 VoxSphere picks up support calls and runs outbound campaigns in Hindi and English, inside your own AWS account.
               </p>
               <div className="mt-8">
-                <Button href="/contact">Discuss your voice AI use case →</Button>
+                <Button href={contactHref("Our products", "/products/voxsphere")}>Discuss your voice AI use case →</Button>
               </div>
             </div>
             <div>
@@ -251,7 +251,7 @@ export default function VoxSpherePage() {
         </div>
       </Section>
 
-      <CtaBand
+      <CtaBand href={contactHref("Our products", "/products/voxsphere")}
         title={<>Ready to put an <strong>AI voice agent</strong><Br /> on your next call?</>}
         desc="Bring one call type you want off your team's plate. We'll show you what an agent would sound like on it."
         steps={["30-minute use case review", "Scope, integrations and guardrails agreed", "Deployment in your AWS account"]}
