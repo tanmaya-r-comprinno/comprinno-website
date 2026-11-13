@@ -1,7 +1,7 @@
 /**
  * AWS Partner, Premier Tier Services badge drawn as vector (crisp at any size).
- * Layout follows the official badge: white plaque with cut corners and an AWS
- * orange border, the AWS logo, "PARTNER" and the tier name.
+ * Layout follows the official badge: white plaque with cut corners and an AWS orange
+ * border, the AWS logo, "PARTNER" and the tier name.
  */
 import { AWS_SMILE, AWS_TEXT } from "./NewsBanner";
 

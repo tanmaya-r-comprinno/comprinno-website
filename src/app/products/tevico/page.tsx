@@ -6,6 +6,8 @@ import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
+import TevicoHero from "@/components/TevicoHero";
+import { CostView, SecurityView, WarView } from "./InsideViews";
 
 export const metadata: Metadata = {
   title: "Tevico-powered managed cloud services | Comprinno",
@@ -13,21 +15,6 @@ export const metadata: Metadata = {
     "Keep your AWS environment secure, reliable and cost-efficient with Comprinno's managed cloud services, supported by Tevico's monitoring, governance and automation capabilities.",
   alternates: { canonical: "/products/tevico" },
 };
-
-/** Framed product-screen placeholder (swap for real screenshots later). */
-function Screen({ name, label }: { name: string; label: string }) {
-  return (
-    <figure className="border border-line-strong bg-bg">
-      <figcaption className="flex items-center gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span className="flex gap-1" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 border border-line-strong" />)}</span>
-        Tevico · {name}
-      </figcaption>
-      <div className="bg-grid flex aspect-[16/10] items-center justify-center p-4">
-        <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">Screenshot needed: {label}</span>
-      </div>
-    </figure>
-  );
-}
 
 const numbers = [
   { value: "60", suffix: "%", label: "Average cost reduction from Tevico recommendations" },
@@ -52,9 +39,9 @@ const capabilities: { title: string; desc: string; icon: IconName }[] = [
 const alsoSupported = ["AWS security assessments", "AWS Well-Architected Reviews", "Incident workflow integrations", "Compliance findings and reporting"];
 
 const inside = [
-  { k: "01 · Cost view", title: "Understand spending and savings opportunities.", points: ["Spending by account, service, usage type and AWS Region", "Daily cost trends and highest-spend AWS Regions", "Savings recommendations, such as rightsizing overprovisioned Amazon EC2 instances"], screen: ["Cost Dashboard", "Tevico cost dashboard view"], caption: "Cost visibility and recommendations to support Comprinno’s optimization reviews." },
-  { k: "02 · Security view", title: "Track findings and security trends.", points: ["Findings organized by severity and affected resources", "Security score history to show changes over time", "Information to support investigation and remediation prioritization"], screen: ["Security", "Tevico security view"], caption: "Security findings and trends to support agreed operational reviews." },
-  { k: "03 · AWS Well-Architected Review view", title: "Keep review findings and remediation progress visible.", points: ["Automatically identified findings where supported", "Remediation planning and progress tracking", "Architecture documentation alongside review information"], screen: ["AWS Well-Architected Review", "Tevico AWS Well-Architected Review view"], caption: "Review information and progress tracking to support engineering follow-through." },
+  { k: "01 · Cost view", title: "Understand spending and savings opportunities.", points: ["Spending by account, service, usage type and AWS Region", "Daily cost trends and highest-spend AWS Regions", "Savings recommendations, such as rightsizing overprovisioned Amazon EC2 instances"] },
+  { k: "02 · Security view", title: "Track findings and security trends.", points: ["Findings organized by severity and affected resources", "Security score history to show changes over time", "Information to support investigation and remediation prioritization"] },
+  { k: "03 · AWS Well-Architected Review view", title: "Keep review findings and remediation progress visible.", points: ["Automatically identified findings where supported", "Remediation planning and progress tracking", "Architecture documentation alongside review information"] },
 ];
 
 const steps = [
@@ -89,7 +76,7 @@ const faqs = [
 
 export default function TevicoPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -107,11 +94,8 @@ export default function TevicoPage() {
                 <Button href="https://tevi.co">Explore Tevico →</Button>
               </div>
             </div>
-            <div className="relative pb-12 pr-10 sm:pb-16 sm:pr-16">
-              <Screen name="Cost Dashboard" label="Tevico cost dashboard" />
-              <div className="absolute bottom-0 right-0 w-[62%] shadow-xl">
-                <Screen name="Security" label="Tevico security view" />
-              </div>
+            <div>
+              <TevicoHero />
             </div>
           </div>
         </Container>
@@ -135,7 +119,7 @@ export default function TevicoPage() {
       {/* OPERATING MODEL */}
       <Section tone="surface" background={<RainField />}>
         <SectionHead eyebrow="Comprinno operates. Tevico enables." title={<>One operating team. <strong>A platform that keeps you informed.</strong></>} desc="Comprinno manages the operational work within your agreed service scope. Tevico brings together the findings, dashboards and automation that support delivery and give you visibility into your environment." />
-        <div className="grid border-t-2 border-ink md:grid-cols-3">
+        <div className="grid border-t-2 border-[#006bc9] md:grid-cols-3">
           {model.map((m, i) => (
             <div key={m.title} className="card">
               <IconTile name={m.icon} />
@@ -172,26 +156,26 @@ export default function TevicoPage() {
       <Section tone="surface" id="inside-tevico">
         <SectionHead eyebrow="Inside Tevico" title={<>Visibility into your cloud <strong>and the work behind it.</strong></>} desc="Explore how Tevico brings together cost information, security findings and review progress to support informed operational decisions." />
         <div className="grid gap-16">
-          {inside.map((x, i) => (
-            <div key={x.k} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-              <div className={i % 2 ? "lg:order-2" : ""}>
-                <p className="font-mono text-[0.7rem] uppercase tracking-widest text-muted">{x.k}</p>
-                <h3 className="mt-2 text-2xl font-semibold text-ink">{x.title}</h3>
-                <ul className="mt-5 grid gap-3">
-                  {x.points.map((p) => (
-                    <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink sm:text-base">
-                      <Icon name="check" className="mt-1 h-4 w-4 shrink-0" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
+          {inside.map((x, i) => {
+            const View = [CostView, SecurityView, WarView][i];
+            return (
+              <div key={x.k} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+                <div className={i % 2 ? "lg:order-2" : ""}>
+                  <p className="font-mono text-[0.7rem] uppercase tracking-widest text-muted">{x.k}</p>
+                  <h3 className="mt-2 text-2xl font-semibold text-ink">{x.title}</h3>
+                  <ul className="mt-5 grid gap-3">
+                    {x.points.map((p) => (
+                      <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink sm:text-base">
+                        <Icon name="check" className="mt-1 h-4 w-4 shrink-0" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className={i % 2 ? "lg:order-1" : ""}><View /></div>
               </div>
-              <div className={i % 2 ? "lg:order-1" : ""}>
-                <Screen name={x.screen[0]} label={x.screen[1]} />
-                <p className="mt-3 text-sm text-muted">{x.caption}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Section>
 
@@ -200,7 +184,10 @@ export default function TevicoPage() {
         <SectionHead eyebrow="Onboarding and ongoing delivery" title={<>From operational review <strong>to ongoing management</strong>.</>} desc="Start with your environment and priorities. Define the service, establish access and transition into agreed operations." />
         <FlowLoop items={steps} icons={["search", "layers", "code", "chart"]} caption="Repeat again: every review cycle improves your cloud operations" />
         <div className="mt-10 grid gap-6 border border-line-strong bg-surface p-6 lg:grid-cols-[1fr_2fr]">
-          <h3 className="text-xl font-semibold text-ink">The engineers behind your cloud operations.</h3>
+          <div>
+            <IconTile name="users" />
+            <h3 className="mt-4 text-xl font-semibold text-ink">The engineers behind your cloud operations.</h3>
+          </div>
           <div>
             <p className="text-sm leading-relaxed text-ink-2 sm:text-base">Comprinno’s cloud operations team uses Tevico alongside agreed tools and runbooks to deliver your managed services scope. Responsibilities, escalation paths and support coverage are established during onboarding.</p>
             <p className="mt-3 font-mono text-xs text-muted">Additional specialist work can be scoped separately where needed.</p>
@@ -257,6 +244,6 @@ export default function TevicoPage() {
         steps={["30-minute operational review", "Scope, access and approvals agreed", "Onboarding into managed operations"]}
         label="Discuss your cloud operations"
       />
-    </>
+    </div>
   );
 }

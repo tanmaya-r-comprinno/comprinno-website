@@ -64,7 +64,7 @@ const included = [
   "Handover and training for your engineering team",
 ];
 
-const credentials = ["AWS DevOps Competency", "AWS Premier Tier Partner", "AWS Managed Service Provider (MSP)", "ISO 27001 & SOC 2 Type II"];
+const credentials = ["AWS DevOps Competency", "AWS Migration and Modernization Competency", "AWS Managed Service Provider (MSP)", "AWS Well-Architected Partner"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [

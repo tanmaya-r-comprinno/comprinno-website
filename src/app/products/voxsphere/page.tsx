@@ -5,6 +5,7 @@ import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
+import { ConfigView, DashboardView, PipelinesView, VoxsphereHero } from "./Art";
 
 export const metadata: Metadata = {
   title: "VoxSphere AI voice agents on AWS | Comprinno",
@@ -12,21 +13,6 @@ export const metadata: Metadata = {
     "Automate post-sales support and outbound calls with real-time, multilingual AI voice agents grounded in your own knowledge, deployed by Comprinno in your AWS account.",
   alternates: { canonical: "/products/voxsphere" },
 };
-
-/** Framed product-screen placeholder (swap for real screenshots later). */
-function Screen({ name, label }: { name: string; label: string }) {
-  return (
-    <figure className="border border-line-strong bg-bg">
-      <figcaption className="flex items-center gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span className="flex gap-1" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 border border-line-strong" />)}</span>
-        VoxSphere · {name}
-      </figcaption>
-      <div className="bg-grid flex aspect-[16/10] items-center justify-center p-4">
-        <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">Screenshot needed: {label}</span>
-      </div>
-    </figure>
-  );
-}
 
 const numbers = [
   { value: "Real-time", label: "Answers drawn from your own knowledge" },
@@ -55,9 +41,9 @@ const capabilities: { title: string; desc: string; icon: IconName }[] = [
 const alsoIncluded = ["Post-call analytics", "Keyword extraction", "Voice persona and brand identity", "Smart interruption handling", "Automated document ingestion", "Business dashboards"];
 
 const inside = [
-  { k: "01 · Dashboards and analytics", title: "See how every call performs.", points: ["Business dashboards for call volume, latency and quality", "Post-call analytics with summaries and keyword extraction", "Every conversation turn, tool call and agent decision logged to Amazon CloudWatch"], screen: ["Dashboard", "VoxSphere dashboard and post-call analytics view"], caption: "Call analytics to support reviews of agent performance and outcomes." },
-  { k: "02 · Two voice pipelines", title: "Pick the pipeline that fits the call.", points: ["Unified speech-to-speech: Amazon Nova Sonic 2 listens, reasons and speaks in one bidirectional stream, in Hindi and English", "Modular pipeline: Deepgram Nova-3, Amazon Nova 2 Lite and ElevenLabs Flash 3 as separate stages, for more languages and mid-call language switching", "Both share the same knowledge base, tools, memory, guardrails and configuration"], screen: ["Pipelines", "pipeline configuration view"], caption: "Two interchangeable architectures on the same AWS foundation." },
-  { k: "03 · Self-service configuration", title: "Launch new use cases without rebuilding.", points: ["Configure agent personas, workflows and negotiation boundaries", "Upload knowledge documents; ingestion keeps answers current", "Natural turn-taking with barge-in handling and filler-word filtering"], screen: ["Admin", "administration interface (personas and knowledge)"], caption: "Self-service setup to speed up new use cases." },
+  { k: "01 · Dashboards and analytics", title: "See how every call performs.", points: ["Business dashboards for call volume, latency and quality", "Post-call analytics with summaries and keyword extraction", "Every conversation turn, tool call and agent decision logged to Amazon CloudWatch"] },
+  { k: "02 · Two voice pipelines", title: "Pick the pipeline that fits the call.", points: ["Unified speech-to-speech: Amazon Nova Sonic 2 listens, reasons and speaks in one bidirectional stream, in Hindi and English", "Modular pipeline: Deepgram Nova-3, Amazon Nova 2 Lite and ElevenLabs Flash 3 as separate stages, for more languages and mid-call language switching", "Both share the same knowledge base, tools, memory, guardrails and configuration"] },
+  { k: "03 · Self-service configuration", title: "Launch new use cases without rebuilding.", points: ["Configure agent personas, workflows and negotiation boundaries", "Upload knowledge documents; ingestion keeps answers current", "Natural turn-taking with barge-in handling and filler-word filtering"] },
 ];
 
 const builtOn = ["Amazon Bedrock AgentCore Runtime", "Amazon Bedrock", "Amazon Bedrock Knowledge Bases", "Amazon Nova Sonic 2", "Amazon Nova 2 Lite", "Amazon ECS (Fargate)", "Amazon ECR", "Elastic Load Balancing", "Amazon S3", "AWS Lambda", "Amazon DynamoDB", "AWS KMS", "Amazon CloudWatch", "Deepgram Nova-3 (AWS Marketplace)"];
@@ -97,7 +83,7 @@ const faqs = [
 
 export default function VoxSpherePage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -115,11 +101,8 @@ export default function VoxSpherePage() {
                 <Button href="/contact">Discuss your voice AI use case →</Button>
               </div>
             </div>
-            <div className="relative pb-12 pr-10 sm:pb-16 sm:pr-16">
-              <Screen name="Dashboard" label="VoxSphere dashboard (latency, quality, tool calls)" />
-              <div className="absolute bottom-0 right-0 w-[62%] shadow-xl">
-                <Screen name="Admin" label="personas and knowledge" />
-              </div>
+            <div>
+              <VoxsphereHero />
             </div>
           </div>
         </Container>
@@ -142,7 +125,7 @@ export default function VoxSpherePage() {
       {/* DELIVERY MODEL */}
       <Section tone="surface" background={<RainField />}>
         <SectionHead eyebrow="Who does what" title={<>We build it. It talks. <strong>You set the rules.</strong></>} desc="Our engineers stand VoxSphere up and wire it into your systems. The agents handle the conversations, and your business users shape how they behave." />
-        <div className="grid border-t-2 border-ink md:grid-cols-3">
+        <div className="grid border-t-2 border-[#006bc9] md:grid-cols-3">
           {model.map((m, i) => (
             <div key={m.title} className="card">
               <IconTile name={m.icon} />
@@ -191,8 +174,7 @@ export default function VoxSpherePage() {
                 </ul>
               </div>
               <div className={i % 2 ? "lg:order-1" : ""}>
-                <Screen name={x.screen[0]} label={x.screen[1]} />
-                <p className="mt-3 text-sm text-muted">{x.caption}</p>
+                {(() => { const View = [DashboardView, PipelinesView, ConfigView][i]; return <View />; })()}
               </div>
             </div>
           ))}
@@ -275,6 +257,6 @@ export default function VoxSpherePage() {
         steps={["30-minute use case review", "Scope, integrations and guardrails agreed", "Deployment in your AWS account"]}
         label="Discuss your voice AI use case"
       />
-    </>
+    </div>
   );
 }

@@ -10,6 +10,7 @@ import { caseStudy } from "@/lib/caseStudies";
 import { serviceIcon } from "@/lib/caseStudyIcons";
 import LogoMarquee from "@/components/LogoMarquee";
 import ProductDiagram from "@/components/ProductDiagram";
+import { badges } from "@/content/badges";
 import ArtTile, { tileFor, ART_TILE_COUNT } from "@/components/ArtTile";
 import FlowLoop from "@/components/FlowLoop";
 import ParticleWave from "@/components/ParticleWave";
@@ -35,7 +36,7 @@ const homeProducts: { name: string; line: string; href: string; screen: string; 
   { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen", img: "/products/tevico-dashboard.webp" },
   { name: "VeriQ", line: "[One-line promise: what VeriQ does and for whom]", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
   { name: "VoxSphere", line: "[One-line promise: what VoxSphere does and for whom]", href: "/products/voxsphere", screen: "VoxSphere product screen", img: "/products/voxsphere-dashboard.webp" },
-  { name: "Decivo", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/decivo", screen: "Decivo run outcome screen", img: "/products/decivo-dashboard.webp" },
+  { name: "Weave", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/weave", screen: "Weave run outcome screen", img: "/products/weave-dashboard.webp" },
 ];
 
 const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
@@ -53,10 +54,10 @@ const heroStats = [
 
 // Official badges live in /public/badges. OpenAI shows its logo (from partnerLogos).
 const credentials: { label: string; badges: { src: string; alt: string; w: number; h: number }[] }[] = [
-  { label: "AWS Premier Tier Partner", badges: [{ src: "/badges/aws-premier-tier-color.webp", alt: "AWS Partner, Premier Tier Services badge", w: 120, h: 120 }] },
-  { label: "AWS MSP", badges: [{ src: "/badges/aws-msp.webp", alt: "AWS Partner, Managed Service Provider badge", w: 294, h: 294 }] },
-  { label: "ISO 27001", badges: [{ src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 299, h: 250 }] },
-  { label: "SOC 2 Type II", badges: [{ src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 307, h: 250 }] },
+  { label: "AWS Premier Tier Partner", badges: [badges.premier] },
+  { label: "AWS MSP", badges: [badges.msp] },
+  { label: "ISO 27001", badges: [{ src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 252, h: 250 }] },
+  { label: "SOC 2 Type II", badges: [{ src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 248, h: 250 }] },
 ];
 
 const stages: Record<string, { title: string; desc: string; includes: string[] }> = {

@@ -35,18 +35,24 @@ const reasons: { title: string; desc: string; icon: IconName }[] = [
   { title: "Flexibility that works", desc: "Flexible timing, built on trust.", icon: "clock" },
 ];
 
-// TODO: add real photos (set src, e.g. "/careers/team-1.jpg"). Shown greyscale, full colour on hover.
-const photos: { src?: string; alt: string; cls?: string }[] = [
-  { alt: "Candid photo 1", cls: "lg:row-span-2" },
-  { alt: "Candid photo 2" },
-  { alt: "Candid photo 3" },
-  { alt: "Candid photo 4" },
-  { alt: "Candid photo 5" },
-  { alt: "Candid photo 6", cls: "lg:col-span-2" },
-  { alt: "Candid photo 7" },
-  { alt: "Candid photo 8" },
-  { alt: "Candid photo 9" },
-  { alt: "Candid photo 10" },
+// Life at Comprinno photos (public/careers). Greyscale, full colour on hover.
+// Mosaic on 4 columns: big = 2x2, wide = 2x1, tall = 1x2. Order fills the grid with no gaps.
+const BIG = "col-span-2 row-span-2";
+const WIDE = "col-span-2";
+const TALL = "row-span-2";
+const photos: { src: string; alt: string; cls?: string; pos?: string }[] = [
+  { src: "/careers/life-festive-day.webp", alt: "The team dressed up for a festive day at the office", cls: BIG },
+  { src: "/careers/life-cricket-team.webp", alt: "Team cricket match at an indoor ground", cls: TALL },
+  { src: "/careers/life-knowledge-session.webp", alt: "An engineer walking the team through a security report" },
+  { src: "/careers/life-movie-outing.webp", alt: "Team movie outing" },
+  { src: "/careers/life-drum-circle.webp", alt: "Drum circle team activity", cls: TALL },
+  { src: "/careers/life-team-selfie.webp", alt: "Big team selfie in the office", cls: WIDE, pos: "object-[50%_40%]" },
+  { src: "/careers/life-welcome-cake.webp", alt: "Cutting a welcome-aboard cake for new joiners", cls: TALL },
+  { src: "/careers/life-team-huddle.webp", alt: "A team working together on laptops" },
+  { src: "/careers/life-leadership-talk.webp", alt: "Leadership talking with the team" },
+  { src: "/careers/life-town-hall.webp", alt: "Team town hall on the office floor", cls: WIDE, pos: "object-[50%_55%]" },
+  { src: "/careers/life-office-floor.webp", alt: "Our office floor under the green ceiling" },
+  { src: "/careers/life-cafeteria-meetup.webp", alt: "Team catch-up in the cafeteria" },
 ];
 
 async function OpenRoles() {
@@ -114,17 +120,11 @@ export default function CareersPage() {
       {/* LIFE */}
       <Section>
         <SectionHead eyebrow="Life at Comprinno" title={<>More than code. <strong>More than cloud.</strong></>} desc="Team days, offsites and the everyday moments in between." />
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid auto-rows-[9rem] grid-flow-dense grid-cols-2 gap-3 sm:auto-rows-[11rem] lg:auto-rows-[13rem] lg:grid-cols-4">
           {photos.map((p) => (
-            <figure key={p.alt} className={`group relative min-h-44 overflow-hidden border border-line bg-surface ${p.cls ?? ""}`}>
-              {p.src ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.src} alt={p.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0 motion-reduce:transition-none" />
-              ) : (
-                <div className="bg-grid absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#cfe5fb] to-[#ffe7a3] grayscale transition duration-500 group-hover:grayscale-0 motion-reduce:transition-none">
-                  <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">{p.alt}</span>
-                </div>
-              )}
+            <figure key={p.src} className={`group relative overflow-hidden border border-line bg-surface ${p.cls ?? ""}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.src} alt={p.alt} loading="lazy" decoding="async" className={`absolute inset-0 h-full w-full object-cover ${p.pos ?? ""} grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0 motion-reduce:transition-none`} />
             </figure>
           ))}
         </div>

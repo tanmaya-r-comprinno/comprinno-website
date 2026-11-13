@@ -4,8 +4,8 @@
  * heroes, in Comprinno brand colours:
  *   Tevico    – isometric cloud stack watched by an AI agent
  *   VeriQ     – a questionnaire filling itself in
- *   VoxSphere – a phone call answered by a voice agent
- *   Decivo    – one agent hub orchestrating business processes
+ *   VoxSphere – a live call answered by a voice agent (console view)
+ *   Weave    – one agent hub orchestrating business processes
  * Pure SVG + light CSS motion (.pd-* in brand.css). viewBox 320 × 200.
  */
 import type { ReactNode } from "react";
@@ -121,28 +121,35 @@ function VoxSphere({ id }: { id: string }) {
   const bars = Array.from({ length: 15 }, (_, i) => 4 + Math.abs(Math.sin(i * 1.3)) * 14);
   return (
     <>
-      <rect x="112" y="14" width="96" height="176" rx="16" fill="#fff" stroke={LINE} filter={`url(#${id}-soft)`} />
-      <rect x="146" y="21" width="28" height="4" rx="2" fill="#dbe6f3" />
-      <text x="160" y="40" fontSize="7" fill="#6b6b6b" textAnchor="middle">Incoming call · 0:42</text>
+      {/* live-call console panel (web, not a mobile app) */}
+      <rect x="96" y="22" width="122" height="160" rx="6" fill="#fff" stroke={LINE} filter={`url(#${id}-soft)`} />
+      <rect x="96" y="22" width="122" height="20" rx="6" fill="#e3f0fc" />
+      <rect x="96" y="36" width="122" height="6" fill="#e3f0fc" />
+      <circle cx="106" cy="32" r="2.6" fill={BLUE} className="pd-blink" />
+      <text x="113" y="34.5" fontSize="6.8" fill={NAVY} fontWeight="700">Live call</text>
+      <text x="210" y="34.5" fontSize="6.4" fill="#6b6b6b" textAnchor="end">0:42</text>
       <g className="pd-bubble" style={{ animationDelay: "0s" }}>
-        <rect x="150" y="50" width="50" height="22" rx="8" fill="#f4f6fa" />
-        <text x="175" y="64" fontSize="6.6" fill={NAVY} textAnchor="middle">Where&apos;s my order?</text>
+        <text x="104" y="56" fontSize="5.4" fill="#6b6b6b">CALLER</text>
+        <rect x="104" y="59" width="106" height="16" rx="4" fill="#f4f6fa" />
+        <text x="110" y="70" fontSize="6.6" fill={NAVY}>Can I move my appointment?</text>
       </g>
       <g className="pd-bubble" style={{ animationDelay: "1s" }}>
-        <rect x="117" y="80" width="84" height="30" rx="8" fill={BLUE} />
-        <text x="126" y="92" fontSize="6.6" fill="#fff">Arriving tomorrow,</text>
-        <text x="126" y="102" fontSize="6.6" fill="#fff">10 AM. Anything else?</text>
+        <text x="210" y="86" fontSize="5.4" fill="#6b6b6b" textAnchor="end">VOICE AGENT</text>
+        <rect x="116" y="89" width="94" height="26" rx="4" fill={BLUE} />
+        <text x="122" y="100" fontSize="6.6" fill="#fff">Done, moved to Friday</text>
+        <text x="122" y="110" fontSize="6.6" fill="#fff">at 3 PM. Anything else?</text>
       </g>
       <g className="pd-bubble" style={{ animationDelay: "2s" }}>
-        <rect x="160" y="118" width="40" height="20" rx="8" fill="#f4f6fa" />
-        <text x="180" y="131" fontSize="6.6" fill={NAVY} textAnchor="middle">That&apos;s all!</text>
+        <rect x="104" y="122" width="48" height="16" rx="4" fill="#f4f6fa" />
+        <text x="110" y="133" fontSize="6.6" fill={NAVY}>No, thanks!</text>
       </g>
-      <g transform="translate(126 150)">
-        {bars.map((h, i) => <rect key={i} x={i * 4.6} y={10 - h / 2} width="2.4" height={h} rx="1.2" fill={SKY} className="pd-eq" style={{ animationDelay: `${-i * 0.12}s` }} />)}
+      <path d="M96 148 H218" stroke="#eef2f8" />
+      <g transform="translate(122 155)">
+        {bars.map((h, i) => <rect key={i} x={i * 5.4} y={10 - h / 2} width="2.6" height={h} rx="1.2" fill={SKY} className="pd-eq" style={{ animationDelay: `${-i * 0.12}s` }} />)}
       </g>
       <Core x={62} y={78} icon="phone" id={id} />
       <Label x={62} y={112} text="Voice agent" w={60} />
-      <path d="M86 80 C 100 80, 104 92, 118 92" stroke={LINE} strokeDasharray="3 3" fill="none" />
+      <path d="M86 80 C 92 80, 92 84, 96 84" stroke={LINE} strokeDasharray="3 3" fill="none" />
       <g className="pd-pop">
         <rect x="224" y="58" width="84" height="22" rx="11" fill="#fff" stroke={LINE} />
         <circle cx="236" cy="69" r="5" fill="#e3f6ec" /><Glyph icon="check" x={236} y={69} size={7} color="#16794a" w={3} />
@@ -158,11 +165,11 @@ function VoxSphere({ id }: { id: string }) {
   );
 }
 
-/* ---------- Decivo: one agent hub orchestrating business processes ---------- */
-function Decivo({ id }: { id: string }) {
+/* ---------- Weave: one agent hub orchestrating business processes ---------- */
+function Weave({ id }: { id: string }) {
   const spokes: [number, number, string, IconName][] = [
     [160, 32, "Invoices", "mail"], [256, 62, "PO matching", "layers"], [256, 138, "Expense claims", "coin"],
-    [160, 168, "Reconciliation", "chart"], [64, 138, "Approvals", "user"], [64, 62, "Audit trail", "eye"],
+    [160, 168, "Reconciliation", "card"], [64, 138, "Approvals", "user"], [64, 62, "Audit trail", "eye"],
   ];
   return (
     <>
@@ -172,13 +179,17 @@ function Decivo({ id }: { id: string }) {
           <circle r="2.2" fill={i % 2 ? GOLD : BLUE}><animateMotion dur="2.4s" begin={`${i * 0.4}s`} repeatCount="indefinite" path={`M160 100L${x} ${y}`} /></circle>
         </g>
       ))}
-      {spokes.map(([x, y, label, icon]) => (
-        <g key={label}>
-          <rect x={x - 38} y={y - 11} width="76" height="22" rx="6" fill="#fff" stroke={LINE} />
-          <Glyph icon={icon} x={x - 26} y={y} size={10} />
-          <text x={x - 17} y={y + 2.8} fontSize="7.2" fill={NAVY} fontWeight="500">{label}</text>
-        </g>
-      ))}
+      {spokes.map(([x, y, label, icon]) => {
+        const w = Math.round(30 + label.length * 4);
+        const left = Math.min(Math.max(x - w / 2, 6), 314 - w);
+        return (
+          <g key={label}>
+            <rect x={left} y={y - 11} width={w} height="22" rx="6" fill="#fff" stroke={LINE} />
+            <Glyph icon={icon} x={left + 12} y={y} size={10} />
+            <text x={left + 21} y={y + 2.8} fontSize="7.2" fill={NAVY} fontWeight="500">{label}</text>
+          </g>
+        );
+      })}
       <Core x={160} y={100} icon="loop" r={24} id={id} />
     </>
   );
@@ -249,7 +260,7 @@ const SCENES: Record<string, { tint: string; el: (id: string) => ReactNode; alt:
   veriq: { tint: "#fff6dc", el: (id) => <VeriQ id={id} />, alt: "VeriQ: a security questionnaire filling itself in, each answer drafted with its source for you to review." },
   voxsphere: { tint: "#e5f3ff", el: (id) => <VoxSphere id={id} />, alt: "VoxSphere: a voice agent answers a customer call, solves the query and hands off to staff when needed." },
   billing: { tint: "#e3f0fc", plain: true, view: "0 8 300 304", el: () => <Billing />, alt: "Your AWS accounts flow into one Comprinno invoice, with savings found and an engineer on call." },
-  decivo: { tint: "#f4f3ff", el: (id) => <Decivo id={id} />, alt: "Decivo: one agent hub runs business processes such as invoices, PO matching, expense claims and approvals." },
+  weave: { tint: "#f4f3ff", el: (id) => <Weave id={id} />, alt: "Weave: one agent hub runs business processes such as invoices, PO matching, expense claims and approvals." },
 };
 
 export default function ProductDiagram({ product }: { product: string }) {

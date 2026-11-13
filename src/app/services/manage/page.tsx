@@ -70,7 +70,7 @@ const plans = [
   { k: "24/7 · Round the clock", name: "Elite", desc: "For businesses that need 24/7 support and have high customer expectations. Adds vendor, access and security posture management, with weekly reports and two AWS Well-Architected Reviews a year.", featured: true },
 ];
 
-const credentials = ["AWS Managed Service Provider (MSP)", "AWS Level 1 MSSP Competency", "AWS Resilience Competency", "ISO 27001 & SOC 2 Type II"];
+const credentials = ["AWS Managed Service Provider (MSP)", "AWS Level 1 MSSP Competency", "AWS Resilience Competency", "AWS Cloud Operations Competency"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [

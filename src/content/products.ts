@@ -57,13 +57,13 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "decivo",
-    name: "Decivo",
+    slug: "weave",
+    name: "Weave",
     category: "Agentic process transformation",
     tagline: "Turn business processes into AI-powered operations",
     desc: "A multi-agent orchestration platform that turns business processes into production AI workflows, supervised by your people and deployed in your own cloud.",
     icon: "layers",
-    href: "/products/decivo",
+    href: "/products/weave",
     features: [
       { title: "Agents that work as a team", desc: "Specialized agents coordinate through one workflow.", icon: "agent" },
       { title: "Runs in your cloud", desc: "Your data, infrastructure and policies stay yours.", icon: "cloud" },

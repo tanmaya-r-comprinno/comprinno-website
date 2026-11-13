@@ -26,6 +26,19 @@ export default function GridGlow() {
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
     io.observe(el);
 
+    // grid offset so lines end cleanly: centred horizontally, a full row at the bottom
+    const grid = el.parentElement as HTMLElement | null;
+    let off = { x: 0, y: 0 };
+    const align = () => {
+      if (!grid) return;
+      const { width, height } = grid.getBoundingClientRect();
+      off = { x: (width % CELL) / 2, y: height % CELL };
+      grid.style.backgroundPosition = `${off.x - CELL / 2 + 0.5}px ${off.y - CELL / 2 + 0.5}px, ${off.x}px ${off.y}px, ${off.x}px ${off.y}px`;
+    };
+    align();
+    const ro = new ResizeObserver(align);
+    if (grid) ro.observe(grid);
+
     const blink = () => {
       if (!visible || document.hidden) return;
       const { width, height } = el.getBoundingClientRect();
@@ -40,7 +53,7 @@ export default function GridGlow() {
         if (Math.abs(c - last.c) + Math.abs(r - last.r) > 3) break;
       }
       last = { c, r };
-      setSpot({ x: c * CELL, y: r * CELL, k: ++k });
+      setSpot({ x: off.x + c * CELL, y: off.y + r * CELL, k: ++k });
     };
 
     blink();
@@ -48,6 +61,7 @@ export default function GridGlow() {
     return () => {
       clearInterval(t);
       io.disconnect();
+      ro.disconnect();
     };
   }, []);
 

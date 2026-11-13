@@ -5,6 +5,7 @@ import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
+import { VeriqHero, WorkspaceView, ReviewView, KnowledgeView } from "./Art";
 
 export const metadata: Metadata = {
   title: "VeriQ agentic due-diligence workspace | Comprinno",
@@ -13,51 +14,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/products/veriq" },
 };
 
-/** Illustrative drafted-answer card for the hero. */
-function DraftCard() {
-  return (
-    <figure className="border border-line-strong bg-bg shadow-xl">
-      <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span>VeriQ · Vendor security questionnaire · Q14 of 212</span>
-        <span className="uppercase tracking-widest">Illustrative</span>
-      </figcaption>
-      <div className="grid gap-4 p-5">
-        <p className="ml-auto max-w-[85%] bg-surface px-4 py-2.5 text-sm text-ink">Do you encrypt customer data at rest? Describe the controls.</p>
-        <div className="border border-line p-4">
-          <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted">Draft answer</p>
-          <p className="mt-2 text-sm leading-relaxed text-ink">Yes. Customer data at rest is encrypted using managed keys, with access restricted by role and reviewed quarterly, as set out in our security policy.</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {["Security Policy v4.pdf · §3.2", "SOC 2 Report 2026.pdf · p.18"].map((c) => <span key={c} className="tag">{c}</span>)}
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2 text-sm" aria-hidden="true">
-          <span className="border border-ink bg-surface px-3 py-1.5 font-medium text-ink">Approve</span>
-          <span className="border border-line-strong px-3 py-1.5 text-ink">Edit</span>
-          <span className="border border-line-strong px-3 py-1.5 text-ink">Flag for review</span>
-        </div>
-      </div>
-    </figure>
-  );
-}
-
-function Screen({ name, label }: { name: string; label: string }) {
-  return (
-    <figure className="border border-line-strong bg-bg">
-      <figcaption className="flex items-center gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span className="flex gap-1" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 border border-line-strong" />)}</span>
-        VeriQ · {name}
-      </figcaption>
-      <div className="bg-grid flex aspect-[16/10] items-center justify-center p-4">
-        <span className="border border-line-strong bg-bg px-3 py-1.5 font-mono text-[0.7rem] text-muted">Screenshot needed: {label}</span>
-      </div>
-    </figure>
-  );
-}
-
 const inside = [
-  { k: "01 · Questionnaire workspace", title: "Every question, drafted and sourced.", points: ["Upload Excel, Word, PDF or CSV questionnaires and see every question parsed into one list", "Each draft shows its confidence and the exact passages it was built from", "Click a citation to open the source document at that passage"], screen: ["Workspace", "questionnaire view with drafts and citations"], caption: "Drafts and their evidence side by side, ready for review." },
-  { k: "02 · Review queue", title: "People decide what ships.", points: ["Low-confidence drafts rise to the top so reviewers start where it matters", "Edit, approve or send back any answer, with a full history of changes", "Approved answers feed back in and sharpen future drafts"], screen: ["Review", "review queue sorted by confidence"], caption: "A review flow that keeps a person accountable for every answer." },
-  { k: "03 · Knowledge and agents", title: "Your evidence, organized and in date.", points: ["Tag policies, reports and certificates, and set expiry and exclusion rules", "Schedule documents to move between Include and Exclude references", "Build agents per team, client or topic, each with its own scope"], screen: ["Knowledge", "knowledge base and agent settings"], caption: "One place to control what VeriQ is allowed to cite." },
+  { k: "01 · Questionnaire workspace", title: "Every question, drafted and sourced.", points: ["Upload Excel, Word, PDF or CSV questionnaires and see every question parsed into one list", "Each draft shows its confidence and the exact passages it was built from", "Click a citation to open the source document at that passage"] },
+  { k: "02 · Review queue", title: "People decide what ships.", points: ["Low-confidence drafts rise to the top so reviewers start where it matters", "Edit, approve or send back any answer, with a full history of changes", "Approved answers feed back in and sharpen future drafts"] },
+  { k: "03 · Knowledge and agents", title: "Your evidence, organized and in date.", points: ["Tag policies, reports and certificates, and set expiry and exclusion rules", "Schedule documents to move between Include and Exclude references", "Build agents per team, client or topic, each with its own scope"] },
 ];
 
 const highlights = [
@@ -136,7 +96,7 @@ const faqs = [
 
 export default function VeriQPage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
@@ -155,7 +115,7 @@ export default function VeriQPage() {
               </div>
               <p className="mt-6 font-mono text-xs text-muted">For fintech, healthcare, SaaS, life sciences, retail and manufacturing teams</p>
             </div>
-            <DraftCard />
+            <VeriqHero />
           </div>
         </Container>
       </section>
@@ -228,8 +188,7 @@ export default function VeriQPage() {
                 </ul>
               </div>
               <div className={i % 2 ? "lg:order-1" : ""}>
-                <Screen name={x.screen[0]} label={x.screen[1]} />
-                <p className="mt-3 text-sm text-muted">{x.caption}</p>
+                {[<WorkspaceView key="w" />, <ReviewView key="r" />, <KnowledgeView key="k" />][i]}
               </div>
             </div>
           ))}
@@ -288,7 +247,7 @@ export default function VeriQPage() {
             <p className="my-3 text-center text-muted" aria-hidden="true">↓</p>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { k: "Include", files: ["SOC 2 Report 2026.pdf", "ISO 27001 Cert.pdf", "Security Policy v4.pdf"], cls: "border-ink bg-surface" },
+                { k: "Include", files: ["SOC 2 Report 2026.pdf", "ISO 27001 Cert.pdf", "Security Policy v4.pdf"], cls: "border-[#006bc9] bg-surface" },
                 { k: "Exclude", files: ["SOC 2 Report 2025.pdf", "ISO 27001 (expired).pdf", "Security Policy v3.pdf"], cls: "border-line text-muted" },
               ].map((col) => (
                 <div key={col.k} className={`border p-3 ${col.cls}`}>
@@ -333,6 +292,6 @@ export default function VeriQPage() {
         steps={["Share a sample questionnaire", "Watch VeriQ draft it from your evidence", "Review the cited answers with us"]}
         label="Book a demo"
       />
-    </>
+    </div>
   );
 }

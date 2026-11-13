@@ -64,7 +64,7 @@ const included = [
   "One team from assessment to managed operations",
 ];
 
-const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "ISO 27001", "SOC 2 Type II"];
+const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "AWS Well-Architected Partner", "AWS Resilience Competency"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [

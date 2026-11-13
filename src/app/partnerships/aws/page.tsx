@@ -11,7 +11,10 @@ import GridGlow from "@/components/GridGlow";
 import FlowLoop from "@/components/FlowLoop";
 import LogoMarquee from "@/components/LogoMarquee";
 import RainField from "@/components/RainField";
+import JourneyClimb from "@/app/company/about/JourneyClimb";
+import { journey } from "@/content/journey";
 import { awsCompetencies, awsHeadline } from "@/content/aws";
+import { badgesFor } from "@/content/badges";
 
 export const metadata: Metadata = {
   title: "AWS Premier Tier Services Partner",
@@ -24,13 +27,15 @@ const certs = awsHeadline.find((h) => h.label === "AWS Certifications")?.value ?
 
 const APN_PROFILE_URL = "https://partners.amazonaws.com/partners/001E000000fdzeRIAQ/Comprinno%20Technologies%20Pvt.%20Ltd.";
 
-const credentials = [
-  { kind: "Competency", name: "Migration" },
+const credentials: { kind: string; name: string; badge?: string }[] = [
+  { kind: "Competency", name: "Migration", badge: "Migration and Modernization" },
   { kind: "Competency", name: "Security" },
   { kind: "Competency", name: "Resilience" },
   { kind: "Competency", name: "AI Services" },
   { kind: "Competency", name: "Data Services" },
   { kind: "Competency", name: "DevOps Consulting" },
+  { kind: "Competency", name: "Cloud Operations" },
+  { kind: "Service Delivery", name: "AWS Database Migration Service" },
   { kind: "Program", name: "Managed Service Provider (MSP)" },
   { kind: "Program", name: "Level 1 MSSP" },
   { kind: "Program", name: "AWS Well-Architected Partner" },
@@ -71,6 +76,9 @@ const stages: { title: string; desc: string; icon: IconName }[] = [
   { title: "AI-first teams", desc: "Production generative AI on Amazon Bedrock, governed from the first sprint.", icon: "spark" },
 ];
 
+// Billing section parked for a couple of months; flip to true to show it again.
+const SHOW_BILLING = false as boolean;
+
 const billing = [
   { title: "One partner, one bill", desc: "Buy AWS through Comprinno and get your usage invoiced by the same team that supports it." },
   { title: "Cost visibility built in", desc: "Track spend by account and service, and act on savings recommendations." },
@@ -81,7 +89,7 @@ const ownProducts = [
   { tag: "On AWS Marketplace", name: "Tevico", desc: "Cloud governance for AWS: cost, security, reliability and inventory in one place.", href: "/products/tevico" },
   { tag: "Amazon Bedrock", name: "VoxSphere", desc: "Real-time AI voice agents on Amazon Bedrock AgentCore, deployed in your AWS account.", href: "/products/voxsphere" },
   { tag: "Agentic AI", name: "VeriQ", desc: "Due-diligence questionnaires answered from your own evidence, with citations.", href: "/products/veriq" },
-  { tag: "Multi-agent", name: "Decivo", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/decivo" },
+  { tag: "Multi-agent", name: "Weave", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/weave" },
 ];
 
 // Real stories from src/content/case-studies; each figure is quoted from that story's results
@@ -164,15 +172,24 @@ export default function AwsPage() {
       {/* VERIFIED */}
       <Section tone="surface" background={<RainField />}>
         <SectionHead eyebrow="Verified on AWS" title={<>Credentials you can <strong>trust.</strong></>} desc="Every competency, program and designation below is validated by AWS and listed on our AWS Partner profile. Don't take our word for it." />
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-          {credentials.map((c) => (
-            <li key={c.name} className="flex flex-col items-center border border-line bg-bg p-4 text-center">
-              {/* TODO: swap the placeholder for the official AWS badge artwork */}
-              <div className="grid aspect-square w-full max-w-[7.5rem] place-items-center border border-dashed border-line-strong font-mono text-[0.55rem] uppercase tracking-widest text-muted">Official badge</div>
-              <p className="mt-4 font-mono text-[0.6rem] uppercase tracking-widest text-muted">{c.kind}</p>
-              <p className="mt-1 text-sm font-semibold leading-snug text-ink">{c.name}</p>
-            </li>
-          ))}
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          {credentials.map((c) => {
+            const badge = badgesFor(c.badge ?? c.name)[0];
+            return (
+              <li key={c.name} className="flex flex-col items-center border border-line bg-bg p-4 text-center">
+                <div className="grid h-[7.5rem] w-full max-w-[7.5rem] place-items-center">
+                  {badge ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={badge.src} alt={badge.alt} width={badge.w} height={badge.h} loading="lazy" className="h-full max-h-[7.5rem] w-full object-contain" />
+                  ) : (
+                    <IconTile name={c.name.includes("Data") ? "database" : "agent"} className="cred-tile" />
+                  )}
+                </div>
+                <p className="mt-4 font-mono text-[0.6rem] uppercase tracking-widest text-muted">{c.kind}</p>
+                <p className="mt-1 text-sm font-semibold leading-snug text-ink">{c.name}</p>
+              </li>
+            );
+          })}
         </ul>
         <div className="mt-8 flex justify-center">
           <Button href={APN_PROFILE_URL} newTab>View Comprinno on the AWS Partner Network ↗</Button>
@@ -217,8 +234,14 @@ export default function AwsPage() {
         </div>
       </Section>
 
-      {/* BILLING */}
-      <Section>
+      {/* OUR JOURNEY (same as About) */}
+      <Section id="journey">
+        <SectionHead eyebrow="Our journey" title={<>From Select <strong>to Premier.</strong></>} desc="Building on AWS, one tier, program and competency at a time." />
+        <JourneyClimb years={journey} />
+      </Section>
+
+      {/* BILLING (parked) */}
+      {SHOW_BILLING && <Section>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
             <Eyebrow>Buy AWS through Comprinno</Eyebrow>
@@ -242,7 +265,7 @@ export default function AwsPage() {
             <div className="mx-auto aspect-[300/304] w-full max-w-[34rem]"><ProductDiagram product="billing" /></div>
           </div>
         </div>
-      </Section>
+      </Section>}
 
       {/* OUR PRODUCTS: same treatment as the home page products section */}
       <Section tone="surface" background={<ParticleWave />}>

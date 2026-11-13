@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
       { source: "/about", destination: "/company/about", permanent: true },
       { source: "/careers", destination: "/company/careers", permanent: true },
       { source: "/products/navitus", destination: "/products/tevico", permanent: true },
+      { source: "/products/decivo", destination: "/products/weave", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
     ];
   },

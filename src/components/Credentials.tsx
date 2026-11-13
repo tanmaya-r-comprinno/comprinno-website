@@ -5,24 +5,11 @@
  */
 import { IconTile, type IconName } from "@/components/Icon";
 import { partnerLogo } from "@/content/partnerLogos";
-
-type Badge = { src: string; alt: string; w: number; h: number };
-const B: Record<string, Badge> = {
-  premier: { src: "/badges/aws-premier-tier-color.webp", alt: "AWS Partner, Premier Tier Services badge", w: 120, h: 120 },
-  msp: { src: "/badges/aws-msp.webp", alt: "AWS Partner, Managed Service Provider badge", w: 294, h: 294 },
-  mssp: { src: "/badges/aws-l1-mssp.webp", alt: "AWS Partner, L1 MSSP Services Competency badge", w: 292, h: 294 },
-  iso: { src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 299, h: 250 },
-  soc: { src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 307, h: 250 },
-};
+import { badgesFor, type Badge } from "@/content/badges";
 
 function lookup(label: string): { badges: Badge[]; openai?: boolean; icon: IconName } {
   const l = label.toLowerCase();
-  const badges: Badge[] = [];
-  if (l.includes("premier")) badges.push(B.premier);
-  if (/\bmsp\b|managed service provider/.test(l) && !/^aws level 1 mssp/.test(l)) badges.push(B.msp);
-  if (l.includes("mssp")) badges.push(B.mssp);
-  if (l.includes("iso 27001")) badges.push(B.iso);
-  if (l.includes("soc 2")) badges.push(B.soc);
+  const badges: Badge[] = badgesFor(label);
   const icon: IconName =
     l.includes("migration") ? "migrate" : l.includes("dms") || l.includes("data") ? "database" : l.includes("security") ? "shield" :
     l.includes("resilience") ? "loop" : l.includes("devops") ? "code" : l.includes("generative") || l.includes("collaboration") ? "agent" :
@@ -32,7 +19,7 @@ function lookup(label: string): { badges: Badge[]; openai?: boolean; icon: IconN
 
 export default function Credentials({ items }: { items: string[] }) {
   return (
-    <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <ul className={`grid grid-cols-2 gap-3 sm:gap-4 ${items.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
       {items.map((label) => {
         const { badges, openai, icon } = lookup(label);
         return (
