@@ -75,9 +75,15 @@ export function Button({
   className?: string;
   newTab?: boolean;
 }) {
+  // keep a trailing arrow on the same line as the last word, so it never wraps alone
+  let body: ReactNode = children;
+  if (typeof children === "string") {
+    const m = children.match(/^(.*?)(\S+\s*[→↗])$/);
+    if (m) body = <span>{m[1]}<span className="whitespace-nowrap">{m[2]}</span></span>;
+  }
   return (
     <Link href={href} className={`btn btn-${variant} ${className}`} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-      {children}
+      {body}
     </Link>
   );
 }

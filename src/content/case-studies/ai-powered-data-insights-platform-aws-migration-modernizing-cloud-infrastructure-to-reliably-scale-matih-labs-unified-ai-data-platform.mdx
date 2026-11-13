@@ -1,0 +1,49 @@
+---
+title: "AI-Powered Data Insights Platform | AWS Migration | Modernizing Cloud Infrastructure to Reliably Scale Matih Labs' Unified AI Data Platform"
+slug: "ai-powered-data-insights-platform-aws-migration-modernizing-cloud-infrastructure-to-reliably-scale-matih-labs-unified-ai-data-platform"
+description: "Matih Labs is a cloud-agnostic AI data platform that turns natural-language intent into production-ready data pipelines, models, and dashboards."
+publishedAt: "2026-11-03"
+client: "Matih Labs"
+industry: "AI Data Platform"
+solutions: ["Modernization"]
+draft: false
+---
+## Client Overview
+
+Matih Labs is a cloud-agnostic AI data platform that turns natural-language intent into production-ready data pipelines, models, and dashboards. By unifying data engineering, machine learning, and BI into a single system, it lets lean teams operate at the scale of much larger data organisations. Matih Labs partnered with Comprinno to migrate its cloud infrastructure from Microsoft Azure to Amazon Web Services. The engagement covered Matih Labs' Development, Staging, and Production environments, with the goal of establishing a consistent, secure, and well-governed foundation that could scale with the company's operations.
+
+## Challenges
+
+As Matih Labs' platform matured, the team set out to move its cloud infrastructure to Amazon Web Services with minimal disruption to running services. Beyond the migration itself, Matih Labs wanted a foundation that could grow with the business: one with consistent, centrally governed access across Development, Staging, and Production; a secure, managed home for containerized applications; disciplined handling of sensitive credentials; clear operational visibility; and transparent cost accountability across environments. Comprinno's task was to design and deliver an AWS environment that met these goals and could be replicated consistently across every stage of the delivery lifecycle.
+
+## Solution
+
+Comprinno designed and delivered a multi-account AWS environment for Matih Labs, built around AWS Organizations for account governance and a dedicated Virtual Private Cloud per environment. For a platform built around orchestrating data pipelines, models, and agents on demand, the underlying cloud needed to match that pace and depth. A few factors made AWS the right foundation for Matih Labs' next stage of growth:
+
+Key Actions:
+
+- Multi-Account Governance and Centralized Identity: Comprinno organized Matih Labs' AWS footprint under AWS Organizations, with centralized billing and organization-wide governance. AWS IAM Identity Center provides single sign-on across accounts, so team members access each environment through role-based permissions instead of separate per-account credentials, with a consolidated audit trail of access.
+- Containerized Application Hosting on Amazon EKS: Comprinno deployed Amazon EKS to host Matih Labs' containerized applications, with AWS managing the Kubernetes control plane. Worker nodes run in private subnets across multiple Availability Zones and are automatically provisioned, monitored, and replaced, reducing day-to-day operational effort. Across the migration, Comprinno deployed 62 Helm charts to the cluster, standing up Matih Labs' full application footprint on the new platform.
+- Secure Container Image Management: A private Amazon ECR registry was established as the secure home for Matih Labs' container images, with new versions published to it ahead of each deployment. The registry was structured around roughly 109 repositories in total: 26 custom matih/* application repositories alongside approximately 83 mirrored vendor/* repositories for third-party images — giving Matih Labs a single, access-controlled source of truth for every image running on the platform.
+- Access Control and Credential Management: Access to the cluster follows least-privilege principles, combining AWS identity controls with Kubernetes role-based access. Sensitive credentials are centrally managed in AWS Secrets Manager rather than embedded in application code or configuration.
+- Storage, Observability, and Cost Governance: Amazon S3 provides durable, access-controlled storage for application data, build artifacts, and network logs. Amazon CloudWatch centralizes logging across build and cluster activity, giving the team a single place to monitor and troubleshoot. AWS Budgets tracks monthly and daily spend for each environment, giving early visibility into cost trends.
+
+## Architecture Overview
+
+Matih Labs' AWS environment is organized into Development, Staging, and Production environments under a single AWS Organization, each with its own dedicated, multi-tier VPC spanning multiple Availability Zones. Within each environment, Amazon EKS hosts containerized workloads in private subnets, with container images stored in Amazon ECR. Public-facing components are isolated from application and data tiers, and workloads reach AWS services over private connectivity. Credentials are held in AWS Secrets Manager, Amazon S3 provides access-controlled object storage, Amazon CloudWatch aggregates logs for monitoring, IAM Identity Center governs team access across accounts, and AWS Budgets tracks spend in each environment.
+
+## Benefits
+
+Comprinno's migration moved Matih Labs' three environments: Development, Staging, and Production onto a consistent, repeatable AWS architecture, standing up 109 ECR repositories (26 custom matih/* application repos and roughly 83 mirrored vendor/* repos for third-party images) and deploying 62 Helm charts to bring the full application stack onto Amazon EKS.
+
+That foundation now gives Matih Labs:
+
+- Centralized, Consistent Governance: One auditable way to manage access across all environments, with consistently applied, centrally governed access policies.
+- A Managed, Fault-Tolerant Container Platform: Workloads run across multiple Availability Zones, with AWS handling node lifecycle and health.
+- A Strong Security Posture: Centralized credential management and least-privilege access controls reduce the risk of exposed secrets.
+- Operational Visibility: Centralized logging gives the team one place to monitor deployments and troubleshoot issues.
+- Cost Accountability: Per-environment budgets with alerting give early visibility into spend.
+
+## Conclusion
+
+Comprinno delivered a secure, consistently governed multi-account AWS environment for Matih Labs, spanning Development, Staging, and Production. Centralized identity, managed container hosting, secure credential management, and centralized observability, together with cost governance in every environment, give Matih Labs a well-governed foundation to grow on.

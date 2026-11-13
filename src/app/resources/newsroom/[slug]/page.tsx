@@ -18,7 +18,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const r = release((await params).slug);
   if (!r) return {};
-  return { title: r.title, description: r.lead.slice(0, 160), alternates: { canonical: `/resources/newsroom/${r.slug}` } };
+  const url = `/resources/newsroom/${r.slug}`;
+  const description = r.lead.slice(0, 160);
+  return {
+    title: r.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: "article", url, title: r.title, description, publishedTime: r.date, ...(r.image ? { images: [r.image] } : {}) },
+    twitter: { card: r.image ? "summary_large_image" : "summary", title: r.title, description },
+  };
 }
 
 export default async function ReleasePage({ params }: Props) {

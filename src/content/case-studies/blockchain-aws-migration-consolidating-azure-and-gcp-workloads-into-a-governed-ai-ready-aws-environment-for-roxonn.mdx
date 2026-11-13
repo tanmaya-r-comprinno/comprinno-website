@@ -1,0 +1,55 @@
+---
+title: "Blockchain |  AWS Migration | Consolidating Azure and GCP Workloads into a Governed, AI-Ready AWS Environment for Roxonn"
+slug: "blockchain-aws-migration-consolidating-azure-and-gcp-workloads-into-a-governed-ai-ready-aws-environment-for-roxonn"
+description: "Roxonn works in the Blockchain / Web3 software development sector and runs an application platform that combines customer-facing services, background processing, and AI-driven capabilities. The team needed a single, well-governed production environment on AWS to bring its workloads together and support that platform as it grows."
+publishedAt: "2026-11-03"
+client: "Roxonn"
+industry: "Blockchain"
+solutions: ["Migration"]
+draft: false
+---
+## Client Overview
+
+Roxonn works in the Blockchain / Web3 software development sector and runs an application platform that combines customer-facing services, background processing, and AI-driven capabilities. The team needed a single, well-governed production environment on AWS to bring its workloads together and support that platform as it grows.
+
+## Challenges
+
+Roxonn's workloads were hosted across two cloud providers, Microsoft Azure and Google Cloud. The company wanted to consolidate them onto AWS with minimal downtime and minimal changes to the existing application architecture, so that active services kept running while the move was in progress.
+
+The migration had to deliver more than a change of hosting. Roxonn needed a production network that kept application and database tiers off the public internet and still exposed the application to users in a controlled way. It also needed centralized identity and access management across accounts, secure handling of credentials, and audit visibility into account activity. Cost control mattered as much as security. Roxonn planned to run AI inference on foundation models, and usage-based model spend can grow quickly without guardrails, so the team needed early visibility into spend across the environment and a way to cap it.
+
+## Solution
+
+Comprinno migrated Roxonn's workloads to AWS using a rehosting (lift-and-shift) approach, which preserved the application architecture and kept downtime to a minimum. Comprinno built the destination environment around three principles: governance first, network isolation by design, and cost control built into the platform.
+
+The environment runs in a dedicated production VPC with three public subnets, three private application subnets, and three private database subnets across three availability zones. Users reach the platform through Amazon Route 53 and an Application Load Balancer that terminates HTTPS with ACM-issued certificates. The main application runs on Amazon ECS with AWS Fargate, background workloads run on Amazon EC2, and the relational database runs on Amazon RDS in isolated private database subnets. The application uses Amazon Bedrock for foundation-model inference.
+
+Comprinno also built the AI model integration that powers RoxCode, Roxonn's AI-powered coding extension for developers. RoxCode helps developers generate code, understand existing codebases, and carry out development tasks with AI assistance, running on an AI gateway that invokes model inference powered by Anthropic's Claude models on Amazon Bedrock to support these coding workflows.
+
+## Key Actions:
+
+- Governance and Identity Foundation: Comprinno structured the AWS estate under AWS Organizations, with separate management and production accounts, organizational units, and service control policies that apply guardrails across accounts. IAM Identity Center provides single sign-on with users, groups, and permission sets, so the team logs in once, moves between accounts by role, and leaves an audit trail of who accessed what. There are no per-account IAM users to manage.
+- Application Hosting, Traffic Routing, and Data Tier: Route 53 sends user traffic to the Application Load Balancer, which handles HTTPS listeners, HTTP-to-HTTPS redirection, and health-checked target groups. The main application runs on ECS Fargate with images stored in Amazon ECR, container logs sent to CloudWatch Logs, and service auto scaling. Amazon EC2 instances in private subnets handle background workloads and are managed through AWS Systems Manager. Amazon RDS provides the database backend, protected by its own subnet group, parameter group, and security groups. AWS Secrets Manager holds credentials, and workloads retrieve them at runtime through IAM roles rather than embedding them in code or environment variables.
+- Amazon Bedrock Integration with Built-In Cost Guardrails: Comprinno enabled Amazon Bedrock for the application, granted the Fargate services access through IAM, and set up CloudWatch monitoring of model usage. We also built a Bedrock Cost Guard from CloudWatch metrics, Systems Manager Parameter Store, Lambda, EventBridge, and SNS. The Cost Guard calculates cumulative model spend on a schedule, sends incremental spend alerts, and automatically restricts model access when a configured threshold is reached. Access can be restored through a controlled unblock action.
+- Security Visibility and Cost Governance: AWS CloudTrail records account activity to an encrypted S3 bucket with log file validation, and streams events to CloudWatch Logs. AWS Budgets tracks daily and monthly spend per account, excluding credits and refunds so the figures reflect real infrastructure cost. AWS Cost Anomaly Detection adds machine-learning-based monitors and alert subscriptions to catch unusual spend patterns early.
+- AI-Powered Developer Tooling: RoxCode, an agentic coding extension for developers that enables AI-assisted and autonomous software engineering workflows, is built on top of an AI gateway through which model inference is invoked by the coding extension. The platform enables developers to generate code, understand existing repositories and execute multi-step development tasks. Anthropic Claude models on Amazon Bedrock are used as a core inference engine for these agentic coding workflows. Claude models are particularly suited to complex software engineering tasks that require repository-level understanding, long-context reasoning, tool use and iterative execution. These capabilities are critical for RoxCode's autonomous coding workflows.
+
+## Architecture Overview
+
+Users reach the Roxonn platform through its domain. Amazon Route 53 resolves the request and directs it to the Application Load Balancer, which sits in the public subnets and is the only entry point for user traffic. The ALB terminates TLS with certificates from AWS Certificate Manager and routes each request to the right workload through its listener and routing rules. The main application runs on ECS Fargate and background workloads run on Amazon EC2, both inside the private application subnets. ECS pulls container images and configuration from within the VPC. The application tier reads and writes to a database which is in Neon and the caching layer is maintained at upstash. For AI capabilities, the Fargate services call Amazon Bedrock under a dedicated IAM role. The response then returns through the ALB to the user.
+
+The environment follows a three-tier pattern of public, private application, and private database subnets across three availability zones. Only the ALB and NAT Gateways sit in the public tier. The NAT Gateways provide outbound access for private workloads without exposing them to inbound connections. Interface endpoints in the application subnets keep traffic to supported AWS services on private connectivity, and a dedicated security group restricts them to HTTPS from inside the VPC.
+
+Account-level services give the environment a consistent security and governance layer. AWS Organizations and IAM Identity Center control who can access which account, and Secrets Manager holds credentials. RDS and S3 use encryption at rest. CloudTrail and CloudWatch capture audit and operational telemetry. AWS Budgets and Cost Anomaly Detection monitor spend across accounts, and the Bedrock Cost Guard watches AI usage specifically.
+
+## Benefits
+
+- Consolidated Cloud Environment: Comprinno moved workloads from two cloud providers into one governed AWS environment. This gives Roxonn a single platform for compute, data, security, and cost management, with a single access model and one place to operate and monitor.
+- Minimal-Disruption Migration: The rehosting approach kept application changes and downtime low. Roxonn could adopt AWS quickly and with limited risk, and it has a stable base for future modernization when the business is ready.
+- Resilient, Secure-by-Design Infrastructure: The three-availability-zone, three-tier VPC removes single points of failure across the application and data tiers. Application and database workloads stay in private subnets, credentials sit in Secrets Manager, data is encrypted at rest, and every account action is auditable.
+- Centralized, Low-Overhead Access Management: IAM Identity Center and service control policies replace per-account IAM users with one login and consistent permissions. This cuts administrative effort and gives Roxonn the guardrails to grow the team without adding access risk.
+- Predictable, Cost-Controlled AI Adoption: Budgets, Cost Anomaly Detection, and the Bedrock Coast Guard cover spend at three levels: the account, unusual patterns, and model usage. Roxonn can scale AI features knowing that runaway usage triggers alerts and access restrictions before it turns into a surprise bill.
+
+## Conclusion
+
+Comprinno consolidated Roxonn's Azure and GCP workloads into a single AWS production environment, using a rehosting approach that kept downtime and application changes to a minimum. The environment combines a three-tier, three-availability-zone network, containerized computer on ECS Fargate and Amazon EC2, and Amazon RDS in isolated database subnets. Identity, credentials, and audit logging are managed centrally. Amazon Bedrock adds AI capability, and the Bedrock Cost Guard, AWS Budgets, and Cost Anomaly Detection keep spend visible and controlled. Roxonn now runs on a secure, resilient, cost-aware foundation and can scale its platform and AI capabilities without re-architecting.

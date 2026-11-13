@@ -30,9 +30,9 @@ const moves: { title: string; icon: IconName }[] = [
   { title: "Data center exit", icon: "building" },
   { title: "Windows & SQL Server", icon: "code" },
   { title: "SQL & NoSQL databases", icon: "database" },
-  { title: "Azure & Google Cloud to AWS", icon: "cloud" },
+  { title: "Cross-cloud migration", icon: "cloud" },
   { title: "Object storage & file systems", icon: "cube" },
-  { title: "SAP & ERP workloads", icon: "chart" },
+  { title: "Application migration", icon: "migrate" },
   { title: "AI/ML pipelines & models", icon: "spark" },
 ];
 
@@ -64,13 +64,13 @@ const included = [
   "One team from assessment to managed operations",
 ];
 
-const credentials = ["AWS Migration Competency", "AWS DMS Delivery designation", "AWS Well-Architected Partner", "AWS Resilience Competency"];
+const credentials = ["AWS Migration and Modernization Consulting", "AWS Database Migration Service Delivery", "AWS Resilience Services Competency", "AWS Well-Architected Partner Program"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { slug: "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization", metric: "Near-real-time", what: "MongoDB sync from Azure Cosmos DB to AWS" },
-  { slug: "highway-delite-adopts-a-resilient-aws-architecture", metric: "99.99%", what: "data durability on AWS, with 99.5% availability" },
-  { slug: "medibuddy", metric: "95%+", what: "of services now serverless or managed" },
+  { slug: "blockchain-aws-migration-consolidating-azure-and-gcp-workloads-into-a-governed-ai-ready-aws-environment-for-roxonn" },
+  { slug: "ai-powered-data-governance-and-control-services-aws-migration-standardizing-produktivs-cloud-environment-to-securely-scale-a-governed-rag-ai-agent-platform" },
+  { slug: "liquidmind-aws-migration-aws-migration-for-liquidmind-a-multi-product-cloud-infrastructure-on-aws" },
 ];
 
 const faqs = [
@@ -96,7 +96,7 @@ export default function MigratePage() {
         },
         problem: { title: <>Migration isn&apos;t one problem. <strong>It&apos;s four.</strong></>, desc: "Any one of them can stall a move. Each one is fixable.", items: problems },
         path: { title: <><strong>One factory.</strong> Four migration disciplines.</>, desc: "One team addresses these migration challenges using standard runbooks and automation to improve consistency and predictability across migration waves.", items: disciplines },
-        scope: { eyebrow: "What we migrate", title: <>Whatever you&apos;re moving, <strong>we&apos;ve moved it before.</strong></>, desc: "From a single server to a whole data center, across every major platform.", items: moves },
+        scope: { eyebrow: "What we migrate", title: <>Whatever you&apos;re moving, <strong>we&apos;ve moved it before.</strong></>, desc: "From a single server to a whole data center, across every major platform.", items: moves, style: "icons" },
         numbers,
         steps: { eyebrow: "How a migration runs", title: <>Five steps, <strong>one team</strong>, <strong>no surprises</strong>.</>, desc: "The team that plans your migration waves also migrates and operates your workloads.", items: steps, icons: ["search", "layers", "migrate", "shield", "chart"], caption: "→ then on to Modernize: your workloads arrive ready for the next stage" },
         included: { title: <>What <strong>every migration</strong><Br /> includes.</>, items: included },

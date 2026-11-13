@@ -19,7 +19,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = post((await params).slug);
   if (!p) return {};
-  return { title: p.title, description: p.description, alternates: { canonical: `/resources/blog/${p.slug}` } };
+  const url = `/resources/blog/${p.slug}`;
+  return {
+    title: p.title,
+    description: p.description,
+    alternates: { canonical: url },
+    openGraph: { type: "article", url, title: p.title, description: p.description, publishedTime: p.publishedAt, authors: [p.author] },
+    twitter: { card: "summary", title: p.title, description: p.description },
+  };
 }
 
 const text = (n: ReactNode): string => (typeof n === "string" || typeof n === "number" ? String(n) : Array.isArray(n) ? n.map(text).join("") : n && typeof n === "object" && "props" in n ? text((n as { props: { children?: ReactNode } }).props.children) : "");

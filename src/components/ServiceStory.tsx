@@ -17,7 +17,7 @@ export type ServiceStoryData = {
   hero: { eyebrow: string; title: ReactNode; lines: [string, string]; cta: string };
   problem: { title: ReactNode; desc: string; items: { title: string; desc: string; icon: IconName }[] };
   path: { eyebrow?: string; title: ReactNode; desc: string; items: { k: string; mark: string; title: string; desc: string; proof?: string; tags: string[] }[] };
-  scope: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; icon: IconName }[] };
+  scope: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; icon: IconName }[]; style?: "icons" };
   numbers: { value: string; suffix: string; label: string }[];
   steps: { eyebrow: string; title: ReactNode; desc: string; items: { title: string; desc: string }[]; icons: IconName[]; caption: string };
   included: {
@@ -103,6 +103,18 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       {/* SCOPE: what we move / modernize / run */}
       <Section tone="surface" className="bg-grid">
         <SectionHead eyebrow={d.scope.eyebrow} title={d.scope.title} desc={d.scope.desc} />
+        {d.scope.style === "icons" ? (
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {d.scope.items.map((m) => (
+              <li key={m.title}>
+                <Link href="/contact" className="scope-tile group">
+                  <Icon name={m.icon} className="scope-tile-art" />
+                  <span className="scope-tile-title">{m.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
         <ul className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {d.scope.items.map((m) => (
             <li key={m.title}>
@@ -115,6 +127,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
             </li>
           ))}
         </ul>
+        )}
       </Section>
 
       {/* NUMBERS: dark navy band, as on the home page */}
