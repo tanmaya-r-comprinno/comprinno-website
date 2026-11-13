@@ -19,7 +19,7 @@ export default function IndustryUseCases({ groups }: { groups: IndustryGroup[] }
             type="button"
             aria-selected={i === active}
             onClick={() => setActive(i)}
-            className={`border px-4 py-2 text-sm font-medium transition ${i === active ? "border-ink bg-ink text-white" : "border-line-strong bg-bg text-ink hover:bg-surface"}`}
+            className={`border px-4 py-2 text-sm font-medium transition ${i === active ? "border-[#006bc9] bg-[#006bc9] text-white" : "border-line-strong bg-bg text-ink hover:bg-surface"}`}
           >
             {it.industry}
           </button>

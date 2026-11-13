@@ -1,3 +1,5 @@
+import PartnerPairArt from "@/components/PartnerPairArt";
+import TiltBadge from "@/components/TiltBadge";
 import type { Metadata } from "next";
 import { Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
@@ -99,8 +101,11 @@ export default function OpenAIPartnerPage() {
               <p className="mt-5 font-mono text-[0.7rem] text-muted">OpenAI Select Partner since July 2026</p>
             </div>
             <div className="flex justify-center lg:justify-end">
-              {/* TODO: hero visual placeholder, replace with final artwork */}
-              <div className="grid aspect-[3/4] w-56 place-items-center border border-dashed border-line-strong bg-bg/60 font-mono text-[0.65rem] uppercase tracking-widest text-muted sm:w-64 lg:w-72">Hero visual</div>
+              <div className="relative w-[20rem] sm:w-[23rem] lg:w-[26rem]">
+                {/* partnership plaques, same language as the AWS badge: sway, hover lean, stacked-shadow thickness */}
+                <TiltBadge><PartnerPairArt partner="openai" className="award-sway badge-thick relative z-10 block h-auto w-full" /></TiltBadge>
+                <span className="absolute -bottom-6 left-1/2 h-5 w-3/4 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgb(15_23_42/0.18),transparent_70%)]" aria-hidden="true" />
+              </div>
             </div>
           </div>
         </Container>

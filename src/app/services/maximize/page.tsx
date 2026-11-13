@@ -64,7 +64,7 @@ const included = [
   "Monitoring and support after launch",
 ];
 
-const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "AWS Strategic Collaboration Agreement for generative AI", "OpenAI Select Partner"];
+const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "AWS Strategic Collaboration Agreement for generative AI", "AWS Security Competency"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [

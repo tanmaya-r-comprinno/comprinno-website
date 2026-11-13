@@ -6,9 +6,9 @@ import { Icon, IconTile } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import { getProduct, products } from "@/content/products";
 
-// Every current product has its own dedicated page (tevico, veriq, voxsphere, decivo).
+// Every current product has its own dedicated page (tevico, veriq, voxsphere, weave).
 // This route only serves products added to content without one.
-const DEDICATED = new Set(["tevico", "voxsphere", "veriq", "decivo"]);
+const DEDICATED = new Set(["tevico", "voxsphere", "veriq", "weave"]);
 const routed = () => products.filter((p) => !DEDICATED.has(p.slug));
 
 export function generateStaticParams() {

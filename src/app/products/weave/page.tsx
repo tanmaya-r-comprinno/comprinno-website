@@ -4,19 +4,21 @@ import { Icon, IconTile, type IconName } from "@/components/Icon";
 import LogoMarquee from "@/components/LogoMarquee";
 import FlowLoop from "@/components/FlowLoop";
 import GridGlow from "@/components/GridGlow";
-import Pronounce from "./Pronounce";
 import IndustryUseCases, { type IndustryGroup } from "./IndustryUseCases";
 import UseCaseTabs, { type UseCase } from "./UseCaseTabs";
 import RainField from "@/components/RainField";
+import { WeaveHero, IntakeView, ExecutionView, IntegrationView, GovernanceView } from "./Art";
+
+const INSIDE_VIEWS = [IntakeView, ExecutionView, IntegrationView, GovernanceView];
 
 export const metadata: Metadata = {
-  title: "Decivo enterprise agentic process transformation | Comprinno",
+  title: "Weave enterprise agentic process transformation | Comprinno",
   description:
-    "Turn business processes into AI-powered operations. Decivo coordinates AI-agent workflows with human oversight, in your cloud, with engineers from discovery to production.",
-  alternates: { canonical: "/products/decivo" },
+    "Turn business processes into AI-powered operations. Weave coordinates AI-agent workflows with human oversight, in your cloud, with engineers from discovery to production.",
+  alternates: { canonical: "/products/weave" },
 };
 
-// Hidden for now (kept, not deleted): "What Decivo enables", "Use cases by function", "Expand across the enterprise".
+// Hidden for now (kept, not deleted): "What Weave enables", "Use cases by function", "Expand across the enterprise".
 const SHOW_HIDDEN = false as boolean;
 
 // Use cases from the Comprinno GenAI use-case sheet, grouped by industry.
@@ -55,82 +57,11 @@ const industryUseCases: IndustryGroup[] = [
   ] },
 ];
 
-const statusCls: Record<string, string> = {
-  ok: "border-emerald-300 bg-emerald-50 text-emerald-700",
-  wait: "border-amber-300 bg-amber-50 text-amber-700",
-  muted: "border-line-strong text-muted",
-};
-
-function Badge({ children, tone }: { children: string; tone: keyof typeof statusCls }) {
-  return <span className={`border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-widest ${statusCls[tone]}`}>{children}</span>;
-}
-
-/** Illustrative workflow for the hero: process in, specialist agents, human checkpoint, verified outcome. */
-function WorkflowCard() {
-  const steps: { name: string; task: string; icon: IconName; kind: "system" | "agent" | "human" | "out"; status?: string; tone?: keyof typeof statusCls }[] = [
-    { name: "Business process", task: "A batch of supplier invoices arrives", icon: "mail", kind: "system" },
-    { name: "Intake agent", task: "Classifies and reads each document", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
-    { name: "Validation agent", task: "Checks values against POs and receipts", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
-    { name: "Business-rule agent", task: "Applies your approval policy", icon: "agent", kind: "agent", status: "Done", tone: "ok" },
-    { name: "Human approval", task: "1 exception routed to finance", icon: "user", kind: "human", status: "Your call", tone: "wait" },
-    { name: "Verified outcome", task: "Review-ready output with an audit trail", icon: "check", kind: "out" },
-  ];
-  return (
-    <figure className="border border-line-strong bg-bg shadow-xl">
-      <figcaption className="flex items-center justify-between gap-3 border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">
-        <span>Decivo · Orchestration</span>
-        <span className="uppercase tracking-widest">Illustrative workflow</span>
-      </figcaption>
-      <ol className="grid gap-1.5 p-5">
-        {steps.map((st, i) => (
-          <li key={st.name}>
-            <div className={`flex items-center justify-between gap-3 border p-2.5 ${st.kind === "human" ? "border-ink bg-surface" : st.kind === "out" ? "border-emerald-300 bg-emerald-50/50" : "border-line"}`}>
-              <span className="flex items-center gap-3">
-                <IconTile name={st.icon} />
-                <span>
-                  <span className="block text-sm font-semibold text-ink">{st.name}</span>
-                  <span className="block text-xs text-muted">{st.task}</span>
-                </span>
-              </span>
-              {st.status && st.tone && <Badge tone={st.tone}>{st.status}</Badge>}
-            </div>
-            {i < steps.length - 1 && <p className="text-center font-mono text-[0.65rem] leading-4 text-muted" aria-hidden="true">↓</p>}
-          </li>
-        ))}
-      </ol>
-    </figure>
-  );
-}
-
-/** Simple left → core → right block diagram for "Inside Decivo". */
-function Diagram({ title, left, core, right }: { title: string; left: string[]; core: string; right: { label: string; planned?: boolean }[] }) {
-  const box = "border border-line-strong bg-bg px-3 py-1.5 text-xs text-ink sm:text-sm";
-  return (
-    <figure className="border border-line-strong bg-bg">
-      <figcaption className="border-b border-line bg-surface px-4 py-2.5 font-mono text-[0.7rem] text-muted">Decivo · {title}</figcaption>
-      <div className="bg-grid grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 p-5 sm:gap-3 sm:p-8">
-        <div className="grid gap-2">{left.map((l) => <span key={l} className={box}>{l}</span>)}</div>
-        <span className="text-muted" aria-hidden="true">→</span>
-        <span className="bg-ink px-3 py-3 text-center text-xs font-semibold text-white sm:px-5 sm:text-sm">{core}</span>
-        <span className="text-muted" aria-hidden="true">→</span>
-        <div className="grid gap-2">
-          {right.map((r) => (
-            <span key={r.label} className={`${box} flex items-center justify-between gap-2`}>
-              {r.label}
-              {r.planned && <Badge tone="wait">Planned</Badge>}
-            </span>
-          ))}
-        </div>
-      </div>
-    </figure>
-  );
-}
-
-const inside: { k: string; title: string; points: string[]; diagram: Parameters<typeof Diagram>[0]; caption: string }[] = [
-  { k: "01 · Intake", title: "Bring work in from every channel.", points: ["Documents and email, APIs and events, portals and forms, and human requests", "A workflow state store and document storage keep every case in one place", "Knowledge base, vector memory and a prompt and schema registry give agents the right context"], diagram: { title: "Channels and intake", left: ["Documents and email", "APIs and events", "Portals and forms", "Human requests"], core: "Workflow state", right: [{ label: "Document storage" }, { label: "Knowledge base" }, { label: "Schema registry" }] }, caption: "Every input lands in one tracked workflow, with the context agents need." },
-  { k: "02 · Execution", title: "Let agents do the work, within the rules.", points: ["Orchestration moves each case through the right steps", "Memory and context carry information across the whole process", "Tool calling, guardrails and observability keep every action controlled and visible"], diagram: { title: "Agentic execution layer", left: ["Orchestration", "Memory and context"], core: "Agentic execution", right: [{ label: "Tool calling" }, { label: "Guardrails" }, { label: "Observability" }] }, caption: "Agents read and reason. Rules decide what happens next." },
-  { k: "03 · Integration", title: "Connect results to the systems you run on.", points: ["A model gateway, workflow engine and event queues run every workflow", "Human-in-the-loop routes exceptions to the right person", "Connectors to ERP, CRM, procurement and internal tools are planned"], diagram: { title: "Runtime and integration fabric", left: ["Model gateway", "Workflow engine", "Event bus and queues"], core: "Runtime", right: [{ label: "Human-in-the-loop" }, { label: "ERP and CRM", planned: true }, { label: "Connector services", planned: true }] }, caption: "One runtime underneath. Business-system connectors are on the roadmap." },
-  { k: "04 · Governance", title: "Keep every step secure and auditable.", points: ["Identity and access control on every action", "A full audit trail to support compliance reviews", "Monitoring and alerts, plus policies, secrets and approvals"], diagram: { title: "Security, ops and governance", left: ["Identity and access", "Policies and secrets", "Approvals"], core: "Governance", right: [{ label: "Audit trail" }, { label: "Monitoring and alerts" }] }, caption: "Built so teams can see who did what, when and why." },
+const inside: { k: string; title: string; points: string[] }[] = [
+  { k: "01 · Intake", title: "Bring work in from every channel.", points: ["Documents and email, APIs and events, portals and forms, and human requests", "A workflow state store and document storage keep every case in one place", "Knowledge base, vector memory and a prompt and schema registry give agents the right context"] },
+  { k: "02 · Execution", title: "Let agents do the work, within the rules.", points: ["Orchestration moves each case through the right steps", "Memory and context carry information across the whole process", "Tool calling, guardrails and observability keep every action controlled and visible"] },
+  { k: "03 · Integration", title: "Connect results to the systems you run on.", points: ["A model gateway, workflow engine and event queues run every workflow", "Human-in-the-loop routes exceptions to the right person", "Connectors to ERP, CRM, procurement and internal tools are planned"] },
+  { k: "04 · Governance", title: "Keep every step secure and auditable.", points: ["Identity and access control on every action", "A full audit trail to support compliance reviews", "Monitoring and alerts, plus policies, secrets and approvals"] },
 ];
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
@@ -194,30 +125,25 @@ const outcomes: { title: string; desc: string; icon: IconName }[] = [
   { title: "Hours redeployed", desc: "Time your team moves to higher-value work.", icon: "users" },
 ];
 
-// TODO: answers drafted from the product brief — confirm with the Decivo team.
+// TODO: answers drafted from the product brief — confirm with the Weave team.
 const faqs = [
-  { q: "Is Decivo available today?", a: "Yes. We're working with teams to take their first workflows to production." },
-  { q: "Is this a chatbot or a copilot?", a: "No. Decivo runs whole business processes as workflows of specialized agents, with people supervising approvals and exceptions." },
-  { q: "Where does it run?", a: "Decivo is designed to be deployed inside your own cloud environment. We confirm the exact setup with your cloud and security teams." },
+  { q: "Is Weave available today?", a: "Yes. We're working with teams to take their first workflows to production." },
+  { q: "Is this a chatbot or a copilot?", a: "No. Weave runs whole business processes as workflows of specialized agents, with people supervising approvals and exceptions." },
+  { q: "Where does it run?", a: "Weave is designed to be deployed inside your own cloud environment. We confirm the exact setup with your cloud and security teams." },
   { q: "Can every process be automated?", a: "Not every process is a good fit. We assess suitability first and keep human review wherever a decision matters." },
   { q: "How do we get started?", a: "Bring us one workflow. Our forward-deployed engineers map it, build a prototype on your data and validate it with you before anything goes live." },
 ];
 
-export default function DecivoPage() {
+export default function WeavePage() {
   return (
-    <>
+    <div className="brand">
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
             <div>
-              <Eyebrow>Decivo · Enterprise agentic process transformation</Eyebrow>
-              <div className="mt-4 inline-flex items-center gap-3 border border-line bg-surface py-1 pl-3 pr-1 font-mono text-[0.7rem] uppercase tracking-widest">
-                <span className="text-muted">Pronounced:</span>
-                <span className="text-ink">Deh-see-voh (from “decide”)</span>
-                <Pronounce />
-              </div>
+              <Eyebrow>Weave · Enterprise agentic process transformation</Eyebrow>
               <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
                 Turn business processes into <strong className="sweep">AI-powered operations.</strong>
               </h1>
@@ -228,7 +154,7 @@ export default function DecivoPage() {
                 <Button href="/contact">Explore your first workflow →</Button>
               </div>
             </div>
-            <WorkflowCard />
+            <WeaveHero />
           </div>
         </Container>
       </section>
@@ -253,10 +179,10 @@ export default function DecivoPage() {
         <>
       {/* WHAT IT ENABLES */}
       <Section id="how-it-works">
-        <SectionHead eyebrow="What Decivo enables" title={<>One workflow. Multiple agents. <strong>Human accountability.</strong></>} desc="Specialized agents execute defined steps, work with your systems, validate outputs and route decisions to people when needed." />
+        <SectionHead eyebrow="What Weave enables" title={<>One workflow. Multiple agents. <strong>Human accountability.</strong></>} desc="Specialized agents execute defined steps, work with your systems, validate outputs and route decisions to people when needed." />
         <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
           {enables.map((e, i) => (
-            <li key={e.title} className={`relative flex flex-col border p-4 ${e.kind === "human" ? "border-ink bg-surface" : "border-line bg-bg"}`}>
+            <li key={e.title} className={`relative flex flex-col border p-4 ${e.kind === "human" ? "border-[#006bc9] bg-surface" : "border-line bg-bg"}`}>
               <span className="font-mono text-[0.65rem] text-muted">{String(i + 1).padStart(2, "0")}</span>
               <span className="mt-3"><IconTile name={e.icon} /></span>
               <h3 className="mt-3 text-sm font-semibold leading-snug text-ink">{e.title}</h3>
@@ -276,9 +202,9 @@ export default function DecivoPage() {
         <FlowLoop items={howSteps} icons={["search", "puzzle", "check", "cloud", "rocket"]} caption="Nothing deploys until the business owner signs off on validation" />
       </Section>
 
-      {/* INSIDE DECIVO */}
+      {/* INSIDE WEAVE */}
       <Section tone="surface">
-        <SectionHead eyebrow="Inside Decivo" title={<>One reusable backend. <strong>Many business workflows.</strong></>} desc="See how Decivo takes work in, runs it with agents, connects the results and keeps every step governed." />
+        <SectionHead eyebrow="Inside Weave" title={<>One reusable backend. <strong>Many business workflows.</strong></>} desc="See how Weave takes work in, runs it with agents, connects the results and keeps every step governed." />
         <div className="grid gap-16">
           {inside.map((x, i) => (
             <div key={x.k} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
@@ -295,8 +221,7 @@ export default function DecivoPage() {
                 </ul>
               </div>
               <div className={i % 2 ? "lg:order-1" : ""}>
-                <Diagram {...x.diagram} />
-                <p className="mt-3 text-sm text-muted">{x.caption}</p>
+                {(() => { const V = INSIDE_VIEWS[i]; return <V />; })()}
               </div>
             </div>
           ))}
@@ -321,7 +246,7 @@ export default function DecivoPage() {
 
       {/* DEPLOYMENT */}
       <Section tone="surface">
-        <SectionHead eyebrow="Customer-cloud deployment" title={<>Your cloud. Your data. <strong>Your control.</strong></>} desc="Decivo is designed for deployment inside your cloud environment, supporting your ownership of infrastructure and data-handling policies." />
+        <SectionHead eyebrow="Customer-cloud deployment" title={<>Your cloud. Your data. <strong>Your control.</strong></>} desc="Weave is designed for deployment inside your cloud environment, supporting your ownership of infrastructure and data-handling policies." />
         <div className="grid auto-rows-fr gap-4 md:grid-cols-3">
           {deployment.map((d) => (
             <div key={d.title} className="card">
@@ -386,7 +311,7 @@ export default function DecivoPage() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div>
-            <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Decivo</strong>?</h2>
+            <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Weave</strong>?</h2>
             <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">What it is, where it runs and how teams get started.</p>
           </div>
           <Faq items={faqs} />
@@ -399,6 +324,6 @@ export default function DecivoPage() {
         steps={["Walk us through the process", "Assess its suitability together", "Agree a first workflow to validate"]}
         label="Discuss a workflow"
       />
-    </>
+    </div>
   );
 }

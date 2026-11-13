@@ -4,8 +4,6 @@ import { Icon, IconTile, type IconName } from "@/components/Icon";
 import { leadership } from "@/content/company";
 import { site } from "@/lib/site";
 import GridGlow from "@/components/GridGlow";
-import RainField from "@/components/RainField";
-import JourneyClimb, { type Year } from "./JourneyClimb";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -17,17 +15,6 @@ export const metadata: Metadata = {
 // Hidden for now (kept, not deleted): leadership, offices and the numbers band.
 const SHOW_HIDDEN = false as boolean;
 
-const journey: Year[] = [
-  { year: "2018", short: "Select Partner", items: [{ k: "tier", text: "AWS Select Consulting Partner" }] },
-  { year: "2019", short: "Software · Public Sector", items: [{ k: "program", text: "AWS Software Partner" }, { k: "program", text: "AWS Public Sector Partner" }] },
-  { year: "2020", short: "Advanced Partner", items: [{ k: "tier", text: "AWS Advanced Consulting Partner" }] },
-  { year: "2021", short: "Well-Architected", items: [{ k: "program", text: "AWS Well-Architected Partner" }] },
-  { year: "2022", short: "Emerging Star Award", items: [{ k: "award", text: "AWS Emerging Star Partner Award" }] },
-  { year: "2023", short: "AWS Ambassador · 3 competencies", items: [{ k: "recognition", text: "AWS Ambassador (our CTO)" }, { k: "competency", text: "Security, Migration and Resilience Competencies" }] },
-  { year: "2024", short: "MSP · 2 competencies", items: [{ k: "program", text: "AWS Managed Service Provider (MSP)" }, { k: "competency", text: "Generative AI and Cloud Operations Competencies" }] },
-  { year: "2025", short: "DevOps · Level 1 MSSP", items: [{ k: "competency", text: "DevOps Competency" }, { k: "competency", text: "Level 1 MSSP Competency" }] },
-  { year: "2026", short: "Premier Tier · Data and Analytics", items: [{ k: "competency", text: "Data and Analytics Competency" }, { k: "tier", text: "AWS Premier Tier Services Partner" }] },
-];
 
 const values: { title: string; desc: string; icon: IconName }[] = [
   { title: "Competency", desc: "We pursue mastery and turn deep expertise into real outcomes.", icon: "rocket" },
@@ -41,7 +28,7 @@ const values: { title: string; desc: string; icon: IconName }[] = [
 const fourP: { title: string; desc: string; icon: IconName }[] = [
   { title: "People", desc: "Certified cloud, security and AI specialists who care about customer outcomes.", icon: "users" },
   { title: "Processes", desc: "Repeatable frameworks, from migration factories to DevSecOps pipelines, that deliver consistent results at scale.", icon: "loop" },
-  { title: "Products", desc: "Our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for support and outbound calls, and Decivo for agentic process transformation.", icon: "cube" },
+  { title: "Products", desc: "Our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for support and outbound calls, and Weave for agentic process transformation.", icon: "cube" },
   { title: "Partners", desc: "Long-term technology alliances that extend what we can deliver for our customers.", icon: "puzzle" },
 ];
 
@@ -56,7 +43,7 @@ const numbers = [
 const faqs = [
   { q: "Who we are", a: "Comprinno is a cloud and AI company headquartered in Bengaluru, founded in 2013, and an AWS Premier Tier Services Partner. We help teams migrate, modernize, run and secure their cloud, and put AI into production." },
   { q: "Where we work", a: "From offices in Bengaluru and Pune, with a presence in the US and UK, we work with fintech, healthcare, SaaS and enterprise teams around the world." },
-  { q: "What we build", a: "Alongside our services, we build our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for voice agents and Decivo for agentic process transformation." },
+  { q: "What we build", a: "Alongside our services, we build our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for voice agents and Weave for agentic process transformation." },
 ];
 
 export default function AboutPage() {
@@ -100,14 +87,8 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* JOURNEY */}
-      <Section tone="surface" background={<RainField />} id="journey">
-        <SectionHead eyebrow="Our journey" title={<>From Select <strong>to Premier.</strong></>} desc="Building on AWS, one tier, program and competency at a time." />
-        <JourneyClimb years={journey} />
-      </Section>
-
       {/* VALUES */}
-      <Section>
+      <Section tone="surface">
         <SectionHead eyebrow="Our values" title={<>What we <strong>stand for.</strong></>} />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((v) => (
@@ -121,7 +102,7 @@ export default function AboutPage() {
       </Section>
 
       {/* 4P */}
-      <Section tone="surface">
+      <Section>
         <SectionHead eyebrow="Our edge" title={<>The <strong>4P framework.</strong></>} desc="Four things that shape how we deliver, every engagement." />
         <ol className="path-row">
           {fourP.map((p, i) => (
@@ -181,7 +162,7 @@ export default function AboutPage() {
       )}
 
       {/* FAQ */}
-      <Section>
+      <Section tone="surface">
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div>
             <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Comprinno</strong>?</h2>
