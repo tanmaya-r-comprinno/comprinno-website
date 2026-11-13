@@ -143,32 +143,63 @@ export function skillsIndex() {
 }
 
 export function authMd() {
-  return `# Comprinno auth.md
+  const reg = abs("/auth.md#anonymous-public-access");
+  const claim = abs("/auth.md#claim-and-revocation");
+  return `# auth.md
 
-How AI agents authenticate with ${site.url}.
+You are an agent accessing **${site.url}**, the public website of Comprinno, an AWS Premier Tier cloud and AI partner.
+This service supports anonymous public access only. Registration is documentation-only because no account or credential is required.
 
-## Audience
+## Discover
 
-AI agents, assistants and crawlers that read Comprinno's public website content.
+1. Read this page and the \`agent_auth\` block below. The only supported identity type is \`anonymous\`.
+2. Fetch ${abs("/.well-known/api-catalog")} to find the agent interfaces.
+3. There is no OAuth authorization server and no protected resource: do not send an \`Authorization\` header.
 
-## Authentication
+## Anonymous public access
 
-None. Every agent interface on this site is public and read-only:
+\`${reg}\` is the registration URI. Reading this section completes registration:
 
-- ${abs("/llms.txt")}: site index
-- Any page URL with \`Accept: text/markdown\`: the page as Markdown
-- ${abs(MCP_PATH)}: MCP server (Streamable HTTP), described at ${abs("/.well-known/mcp/server-card.json")}
+1. Do not send user identity, email, assertions, secrets or credentials.
+2. Use credential type \`none\`.
+3. Use the public, read-only interfaces:
+   - ${abs("/llms.txt")}: site index
+   - Any page URL with the header \`Accept: text/markdown\`: the page as Markdown
+   - ${abs(MCP_PATH)}: MCP server (Streamable HTTP, JSON-RPC over POST), described at ${abs("/.well-known/mcp/server-card.json")}
 
-## Registration and credentials
+No account, token, API key or user claim is created. Registration has no server-side state and grants only the same public, read-only access every visitor has.
 
-No registration, provisioning, API keys or OAuth. Send requests without an \`Authorization\` header. There are no accounts, so no credentials are issued, stored or revoked.
+## Claim and revocation
 
-## Supported methods
+\`${claim}\` is the claim information URI. Anonymous public access has no owner, credential or registration record, so there is nothing to claim or revoke. Do not send claim or revocation requests.
 
-- \`anonymous\`: unauthenticated, read-only access to public content.
+## agent_auth
+
+\`\`\`yaml
+agent_auth:
+  skill: ${abs("/auth.md")}
+  register_uri: ${reg}
+  claim_uri: ${claim}
+  identity_types_supported:
+    - anonymous
+  anonymous:
+    credential_types_supported:
+      - none
+\`\`\`
+
+## Public endpoints
+
+| Purpose | URL |
+| --- | --- |
+| API catalog | ${abs("/.well-known/api-catalog")} |
+| MCP server card | ${abs("/.well-known/mcp/server-card.json")} |
+| Agent Skills | ${abs("/.well-known/agent-skills/index.json")} |
+| AI catalog | ${abs("/.well-known/ai-catalog.json")} |
+| Site index | ${abs("/llms.txt")} |
+| Sitemap | ${abs("/sitemap.xml")} |
 
 ## Contact
 
-Questions about agent access: ${site.emails.general}
+Questions about agent access: ${site.emails.general}. Never send credentials or private keys.
 `;
 }
