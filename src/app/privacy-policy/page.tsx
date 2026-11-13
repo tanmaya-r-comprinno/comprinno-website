@@ -61,7 +61,7 @@ export default function PrivacyPage() {
       <Container className="py-14 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-14">
           {/* contents: sticky on desktop */}
-          <nav aria-label="On this page" className="lg:sticky lg:top-24 lg:self-start">
+          <nav aria-label="On this page" className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
             <p className="font-mono text-xs uppercase tracking-[.14em] text-muted">On this page</p>
             <ol className="mt-4 grid gap-1 border-l border-line">
               {sections.map((s, n) => (
