@@ -44,7 +44,17 @@ const nextConfig: NextConfig = {
           ...(isProduction ? [] : [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]),
         ],
       },
+      {
+        // Agent discovery (RFC 8288): point agents at the plain-text site index.
+        source: "/((?!api/|_next/).*)",
+        headers: [{ key: "Link", value: '</llms.txt>; rel="describedby"; type="text/plain"' }],
+      },
     ];
+  },
+  // /llms.txt and the Markdown route read src/content at request time on Vercel.
+  outputFileTracingIncludes: {
+    "/api/md/*": ["./src/content/**/*"],
+    "/llms.txt": ["./src/content/**/*"],
   },
 };
 
