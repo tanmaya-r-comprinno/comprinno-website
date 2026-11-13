@@ -11,6 +11,10 @@ import Share from "../../blog/Share";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
+// Every slug is prerendered at build time, so navigation is still fast.
+export const instant = false;
+
 export function generateStaticParams() {
   return releases().map((r) => ({ slug: r.slug }));
 }

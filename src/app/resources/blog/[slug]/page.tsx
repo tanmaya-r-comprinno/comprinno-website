@@ -12,6 +12,10 @@ import Share from "../Share";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
+// Every slug is prerendered at build time, so navigation is still fast.
+export const instant = false;
+
 export function generateStaticParams() {
   return posts().map((p) => ({ slug: p.slug }));
 }
@@ -25,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: p.description,
     alternates: { canonical: url },
     openGraph: { type: "article", url, title: p.title, description: p.description, publishedTime: p.publishedAt, authors: [p.author] },
-    twitter: { card: "summary", title: p.title, description: p.description },
+    twitter: { card: "summary_large_image", title: p.title, description: p.description },
   };
 }
 

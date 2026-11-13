@@ -15,8 +15,8 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      // pages only: skip API routes, Next internals and files with an extension
-      source: "/((?!api/|_next/|.*\\..*).*)",
+      // pages only: skip API, OAuth and MCP routes, Next internals and files with an extension
+      source: "/((?!api/|_next/|oauth/|mcp(?:/|$)|.*\\..*).*)",
       has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
     },
   ],

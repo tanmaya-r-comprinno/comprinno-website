@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+// Old WordPress URLs -> their new home (generated from the old site's sitemap).
+import wordpressRedirects from "./src/content/wordpressRedirects.json";
 
 const isProduction =
   (process.env.NEXT_PUBLIC_SITE_URL ?? "https://comprinno.net") === "https://comprinno.net";
@@ -29,6 +31,7 @@ const nextConfig: NextConfig = {
       { source: "/products/navitus", destination: "/products/tevico", permanent: true },
       { source: "/products/decivo", destination: "/products/weave", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
+      ...wordpressRedirects,
     ];
   },
   async headers() {
@@ -70,6 +73,11 @@ const nextConfig: NextConfig = {
       "/.well-known/poppy.json",
       "/.well-known/agent-skills/index.json",
       "/.well-known/agent-skills/:name/SKILL.md",
+      // OAuth (src/lib/oauth.ts); 404 unless OAUTH_SIGNING_KEY is configured
+      "/.well-known/oauth-authorization-server",
+      "/.well-known/oauth-protected-resource",
+      "/.well-known/oauth-protected-resource/mcp",
+      "/.well-known/jwks.json",
     ].map((source) => ({ source, destination: source.replace("/.well-known/", "/api/agents/") }));
   },
   // Agent routes read src/content at request time on Vercel.

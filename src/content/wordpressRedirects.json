@@ -1,0 +1,1012 @@
+[
+  {
+    "source": "/accelerating-saas-growth",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/ai/comparison-of-aws-ai-technologies-sagemaker-vs-comprehend",
+    "destination": "/resources/blog/comparison-of-aws-ai-technologies-sagemaker-vs-comprehend",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-api-gateway",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-aurora/scaling-data-management-with-amazon-aurora-key-features-and-business-benefits",
+    "destination": "/resources/blog/scaling-data-management-with-amazon-aurora-key-features-and-business-benefits",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-cloudwatch/monitoring-and-improving-application-resilience-with-amazon-cloudwatch",
+    "destination": "/resources/blog/monitoring-and-improving-application-resilience-with-amazon-cloudwatch",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-ec-2-spot",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-msk",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/application-modernization",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/aws-apn/aws-partner-network",
+    "destination": "/resources/blog/aws-partner-network-discover-the-advantages-from-becoming-a-member-of-amazon-partner-networks",
+    "permanent": true
+  },
+  {
+    "source": "/aws-eks/demystifying-aws-eks-123",
+    "destination": "/resources/blog/demystifying-aws-eks-7-comprehensive-guide-for-beginners",
+    "permanent": true
+  },
+  {
+    "source": "/aws-fargate/from-monolith-to-microservices-why-containerization-with-aws-fargate-makes-sense",
+    "destination": "/resources/blog/from-monolith-to-microservices-why-containerization-with-aws-fargate-makes-sense",
+    "permanent": true
+  },
+  {
+    "source": "/aws-graviton",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/aws-kya",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/aws-lambda",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/aws-lift",
+    "destination": "/resources/aws-lift",
+    "permanent": true
+  },
+  {
+    "source": "/aws-partnership",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/aws-ssb",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/aws-startup-security-baseline-package",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/career",
+    "destination": "/company/careers",
+    "permanent": true
+  },
+  {
+    "source": "/case-study",
+    "destination": "/resources/case-studies",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance",
+    "destination": "/resources/case-studies/a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/achieving-cost-optimization-and-operational-efficiency-for-the-financial-services-company",
+    "destination": "/resources/case-studies/achieving-cost-optimization-and-operational-efficiency-for-the-financial-services-company",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/ayurythm",
+    "destination": "/resources/case-studies/ayurythm",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/bigyellowfish",
+    "destination": "/resources/case-studies/bigyellowfish-technologies",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/boat",
+    "destination": "/resources/case-studies/boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management",
+    "destination": "/resources/case-studies/boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/building-a-robust-secure-for-threat-exposure-management-company-platform-on-aws",
+    "destination": "/resources/case-studies/building-a-robust-secure-for-threat-exposure-management-company-platform-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/building-a-secure-pci-dss-complaint-infrastructure-on-aws-cloud-for-leading-fintech-company",
+    "destination": "/resources/case-studies/comprinno-enables-pcidss-compliance-security-for-fintech-pos-payments-leader",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/carnot-boosts-infrastructure-security-and-availability",
+    "destination": "/resources/case-studies/carnot-boosts-infrastructure-security-and-availability",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/cometchat-modernizes-its-infrastructure-using-amazon-ecs",
+    "destination": "/resources/case-studies/cometchat-modernizes-its-infrastructure-using-amazon-ecs",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/creditmantri-2",
+    "destination": "/resources/case-studies/creditmantri",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/ephicacy",
+    "destination": "/resources/case-studies/ephicacy",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/fibe-collaborates-with-comprinno-to-build-a-resilient-architecture",
+    "destination": "/resources/case-studies/fibe-collaborates-with-comprinno-to-build-a-resilient-architecture",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/gigsboard",
+    "destination": "/resources/case-studies/gigsboard",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/highway-delite",
+    "destination": "/resources/case-studies/highway-delite-adopts-a-resilient-aws-architecture",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/iso-27001",
+    "destination": "/resources/case-studies/iso-27001-compliant-architecture",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/klub",
+    "destination": "/resources/case-studies/klub",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/leher-migrates-to-aws",
+    "destination": "/resources/case-studies/leher-migrates-to-aws",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/lightmetrics",
+    "destination": "/resources/case-studies/a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/mantelabs",
+    "destination": "/resources/case-studies/mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/mantle-labs-a-gen-ai-case-study",
+    "destination": "/resources/case-studies/mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/meddibuddy",
+    "destination": "/resources/case-studies/medibuddy",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/modernizing-cloud-operations-and-observability-at-real-estate-investment-platform",
+    "destination": "/resources/case-studies/modernizing-cloud-operations-and-observability-at-real-estate-investment-platform",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/neural",
+    "destination": "/resources/case-studies/neural-hive",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/octate-opts-for-modernized-workloadswith-amazon-eks",
+    "destination": "/resources/case-studies/octet-opts-for-modernized-workloadswith-amazon-eks",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/optimizing-aws-infrastructure-of-a-consumer-technology-company-best-practices-for-security-observability-and-cost-management",
+    "destination": "/resources/case-studies/optimizing-aws-infrastructure-of-a-consumer-technology-company-best-practices-for-security-observability-and-cost-management",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/optimizing-operations-compliance-and-costs-for-a-digital-printing-company",
+    "destination": "/resources/case-studies/optimizing-operations-compliance-and-costs-for-a-digital-printing-company",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/pando-building-a-resilient-infrastructure",
+    "destination": "/resources/case-studies/pando-building-a-resilient-infrastructure",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/portea",
+    "destination": "/resources/case-studies/portea",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/quandle-labs-collaborates-with-comprinno-for-gen-ai-solution",
+    "destination": "/resources/case-studies/quandle-labs-genai-transforming-bio-medical-research-by-accelerating-speed-accuracy-using-gen-ai",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/secure-aws-architecture-with-data-localization",
+    "destination": "/resources/case-studies/secure-aws-architecture-with-data-localization",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/sirovate-a-genai-case-study-for-summarization-of-clinical-research",
+    "destination": "/resources/case-studies/sirovate-genai-accelerating-speed-accuracy-of-clinical-research-summary-reports-csrs-with-gen-ai",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/skill-lync-migrates-to-aws-from-digital-ocean",
+    "destination": "/resources/case-studies/skill-lync-migrates-to-aws-from-digital-ocean",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/synaptic-modernizes-infrastructure-with-well-architected-eks-package",
+    "destination": "/resources/case-studies/synaptic-modernizes-infrastructure-with-well-architected-eks-package",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/tesser-enhances-security-scalability-and-deployment-efficiency-with-aws-migration",
+    "destination": "/resources/case-studies/tesser-enhances-security-scalability-and-deployment-efficiency-with-aws-migration",
+    "permanent": true
+  },
+  {
+    "source": "/case-study/youvah",
+    "destination": "/resources/case-studies/youvahs-journey-to-efficiency-with-aws-infrastructure-adoption",
+    "permanent": true
+  },
+  {
+    "source": "/center-of-excellence/quantifying-excellence-role-of-data-analytics-in-coe",
+    "destination": "/resources/blog/quantifying-excellence-role-of-data-analytics-in-coe",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-governance-and-management",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-governance/effective-governance-in-cloud-how-finops-enhances-cloud-governance-in-aws-with-best-practices-and-strategies",
+    "destination": "/resources/blog/effective-governance-in-cloud-how-finops-enhances-cloud-governance-in-aws-with-best-practices-and-strategies",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-governance/staying-compliant-with-cloud-security-governance",
+    "destination": "/resources/blog/staying-compliant-with-cloud-security-governance",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration",
+    "destination": "/services/migrate",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration/aws-migration-service-vs-manual-migration-why-automation-matters",
+    "destination": "/resources/blog/aws-migration-service-vs-manual-migration-why-automation-matters",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration/cloud-migration-strategy",
+    "destination": "/resources/blog/what-is-cloud-migration-strategy-process-and-tools",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration/optimizing-cost-during-cloud-migration-with-aws-cost-explorer-and-trusted-advisor",
+    "destination": "/resources/blog/optimizing-cost-during-cloud-migration-with-aws-cost-explorer-and-trusted-advisor",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/achieving-pci-dss-compliance-in-aws-cloud",
+    "destination": "/resources/blog/achieving-pci-dss-compliance-in-aws-cloud",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/aws-cloud-migration-how-datamotive-easymigrate-speeds-up-vmware-to-aws-migration-by-2x",
+    "destination": "/resources/blog/aws-cloud-migration-how-datamotive-easymigrate-speeds-up-vmware-to-aws-migration-by-2x",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/building-a-secure-aws-landing-zone-for-enterprise-scalability",
+    "destination": "/resources/blog/building-a-secure-aws-landing-zone-for-enterprise-scalability",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/cloud-security-an-introspection",
+    "destination": "/resources/blog/cloud-security-an-introspection",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/common-cloud-security-misconfigurations",
+    "destination": "/resources/blog/common-cloud-security-misconfigurations",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/cyber-security-month-tips-to-protect-your-aws-cloud-from-cyber-attacks-and-cyber-crime",
+    "destination": "/resources/blog/cyber-security-month-tips-to-protect-your-aws-cloud-from-cyber-attacks-and-cyber-crime",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/secure-your-web-application-from-ddos-attacks",
+    "destination": "/resources/blog/secure-your-web-application-from-ddos-attacks",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/securing-access-to-customer-aws-accounts-best-practices-for-secure-remote-connectivity-from-your-personal-laptop",
+    "destination": "/resources/blog/securing-access-to-customer-aws-accounts-best-practices-for-secure-remote-connectivity-from-your-personal-laptop",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/top-5-security-challenges-for-cloud",
+    "destination": "/resources/blog/top-5-security-challenges-for-cloud",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/vmc-to-aws-migration-guide-top-10-reasons-to-make-the-switch",
+    "destination": "/resources/blog/vmc-to-aws-migration-guide-top-10-reasons-to-make-the-switch",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security/well-architected-framework-review",
+    "destination": "/resources/blog/well-architected-framework-review-wafr-a-vital-war-against-cloud-inadequacies",
+    "permanent": true
+  },
+  {
+    "source": "/cost-optimization/optimizing-aws-eks-costs",
+    "destination": "/resources/blog/optimizing-aws-eks-costs-1-best-practices-and-strategies-in-2024",
+    "permanent": true
+  },
+  {
+    "source": "/data-platforms-analytics",
+    "destination": "/services/maximize",
+    "permanent": true
+  },
+  {
+    "source": "/demo",
+    "destination": "/contact",
+    "permanent": true
+  },
+  {
+    "source": "/devops/anatomy-of-a-ci-cd-pipeline-in-aws",
+    "destination": "/resources/blog/anatomy-of-a-ci-cd-pipeline-in-aws",
+    "permanent": true
+  },
+  {
+    "source": "/devops/application-modernization-strategy",
+    "destination": "/resources/blog/8-steps-to-successful-application-modernization-strategy",
+    "permanent": true
+  },
+  {
+    "source": "/devops/ci-cd-for-container-orchestration-in-aws-3",
+    "destination": "/resources/blog",
+    "permanent": true
+  },
+  {
+    "source": "/devopstransformation",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/devsecops-cloud-security",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/disaster-recovery-resilience/disaster-recovery-on-aws",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/disaster-recovery-resilience/using-aws-s3-and-glacier-for-cost-effective-data-backup-and-disaster-recovery-solutions",
+    "destination": "/resources/blog/using-aws-s3-and-glacier-for-cost-effective-data-backup-and-disaster-recovery-solutions",
+    "permanent": true
+  },
+  {
+    "source": "/disaster-recovery-resilience/why-disaster-recovery-services-in-aws-are-essential-for-e-commerce-resilience",
+    "destination": "/resources/blog/why-disaster-recovery-services-in-aws-are-essential-for-e-commerce-resilience",
+    "permanent": true
+  },
+  {
+    "source": "/edtech",
+    "destination": "/industries",
+    "permanent": true
+  },
+  {
+    "source": "/edutech/are-you-in-edutech-trust-comprinno-to-defend-your-aws-infrastructure",
+    "destination": "/resources/blog/are-you-in-edutech-trust-comprinno-to-defend-your-aws-infrastructure",
+    "permanent": true
+  },
+  {
+    "source": "/edutech/edutech-and-aws",
+    "destination": "/resources/blog/edutech-and-aws",
+    "permanent": true
+  },
+  {
+    "source": "/edutech/spiralling-cloud-costs-consult-comprinno-and-optimize-spend",
+    "destination": "/resources/blog/spiralling-cloud-costs-consult-comprinno-and-optimize-spend",
+    "permanent": true
+  },
+  {
+    "source": "/fintech",
+    "destination": "/industries",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/accelerating-regtech-adoption-in-fintechs-using-tevico",
+    "destination": "/resources/blog/accelerating-regtech-adoption-in-fintechs-using-tevico",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/addressing-irdai-requirements-on-aws-platform-data-and-application-security-part-i",
+    "destination": "/resources/blog/addressing-irdai-requirements-on-aws-platform-data-and-application-security-part-i",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/addressing-irdai-requirements-on-aws-platform-network-security-part-ii",
+    "destination": "/resources/blog/addressing-irdai-requirements-on-aws-platform-network-security-part-ii",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/automation-of-compliance-monitoring-rbis-tech-imperative",
+    "destination": "/resources/blog/automation-of-compliance-monitoring-rbis-tech-imperative",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/cloud-strategies-for-high-availability-for-fintechs",
+    "destination": "/resources/blog/cloud-strategies-for-high-availability-for-fintechs",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/data-migration-to-aws-cloud-for-fintech",
+    "destination": "/resources/blog/data-migration-to-aws-cloud-for-fintech",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/database-modernization-for-fintechs",
+    "destination": "/resources/blog/database-modernization-for-fintechs",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/essential-strategies-for-meeting-sebis-data-security-standards",
+    "destination": "/resources/blog/essential-strategies-for-meeting-sebis-data-security-standards",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/fintech-and-meeting-regulatory-compliances-in-aws",
+    "destination": "/resources/blog/fintech-and-meeting-regulatory-compliances-in-aws",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/migration-and-modernization-of-core-banking-systems",
+    "destination": "/resources/blog/migration-and-modernization-of-core-banking-systems",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/modernization-of-applications-with-microservice-architecture-using-amazon-eks",
+    "destination": "/resources/blog/modernization-of-applications-with-microservice-architecture-using-amazon-eks",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/public-cloud-adoption-in-high-trust-industries",
+    "destination": "/resources/blog/public-cloud-adoption-in-high-trust-industries",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/sebi-cloud-adoption-framework-for-the-regulated-entities",
+    "destination": "/resources/blog/sebi-cloud-adoption-framework-for-the-regulated-entities",
+    "permanent": true
+  },
+  {
+    "source": "/fintech/understanding-autoscaling-load-balancers-load-testing-cold-starts-scale-in-and-scale-out",
+    "destination": "/resources/blog/understanding-autoscaling-load-balancers-load-testing-cold-starts-scale-in-and-scale-out",
+    "permanent": true
+  },
+  {
+    "source": "/from-ctos-desk/breaking-barriers-fostering-gender-parity-in-the-workplace",
+    "destination": "/resources/blog/breaking-barriers-fostering-gender-parity-in-the-workplace",
+    "permanent": true
+  },
+  {
+    "source": "/gcc",
+    "destination": "/industries",
+    "permanent": true
+  },
+  {
+    "source": "/gen-ai/how-aws-lambda-and-sagemaker-simplify-the-deployment-of-ai-text-generation-models",
+    "destination": "/resources/blog/how-aws-lambda-and-sagemaker-simplify-the-deployment-of-ai-text-generation-models",
+    "permanent": true
+  },
+  {
+    "source": "/gen-ai/how-genai-is-accelerating-rd-and-operations-in-life-sciences",
+    "destination": "/resources/blog/how-genai-is-accelerating-rd-and-operations-in-life-sciences",
+    "permanent": true
+  },
+  {
+    "source": "/gen-ai/leveraging-generative-ai-for-predictive-analytics-in-the-bfsi-sector",
+    "destination": "/resources/blog/leveraging-generative-ai-for-predictive-analytics-in-the-bfsi-sector",
+    "permanent": true
+  },
+  {
+    "source": "/genai-unlocked-aws-cloud-workshop-for-startup-founders",
+    "destination": "/resources/free-genai-consulting",
+    "permanent": true
+  },
+  {
+    "source": "/generative-ai",
+    "destination": "/services/maximize",
+    "permanent": true
+  },
+  {
+    "source": "/health-care",
+    "destination": "/industries",
+    "permanent": true
+  },
+  {
+    "source": "/healthcare/the-role-of-ai-in-revolutionizing-healthcare-system",
+    "destination": "/resources/blog/the-role-of-ai-in-revolutionizing-healthcare-system",
+    "permanent": true
+  },
+  {
+    "source": "/insights",
+    "destination": "/resources/blog",
+    "permanent": true
+  },
+  {
+    "source": "/isv-saas-fest",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/life-sciences",
+    "destination": "/industries",
+    "permanent": true
+  },
+  {
+    "source": "/marketing-connect",
+    "destination": "/contact",
+    "permanent": true
+  },
+  {
+    "source": "/marketing",
+    "destination": "/#services",
+    "permanent": true
+  },
+  {
+    "source": "/marketing/application-modernization-services",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/marketing/cloud-migration",
+    "destination": "/services/migrate",
+    "permanent": true
+  },
+  {
+    "source": "/marketing/disaster-recovery-resiliency-services",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/mastering-cloud-financials",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/modernization/application-modernization",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/modernization/automating-the-application-modernization-journey-with-aws-devops-tools",
+    "destination": "/resources/blog/automating-the-application-modernization-journey-with-aws-devops-tools",
+    "permanent": true
+  },
+  {
+    "source": "/navitus",
+    "destination": "/products/tevico",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/aws-lambda-and-amazon-elastic-container-service-ecs-service-delivery-program-badge",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-lambda-and-amazon-elastic-container-service-ecs-service-delivery-program-badge",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-aws-cloud-operations-software-competency-for-tevico-platform",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-cloud-operations-software-competency-for-tevico-platform",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-aws-gen-ai-competency-partner-status",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-gen-ai-competency-partner-status",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-aws-level-1-managed-security-service-provider-competency",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-level-1-managed-security-service-provider-competency",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-aws-managed-services-msp-partner-status",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-managed-services-msp-partner-status",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-iso-27001-certification-for-data-privacy-and-information-security",
+    "destination": "/resources/newsroom/comprinno-achieves-iso-27001-certification-for-data-privacy-and-information-security",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-soc2-type-ii-certification-for-information-confidentiality-availability-security",
+    "destination": "/resources/newsroom/comprinno-achieves-soc2-type-ii-certification-for-information-confidentiality-availability-security",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-achieves-the-aws-resilience-competency",
+    "destination": "/resources/newsroom/comprinno-achieves-the-aws-resilience-competency",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-signs-multi-year-strategic-collaboration-agreement-sca-with-aws-for-accelerating-genai-adoption-in-india",
+    "destination": "/resources/newsroom/comprinno-signs-multi-year-strategic-collaboration-agreement-sca-with-aws-for-accelerating-genai-adoption-in-india",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-amazon-cloudfront-service-delivery-badge",
+    "destination": "/resources/newsroom/comprinno-technologies-achieves-amazon-cloudfront-service-delivery-badge",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-amazon-opensearch-service-delivery-badge",
+    "destination": "/resources/newsroom",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-amazon-rds-service-delivery-badge",
+    "destination": "/resources/newsroom/comprinno-technologies-achieves-amazon-rds-service-delivery-badge",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-aws-cloudformation-service-delivery-badge",
+    "destination": "/resources/newsroom",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-aws-database-migration-service-and-aws-config-service-delivery-badges",
+    "destination": "/resources/newsroom/comprinno-achieves-aws-database-migration-service-aws-config-service-delivery-badges",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-achieves-aws-web-application-firewall-waf-service-delivery-badge",
+    "destination": "/resources/newsroom/comprinno-technologies-achieves-aws-web-application-firewall-waf-service-delivery-badge",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/comprinno-technologies-attains-amazon-systems-manager-service-delivery",
+    "destination": "/resources/newsroom/comprinno-technologies-attains-amazon-systems-manager-service-delivery",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/tevico-2-0-transforms-aws-well-architected-reviews-with-a-gamified-review-module",
+    "destination": "/resources/newsroom/tevico-2-0-transforms-aws-well-architected-reviews-with-a-gamified-review-module",
+    "permanent": true
+  },
+  {
+    "source": "/newsroom/tevico-accelerates-backend-transformation-by-10x-with-amazon-q",
+    "destination": "/resources/newsroom/tevico-accelerates-backend-transformation-by-10x-with-amazon-q",
+    "permanent": true
+  },
+  {
+    "source": "/offere-solution-packages",
+    "destination": "/#services",
+    "permanent": true
+  },
+  {
+    "source": "/optimize-your-cloud-licensing-costs-with-aws-ola",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/packages",
+    "destination": "/#services",
+    "permanent": true
+  },
+  {
+    "source": "/packages/centralized-logging-package",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/packages/comprehensive-backup-package",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/packages/eks-image-package",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/packages/load-testing-package",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/packages/startup-security-baseline-package",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/packages/well-architected-ecs-package",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/privacy-policy-2",
+    "destination": "/privacy-policy",
+    "permanent": true
+  },
+  {
+    "source": "/product",
+    "destination": "/products/tevico",
+    "permanent": true
+  },
+  {
+    "source": "/program",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/program/apn-isv-boost",
+    "destination": "/partnerships/aws",
+    "permanent": true
+  },
+  {
+    "source": "/resilience-and-disaster-recovery",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/resilience/leveraging-cloudendure-for-a-cost-effective-disaster-recovery-plan",
+    "destination": "/resources/blog/leveraging-cloudendure-for-a-cost-effective-disaster-recovery-plan",
+    "permanent": true
+  },
+  {
+    "source": "/resilience/resilientarchitectures-onaws",
+    "destination": "/resources/blog/designing-for-failure-building-resilient-architectures-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/resilience/top-strategies-for-cloud-disaster-recovery-ensuring-business-continuity-in-2024",
+    "destination": "/resources/blog/top-strategies-for-cloud-disaster-recovery-ensuring-business-continuity-in-2024",
+    "permanent": true
+  },
+  {
+    "source": "/resiliency/achieving-cloud-resilience-key-patterns-trade-offs-and-sla-metrics",
+    "destination": "/resources/blog/achieving-cloud-resilience-key-patterns-trade-offs-and-sla-metrics",
+    "permanent": true
+  },
+  {
+    "source": "/solutions",
+    "destination": "/#services",
+    "permanent": true
+  },
+  {
+    "source": "/solutions/vmware-to-aws-migration",
+    "destination": "/services/migrate",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/10-techniques-to-optimize-your-aws-bills",
+    "destination": "/resources/blog/10-techniques-to-optimize-your-aws-bills",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/assessing-your-cloud-readiness-with-aws-migration-readiness-assessment-mra",
+    "destination": "/resources/blog/assessing-your-cloud-readiness-with-aws-migration-readiness-assessment-mra",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/aws-control-tower-the-ultimate-guide-to-setting-up-your-landing-zone",
+    "destination": "/resources/blog/aws-control-tower-the-ultimate-guide-to-setting-up-your-landing-zone",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/building-a-multi-region-serverless-application-with-aws-lambda-and-strategizing-dr",
+    "destination": "/resources/blog/building-a-multi-region-serverless-application-with-aws-lambda-and-strategizing-dr",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/centralized-prometheus-and-grafana-setup-for-amazon-eks",
+    "destination": "/resources/blog/centralized-prometheus-and-grafana-setup-for-amazon-eks",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/creating-hyperledger-fabric-on-amd-based-vm",
+    "destination": "/resources/blog/creating-hyperledger-fabric-on-amd-based-vm",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/cross-account-codecommit-and-codepipeline-in-aws",
+    "destination": "/resources/blog/cross-account-codecommit-and-codepipeline-in-aws",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/cross-account-master-master-rds-instance-setup",
+    "destination": "/resources/blog/cross-account-master-master-rds-instance-setup",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/deploying-a-trained-m-l-algorithm-to-a-w-s-sagemaker",
+    "destination": "/resources/blog/deploying-a-trained-ml-algorithm-to-aws-sagemaker",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/efficient-data-migration-to-aws-s3-data-lake-using-dms",
+    "destination": "/resources/blog/efficient-data-migration-to-aws-s3-data-lake-using-dms",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/effortless-service-to-service-connectivity-ecs-service-connect",
+    "destination": "/resources/blog/effortless-service-to-service-connectivity-ecs-service-connect",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/elg-setup-blog",
+    "destination": "/resources/blog/elg-setup-blog",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/enhancing-high-availability-with-chaos-engineering",
+    "destination": "/resources/blog/enhancing-high-availability-with-chaos-engineering",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/fortifying-your-cloud-infrastructure-with-aws-resilience-hub",
+    "destination": "/resources/blog/fortifying-your-cloud-infrastructure-with-aws-resilience-hub",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/insights-on-wheels-real-time-dashcam-data-streaming-revolutionized-by-amazon-msk",
+    "destination": "/resources/blog/insights-on-wheels-real-time-dashcam-data-streaming-revolutionized-by-amazon-msk",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/mastering-resilience-a-comprehensive-guide-to-understanding-and-achieving-robust-systems",
+    "destination": "/resources/blog/mastering-resilience-a-comprehensive-guide-to-understanding-and-achieving-robust-systems",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/maximizing-productivity-with-amazon-workspaces",
+    "destination": "/resources/blog/maximizing-productivity-with-amazon-workspaces",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/migration-using-aws-application-migration-service-mgn",
+    "destination": "/resources/blog/migration-using-aws-application-migration-service-mgn",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/optimizing-angular-build-time-in-aws-codebuild",
+    "destination": "/resources/blog/optimizing-angular-build-time-in-aws-codebuild",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/reliability-an-important-aspect-of-designing-robust-systems",
+    "destination": "/resources/blog/reliability-an-important-aspect-of-designing-robust-systems",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/securing-your-amazon-eks-a-complete-solution-to-image-hardening",
+    "destination": "/resources/blog/securing-your-amazon-eks-a-complete-solution-to-image-hardening",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/securing-your-aws-migration-best-practices-for-security-baselining",
+    "destination": "/resources/blog/securing-your-aws-migration-best-practices-for-security-baselining",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/streamlining-deployment-with-ecs-fargate-blue-green-deployment-and-ci-cd",
+    "destination": "/resources/blog/streamlining-deployment-with-ecs-fargate-blue-green-deployment-and-ci-cd",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/strengthening-aws-iam-security-leveraging-external-ids-for-cross-account-access-control",
+    "destination": "/resources/blog/strengthening-aws-iam-security-leveraging-external-ids-for-cross-account-access-control",
+    "permanent": true
+  },
+  {
+    "source": "/technical-deep-dive/when-disaster-walks-in-how-aws-elastic-disaster-recovery-ensures-business-continuity-in-the-cloud",
+    "destination": "/resources/blog/when-disaster-walks-in-how-aws-elastic-disaster-recovery-ensures-business-continuity-in-the-cloud",
+    "permanent": true
+  },
+  {
+    "source": "/terraform-on-aws/optimizing-infrastructure-as-code-with-terraform-on-aws-best-practices-and-enterprise-insights",
+    "destination": "/resources/blog/optimizing-infrastructure-as-code-with-terraform-on-aws-best-practices-and-enterprise-insights",
+    "permanent": true
+  },
+  {
+    "source": "/thank-you",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/uncategorized/ams-5-a-step-by-step-guide",
+    "destination": "/resources/blog/aws-managed-services-ams-5-a-step-by-step-guide",
+    "permanent": true
+  },
+  {
+    "source": "/uncategorized/naws-managed-services-provider",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/unlock-the-full-power-of-aws-with-comprinno",
+    "destination": "/#services",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-eks-package",
+    "destination": "/services/modernize",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-framework-review/aws-well-architected",
+    "destination": "/resources/blog",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-framework-review/enhancing-cloud-migration-success-with-the-aws-well-architected-framework",
+    "destination": "/resources/blog/enhancing-cloud-migration-success-with-the-aws-well-architected-framework",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-framework-review/leveraging-aws-well-architected-tool-for-continuous-improvement",
+    "destination": "/resources/blog/leveraging-aws-well-architected-tool-for-continuous-improvement",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-framework-review/mastering-cloud-resilience-with-the-aws-well-architected-framework-reliability-pillar",
+    "destination": "/resources/blog/mastering-cloud-resilience-with-the-aws-well-architected-framework-reliability-pillar",
+    "permanent": true
+  },
+  {
+    "source": "/well-architected-framework-review/migration-modernization",
+    "destination": "/resources/blog",
+    "permanent": true
+  },
+  {
+    "source": "/well-architectured-framework-review",
+    "destination": "/services/manage",
+    "permanent": true
+  },
+  {
+    "source": "/why-us",
+    "destination": "/company/about",
+    "permanent": true
+  }
+]
