@@ -64,13 +64,13 @@ const included = [
   "Monitoring and support after launch",
 ];
 
-const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "AWS Strategic Collaboration Agreement for generative AI", "AWS Security Competency"];
+const credentials = ["AWS AI Services Competency", "AWS Data Services Competency", "Amazon QuickSight Service Validation", "Premier Tier Services"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { slug: "sirovate-genai-accelerating-speed-accuracy-of-clinical-research-summary-reports-csrs-with-gen-ai", metric: "50%", what: "fewer compliance-related errors in clinical research summaries" },
-  { slug: "ai-enabled-shopfloor-video-intelligence", metric: "70%", what: "less manual monitoring of the shop floor" },
-  { slug: "mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation", metric: "40%", what: "fewer compliance setbacks in climate project approvals" },
+  { slug: "enabling-agentic-automation-with-amazon-bedrock-agentcore-for-a-leading-workforcetech-company" },
+  { slug: "empowering-shop-floor-operations-with-genai-driven-operator-assistance-using-ai-at-the-edge" },
+  { slug: "a-leading-wearable-brand-partners-with-comprinno-to-drive-marketing-campaigns-with-generative-ai" },
 ];
 
 const faqs = [
@@ -100,7 +100,7 @@ export default function MaximizePage() {
         },
         problem: { title: <>AI isn&apos;t one problem. <strong>It&apos;s four.</strong></>, desc: "Any one of them keeps AI stuck in a demo. Each one is fixable.", items: problems },
         path: { title: <><strong>One partner.</strong> Four ways to put AI to work.</>, desc: "From the data underneath to agents that act, each piece is built to reach production and stay there.", items: disciplines },
-        scope: { eyebrow: "Capabilities", title: <>Start with <strong>your use case.</strong></>, desc: "Pick one use case to start, then build on the same foundation.", items: scope },
+        scope: { eyebrow: "Capabilities", title: <>Start with <strong>your use case.</strong></>, desc: "Pick one use case to start, then build on the same foundation.", items: scope, style: "icons" },
         numbers,
         steps: { eyebrow: "From use case to production", title: <>Five steps, with <strong>real numbers</strong> before you scale.</>, desc: "You see accuracy, response time and cost on your own data before committing further.", items: steps, icons: ["search", "layers", "spark", "rocket", "eye"], caption: "→ every new use case builds on the same foundation, so value compounds" },
         included: {

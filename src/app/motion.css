@@ -545,3 +545,37 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 .award-sway { transform-origin: 50% 50%; animation: award-sway 6s ease-in-out infinite alternate; }
 @keyframes award-sway { from { transform: perspective(900px) rotateY(-5deg); } to { transform: perspective(900px) rotateY(5deg); } }
 @media (prefers-reduced-motion: reduce) { .award-sway { animation: none; } }
+
+/* single-column cards (phones): the big faded word sits top-left, matching the left-aligned text */
+@media (max-width: 639px) {
+  .path-mark { left: 1.1rem; right: auto; }
+  .path-card:hover .path-mark, .path-card:focus-visible .path-mark { transform: translateX(.6rem); }
+}
+
+/* phones: clear hierarchy in every hero, a bigger title and a quieter sub-line */
+@media (max-width: 639px) {
+  .hero-block h1 { font-size: 2.35rem; line-height: 1.08; letter-spacing: -0.02em; }
+  .hero-block h1 + p { font-size: .95rem; line-height: 1.6; }
+}
+
+/* phones: industry chips on one row (label above), stage-check button on one line */
+@media (max-width: 639px) {
+  .chip-row { gap: .35rem; }
+  .chip-row > span:first-child { flex-basis: 100%; margin: 0 0 .25rem; text-align: center; }
+  .chip-row .seg-chip { padding: .45rem .6rem; font-size: .78rem; white-space: nowrap; }
+  .btn.stage-check { font-size: .78rem; padding-left: .9rem; padding-right: .9rem; white-space: nowrap; }
+}
+@media (max-width: 374px) {
+  .chip-row { gap: .25rem; }
+  .chip-row .seg-chip { padding: .4rem .45rem; font-size: .7rem; }
+  .btn.stage-check { font-size: .68rem; padding-left: .6rem; padding-right: .6rem; letter-spacing: -.01em; }
+}
+
+/* phones: eyebrows stay on one line */
+@media (max-width: 639px) {
+  .eyebrow { max-width: min(100%, calc(100vw - 2rem)); gap: .4rem; padding: .45rem .6rem; font-size: .64rem; letter-spacing: .03em; white-space: nowrap; }
+  .eyebrow-sig { margin-left: 0; }
+}
+@media (max-width: 374px) {
+  .eyebrow { font-size: .6rem; letter-spacing: .02em; padding: .45rem .5rem; white-space: normal; text-align: center; }
+}

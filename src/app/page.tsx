@@ -109,7 +109,7 @@ export default function Home() {
         <div className="relative">
           <Container className="pb-10 sm:pb-14">
             <div className="text-center"><Eyebrow>Official partners</Eyebrow></div>
-            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            <ul className="mt-4 flex flex-wrap justify-center gap-3">
               {partnerPages.map((p) => {
                 const logo = (
                   <>
@@ -121,7 +121,7 @@ export default function Home() {
                   </>
                 );
                 return (
-                  <li key={p.slug}>
+                  <li key={p.slug} className="basis-[calc(50%-0.375rem)] sm:basis-[calc(33.333%-0.5rem)] lg:basis-[calc(20%-0.6rem)]">
                     {/* hidden partners keep their logo here but have no page to link to yet */}
                     {p.hidden
                       ? <div title={`${p.name}: ${p.badge}`} className="partner-tile">{logo}</div>
@@ -178,7 +178,7 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-8 flex justify-center">
-          <Button href="/contact" variant="ghost">Which stage are you at? Take the 2-min check →</Button>
+          <Button href="/contact" variant="ghost" className="stage-check">Which stage are you at? Take the 2-min check →</Button>
         </div>
       </Section>
 
@@ -241,7 +241,7 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+        <div className="chip-row mt-8 flex flex-wrap items-center justify-center gap-2">
           <span className="mr-2 font-mono text-xs uppercase tracking-widest text-muted">Industries</span>
           {["Fintech", "Healthcare", "Life Sciences", "Retail"].map((x) => (
             <Link key={x} href="/industries" className="seg-chip">{x}</Link>

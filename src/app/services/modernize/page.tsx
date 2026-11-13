@@ -64,13 +64,13 @@ const included = [
   "Handover and training for your engineering team",
 ];
 
-const credentials = ["AWS DevOps Competency", "AWS Migration and Modernization Competency", "AWS Managed Service Provider (MSP)", "AWS Well-Architected Partner"];
+const credentials = ["AWS Migration and Modernization Consulting", "AWS DevOps Consulting Competency", "AWS AI Services Competency", "Amazon EKS/ECS/Lambda Delivery"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [
-  { slug: "fintech-aws-cloud-modernization-scaling-secure-workloads-with-aws-cloud-infrastructure-for-a-digital-lending-and-financial-services-provider", metric: "25+", what: "metric alarms plus synthetic canaries watching the platform" },
-  { slug: "fintech-aws-cloud-modernization-from-monolith-to-cloud-native-modernizing-a-global-index-platform-on-aws", metric: "24x7", what: "proactive monitoring after the move to cloud-native" },
-  { slug: "octet-opts-for-modernized-workloadswith-amazon-eks" },
+  { slug: "ai-powered-data-insights-platform-aws-migration-modernizing-cloud-infrastructure-to-reliably-scale-matih-labs-unified-ai-data-platform" },
+  { slug: "quantian-technologies-aws-cloud-modernization-enhancing-deployment-efficiency-and-cloud-security-for-quantian" },
+  { slug: "onze-technologies-aws-cloud-modernization-enabling-scalable-and-secure-operations-on-aws-for-onze-technologies-latlong-ai" },
 ];
 
 const faqs = [
@@ -99,7 +99,7 @@ export default function ModernizePage() {
         },
         problem: { title: <>Being in the cloud isn&apos;t the same as <strong>being cloud-native.</strong></>, desc: "Four things keep applications stuck in the past. Each one is fixable.", items: problems },
         path: { title: <><strong>One team.</strong> Four modernization disciplines.</>, desc: "We modernize in increments, one service at a time, so the business keeps running while the platform underneath gets better.", items: disciplines },
-        scope: { eyebrow: "What we modernize", title: <>Start from <strong>what you run today.</strong></>, desc: "Whatever you run today, there's a step-by-step path forward.", items: scope },
+        scope: { eyebrow: "What we modernize", title: <>Start from <strong>what you run today.</strong></>, desc: "Whatever you run today, there's a step-by-step path forward.", items: scope, style: "icons" },
         numbers,
         steps: { eyebrow: "How modernization runs", title: <>Five steps, <strong>one service at a time</strong>.</>, desc: "Each increment ships to production before the next one starts.", items: steps, icons: ["search", "layers", "code", "loop", "chart"], caption: "→ then on to Manage: we run what we modernized, 24/7" },
         included: { title: <>What <strong>every modernization engagement</strong><Br /> includes.</>, items: included },

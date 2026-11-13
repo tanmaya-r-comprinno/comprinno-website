@@ -20,6 +20,8 @@ export const badges = {
   cloudOps: aws("aws-cloud-operations-competency", "Cloud Operations Services Competency"),
   genAI: aws("aws-generative-ai-competency", "Generative AI Services Competency"),
   data: aws("aws-data-analytics-competency", "Data & Analytics Services Competency"),
+  containers: aws("aws-eks-ecs-lambda-delivery", "Amazon EKS, ECS and Lambda Delivery"),
+  quicksight: aws("aws-quicksight-service-validation", "Amazon QuickSight Service Validation"),
   iso: { src: "/badges/iso-27001.webp", alt: "ISO 27001 Information Security Management certified", w: 252, h: 250 },
   soc: { src: "/badges/soc-2.webp", alt: "AICPA SOC 2", w: 248, h: 250 },
 } satisfies Record<string, Badge>;
@@ -39,6 +41,8 @@ export function badgesFor(label: string): Badge[] {
   if (l.includes("generative ai") || l.includes("strategic collaboration")) out.push(badges.genAI);
   else if (/\bai services\b/.test(l)) out.push(badges.ai);
   if (/data (services|& analytics|and analytics)/.test(l)) out.push(badges.data);
+  if (/\beks\b|\becs\b|lambda/.test(l)) out.push(badges.containers);
+  if (l.includes("quicksight")) out.push(badges.quicksight);
   if (l.includes("well-architected")) out.push(badges.wellArchitected);
   if (l.includes("cloud operations")) out.push(badges.cloudOps);
   if (l.includes("iso 27001")) out.push(badges.iso);

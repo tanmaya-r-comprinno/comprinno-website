@@ -146,9 +146,9 @@ export default function TevicoPage() {
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-line pt-6 text-sm text-ink">
+        <div className="mt-8 flex flex-col items-start gap-2 border-t border-line pt-6 text-sm text-ink sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-6">
           <span className="font-mono text-[0.7rem] uppercase tracking-widest text-muted">Also supported</span>
-          {alsoSupported.map((a) => <span key={a} className="font-medium">{a}</span>)}
+          {alsoSupported.map((a) => <span key={a} className="flex items-center gap-2 font-medium"><span className="h-1.5 w-1.5 shrink-0 bg-[#006bc9] sm:hidden" aria-hidden="true" />{a}</span>)}
         </div>
       </Section>
 

@@ -70,13 +70,13 @@ const plans = [
   { k: "24/7 · Round the clock", name: "Elite", desc: "For businesses that need 24/7 support and have high customer expectations. Adds vendor, access and security posture management, with weekly reports and two AWS Well-Architected Reviews a year.", featured: true },
 ];
 
-const credentials = ["AWS Managed Service Provider (MSP)", "AWS Level 1 MSSP Competency", "AWS Resilience Competency", "AWS Cloud Operations Competency"];
+const credentials = ["AWS Managed Service Provider (MSP)", "AWS MSSP Services Competency", "AWS Cloud Operations Services Competency", "AWS Security Consulting Competency"];
 
 // Real stories; each figure is quoted from that story's results
 const outcomes = [
   { slug: "boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management", metric: "40%", what: "lower cloud costs over a year" },
   { slug: "a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance", metric: "24x7", what: "dashcam platform kept running around the clock" },
-  { slug: "achieving-cost-optimization-and-operational-efficiency-for-the-financial-services-company", metric: "15%", what: "lower cloud costs in the first month" },
+  { slug: "building-a-robust-secure-for-threat-exposure-management-company-platform-on-aws" },
 ];
 
 const faqs = [
@@ -110,7 +110,7 @@ export default function ManagePage() {
         },
         problem: { title: <>Running a cloud environment brings <strong>four key challenges.</strong></>, desc: "Each can pull your team away from product development. Each one is fixable.", items: problems },
         path: { title: <><strong>One team.</strong> Four ways we keep you running.</>, desc: "Operations, security, compliance and recovery from one accountable team, so responsibilities do not fall through the gaps between vendors.", items: disciplines },
-        scope: { eyebrow: "Capabilities", title: <>Pick what you need, <strong>or hand us all of it.</strong></>, desc: "Take one capability or all eight, delivered by the same team.", items: scope },
+        scope: { eyebrow: "Capabilities", title: <>Pick what you need, <strong>or hand us all of it.</strong></>, desc: "Take one capability or all eight, delivered by the same team.", items: scope, style: "icons" },
         numbers,
         steps: { eyebrow: "How we take over operations", title: <>Five steps from <strong>handover</strong> to <strong>managed operations</strong>.</>, desc: "Whether we built your environment or not.", items: steps, icons: ["search", "layers", "migrate", "eye", "chart"], caption: "→ then on to Maximize: a stable, secure base for AI and analytics" },
         included: {
