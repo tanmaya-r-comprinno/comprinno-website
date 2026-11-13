@@ -11,6 +11,10 @@ import { getProduct, products } from "@/content/products";
 const DEDICATED = new Set(["tevico", "voxsphere", "veriq", "weave"]);
 const routed = () => products.filter((p) => !DEDICATED.has(p.slug));
 
+// The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
+// Every slug is prerendered at build time, so navigation is still fast.
+export const instant = false;
+
 export function generateStaticParams() {
   // Cache Components requires at least one param; "_" resolves to notFound().
   const params = routed().map((p) => ({ slug: p.slug }));

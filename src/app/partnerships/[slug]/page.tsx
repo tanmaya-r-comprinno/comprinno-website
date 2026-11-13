@@ -8,6 +8,10 @@ import { partnerPages, visiblePartners } from "@/content/products";
 const find = (slug: string) => visiblePartners.find((p) => p.slug === slug);
 
 // AWS has its own richer page at /partnerships/aws
+// The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
+// Every slug is prerendered at build time, so navigation is still fast.
+export const instant = false;
+
 export function generateStaticParams() {
   return partnerPages.filter((p) => p.slug !== "aws").map((p) => ({ slug: p.slug }));
 }

@@ -17,6 +17,10 @@ const MOVED: Record<string, string> = {
   "mantle-labs": "mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation",
 };
 
+// The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
+// Every slug is prerendered at build time, so navigation is still fast.
+export const instant = false;
+
 export function generateStaticParams() {
   return caseStudies().map((c) => ({ slug: c.slug }));
 }
