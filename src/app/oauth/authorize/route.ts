@@ -26,7 +26,8 @@ button[value=allow]{background:#ffbb00;border-color:#ffbb00}button:focus-visible
       "Cache-Control": "no-store",
       // No form-action: Chrome applies it to the redirect after submit, which must reach the app.
       "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'",
-      "Referrer-Policy": "no-referrer",
+      // same-origin: the form POST carries our Origin, but nothing leaks to the app on redirect
+      "Referrer-Policy": "same-origin",
     },
   });
 }
@@ -72,9 +73,11 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   if (!oauthEnabled()) return new Response("Not found\n", { status: 404 });
   // Only our own consent page may submit (blocks auto-submitting forms on other sites).
+  // Sec-Fetch-Site is set by the browser and can't be forged by a web page.
   const origin = request.headers.get("origin");
   const fetchSite = request.headers.get("sec-fetch-site");
-  if (origin !== new URL(ISSUER).origin && !(origin === null && fetchSite === "same-origin")) {
+  const sameOrigin = origin === new URL(ISSUER).origin || ((origin === null || origin === "null") && fetchSite === "same-origin");
+  if (!sameOrigin || (fetchSite !== null && fetchSite !== "same-origin")) {
     return errorPage("This request didn't come from the Comprinno consent page.");
   }
   const form = await request.formData();
