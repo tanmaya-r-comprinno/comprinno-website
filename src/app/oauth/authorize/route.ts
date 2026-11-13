@@ -24,7 +24,8 @@ button[value=allow]{background:#ffbb00;border-color:#ffbb00}button:focus-visible
     headers: {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "no-store",
-      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
+      // No form-action: Chrome applies it to the redirect after submit, which must reach the app.
+      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'",
       "Referrer-Policy": "no-referrer",
     },
   });
