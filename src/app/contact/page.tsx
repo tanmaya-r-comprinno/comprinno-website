@@ -47,7 +47,7 @@ export default function ContactPage() {
   return (
     <div className="brand">
       {/* HERO + FORM */}
-      <section className="hero-block relative overflow-hidden border-b border-line">
+      <section className="hero-block relative overflow-hidden border-b border-line sm:!h-auto sm:min-h-[54rem]">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-8 sm:py-10">
           <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
