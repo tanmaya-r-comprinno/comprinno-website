@@ -82,7 +82,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - The form renders in a same-origin iframe, so page CSS can't style it. `HubSpotForm.tsx` injects site styles into the iframe on `onFormReady` and resizes the iframe to its content.
 - Don't submit the form server-side: HubSpot rejects API submissions while its captcha is on.
 - Links built with `contactHref(topic, from)` add `?topic=&from=`; HubSpot ignores them.
-- Newsletter signup uses `NEWSLETTER_SIGNUP_URL`, an HTTPS hosted HubSpot newsletter form. `NewsletterSignup.tsx` shows a link when configured, otherwise an unavailable message; no email field collects addresses that cannot be saved. The legacy `/api/subscribe` POST redirects to that form or returns 503, with no false success. HubSpot owns the newsletter consent/subscription settings.
+- The existing newsletter forms post to `/api/subscribe`. When `NEWSLETTER_SIGNUP_URL` points to an HTTPS hosted HubSpot form, the action redirects there to complete signup and consent; it does not forward the entered email address. Without a destination it returns 503, with no false success. The HubSpot newsletter form still needs to be configured.
 
 ## Careers (Keka)
 
@@ -115,6 +115,7 @@ All public and read-only. Shared logic: `src/lib/agentDocs.ts` (llms.txt and pag
 
 ## Conventions
 
+- Configuration and tracking work must preserve page copy and layouts. Make editorial changes only when the user requests them.
 - Match existing code style; no new dependencies without a clear need (crypto, JWT and MCP are hand-written with Node built-ins on purpose).
 - Read `node_modules/next/dist/docs/` before using a Next.js API.
 - Commit messages: `feat(...)`, `fix(...)`, `chore(...)`, `ci(...)`.
