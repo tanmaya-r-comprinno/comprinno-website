@@ -6,6 +6,9 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { Button, Container } from "@/components/ui";
 import ZoomImages from "@/components/ZoomImages";
+import JsonLd from "@/components/JsonLd";
+import RelatedService from "@/components/RelatedService";
+import { articleStructuredData, topicServices } from "@/lib/seo";
 import { formatDate, post, posts, slugify } from "@/lib/blog";
 import { Author, Newsletter, PostCardView, TopicTag } from "../BlogParts";
 import Share from "../Share";
@@ -48,6 +51,7 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <div className="brand">
+      <JsonLd data={articleStructuredData({ title: p.title, description: p.description, path, section: { name: "Insights", path: "/resources/blog" }, author: p.author, publishedAt: p.publishedAt })} />
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true" />
@@ -75,6 +79,7 @@ export default async function BlogPost({ params }: Props) {
           <div className="grid gap-12 lg:grid-cols-[1fr_17rem] lg:gap-16">
             <article className="cs-prose blog-prose min-w-0">
               <ZoomImages><MDXRemote source={p.body} components={mdx} options={{ mdxOptions: { remarkPlugins: [remarkGfm], format: "md" } }} /></ZoomImages>
+              <RelatedService slug={topicServices[p.topic]} />
 
               {/* ABOUT THE AUTHOR: one slim line */}
               <div className="mt-10 flex items-center gap-3 border-t border-line pt-5">

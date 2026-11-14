@@ -5,17 +5,13 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { Button, Container, CtaBand } from "@/components/ui";
 import ZoomImages from "@/components/ZoomImages";
-import { caseStudies, caseStudy } from "@/lib/caseStudies";
+import JsonLd from "@/components/JsonLd";
+import RelatedService from "@/components/RelatedService";
+import { articleStructuredData, caseStudyServices } from "@/lib/seo";
+import { caseStudies, caseStudy, movedCaseStudies } from "@/lib/caseStudies";
 import { CaseCardView, CaseTags } from "../CaseStudyBrowser";
 
 type Props = { params: Promise<{ slug: string }> };
-
-// Empty imports from WordPress: send visitors to the same client's full story
-const MOVED: Record<string, string> = {
-  boat: "boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management",
-  lightmetrics: "a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance",
-  "mantle-labs": "mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation",
-};
 
 // The whole page comes from the slug, so a Suspense shell would be an empty skeleton.
 // Every slug is prerendered at build time, so navigation is still fast.
@@ -33,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CaseStudyPage({ params }: Props) {
   const { slug } = await params;
-  if (MOVED[slug]) redirect(`/resources/case-studies/${MOVED[slug]}`);
+  if (movedCaseStudies[slug]) redirect(`/resources/case-studies/${movedCaseStudies[slug]}`);
   const c = caseStudy(slug);
   if (!c) notFound();
 
@@ -52,6 +48,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
   return (
     <div className="brand">
+      <JsonLd data={articleStructuredData({ title: c.title, description: c.description, path: `/resources/case-studies/${c.slug}`, section: { name: "Customer stories", path: "/resources/case-studies" } })} />
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true" />
@@ -110,6 +107,7 @@ export default async function CaseStudyPage({ params }: Props) {
                   ))}
                 </ul>
               </nav>
+              <RelatedService slug={caseStudyServices[c.service]} />
               <div className="mt-6 border border-line bg-surface p-4">
                 <p className="font-semibold text-ink">Planning something similar?</p>
                 <Button href="/contact" className="mt-3 !min-h-10">Talk to an expert →</Button>

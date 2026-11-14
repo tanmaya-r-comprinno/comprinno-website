@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
+import { serviceMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
-export const metadata: Metadata = {
-  title: "Modernize: make your apps AI-ready, without a risky rewrite",
-  description:
-    "Monoliths broken down step by step, workloads moved to containers and serverless, databases freed from legacy licenses and releases automated. So AI has something solid to run on.",
-  alternates: { canonical: "/services/modernize" },
-};
+export const metadata = serviceMetadata("modernize");
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
   { title: "Monoliths slow every release", desc: "One codebase, one deployment. A small change means a full regression cycle, so new features wait weeks.", icon: "layers" },
@@ -91,7 +86,7 @@ export default function ModernizePage() {
         contact: contactHref("Modernize applications", "/services/modernize"),
         stories: "/resources/case-studies?service=Modernization#stories",
         hero: {
-          eyebrow: "Modernize",
+          eyebrow: "Cloud application modernization & DevOps",
           title: <><span className="lg:whitespace-nowrap">Make your apps <strong className="sweep font-bold">AI-ready</strong>, without</span><Br /> a <strong className="font-bold">risky rewrite</strong>.</>,
           lines: [
             "Monoliths broken down step by step, workloads moved to containers and serverless,",

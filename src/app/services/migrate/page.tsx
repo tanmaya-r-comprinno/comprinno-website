@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
+import { serviceMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
-export const metadata: Metadata = {
-  title: "Migrate: move to the cloud in planned waves",
-  description:
-    "We migrate data centers, VMware estates, databases and AI workloads through a structured migration factory, with a tested rollback plan for every cutover and a funding eligibility check before you commit.",
-  alternates: { canonical: "/services/migrate" },
-};
+export const metadata = serviceMetadata("migrate");
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
   { title: "No clear starting point", desc: "Without a full inventory of applications and dependencies, you can't decide what moves first or what it will cost.", icon: "database" },
@@ -91,7 +86,7 @@ export default function MigratePage() {
         contact: contactHref("Migrate to the cloud", "/services/migrate"),
         stories: "/resources/case-studies?service=Migration#stories",
         hero: {
-          eyebrow: "Migrate",
+          eyebrow: "AWS cloud migration services",
           title: <><span className="lg:whitespace-nowrap">Move to the cloud in <strong className="sweep font-bold">planned waves</strong>,</span><Br /> not <strong className="font-bold">one risky leap</strong>.</>,
           lines: ["We migrate data centers, VMware estates, databases and AI workloads through a structured migration factory,", "with a tested rollback plan for every cutover and a funding eligibility check before you commit."],
           cta: "Get a free migration assessment",
