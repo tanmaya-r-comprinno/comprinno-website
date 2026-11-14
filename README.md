@@ -36,7 +36,10 @@ Set local overrides in `.env.local`; environment files are gitignored.
 | `OAUTH_SIGNING_KEY` | Optional sensitive OAuth signing key. Without it, OAuth endpoints and metadata return 404; anonymous public agent access remains available. See `src/lib/oauth.ts` for its format. |
 | `DEPLOY_SHA` | Commit identifier injected by deployment and returned in `X-Deploy-Sha`; defaults to `dev` locally. |
 | `NEXT_PUBLIC_GTM_ID` | Optional Google Tag Manager web container ID (`GTM-…`). Takes precedence over a direct GA4 tag; publish the Google Analytics tag inside this container. |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Optional GA4 measurement ID (`G-…`), used directly when no valid GTM container ID is set. |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 measurement ID (`G-…`). Targets confirmed contact lead events; also loads the Google tag directly when no valid GTM container ID is set. |
+| `NEXT_PUBLIC_GOOGLE_ADS_LEAD_SEND_TO` | Optional direct Google Ads lead action (`AW-…/conversion-label`). Use an actual Ads action label; leave unset when importing the GA4 lead conversion instead. |
+| `NEWSLETTER_SIGNUP_URL` | HTTPS hosted HubSpot form URL for CloudScape, with newsletter consent/subscription configured in HubSpot. Without it, signup is shown as unavailable. |
+| `GOOGLE_SITE_VERIFICATION` | Optional Search Console HTML verification token, rendered as a meta tag on production only. Obtain the token from the intended Search Console property. |
 
 Only the exact production origin, `https://comprinno.net`, permits indexing. Other configured origins send `X-Robots-Tag: noindex, nofollow`, disable indexing in page metadata and serve a disallow-all `robots.txt`. Set the intended configuration before building.
 
@@ -80,10 +83,12 @@ SEO helpers in `src/lib/seo.ts` supply service metadata, contextual service link
 
 - **Contact:** `/contact` embeds the existing HubSpot form through `src/components/HubSpotForm.tsx`. HubSpot owns fields, captcha, consent and the submitted message. The component injects styles into the same-origin iframe and adjusts its height. Context query parameters from `contactHref()` are not consumed by the form.
 - **Careers:** `src/lib/keka.ts` reads the Keka jobs feed with an hourly cache profile. Feed errors return an empty list.
-- **Newsletter:** `/api/subscribe` is a stub. It validates the email and redirects with a status flag, but does not store or forward the address.
+- **Newsletter:** Footer and blog signup links open the hosted HubSpot form configured with `NEWSLETTER_SIGNUP_URL`. HubSpot handles consent and confirmation. Without a destination, the site shows signup as unavailable and collects no email address. The old `/api/subscribe` POST redirects to that form, or returns 503 when unavailable; it never reports an unsaved subscription as successful.
 - **Analytics:** The root layout includes Vercel Analytics and Speed Insights. `src/components/GoogleTracking.tsx` adds optional Google Tag Manager / GA4 using the Google tag loader after hydration, without an additional dependency. Google tracking runs only in production builds configured for `https://comprinno.net`; staging and development are excluded. Missing or invalid IDs load no Google tag. Set the relevant public tracking IDs in Vercel's Production environment before building/deploying.
 
 When GTM is configured, publish the GA4 Google tag and its page-view measurement in that container. The website does not also install GA4 directly. For direct GA4, configure enhanced measurement for browser-history navigation. For GTM, configure SPA page views in GTM and avoid also enabling automatic history page views for the same traffic. Verify one initial and one navigation `page_view` in Tag Assistant / GA4 DebugView after activation; loading a container alone does not prove GA4 is configured or receiving data.
+
+The contact embed's `onFormSubmitted` callback sends `generate_lead` to the configured GA4 measurement ID only after HubSpot confirms persistence, once per form instance. No submitted field values are passed to analytics. Mark the event as a key event in GA4 and configure/import the intended Ads conversion in the account. A direct Ads `conversion` event is sent only when `NEXT_PUBLIC_GOOGLE_ADS_LEAD_SEND_TO` is set; avoid counting both a direct Ads action and an imported GA4 lead as primary conversions for the same submission. Staging/development send neither event.
 
 ## Public agent interfaces
 
@@ -110,6 +115,8 @@ The source repository is `github.com/comprinnotech/comprinno-website`. Deploymen
 | `main` | Production | `https://comprinno.net` |
 
 Production changes go through a `dev` → `main` pull request. The workflow uses repository secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`. Configure `NEXT_PUBLIC_SITE_URL` and separate OAuth signing keys in the appropriate Vercel environments; never commit their sensitive values.
+
+[CI](.github/workflows/ci.yml) runs the `Validate` check on pushes and pull requests to `dev`/`main`: dependency install, ESLint, production build and TypeScript. The build uses the staging origin without production secrets. Require this check in `main` branch protection before merging production changes.
 
 The workflow re-authors HEAD only inside its runner so Vercel accepts the deployment; the repository commit keeps its original author. It verifies the live site's `X-Deploy-Sha` against the GitHub commit and tags verified production deployments as `prod-YYYY.MM.DD.N` using the UTC date.
 

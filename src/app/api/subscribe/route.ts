@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
+import { newsletterSignupUrl } from "@/lib/newsletter";
 
 /**
- * CloudScape newsletter sign-up (STUB).
- * TODO: forward the email to the newsletter tool (e.g. HubSpot) using env vars set in Vercel.
- * Until then the address is validated and the visitor is sent back with a thank-you flag.
+ * Compatibility for the old signup action. Complete signup on the hosted form;
+ * never acknowledge a subscription that has not been saved by the provider.
  */
-export async function POST(request: Request) {
-  const form = await request.formData();
-  const email = String(form.get("email") ?? "").trim();
-  const back = new URL(request.headers.get("referer") ?? "/resources/blog", request.url);
-  back.hash = "newsletter";
-  back.searchParams.set("subscribed", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "1" : "0");
-  return NextResponse.redirect(back, 303);
+export async function POST() {
+  const url = newsletterSignupUrl();
+  if (!url) return NextResponse.json({ error: "Newsletter signup is temporarily unavailable." }, { status: 503 });
+  return NextResponse.redirect(url, 303);
 }

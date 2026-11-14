@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "/" },
   robots: isProduction ? undefined : { index: false, follow: false },
+  verification: isProduction && process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
