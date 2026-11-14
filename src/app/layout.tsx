@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
 import WebMcpTools from "@/components/WebMcpTools";
 import JsonLd from "@/components/JsonLd";
+import GoogleTracking from "@/components/GoogleTracking";
 import { organization } from "@/lib/seo";
 import { isProduction, site } from "@/lib/site";
 import "./globals.css";
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         <Spotlight />
         <WebMcpTools />
+        <GoogleTracking />
         <Analytics />
         <SpeedInsights />
       </body>

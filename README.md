@@ -35,6 +35,8 @@ Set local overrides in `.env.local`; environment files are gitignored.
 | `NEXT_PUBLIC_SITE_URL` | Origin for canonical URLs, sitemap, agent documents and indexing rules. Defaults to `https://comprinno.net`. Set `http://localhost:3000` for local URLs. |
 | `OAUTH_SIGNING_KEY` | Optional sensitive OAuth signing key. Without it, OAuth endpoints and metadata return 404; anonymous public agent access remains available. See `src/lib/oauth.ts` for its format. |
 | `DEPLOY_SHA` | Commit identifier injected by deployment and returned in `X-Deploy-Sha`; defaults to `dev` locally. |
+| `NEXT_PUBLIC_GTM_ID` | Optional Google Tag Manager web container ID (`GTM-…`). Takes precedence over a direct GA4 tag; publish the Google Analytics tag inside this container. |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Optional GA4 measurement ID (`G-…`), used directly when no valid GTM container ID is set. |
 
 Only the exact production origin, `https://comprinno.net`, permits indexing. Other configured origins send `X-Robots-Tag: noindex, nofollow`, disable indexing in page metadata and serve a disallow-all `robots.txt`. Set the intended configuration before building.
 
@@ -79,7 +81,9 @@ SEO helpers in `src/lib/seo.ts` supply service metadata, contextual service link
 - **Contact:** `/contact` embeds the existing HubSpot form through `src/components/HubSpotForm.tsx`. HubSpot owns fields, captcha, consent and the submitted message. The component injects styles into the same-origin iframe and adjusts its height. Context query parameters from `contactHref()` are not consumed by the form.
 - **Careers:** `src/lib/keka.ts` reads the Keka jobs feed with an hourly cache profile. Feed errors return an empty list.
 - **Newsletter:** `/api/subscribe` is a stub. It validates the email and redirects with a status flag, but does not store or forward the address.
-- **Analytics:** The root layout includes Vercel Analytics and Speed Insights.
+- **Analytics:** The root layout includes Vercel Analytics and Speed Insights. `src/components/GoogleTracking.tsx` adds optional Google Tag Manager / GA4 using the Google tag loader after hydration, without an additional dependency. Google tracking runs only in production builds configured for `https://comprinno.net`; staging and development are excluded. Missing or invalid IDs load no Google tag. Set the relevant public tracking IDs in Vercel's Production environment before building/deploying.
+
+When GTM is configured, publish the GA4 Google tag and its page-view measurement in that container. The website does not also install GA4 directly. For direct GA4, configure enhanced measurement for browser-history navigation. For GTM, configure SPA page views in GTM and avoid also enabling automatic history page views for the same traffic. Verify one initial and one navigation `page_view` in Tag Assistant / GA4 DebugView after activation; loading a container alone does not prove GA4 is configured or receiving data.
 
 ## Public agent interfaces
 

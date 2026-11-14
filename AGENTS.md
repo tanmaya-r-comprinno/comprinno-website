@@ -72,6 +72,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - `src/lib/`: content readers and clean-up (`blog.ts`, `caseStudies.ts`, `news.ts`, `content.ts`), `site.ts` (site URL, nav, contacts, `isProduction`).
 - `src/components/`: UI. `HubSpotForm.tsx` is the contact form.
 - SEO: `src/lib/seo.ts` holds service metadata, topic/service links and structured-data builders. `JsonLd.tsx` safely serializes Organization data from the root layout and Article/BreadcrumbList data on resource detail pages. The sitemap uses the display adapters, excludes `movedCaseStudies` aliases and omits unverified modification dates.
+- Google tracking: `src/components/GoogleTracking.tsx` reads `NEXT_PUBLIC_GTM_ID` / `NEXT_PUBLIC_GA_MEASUREMENT_ID` at build time. It loads only in production builds on the configured production origin. GTM takes precedence; GA4 then belongs in its published container. Do not add a second direct GA4 install or manual route page-view events alongside tag-managed history measurement. Vercel Analytics and Speed Insights remain separate.
 - The whole site has sharp corners (`border-radius: 0 !important` globally); brand tokens are in `src/app/brand.css`.
 
 ## Contact form (HubSpot)
