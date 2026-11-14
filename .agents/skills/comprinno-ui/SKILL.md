@@ -29,7 +29,7 @@ The contact page uses `src/components/HubSpotForm.tsx`. HubSpot owns fields, con
 
 `contactHref(topic, from)` adds context query parameters, but the existing form does not consume them. Do not claim a selected service or topic is prefilled without implementing and verifying that behavior.
 
-The existing newsletter email forms post to `/api/subscribe`. The action redirects to the HTTPS hosted HubSpot form configured by `NEWSLETTER_SIGNUP_URL` or returns 503 when missing. It does not forward the entered email or claim a subscription has been saved. Verify the provider's newsletter consent and confirmation separately, and preserve page copy and layout during configuration work.
+Newsletter links use the HTTPS hosted HubSpot form configured by `NEWSLETTER_SIGNUP_URL`. When missing, `NewsletterSignup.tsx` displays an unavailable message and collects no email. The legacy POST redirects to the hosted form or returns 503; it never claims a subscription has been saved. Verify the provider's newsletter consent and confirmation separately.
 
 Contact conversions use `src/lib/analytics.ts` through HubSpot's `onFormSubmitted`, once per form instance. Keep submitted field values out of tracking. GA4 key-event and Ads action configuration are separate account-side steps; never count both a direct Ads action and an imported GA4 lead as primary conversions for the same submission.
 
