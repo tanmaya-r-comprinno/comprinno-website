@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
+import { serviceMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
-export const metadata: Metadata = {
-  title: "Maximize: move AI beyond pilots and put it to work in production",
-  description:
-    "We build AI agents and generative AI applications that handle real workflows, with guardrails, evaluation and cost controls built in. Then we help you run them.",
-  alternates: { canonical: "/services/maximize" },
-};
+export const metadata = serviceMetadata("maximize");
 
 const problems: { title: string; desc: string; icon: IconName }[] = [
   { title: "Pilots that never ship", desc: "Many AI pilots stall on data access, permissions and evaluation, so they never reach production.", icon: "rocket" },
@@ -92,7 +87,7 @@ export default function MaximizePage() {
         contact: contactHref("AI and agents", "/services/maximize"),
         stories: "/resources/case-studies?service=Generative%20AI#stories",
         hero: {
-          eyebrow: "Maximize",
+          eyebrow: "Generative AI & AI agent development",
           title: <><span className="lg:whitespace-nowrap">Move AI beyond <strong className="font-bold">pilots</strong> and put it</span><Br /> to work in <strong className="sweep font-bold">production</strong>.</>,
           lines: [
             "We build AI agents and generative AI applications that handle real workflows,",

@@ -35,6 +35,6 @@ Adapters use process-local caches. Restart the local server when checking source
 
 For content or reader changes, build and check the affected listing and detail URL. Inspect the rendered title, sections, date, images, canonical URL and relevant filters; a successful MDX parse alone is insufficient. For route/API changes, first read the relevant installed guide in `node_modules/next/dist/docs/`.
 
-The sitemap reads raw content while agent search and Markdown use adapters. Check `src/app/sitemap.ts`, `src/lib/agentDocs.ts` and `src/lib/agentApi.ts` when adding a new content family or changing visibility rules. Ordinary posts in an existing family should flow through existing readers without adding separate route code.
+The sitemap, agent search and Markdown use content adapters. The sitemap excludes moved case-study aliases and omits modification dates that are not maintained. Check `src/app/sitemap.ts`, `src/lib/agentDocs.ts` and `src/lib/agentApi.ts` when adding a new content family or changing visibility rules. Ordinary posts in an existing family should flow through existing readers without adding separate route code.
 
-Follow the existing redirect approach for moved resources, including the `MOVED` map in the case-study detail page. Leave unrelated imported content untouched.
+Follow the existing redirect approach for moved resources, including the shared `movedCaseStudies` map in `src/lib/caseStudies.ts`, used by the detail page and sitemap. Leave unrelated imported content untouched.

@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Spotlight from "@/components/Spotlight";
 import WebMcpTools from "@/components/WebMcpTools";
+import JsonLd from "@/components/JsonLd";
+import { organization } from "@/lib/seo";
 import { isProduction, site } from "@/lib/site";
 import "./globals.css";
 
@@ -41,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <JsonLd data={organization} />
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-bg focus:px-4 focus:py-2">
           Skip to content
         </a>

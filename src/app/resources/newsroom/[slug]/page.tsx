@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import NewsBanner from "@/components/NewsBanner";
+import JsonLd from "@/components/JsonLd";
+import { articleStructuredData } from "@/lib/seo";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { Container, CtaBand } from "@/components/ui";
@@ -41,6 +43,7 @@ export default async function ReleasePage({ params }: Props) {
 
   return (
     <div className="brand">
+      <JsonLd data={articleStructuredData({ title: r.title, description: r.lead, path, section: { name: "Newsroom", path: "/resources/newsroom" }, publishedAt: r.date })} />
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true" />

@@ -57,7 +57,7 @@ Main page families:
 - Services: `/services/migrate`, `/services/modernize`, `/services/manage`, `/services/maximize`.
 - Products: `/products/tevico`, `/products/veriq`, `/products/voxsphere`, `/products/weave`.
 - Resources: `/resources/blog`, `/resources/case-studies`, `/resources/newsroom`, `/resources/free-genai-consulting`, `/resources/aws-lift`.
-- Partnerships: `/partnerships`, `/partnerships/aws`, `/partnerships/openai`, `/partnerships/anthropic`.
+- Partnerships: `/partnerships/aws`, `/partnerships/openai`, `/partnerships/anthropic`. The `/partnerships` index is intentionally hidden and returns 404.
 - Company and general pages: `/company/about`, `/company/careers`, `/industries`, `/contact`, `/privacy-policy`.
 
 Legacy routes redirect through `next.config.ts` and `src/content/wordpressRedirects.json`.
@@ -71,6 +71,8 @@ MDX filenames determine public slugs. Production excludes drafts, and the blog/c
 Shared primitives live in `src/components/ui.tsx`. Base tokens and shared rules are in `src/app/globals.css`; `.brand` wrappers activate the palette and overrides in `src/app/brand.css`. Shared animations are in `src/app/motion.css`. The site uses a light color scheme with deliberate dark brand bands and globally enforced sharp corners. Preserve keyboard navigation, focus visibility, responsive layouts and reduced-motion behavior.
 
 Navigation, contact information and site-origin logic live in `src/lib/site.ts`. Check sitemap, canonical metadata, redirects and agent Markdown coverage when adding or moving pages.
+
+SEO helpers in `src/lib/seo.ts` supply service metadata, contextual service links and structured data. The layout includes Organization JSON-LD; blog, case-study and newsroom detail pages include Article and BreadcrumbList data. The sitemap uses the display readers, excludes moved case-study aliases and omits unverified modification dates.
 
 ## Integrations
 

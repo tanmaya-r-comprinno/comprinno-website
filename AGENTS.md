@@ -71,6 +71,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - `src/content/`: words and data. `services.ts`, `products.ts`, `company.ts`, `badges.ts`, `privacy.ts`, MDX in `blog/`, `case-studies/`, `news/`. `wordpressRedirects.json` holds 301s for old WordPress URLs (spread into `redirects()` in `next.config.ts`).
 - `src/lib/`: content readers and clean-up (`blog.ts`, `caseStudies.ts`, `news.ts`, `content.ts`), `site.ts` (site URL, nav, contacts, `isProduction`).
 - `src/components/`: UI. `HubSpotForm.tsx` is the contact form.
+- SEO: `src/lib/seo.ts` holds service metadata, topic/service links and structured-data builders. `JsonLd.tsx` safely serializes Organization data from the root layout and Article/BreadcrumbList data on resource detail pages. The sitemap uses the display adapters, excludes `movedCaseStudies` aliases and omits unverified modification dates.
 - The whole site has sharp corners (`border-radius: 0 !important` globally); brand tokens are in `src/app/brand.css`.
 
 ## Contact form (HubSpot)

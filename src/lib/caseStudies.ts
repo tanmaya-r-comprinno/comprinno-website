@@ -14,6 +14,13 @@ import { getAllCaseStudies } from "@/lib/content";
 export type Service = "Migration" | "Modernization" | "Generative AI" | "Security and resilience" | "Cost and operations";
 export const SERVICES: Service[] = ["Migration", "Modernization", "Generative AI", "Security and resilience", "Cost and operations"];
 
+// Imported duplicates redirect to these full stories; keep them out of the sitemap.
+export const movedCaseStudies: Record<string, string> = {
+  boat: "boats-strategic-alliance-with-comprinno-for-robust-infrastructure-management",
+  lightmetrics: "a-winning-formula-lightmetrics-and-comprinnos-collaboration-for-operational-brilliance",
+  "mantle-labs": "mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation",
+};
+
 export type Section = { id: string; label: string; body: string };
 export type Metric = { value: string; label: string };
 
