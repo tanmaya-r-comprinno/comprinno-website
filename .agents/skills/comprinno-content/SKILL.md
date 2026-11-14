@@ -5,7 +5,7 @@ description: Add or edit Comprinno website blog posts, case studies, newsroom re
 
 # Comprinno content
 
-Work from the repository root. Read `AGENTS.md` for shared checkout, Next.js, and deployment requirements. Treat the current source as evidence: the root README describes an earlier implementation.
+Work from the repository root. Read `AGENTS.md` for shared checkout, Next.js, and deployment requirements, and `README.md` for the project overview. Confirm implementation details against the current source.
 
 ## Find the source and its consumers
 

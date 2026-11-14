@@ -5,7 +5,7 @@ description: Implement or adjust pages, shared components, brand styling, and em
 
 # Comprinno UI
 
-Read `AGENTS.md` and the relevant installed Next.js guide in `node_modules/next/dist/docs/` before using framework APIs. Inspect a neighboring current page; the README's placeholder-era descriptions do not reflect the current site.
+Read `AGENTS.md` and the relevant installed Next.js guide in `node_modules/next/dist/docs/` before using framework APIs. Use `README.md` for the project overview and inspect a neighboring current page for implementation patterns.
 
 ## Extend the existing page system
 
