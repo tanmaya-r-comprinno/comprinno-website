@@ -1,0 +1,90 @@
+---
+title: "Engineering a Resilient, Multi-Account Foundation for a Mobility Platform on AWS"
+slug: "resilient-multi-account-foundation-for-a-mobility-platform-on-aws"
+description: "Comprinno rehosted a mobility platform from E2E Cloud to a multi-account AWS landing zone in Mumbai, with a disaster recovery environment in Hyderabad and minimal downtime."
+publishedAt: "2026-09-01"
+client: "Mobility Platform"
+industry: "Mobility"
+solutions: ["Migration"]
+draft: false
+---
+
+## Overview
+
+The client operates a technology-led mobility platform that helps ease urban congestion and makes everyday commuting simpler, more affordable, and more sustainable. The platform is delivered through multiple service lines, each serving customers with real-time, always-on expectations. As it grew, the client needed a cloud foundation that could run each service line in isolation, scale with demand, and stay available through regional disruption. Comprinno was engaged to rehost the client’s workloads from E2E Cloud to AWS with minimal downtime and minimal change to the existing application architecture.
+
+## The Challenge
+
+The client’s workloads ran on E2E Cloud. The move to AWS had to preserve the application architecture and keep the platform available throughout the cutover. The engagement had to meet several requirements:
+
+- **Workload isolation:** Each service line needed separate production and staging environments, with independent access control, resource management, and cost tracking.
+- **Stateful data tier:** The platform relies on a relational database, a high-performance NoSQL store, an event-streaming layer, and an in-memory caching layer. All of these had to run privately on AWS.
+- **Regional resilience:** The business needed a disaster recovery environment outside the primary region.
+- **Secure access and governance:** Engineers, administrators, and on-premises systems all needed private connectivity, with consistent guardrails and a central audit trail across every account.
+- **Elastic capacity and cost control:** Compute had to scale automatically with workload demand, and cloud spend had to stay visible across every environment.
+
+AWS gave the client a platform where account-level governance, multi-AZ networking, managed edge delivery, and cross-region connectivity come as native building blocks. This let Comprinno standardize the environment instead of assembling it piecemeal.
+
+## The Solution
+
+Comprinno executed a rehost (lift-and-shift) migration into a multi-account AWS landing zone in the Mumbai region, with a disaster recovery environment in Hyderabad. Each production and staging environment follows the same three-tier VPC pattern. Public, private application, and private database subnets span three Availability Zones. An Internet Gateway handles inbound traffic, and NAT Gateways give private subnets controlled outbound access. Interface endpoints are deployed across the private application subnets and secured by a dedicated security group that allows only HTTPS traffic within the VPC.
+
+Application workloads run on EC2 behind load balancers and scale through Auto Scaling. The relational database, NoSQL store, event-streaming layer, and cache run on EC2 instances in private subnets. Engineers reach the database tier through a bastion host or VPN. Static content is delivered through S3 and CloudFront. Comprinno layered identity, monitoring, secrets management, and cost controls across all of it.
+
+### Key Actions
+
+**1. Multi-account governance foundation.** Comprinno structured the estate under AWS Organizations, with a management account and separate production and staging accounts for each service line. Organizational Units group the accounts, and Service Control Policies apply common governance policies. IAM Identity Center gives teams single sign-on across accounts through permission sets. This replaces per-account IAM users and gives a central audit trail of who accessed which account.
+
+**2. Three-tier, multi-AZ network with private connectivity.** Comprinno built dedicated VPCs per environment and added three private connectivity paths: Site-to-Site VPN for on-premises systems, Client VPN for authorized users reaching private subnets, and VPC peering between production environments. Cross-region peering links Mumbai production to the Hyderabad DR environment. Routes, security groups, and network ACLs are configured so that peered VPC traffic stays private and does not cross the public internet.
+
+**3. Scalable application delivery.** An Application Load Balancer distributes HTTP/HTTPS traffic to application targets, with SSL/TLS certificates, host- and path-based routing, and HTTP-to-HTTPS redirection. A Network Load Balancer provides high-performance TCP, UDP, and TLS load balancing. Launch Templates and Auto Scaling Groups spread instances across Availability Zones. Scaling policies, scheduled actions, load balancer health checks, and instance refresh keep capacity matched to workload and replace unhealthy instances automatically. AWS Lambda and Amazon EventBridge run event-driven and scheduled automation without servers to manage.
+
+**4. Data-tier migration and secure operations.** Comprinno migrated the MySQL database to a dedicated EC2 instance in the private database subnets using Percona XtraBackup. ScyllaDB, Kafka, and Redis also run on EC2 in private subnets. Comprinno set up Redis, pointed the application at the new endpoint, and validated caching and session behavior. Security groups restrict Redis access to the required application resources only. Database access runs through an SSH tunnel via a bastion host. AWS Secrets Manager stores database credentials and third-party API keys, so applications retrieve them at runtime and nothing is hardcoded. Data at rest is encrypted on EC2-based database storage and on S3.
+
+**5. Edge delivery, DNS, and cost governance.** Amazon S3 is the object store, with Block Public Access, server-side encryption, and least-privilege IAM policies. These policies include scoped cross-account access. CloudFront delivers S3 content over HTTPS with ACM certificates, and S3 buckets are reachable through the distribution only. Route 53 manages DNS. CloudWatch provides logging and alerting, and daily AWS Budgets in every account give early warning on cost spikes.
+
+### Architecture Overview
+
+![AWS architecture diagram: Mumbai production region and Hyderabad DR region, each with a three-tier VPC across three Availability Zones](/images/content/mobility-platform-architecture.png)
+
+The architecture follows an account-per-environment model. Production and staging for each service line sit in separate AWS accounts under a central management account. Identity, governance, and cost controls apply uniformly across all of them.
+
+In the primary Mumbai region, each VPC spans three Availability Zones, with a public, private application, and private database subnet in each. A client request enters through the Internet Gateway and the Application Load Balancer. The ALB distributes traffic to EC2 application instances in the private application subnets, managed by Auto Scaling across all three zones. The application layer talks to the stateful services in the private subnets: MySQL, ScyllaDB, Kafka, and Redis. Engineers reach them through the bastion host and Client VPN, and on-premises systems connect over Site-to-Site VPN.
+
+Outbound traffic from private subnets leaves through NAT Gateways. Secrets Manager, IAM, ACM, S3, CloudWatch, and Route 53 serve the environment, and CloudFront fronts the S3-hosted content.
+
+The Hyderabad DR region follows the same three-tier network pattern, with its own NAT Gateway, Secrets Manager, and CloudWatch. Database backups flow from Mumbai to the database subnets in this region, and cross-region VPC peering provides a private path between the two regions. This gives the client a dedicated environment outside Mumbai if the primary region is disrupted.
+
+## Results
+
+### Success Metrics
+
+**Production Availability and Reliability**
+
+The workloads were rehosted onto a highly available multi-AZ architecture, with Application Load Balancers distributing traffic across healthy application targets. This reduced infrastructure-level single points of failure and strengthened application resilience.
+
+- **Baseline:** Existing production availability of approximately 99.99%.
+- **Target:** Sustain and strengthen application availability through multi-AZ deployment, automated health checks, and traffic failover.
+- **Actual Result:** Achieved 99.99% production availability following the AWS implementation, supported by multi-AZ deployment, ALB-based traffic distribution, and health checks.
+- **Measurement Methodology:** CloudWatch availability monitoring, ALB target health metrics, and application health checks.
+
+**Disaster Recovery Readiness and Business Continuity**
+
+A dedicated disaster recovery environment was established in Hyderabad (ap-south-2), complementing the primary production environment in Mumbai (ap-south-1). This provided regional resilience and strengthened the organization’s ability to maintain business continuity during regional infrastructure disruptions.
+
+- **Baseline:** Existing production environment without a dedicated cross-region disaster recovery setup.
+- **Target:** Establish cross-region disaster recovery capability with defined recovery objectives and operational readiness.
+- **Actual Result:** Dedicated DR infrastructure implemented in Hyderabad, providing regional disaster recovery capability alongside the primary Mumbai production environment.
+- **Measurement Methodology:** DR infrastructure health checks, application validation, and disaster recovery failover exercises.
+
+### Benefits
+
+- **Regional resilience and business continuity:** A Hyderabad DR environment, connected privately to Mumbai, gives the client a recovery path for a regional disruption. Three-AZ deployment protects against zone-level failures, and Auto Scaling replaces unhealthy instances automatically.
+- **Isolation and governance by design:** Separate accounts, OUs, and SCPs let each service line manage access, resources, and cost independently. Centralized SSO removes per-account IAM users and gives one audit trail across environments.
+- **Elastic capacity with cost visibility:** Scaling policies and scheduled actions match capacity to workload. Daily budgets in every account flag unexpected cost spikes within a day instead of at month-end.
+- **A private, security-first data tier:** The database, NoSQL, streaming, and cache layers sit in private subnets. Credentials live in Secrets Manager, and storage is encrypted at rest. This reduces exposure of the data tier.
+- **Low-disruption migration and easier operations:** The rehost approach moved workloads with minimal downtime and minimal changes to the application architecture. The standardized, documented environment makes it simpler for the client’s team to operate, monitor, and troubleshoot.
+
+### Conclusion
+
+Comprinno rehosted the client’s platform from E2E Cloud to AWS with minimal downtime and minimal change to the application architecture. The new environment pairs a multi-account governance model with a three-AZ network design and a cross-region disaster recovery environment in Hyderabad. Auto Scaling, load balancing, and CloudFront keep the platform responsive. Private connectivity, centralized identity, encrypted storage, and managed secrets protect the data tier. The client now runs on an environment that is secure, resilient, and cost-aware, with a standardized foundation for adding capacity and service lines.

@@ -1,0 +1,131 @@
+---
+title: "A Governed, Highly Available AWS Foundation for an AI Conversational Platform"
+slug: "governed-highly-available-aws-foundation-for-an-ai-conversational-platform"
+description: "Comprinno migrated an AI conversational engagement platform from on-premises to a secure, multi-AZ, well-governed AWS environment while production stayed available."
+publishedAt: "2026-09-01"
+client: "AI Conversational Platform"
+industry: "Conversational AI"
+solutions: ["Migration"]
+draft: false
+---
+
+## Overview
+
+The client operates an AI-powered conversational engagement platform that runs in production and depends on reliable data processing, asynchronous workflows, and consistent uptime. As its workloads grew, the client needed a production environment on AWS that was secure by design, highly available, and simple to operate. The move from on-premises infrastructure had to keep existing databases intact and cause minimal disruption to active services.
+
+## The Challenge
+
+The client needed to move its production platform from on-premises infrastructure to a single, well-governed AWS environment. That environment had to host containerized application services, transactional databases, an analytics warehouse, shared file storage, and queue-driven background processing side by side. Each workload needed its own isolation boundary and failure domain, and none could compromise the others.
+
+The requirements were:
+
+- **Network isolation:** Application servers and databases had to sit away from the public internet, with only the load-balancing layer internet-facing.
+- **Resilient data tiers:** Relational and file-storage layers needed to be spread across Availability Zones, with backup and recovery built in.
+- **Low-disruption migration:** Multiple production databases had to move from on-premises to AWS with data intact and applications available.
+- **Decoupled processing:** Background and event-driven workloads needed to scale independently of the services that triggered them.
+- **Governance and visibility:** Centralized identity, organization-wide guardrails, a complete audit trail, consolidated logging, proactive alerting, and spend controls were required from day one.
+
+Configuring each service ad hoc would have created operational overhead and inconsistent security. The client needed a single, well-architected foundation.
+
+## The Solution
+
+Comprinno migrated the client’s production workloads from on-premises to AWS. The environment sits in the Mumbai region on a dedicated VPC with a three-tier design: three public, three private application, and three private database subnets across Availability Zones. Internet-facing traffic terminates at the load-balancing layer. Compute, data, and processing layers stay in private subnets, and a NAT Gateway handles controlled outbound access. Gateway VPC endpoints for Amazon S3 and Amazon DynamoDB keep traffic to those services on the AWS network and off the NAT path.
+
+On this foundation, Comprinno deployed containerized services on Amazon ECS, Aurora MySQL, Amazon Redshift, Amazon EFS, and Amazon S3. SQS, SNS, and Lambda handle asynchronous processing, and AWS DMS carried the databases across. IAM Identity Center, Service Control Policies, CloudTrail, CloudWatch, and AWS Budgets provide governance. Because these are managed services, the client’s engineers spend less time on patching, replication, and capacity management, and more on product delivery.
+
+### Key Actions
+
+**1. Secure Network and Traffic Foundation**
+
+Comprinno built the three-tier VPC with separate route tables for the public, application, and database tiers. An internet-facing Application Load Balancer spans three Availability Zones. It redirects HTTP to HTTPS with a 301, terminates TLS centrally, and routes requests by priority-ordered listener rules to health-checked target groups, so traffic reaches only healthy backends. A Network Load Balancer supports TCP and TLS workloads that need Layer 4 handling. Edge and DNS services (CloudFront, API Gateway, AWS WAF, ACM, and Route 53) cover content delivery, API exposure, request filtering, certificates, and routing. Administrative access to EC2 uses AWS Systems Manager Session Manager, so no SSH is needed.
+
+**2. Centralized Identity, Guardrails, and Operational Visibility**
+
+Comprinno configured IAM Identity Center for single sign-on across AWS accounts. Users, groups, and permission sets are managed centrally, replacing per-account IAM users and giving one audit trail of who accessed which account. Service Control Policies in AWS Organizations add preventive guardrails:
+
+- protecting CloudTrail, GuardDuty, and Security Hub from being disabled
+- preventing member accounts from leaving the organization
+- protecting encryption and public-access settings
+- enforcing MFA-related restrictions on console access
+
+Operationally:
+
+- CloudTrail records API activity into S3.
+- CloudWatch centralizes logs.
+- GuardDuty findings and alarms flow through SNS to Lambda functions that alert the team.
+- AWS Budgets runs daily and monthly budgets for each environment, with threshold alerts.
+
+**3. Containerized and Event-Driven Application Platform**
+
+Comprinno runs application workloads on Amazon ECS using EC2 capacity. Auto Scaling groups sit behind ECS capacity providers with managed scaling, and container images live in Amazon ECR. Task roles grant scoped access to ECR, Secrets Manager, Parameter Store, and CloudWatch Logs. A decoupled processing layer on SQS (standard and FIFO queues, with server-side encryption and scoped access policies), SNS, and Lambda lets producers and consumers scale independently. Messages persist in queues until processed. Lambda functions handle monitoring, alerting, email-event notifications, scheduling, and application automation, and the functions that need private resources attach to the VPC.
+
+**4. Resilient Data Platform**
+
+Comprinno deployed Aurora MySQL clusters in private database subnets with public access disabled. Database security groups accept MySQL traffic only from the application tier, never from open CIDR ranges. Aurora replicates storage across Availability Zones and supports automated backups and point-in-time recovery. Alongside Aurora, Comprinno provisioned:
+
+- Amazon Redshift, encrypted, for analytical workloads
+- Encrypted, Regional Amazon EFS file systems with mount targets in the required Availability Zones, accessible only from application security groups
+- Amazon S3 for application files, backups, logs, and datasets, with versioning, encryption, and block-public-access controls
+
+**5. Database Migration with AWS DMS**
+
+Comprinno deployed AWS DMS replication instances in the VPC with a dedicated replication subnet group, and created source and target endpoints whose connectivity was validated by connection tests. DMS supports full-load migration and change data capture (CDC), so data can be copied and kept in sync until cutover. This approach limits downtime and gives teams a validation window before production traffic moves.
+
+### Architecture Overview
+
+![AWS architecture diagram: three-tier VPC across three Availability Zones](/images/content/ai-conversational-platform-architecture.png)
+
+The client’s production environment runs in a dedicated VPC in the Mumbai region. It is organized into public, private application, and private database subnets across three Availability Zones. Users reach the platform through an internet-facing Application Load Balancer in the public subnets. The load balancer redirects HTTP to HTTPS, terminates TLS, and forwards requests by listener rule to health-checked target groups in the private application subnets. An Internet Gateway serves the public tier, and a NAT Gateway gives private subnets controlled outbound access.
+
+The application tier runs containerized workloads on Amazon ECS, backed by EC2 Auto Scaling groups, alongside Lambda functions. Container images are pulled from ECR. SQS queues and SNS topics decouple components, so a spike in one part of the platform does not cascade into others. Lambda functions react to queue, topic, and alarm events.
+
+The database tier sits in dedicated private subnets with no route to the public internet. Aurora MySQL provides the relational layer with storage replicated across Availability Zones, Redshift supports analytics, and EFS supplies encrypted shared storage for application workloads. Security groups reference the application security group rather than open CIDR ranges. Gateway endpoints for S3 and DynamoDB keep traffic to those services on the AWS network.
+
+Account-level services complete the picture. IAM Identity Center governs access, and Service Control Policies enforce guardrails across the organization. CloudTrail captures an audit trail in S3, CloudWatch consolidates logs, and AWS Budgets tracks spend. Encryption at rest is enabled for Aurora, EFS, Redshift, and S3.
+
+## Results
+
+### Metrics for Success
+
+The following KPIs highlight the measurable outcomes of migrating to a secure, highly available, cloud-native AWS architecture.
+
+**Production Availability**
+
+- **Before:** The client’s production workload ran in a single Availability Zone, so the environment depended on one AZ.
+- **After:** The new architecture is multi-AZ, with a load balancer distributing traffic across it.
+- **Measured by:** CloudWatch metrics and target health checks.
+
+**Operational Efficiency**
+
+- **Before:** Operational changes were made manually through the console, which added operational overhead.
+- **After:** Changes now follow repeatable, automated CLI and script-based deployment procedures.
+
+**Migration Availability and Business Continuity**
+
+The on-premises-to-AWS migration was executed while maintaining production availability and business continuity. Application services remained operational throughout the transition, minimising disruption to business operations.
+
+- **Baseline:** Existing on-premises production environment.
+- **Target:** Complete migration while maintaining uninterrupted application availability.
+- **Actual Result:** 99–100% of migration activities were completed while maintaining production uptime and business continuity.
+- **Measurement Methodology:** Migration execution records, application health checks, and production availability monitoring during migration and cutover.
+
+**Disaster Recovery and Recovery Readiness**
+
+The AWS environment was configured with recovery capabilities to strengthen business continuity and minimise the impact of infrastructure disruptions.
+
+- **Baseline:** Existing on-premises recovery capabilities.
+- **Target:** Establish an RTO of 4 hours and an RPO of 4 hours.
+- **Actual Result:** RTO and RPO objectives of 4 hours were established and maintained through the implemented recovery architecture.
+- **Measurement Methodology:** Recovery validation, backup and recovery checks, recovery timestamps, and application health verification.
+
+### Benefits
+
+- **Resilience by design:** A three-AZ, three-tier VPC, a multi-AZ load balancer, and Aurora’s cross-AZ storage replication, with automated backups and point-in-time recovery, keep the platform available through infrastructure disruptions.
+- **Reduced operational burden:** Managed container, database, messaging, and serverless services take over patching, replication, and scaling mechanics, freeing the engineering team for product work.
+- **Stronger security and auditability:** Private-subnet isolation, least-privilege security groups, encryption at rest, single sign-on, Service Control Policy guardrails, and CloudTrail give the client a verifiable security posture and a clear audit trail.
+- **Scalable, decoupled processing:** ECS capacity providers with managed scaling, plus queue- and event-driven components, let the platform absorb variable load without over-provisioning the whole stack.
+- **Cost control and visibility:** Daily and monthly budgets with alerts catch cost anomalies early, and VPC endpoints keep S3 and DynamoDB traffic off the NAT path.
+
+### Conclusion
+
+Comprinno migrated the client’s production platform from on-premises to a production-grade AWS environment that combines network isolation, resilient managed data services, and decoupled event-driven processing. AWS DMS moved the databases across while application services stayed available. IAM Identity Center, Service Control Policies, CloudTrail, CloudWatch, and AWS Budgets give the client one governed view of access, activity, health, and spend. The result is an infrastructure that is secure, highly available, and ready to scale with the business.
