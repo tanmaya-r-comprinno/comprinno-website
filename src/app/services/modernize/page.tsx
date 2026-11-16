@@ -33,7 +33,6 @@ const scope: { title: string; icon: IconName }[] = [
 
 const numbers = [
   { value: "1,000", suffix: "+", label: "Projects delivered" },
-  { value: "8", suffix: "", label: "AWS Competencies" },
   { value: "19", suffix: "", label: "AWS Service Validations" },
   { value: "98", suffix: "%", label: "Client satisfaction (CSAT)" },
 ];
@@ -76,7 +75,7 @@ const faqs = [
   { q: "Can you move us off Oracle or SQL Server?", a: "Yes. We move commercial databases to managed database services such as Amazon Aurora, with schema conversion, data validation and a planned cutover." },
   { q: "Will our team be able to run the new platform?", a: "Yes. Every engagement includes handover and training. CI/CD pipelines and infrastructure as code help your engineers deploy applications and manage infrastructure consistently. We can also provide ongoing managed operations." },
   { q: "How do you keep security and compliance intact?", a: "Security and compliance controls are integrated into the architecture and delivery pipelines, aligned with your applicable requirements." },
-  { q: "What happens after modernization?", a: "We can run what we modernized, up to 24/7, as part of Manage: monitoring, patching, security operations and cost reviews." },
+  { q: "What happens after modernization?", a: "We can run what we modernized as part of Manage: monitoring, patching, security operations and cost reviews. Coverage depends on your plan, and 24/7 support is available with Elite." },
 ];
 
 export default function ModernizePage() {

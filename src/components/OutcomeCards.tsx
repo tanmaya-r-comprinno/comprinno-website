@@ -18,7 +18,7 @@ export default function OutcomeCards({ picks }: { picks: OutcomePick[] }) {
     if (!c) return [];
     const result = p.metric
       ? { label: "Key result", metric: p.metric, what: p.what ?? "" }
-      : { label: "Built on", metric: c.builtWith[0] ?? "AWS", what: `${c.service} for ${c.industry.toLowerCase().startsWith("a") ? "an" : "a"} ${c.industry} team` };
+      : { label: "Built on", metric: c.builtWith[0] ?? "AWS", what: `${c.service} in ${c.industry}` };
     return [{ ...c, result, art: tileFor(c.slug) }];
   });
   // keep the three pictures different

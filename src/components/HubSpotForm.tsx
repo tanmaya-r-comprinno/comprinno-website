@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 import Script from "next/script";
+import { createContactLeadTracker } from "@/lib/analytics";
 
 type HubSpotForms = {
   forms: {
@@ -11,6 +12,7 @@ type HubSpotForms = {
       formId: string;
       target: string;
       onFormReady?: () => void;
+      onFormSubmitted?: () => void;
     }) => void;
   };
 };
@@ -227,6 +229,7 @@ export default function HubSpotForm({
             portalId,
             formId,
             target: `#${targetId}`,
+            onFormSubmitted: createContactLeadTracker(formId),
             onFormReady: () => {
               cleanup.current?.();
               cleanup.current = styleIframe(el);

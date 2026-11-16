@@ -93,7 +93,7 @@ export default function OpenAIPartnerPage() {
                 OpenAI, from <strong className="sweep">first use case</strong> to <strong>production</strong>.
               </h1>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-                Use cases, agents, integration and operations on OpenAI models, built on a cloud foundation we already manage.
+                Use cases, agents, integration and operations on OpenAI models, built on your existing cloud foundation, modernized where needed.
               </p>
               <div className="mt-8">
                 <Button href={contactHref("AI and agents", "/partnerships/openai")}>Talk to our OpenAI team →</Button>

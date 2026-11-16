@@ -73,6 +73,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - `src/components/`: UI. `HubSpotForm.tsx` is the contact form.
 - SEO: `src/lib/seo.ts` holds service metadata, topic/service links and structured-data builders. `JsonLd.tsx` safely serializes Organization data from the root layout and Article/BreadcrumbList data on resource detail pages. The sitemap uses the display adapters, excludes `movedCaseStudies` aliases and omits unverified modification dates.
 - Google tracking: `src/components/GoogleTracking.tsx` reads `NEXT_PUBLIC_GTM_ID` / `NEXT_PUBLIC_GA_MEASUREMENT_ID` at build time. It loads only in production builds on the configured production origin. GTM takes precedence; GA4 then belongs in its published container. Do not add a second direct GA4 install or manual route page-view events alongside tag-managed history measurement. Vercel Analytics and Speed Insights remain separate.
+- Lead tracking: `src/lib/analytics.ts` creates the contact embed's `onFormSubmitted` callback. It sends GA4 `generate_lead` once per form instance after confirmed success, never before persistence or with submitted fields. `NEXT_PUBLIC_GA_MEASUREMENT_ID` targets the existing property even when GTM loads it; optional `NEXT_PUBLIC_GOOGLE_ADS_LEAD_SEND_TO` targets a real direct Ads action. Account-side GA4 key-event and Ads configuration must be verified separately.
 - The whole site has sharp corners (`border-radius: 0 !important` globally); brand tokens are in `src/app/brand.css`.
 
 ## Contact form (HubSpot)
@@ -81,7 +82,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - The form renders in a same-origin iframe, so page CSS can't style it. `HubSpotForm.tsx` injects site styles into the iframe on `onFormReady` and resizes the iframe to its content.
 - Don't submit the form server-side: HubSpot rejects API submissions while its captcha is on.
 - Links built with `contactHref(topic, from)` add `?topic=&from=`; HubSpot ignores them.
-- `src/app/api/subscribe/route.ts` (newsletter) is still a stub: it validates and drops the address.
+- Newsletter signup uses Tanmaya’s footer/blog email forms and `/api/subscribe`, forwarding to HubSpot portal `4699526` with `HUBSPOT_NEWSLETTER_FORM_ID`. `NewsletterStatus.tsx` shows the returned status; success requires HubSpot acceptance. Without the form ID, show unavailable. HubSpot owns consent/subscription and double opt-in settings; verify them separately.
 
 ## Careers (Keka)
 
@@ -114,6 +115,7 @@ All public and read-only. Shared logic: `src/lib/agentDocs.ts` (llms.txt and pag
 
 ## Conventions
 
+- Keep `src/content/products.ts` unchanged during the current configuration and tracking work; product-copy edits are outside this task.
 - Match existing code style; no new dependencies without a clear need (crypto, JWT and MCP are hand-written with Node built-ins on purpose).
 - Read `node_modules/next/dist/docs/` before using a Next.js API.
 - Commit messages: `feat(...)`, `fix(...)`, `chore(...)`, `ci(...)`.

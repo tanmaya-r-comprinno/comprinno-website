@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const numbers = [
   { value: "Real-time", label: "Answers drawn from your own knowledge" },
-  { value: "24/7", label: "Every call picked up, no queue" },
+  { value: "24/7", label: "Calls answered within your agreed capacity" },
   { value: "Two-way", label: "Inbound support and outbound campaigns" },
   { value: "Multilingual", label: "Hindi and English, with more on the modular pipeline" },
 ];
@@ -67,7 +67,7 @@ const engagements = [
   { status: "Proof of concept", name: "Zealopia", what: "Voicebot for mental health" },
 ];
 
-const aims = ["Lower cost per interaction on high-volume, repetitive calls", "24/7 availability with instant answers and no wait", "A consistent experience, without variation between agents and shifts", "Structured post-call intelligence for better decisions"];
+const aims = ["Lower cost per interaction on high-volume, repetitive calls", "24/7 availability with fast answers, within the capacity you set", "A consistent experience, without variation between agents and shifts", "Structured post-call intelligence for better decisions"];
 
 // TODO: answers drafted from page copy: confirm with the VoxSphere team.
 const faqs = [
@@ -202,7 +202,7 @@ export default function VoxSpherePage() {
 
       {/* SECURITY */}
       <Section tone="surface">
-        <SectionHead eyebrow="Security and control" title={<>Your account. <strong>Your data. Your rules.</strong></>} desc="Calls, transcripts and knowledge never leave your AWS account. You decide what our engineers can reach and which changes need your sign-off." />
+        <SectionHead eyebrow="Security and control" title={<>Your account. <strong>Your data. Your rules.</strong></>} desc="Calls, transcripts and knowledge are stored in your AWS account. You decide what our engineers can reach and which changes need your sign-off." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {security.map((p) => (
             <div key={p.title} className="card">

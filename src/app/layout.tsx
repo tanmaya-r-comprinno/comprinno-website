@@ -11,6 +11,7 @@ import GoogleTracking from "@/components/GoogleTracking";
 import { organization } from "@/lib/seo";
 import { isProduction, site } from "@/lib/site";
 import "./globals.css";
+import HeadingGlue from "@/components/HeadingGlue";
 
 // One variable font, latin subset only, self-hosted by Next. System fallback shows instantly.
 const inter = Inter({
@@ -31,6 +32,9 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "/" },
   robots: isProduction ? undefined : { index: false, follow: false },
+  verification: isProduction && process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
@@ -52,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main">{children}</main>
         <Footer />
         <Spotlight />
+        <HeadingGlue />
         <WebMcpTools />
         <GoogleTracking />
         <Analytics />
