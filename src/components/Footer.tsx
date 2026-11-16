@@ -6,8 +6,8 @@ import { Container } from "./ui";
 import NewsletterStatus from "./NewsletterStatus";
 import FooterArt from "./FooterArt";
 
-const col = "grid content-start gap-2.5 text-sm";
-const head = "mb-1 font-mono text-[0.7rem] uppercase tracking-widest text-[#9fd3ff]";
+const col = "grid content-start gap-3 text-sm";
+const head = "mb-2 font-mono text-[0.7rem] uppercase tracking-widest text-[#9fd3ff]";
 const link = "text-white/75 transition-colors hover:text-white";
 
 // social icons (24 x 24)
@@ -26,17 +26,19 @@ export default function Footer() {
   return (
     <footer className="site-footer relative mt-auto overflow-hidden border-t border-white/10 bg-[#050a2e] text-white">
 
-      <Container className="relative z-10 pt-14">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-[1.7fr_1fr_1fr_1fr_1.2fr_1.8fr]">
+      <Container className="relative z-10 pt-16 sm:pt-20">
+        {/* row 1: brand + newsletter */}
+        <div className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-2 lg:gap-16">
           {/* brand */}
-          <div className="col-span-2 lg:col-span-1">
+          <div>
             <Link href="/" aria-label={`${site.name} home`} className="inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/brand/comprinno-logo-white.webp" alt={site.name} width={600} height={125} className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 text-sm text-white/70"><span className="whitespace-nowrap">Pune · Bangalore</span> · <span className="whitespace-nowrap">US · UK</span></p>
-            <ul className="mt-5 flex gap-2">
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <ul className="flex gap-2">
               {social.map(([k, href, label]) => (
                 <li key={k}>
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center border border-white/25 text-white/80 transition-colors hover:border-[#ffbb00] hover:text-[#ffbb00]">
@@ -46,14 +48,31 @@ export default function Footer() {
               ))}
             </ul>
             {/* certifications */}
-            <div className="mt-6 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/badges/iso-27001.webp" alt="ISO 27001 certified" width={252} height={250} loading="lazy" className="h-14 w-14 object-contain" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/badges/soc-2.webp" alt="AICPA SOC 2" width={248} height={250} loading="lazy" className="h-14 w-14 object-contain" />
             </div>
+            </div>
           </div>
 
+          {/* newsletter (same CloudScape sign-up as the live site) */}
+          <div id="footer-newsletter" className="scroll-mt-24 lg:max-w-md lg:justify-self-end">
+            <p className="text-base font-semibold text-white">Explore CloudScape, the Comprinno newsletter</p>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">Cloud insights, proven patterns, deep dives and success stories, simplified for your next step.</p>
+            <form action="/api/subscribe" method="post" className="mt-5 flex">
+              <input type="hidden" name="nl" value="footer" />
+              <label htmlFor="footer-email" className="sr-only">Email</label>
+              <input id="footer-email" name="email" type="email" required placeholder="Your work email" className="min-w-0 flex-1 border border-white/25 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-[#ffbb00] focus:outline-none" />
+              <button type="submit" className="shrink-0 bg-[#ffbb00] px-4 text-sm font-semibold text-[#0a134b] transition-colors hover:bg-[#ffcd3a]">Subscribe →</button>
+            </form>
+            <NewsletterStatus where="footer" dark />
+          </div>
+        </div>
+
+        {/* row 2: links, with room to breathe */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 pt-12 sm:grid-cols-4 lg:gap-x-16 lg:pb-16">
           <nav aria-label="Services" className={col}>
             <p className={head}>Services</p>
             {services.map((s) => <Link key={s.slug} href={`/services/${s.slug}`} className={link}>{s.verb}</Link>)}
@@ -79,18 +98,6 @@ export default function Footer() {
             <a href={`tel:${site.phone.replace(/\s/g, "")}`} className={link}>{site.phone}</a>
           </nav>
 
-          {/* newsletter (same CloudScape sign-up as the live site) */}
-          <div id="footer-newsletter" className="col-span-2 scroll-mt-24 lg:col-span-1">
-            <p className="text-base font-semibold text-white">Explore CloudScape, the Comprinno newsletter</p>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">Cloud insights, proven patterns, deep dives and success stories, simplified for your next step.</p>
-            <form action="/api/subscribe" method="post" className="mt-4 flex">
-              <input type="hidden" name="nl" value="footer" />
-              <label htmlFor="footer-email" className="sr-only">Email</label>
-              <input id="footer-email" name="email" type="email" required placeholder="Your work email" className="min-w-0 flex-1 border border-white/25 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-[#ffbb00] focus:outline-none" />
-              <button type="submit" className="shrink-0 bg-[#ffbb00] px-4 text-sm font-semibold text-[#0a134b] transition-colors hover:bg-[#ffcd3a]">Subscribe →</button>
-            </form>
-            <NewsletterStatus where="footer" dark />
-          </div>
         </div>
       </Container>
 
