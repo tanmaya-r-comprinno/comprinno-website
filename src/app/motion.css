@@ -582,3 +582,8 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 @media (max-width: 374px) {
   .eyebrow { font-size: .6rem; letter-spacing: .02em; padding: .45rem .5rem; white-space: normal; text-align: center; }
 }
+
+/* ---------- Recruitment pages ---------- */
+/* closing-CTA steps with four steps instead of three */
+@media (min-width: 768px) { .cta-steps.cta-steps-4 { grid-template-columns: repeat(2, 1fr); max-width: none; } .cta-steps.cta-steps-4::before { display: none; } }
+@media (min-width: 1024px) { .cta-steps.cta-steps-4 { grid-template-columns: repeat(4, 1fr); } .cta-steps.cta-steps-4::before { display: block; } }
