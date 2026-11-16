@@ -82,7 +82,7 @@ To address digital conversation media platform’s scalability, governance, and 
 
 ### Architecture Overview
 
-![AWS architecture diagram for the digital conversation platform](/images/content/digital-conversation-platform-architecture.png)
+![AWS architecture diagram for the digital conversation platform](/images/content/digital-conversation-platform-architecture-v2.png)
 
 The architecture is deployed on AWS and organized into ingestion and analytics layers. User traffic flows over HTTPS through a Network Load Balancer (NLB) to an Amazon EKS cluster, where NGINX Ingress directs requests to the ingestion service pods. The ingestion layer stores incoming event and log data in Amazon S3. AWS Managed Workflows for Apache Airflow (MWAA) orchestrates the end-to-end data processing workflows, triggering Amazon EMR to process data directly from S3. The processed output is stored in separate S3 buckets, where AWS Glue crawlers catalog the datasets and load them into Amazon Redshift for structured analytics. Finally, Amazon Superset connects to Redshift to generate business intelligence dashboards.
 

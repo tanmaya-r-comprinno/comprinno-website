@@ -73,7 +73,7 @@ Comprinno deployed AWS DMS replication instances in the VPC with a dedicated rep
 
 ### Architecture Overview
 
-![AWS architecture diagram: three-tier VPC across three Availability Zones](/images/content/ai-conversational-platform-architecture.png)
+![AWS architecture diagram: three-tier VPC across three Availability Zones](/images/content/ai-conversational-platform-architecture-v2.png)
 
 The client’s production environment runs in a dedicated VPC in the Mumbai region. It is organized into public, private application, and private database subnets across three Availability Zones. Users reach the platform through an internet-facing Application Load Balancer in the public subnets. The load balancer redirects HTTP to HTTPS, terminates TLS, and forwards requests by listener rule to health-checked target groups in the private application subnets. An Internet Gateway serves the public tier, and a NAT Gateway gives private subnets controlled outbound access.
 
