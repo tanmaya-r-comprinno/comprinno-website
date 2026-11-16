@@ -8,7 +8,7 @@ import TopicPicker from "./TopicPicker";
 
 export const metadata: Metadata = {
   title: "Talk to an expert",
-  description: "Tell us about your cloud or AI project. An AWS-certified expert will reply within 24 to 48 hours.",
+  description: "Tell us about your cloud or AI project. A relevant cloud or AI specialist will reply within 24 to 48 hours.",
   alternates: { canonical: "/contact" },
 };
 
@@ -44,7 +44,7 @@ const direct = [
 
 // TODO: answers drafted from site copy, please confirm.
 const faqs = [
-  { q: "What happens after I submit the form?", a: "Your request goes straight to our team. An AWS-certified expert replies within 24 to 48 hours, usually to set up a short call about your goals. From there we agree next steps: a plan, an assessment or a proposal." },
+  { q: "What happens after I submit the form?", a: "Your request goes straight to our team. A relevant cloud or AI specialist replies within 24 to 48 hours, usually to set up a short call about your goals. From there we agree next steps: a plan, an assessment or a proposal." },
   { q: "Do you work with companies outside India?", a: "Yes. With offices in India, the United States and the United Kingdom, we work with customers around the world, remotely or on-site." },
   { q: "Can AWS fund part of my project?", a: "Often, yes. As an AWS Premier Tier Services Partner, we check which AWS programs your project qualifies for and help you apply, so funding can cover part of an assessment, migration or proof of concept." },
   { q: "I'm an existing customer. Where do I get support?", a: `Write to ${site.emails.support} and our support team will pick it up. If you have a managed services contract, use the support channel agreed in it.` },
@@ -64,7 +64,7 @@ export default function ContactPage() {
                 Let&apos;s talk about your <strong className="sweep">cloud or AI</strong> <strong>project.</strong>
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
-                Tell us what you&apos;re working on. An AWS-certified expert will reply within 24 to 48 hours.
+                Tell us what you&apos;re working on. A relevant cloud or AI specialist will reply within 24 to 48 hours.
               </p>
               <p className="mt-8 font-mono text-[0.65rem] uppercase tracking-widest text-muted">What happens next</p>
               <ol className="mt-4 grid gap-4">

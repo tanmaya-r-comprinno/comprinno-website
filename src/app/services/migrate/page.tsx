@@ -48,7 +48,7 @@ const steps = [
   { title: "Prepare", desc: "Stand up a secure, multi-account landing zone with guardrails and cost controls." },
   { title: "Migrate", desc: "Move workloads in automated, phased waves, each with a tested rollback plan." },
   { title: "Validate", desc: "Check performance, data integrity and security after every wave." },
-  { title: "Optimize", desc: "Tune performance, cost and resilience after cutover, with up to 24/7 managed operations." },
+  { title: "Optimize", desc: "Tune performance, cost and resilience after cutover, then hand over to managed operations matched to your plan." },
 ];
 
 const included = [
@@ -81,7 +81,7 @@ const faqs = [
   { q: "How do you decide whether to rehost, replatform or refactor?", a: "Each application is assessed and given a path: rehost, replatform, refactor, repurchase or retire. Many estates rehost first and modernize later." },
   { q: "Can you migrate us from Azure or Google Cloud?", a: "Yes. We've moved 300+ production workloads from Azure, Google Cloud and on-premises environments, including Liquidmind (Azure) and Skill-Lync (DigitalOcean)." },
   { q: "How do you handle security and compliance during migration?", a: "Guardrails, logging and encryption are configured before migration, and controls are mapped to the regulatory and compliance requirements applicable to your industry and operating markets." },
-  { q: "What happens after cutover?", a: "Workloads can move straight into managed operations (up to 24/7): monitoring, patching, security operations and cost reviews." },
+  { q: "What happens after cutover?", a: "Workloads can move straight into managed operations: monitoring, patching, security operations and cost reviews. Coverage depends on your plan, and 24/7 support is available with Elite." },
 ];
 
 export default function MigratePage() {

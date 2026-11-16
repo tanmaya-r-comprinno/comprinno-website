@@ -224,7 +224,7 @@ export default function AnthropicPartnerPage() {
 
       {/* WHY COMPRINNO */}
       <Section tone="surface">
-        <SectionHead eyebrow="Why Comprinno" title={<>Claude, backed by <strong>a team that runs AWS.</strong></>} desc="Claude delivered on the cloud we already secure and operate for you." />
+        <SectionHead eyebrow="Why Comprinno" title={<>Claude, backed by <strong>a team that runs AWS.</strong></>} desc="Claude delivered on your AWS foundation, by a team that secures and operates AWS for its clients." />
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {why.map((x) => (
             <div key={x.title} className="card">

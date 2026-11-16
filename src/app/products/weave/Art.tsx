@@ -68,7 +68,7 @@ export function WeaveHero() {
       <g transform="translate(0 0)">
         <Float id={id}>
           <Card x={210} y={262} w={336} h={214} tag="EXCEPTION · NEEDS YOUR CALL" tagColor={GOLD}>
-            <text x="226" y="310" fontSize="14.5" fontWeight="700" fill={NAVY}>Invoice total differs from PO</text>
+            <text x="226" y="310" fontSize="14.5" fontWeight="700" fill={NAVY}>Invoice quantity differs from PO</text>
             <text x="226" y="330" fontSize="11" fill={MUTED}>Validation agent · evidence attached</text>
             <rect x="226" y="344" width="144" height="44" fill={SOFT} />
             <text x="236" y="361" fontSize="9.5" fill={MUTED} letterSpacing=".6">PURCHASE ORDER</text>
@@ -328,7 +328,7 @@ export function GovernanceView() {
         <Card x={250} y={300} w={340} h={150} tag="APPROVAL RECORDED" tagColor={GREEN}>
           <text x="266" y="348" fontSize="14" fontWeight="700" fill={NAVY}>Finance approver · 09:41</text>
           <text x="266" y="367" fontSize="11" fill={MUTED}>Decision, reason and evidence stored together</text>
-          {[["Who", "Finance approver"], ["Why", "Price change agreed"]].map(([k, v], i) => (
+          {[["Who", "Finance approver"], ["Why", "Extra units agreed"]].map(([k, v], i) => (
             <g key={k}>
               <rect x={266 + i * 158} y="384" width="150" height="40" fill={SOFT} />
               <text x={276 + i * 158} y="400" fontSize="9.5" fill={MUTED} letterSpacing=".6">{k.toUpperCase()}</text>

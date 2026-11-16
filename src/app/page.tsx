@@ -1,6 +1,6 @@
 import Link from "next/link";
 import GridGlow from "@/components/GridGlow";
-import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
+import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead, contactHref } from "@/components/ui";
 import { Icon, IconTile, type IconName } from "@/components/Icon";
 import { services } from "@/content/services";
 import { phases } from "@/content/company";
@@ -63,13 +63,13 @@ const credentials: { label: string; badges: { src: string; alt: string; w: numbe
 const stages: Record<string, { title: string; desc: string; includes: string[] }> = {
   migrate: { title: "Move to the cloud", desc: "Assess, plan, and tap the funding you qualify for.", includes: ["Cloud Migration", "Security & Compliance"] },
   modernize: { title: "Make it AI-ready", desc: "Re-architect apps and data so AI has something solid to run on.", includes: ["Application Modernization", "DevOps & Platform Engineering"] },
-  manage: { title: "Run it reliably", desc: "24/7 operations and cost control, so your team can focus on building.", includes: ["Managed Cloud Services", "FinOps & Cost Optimization"] },
+  manage: { title: "Run it reliably", desc: "Managed operations and cost control, with coverage matched to your plan.", includes: ["Managed Cloud Services", "FinOps & Cost Optimization"] },
   maximize: { title: "Compound with AI", desc: "Build, govern and scale agents and analytics on the foundation.", includes: ["Agentic & Generative AI", "Data Analytics & ML"] },
 };
 
 const faqs = [
   { q: "Can we get funding support for our project?", a: "Often, yes. As a Premier Tier cloud partner, we help you apply for the provider's migration, modernization and AI funding programs and startup credits, and handle the paperwork with you. We assess eligibility for relevant funding programs. Availability depends on the program, project, geography and provider approval." },
-  { q: "What does a typical engagement look like?", a: "Four stages: we assess your environment and build a plan, migrate and modernize what matters most, run it 24/7 with clear SLAs, then keep optimizing cost, security and performance as you grow. Most clients start with a short assessment and expand from there." },
+  { q: "What does a typical engagement look like?", a: "Four stages: we assess your environment and build a plan, migrate and modernize what matters most, run it with clear SLAs and coverage matched to your plan, then keep optimizing cost, security and performance as you grow. Most clients start with a short assessment and expand from there." },
   { q: "How can we work with Comprinno?", a: "Three ways: a fixed-scope project such as migration, modernization or AI development; an ongoing managed services partnership; or an advisory engagement such as an AWS Well-Architected Review or AI readiness assessment. Many clients start with one and grow into the others." },
   { q: "Which industries do you serve?", a: "We serve fintech, healthcare, life sciences and retail, with security and compliance support tailored to each engagement. By stage, we work with SaaS startups, ISVs and tech-led enterprises, with a focus on startups and the mid-market." },
   { q: "Where is Comprinno based, and where do you work?", a: "We're headquartered in India with offices in Pune and Bangalore, plus teams in the US and UK. We work with customers across these regions and beyond, remotely or on-site." },
@@ -77,7 +77,7 @@ const faqs = [
 
 // The gap: why AI stalls. Each item is answered by a move in "What we do".
 const gaps: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Legacy that won't scale", desc: "Monolithic applications and on-premises data that AI systems cannot readily access or use.", icon: "layers" },
+  { title: "Data AI can't reach", desc: "Data locked in legacy applications or on-premises systems that AI cannot readily access or use.", icon: "layers" },
   { title: "Security & compliance gaps", desc: "Weak security and compliance controls can delay AI approval and deployment.", icon: "shield" },
   { title: "No one to run it", desc: "Lean teams managing operational issues and rising costs have little time to deploy AI.", icon: "users" },
 ];
@@ -96,11 +96,12 @@ export default function Home() {
               <br />a lasting <strong className="font-bold">competitive advantage</strong>.
             </h1>
             <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted sm:text-lg">
-              AI delivers increasing value when the cloud supporting it is ready to scale.
-              <span className="block lg:whitespace-nowrap">We migrate, modernize and run your cloud, then build, govern and scale the AI agents on top.</span>
+              Build, deploy and scale enterprise AI around the workflows that matter.
+              <span className="block lg:whitespace-nowrap">We bring AI engineering, cloud transformation and managed operations together to move priority use cases into production.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href="/contact">Talk to an expert →</Button>
+              <Button href={contactHref("AI and agents", "/")}>Discuss an AI use case →</Button>
+              <Button href="#services" variant="ghost">Explore our services</Button>
             </div>
           </div>
         </Container>
@@ -141,8 +142,8 @@ export default function Home() {
       <Section tone="surface">
         <SectionHead
           eyebrow="The problem"
-          title={<><strong>Most AI pilots stall</strong>, not because of the model,<Br />but because of the <strong>cloud underneath</strong>.</>}
-          desc="Three gaps hold most teams back. Each one is fixable."
+          title={<>AI reaches production when the <strong>use case, data, controls</strong><Br /> and <strong>operations</strong> are ready.</>}
+          desc="Three gaps often hold teams back. Each one is fixable, and you can start with whichever matters most."
         />
         <ul className="grid gap-4 md:grid-cols-3">
           {gaps.map((g) => (
@@ -159,8 +160,8 @@ export default function Home() {
       <Section id="services" className="scroll-mt-16">
         <SectionHead
           eyebrow="The path"
-          title={<>One team, four stages:<Br /><strong>Migrate. Modernize. Manage. Maximize.</strong></>}
-          desc="Start wherever you are today. One accountable partner plans, builds and operates your platform."
+          title={<>One team, four services:<Br /><strong>Migrate. Modernize. Manage. Maximize.</strong></>}
+          desc="Start with the challenge you need to solve. Engage us for one service or across the lifecycle."
         />
         {/* Four stages, one row: monochrome cards joined by a single top rule */}
         <ol className="path-row">
@@ -178,7 +179,7 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-8 flex justify-center">
-          <Button href="/contact" variant="ghost" className="stage-check">Not sure where to start? Discuss your priorities →</Button>
+          <Button href={contactHref("Something else", "/")} variant="ghost" className="stage-check">Not sure where to start? Discuss your priorities →</Button>
         </div>
       </Section>
 

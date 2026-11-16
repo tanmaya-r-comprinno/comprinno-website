@@ -48,6 +48,8 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
+/* Phones: balancing splits phrases ("AI use / case"); fill lines naturally and avoid one-word last lines instead */
+@media (max-width: 639px) { h1, h2, h3, h4 { text-wrap: pretty; } }
 
 p { text-wrap: pretty; }
 
@@ -159,3 +161,10 @@ input[type="email"]:focus-visible { outline: none; }
 
 /* footer: selected text stays readable on navy */
 .site-footer ::selection { background: #ffbb00; color: #0a134b; -webkit-text-fill-color: #0a134b; }
+
+/* Hidden desktop dropdowns can extend past a phone screen; never let them cause sideways scrolling (clip keeps the sticky header working) */
+html, body { overflow-x: clip; }
+
+/* Campaign landing pages (/campaign-2026/*) are standalone: hide the main site's header and footer */
+body:has(.campaign) .site-nav,
+body:has(.campaign) .site-footer { display: none; }

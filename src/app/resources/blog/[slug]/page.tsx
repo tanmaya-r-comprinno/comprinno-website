@@ -9,6 +9,7 @@ import ZoomImages from "@/components/ZoomImages";
 import { formatDate, post, posts, slugify } from "@/lib/blog";
 import { Author, Newsletter, PostCardView, TopicTag } from "../BlogParts";
 import Share from "../Share";
+import { JsonLd, articleLd } from "@/components/JsonLd";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -44,6 +45,7 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <div className="brand">
+      <JsonLd data={articleLd({ title: p.title, description: p.description, path, publishedAt: p.publishedAt, author: p.author, section: "Blog" })} />
       {/* HERO */}
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true" />
