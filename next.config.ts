@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { oldSiteRedirects } from "./src/lib/oldSiteRedirects";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -15,6 +16,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...oldSiteRedirects,
       { source: "/tevico", destination: "/products/tevico", permanent: true },
       { source: "/products", destination: "/products/tevico", permanent: true },
       { source: "/case-studies", destination: "/resources/case-studies", permanent: true },

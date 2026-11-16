@@ -144,7 +144,7 @@ export default function SdrPage() {
         <W className="py-16 text-center sm:py-20">
           <Tag>We&apos;re hiring · SDR</Tag>
           <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(2rem,5vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
-            We build <strong>AI agents</strong> for a living. Our SDRs should <strong>run on them too</strong>.
+            We build <strong className="sweep font-bold">AI agents</strong> for a living. Our SDRs should <strong>run on them too</strong>.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-neutral-600">We&apos;re hiring an SDR who would rather build the outbound machine than be a cog in it. AI does the research and the grunt work. You do the thinking, the messaging and the conversations, and you own the number.</p>
           <CallBtn className="mt-7" />
