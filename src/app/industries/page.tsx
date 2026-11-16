@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Br } from "@/components/ui";
+import { Br, contactHref } from "@/components/ui";
 import type { IconName } from "@/components/Icon";
 import ServiceStory from "@/components/ServiceStory";
 
@@ -91,6 +91,7 @@ export default function IndustriesPage() {
   return (
     <ServiceStory
       d={{
+        contact: contactHref("Something else", "/industries"),
         hero: {
           eyebrow: "Industries",
           title: <><span className="lg:whitespace-nowrap"><strong className="sweep font-bold">Enterprise AI</strong> and cloud expertise</span><Br /> for <strong className="font-bold">your industry</strong>.</>,

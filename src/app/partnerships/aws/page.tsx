@@ -52,7 +52,7 @@ const numbers = [
 const pillars: { title: string; desc: string; icon: IconName; link: string; href: string }[] = [
   { title: "Plan it right", desc: "We assess your workloads, shape the roadmap and check which AWS programs can support it, so you start with a clear plan.", icon: "coin", link: "AWS programs we use", href: "#programs" },
   { title: "Build it well", desc: "Migration, modernization, security and AI on AWS, delivered by a Premier Tier team with the competencies to match.", icon: "building", link: "Migrate · Modernize · Maximize", href: "/services/migrate" },
-  { title: "Run it reliably", desc: "24/7 managed operations, security operations and cost control on AWS, so what we build keeps performing.", icon: "chart", link: "Managed services plans", href: "/services/manage#plans" },
+  { title: "Run it reliably", desc: "Managed operations, security operations and cost control on AWS, with coverage matched to your plan (24/7 with Elite).", icon: "chart", link: "Managed services plans", href: "/services/manage#plans" },
 ];
 
 const funding = [
@@ -72,7 +72,7 @@ const fundingSteps = [
 const stages: { title: string; desc: string; icon: IconName }[] = [
   { title: "Startups", desc: "Launch on a secure baseline, with the credits and startup programs you qualify for.", icon: "rocket" },
   { title: "SaaS and ISVs", desc: "Multi-tenant architecture, CI/CD and readiness to sell through AWS Marketplace.", icon: "cube" },
-  { title: "Enterprises", desc: "Large migrations and modernization, with governance and 24/7 operations.", icon: "building" },
+  { title: "Enterprises", desc: "Large migrations and modernization, with governance and managed operations.", icon: "building" },
   { title: "AI-first teams", desc: "Production generative AI on Amazon Bedrock, governed from the first sprint.", icon: "spark" },
 ];
 

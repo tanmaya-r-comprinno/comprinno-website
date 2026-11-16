@@ -37,10 +37,13 @@ export default function FlowLoop({
   items,
   icons = ICONS,
   caption = "Repeat again: every cycle starts smarter than the last",
+  repeat = true,
 }: {
   items: { title: string; desc: string }[];
   icons?: IconName[];
   caption?: string;
+  /** false: no dashed return loop or caption; after the last phase the square fades out and restarts at the first */
+  repeat?: boolean;
 }) {
   const n = items.length;
   const [active, setActive] = useState(0);
@@ -103,7 +106,7 @@ export default function FlowLoop({
       const tail = startOf(n - 1) + DWELL; // last phase finished
       if (clock >= tail) {
         const f = ease((clock - tail) / RETURN);
-        pos = along(route, f);
+        pos = repeat ? along(route, f) : f > 0.97 ? [X(0), TRACK_Y] : [X(n - 1), TRACK_Y];
         fillX = f > 0.15 ? X(0) : X(n - 1); // fill clears once the square heads home
         phase = f > 0.97 ? 0 : n - 1;
       } else {
@@ -121,7 +124,7 @@ export default function FlowLoop({
       }
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${pos[0] - 5.5}px, ${pos[1] - 5.5}px)`;
-        dotRef.current.style.opacity = "1";
+        dotRef.current.style.opacity = !repeat && clock >= tail && clock < cycle - 120 ? "0" : "1";
       }
       if (fillRef.current) fillRef.current.style.width = `${Math.max(0, fillX - X(0))}px`;
       if (phase !== shown) {
@@ -131,13 +134,13 @@ export default function FlowLoop({
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [n, w, by]);
+  }, [n, w, by, repeat]);
 
   return (
     <div ref={ref} className="loop" style={{ "--n": n } as CSSProperties} onMouseLeave={() => (paused.current = false)}>
       {/* desktop: track, dashed return loop and the gliding square */}
       <svg className="loop-lines" width={w} height={size.h} aria-hidden="true">
-        <path d={loopD} className="loop-back" fill="none" />
+        {repeat && <path d={loopD} className="loop-back" fill="none" />}
         <path d={`M${nodeX(0)} ${TRACK_Y}H${nodeX(n - 1)}`} className="loop-base" />
       </svg>
       <span ref={fillRef} className="loop-fill" style={{ left: nodeX(0), width: still ? nodeX(n - 1) - nodeX(0) : 0 }} aria-hidden="true" />
@@ -165,7 +168,7 @@ export default function FlowLoop({
         })}
       </ol>
 
-      <p ref={capRef} className="loop-caption" aria-hidden="true">{caption}</p>
+      {repeat && <p ref={capRef} className="loop-caption" aria-hidden="true">{caption}</p>}
     </div>
   );
 }

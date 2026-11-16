@@ -1,0 +1,94 @@
+---
+title: "MedGenome Achieved Enhanced Infrastructure Security and Boosted Scalability"
+slug: "medgenome-enhanced-infrastructure-security-and-scalability"
+description: "MedGenome partnered with Comprinno to build a secure, scalable, and HIPAA-compliant infrastructure on AWS, automated with Terraform and deployed through a blue-green CI/CD pipeline."
+publishedAt: "2025-01-15"
+client: "MedGenome"
+industry: "LifeSciences"
+solutions: ["Modernization"]
+draft: false
+---
+
+## Overview
+
+### About Customer
+
+MedGenome is a leading genomics-driven research and diagnostics company dedicated to improving global health by unlocking the genetic information within an individual’s genome. Their advanced genomics solutions enable faster biomarker identification and discovery research for pharmaceutical and biotech industries. MedGenome's Genetic Reference Lab in Bangalore, the only CAP-accredited lab in Southeast Asia, offers over 1,300 genetic tests covering many diseases, including Oncology, Neurology, Cardiology, Ophthalmology, and Rare diseases.
+
+### Executive Summary
+
+MedGenome partnered with Comprinno to build a secure, scalable, and compliant infrastructure on AWS. We implemented Infrastructure as Code (IAC) using Terraform to automate deployments and ensure consistency across environments. Enhanced security measures, including encryption and AWS security tools, were applied to meet HIPAA compliance. AWS Batch and ECS Fargate handled large-scale compute needs, while a blue-green CI/CD pipeline ensured minimal downtime during deployments. With improved API monitoring through AWS Synthetic Canaries, MedGenome now benefits from a highly resilient and efficient cloud infrastructure.
+
+## The Solution
+
+### How have we done it
+
+We created Infrastructure as Code (IAC) for the entire setup using Terraform, taking a manually created development environment as a reference to deploy in staging and production. For database management, we leveraged Amazon RDS with Multi-AZ for high availability. In the storage tier, Amazon EFS and S3 were utilized, while AWS Batch handled batch jobs. A cross-account CI/CD pipeline was set up using blue-green deployment with ECR as the source in the development environment. API monitoring was achieved using AWS synthetic canaries, and security was enhanced with AWS Security Hub, GuardDuty, and Security Lake. We used S3 to store access logs from the ALB, WAF, and VPC Flow logs.
+
+### Why We Have Taken Such an Approach
+
+- **End-to-End Encryption:** To meet MedGenome’s HIPAA compliance requirements, we ensured end-to-end encryption by configuring target groups with the HTTPS protocol, applying SSL certificates to the application, and utilizing Application Load Balancer (ALB) with AWS Certificate Manager (ACM) for encryption at the ALB level.
+- **Infrastructure as Code (IAC):** We developed IAC using Terraform to eliminate manual setup, introduce version control, and automate deployment. This approach increased efficiency, reduced human error, and provided a consistent infrastructure setup across all environments.
+- **Security Best Practices:** We followed AWS best practices for secure account governance and access management, which included enabling CloudTrail logging and leveraging AWS Identity and Access Management (IAM) for secure access. These measures ensured the highest levels of security for MedGenome’s operations.
+
+### Data Gathered
+
+The logs from various AWS services, including Application Load Balancer (ALB), Web Application Firewall (WAF), Canary, and VPC Flow Logs, were collected and stored in an S3 bucket. A lifecycle policy was implemented on these logs per MedGenome's requirements to efficiently manage data retention. Additionally, CloudTrail logs for every account were gathered and stored in a dedicated logging account, ensuring centralized logging and easy access for compliance and auditing purposes.
+
+### Implementation
+
+![AWS architecture diagram: MedGenome workloads in the Mumbai region across three Availability Zones](/images/content/medgenome-architecture.png)
+
+**AWS Organization**
+
+An AWS Organization was set up with a root account designated as the management account. Multiple Organizational Units (OUs) were created for different environments, such as logging, Identity and Access Management (IAM), development, staging, and production. This structure allowed for centralized management and easy governance of AWS accounts and ensured that security policies were applied uniformly across all environments. It also facilitated cost tracking and auditing across departments and projects.
+
+**Development Environment**
+
+The development environment was manually created to ensure flexibility during the initial stages. Security best practices were implemented from the outset, including setting up AWS Security Hub to centralize security alerts, AWS GuardDuty to monitor for threats and vulnerabilities, and AWS Security Lake for centralized security data storage. By securing the development environment early, we reduced the risk of potential security lapses in later stages and ensured that the environment was HIPAA compliant for MedGenome.
+
+**Compute**
+
+For compute resources, we used ECS Fargate, which provided serverless container management, removing the need to manage the underlying infrastructure. Applications were exposed via the Application Load Balancer (ALB), providing high availability and automatically distributing incoming traffic across containers. We further secured the compute environment by adding a Web Application Firewall (WAF), which protected the applications from common web exploits and threats, ensuring secure handling of sensitive genomic data.
+
+**Database**
+
+Amazon RDS with Multi-AZ deployment was leveraged for the database layer to ensure high availability and automatic failover in case of database instance failures. This setup ensured that MedGenome’s data remained accessible even during infrastructure outages.
+
+**Storage**
+
+We used Amazon EFS for shared file storage, providing scalable and high-availability storage for the applications running on ECS Fargate. In addition, Amazon S3 was utilized for object storage, particularly for storing logs, backups, and large datasets. S3 provided lifecycle management to automate retention policies and cost optimization, which was important given the vast amounts of genomic data MedGenome handles.
+
+**Batch Processing**
+
+AWS Batch handled batch processing workloads, allowing MedGenome to run batch jobs without provisioning or managing infrastructure efficiently. AWS Batch automatically scaled resources based on job requirements, enabling the seamless processing of large genomic datasets. This approach also separated batch workloads from real-time processes, ensuring optimal resource allocation and cost management.
+
+**CI/CD**
+
+We implemented a cross-account Continuous Integration and Continuous Deployment (CI/CD) pipeline using blue-green deployment strategies. The source code for the pipeline was stored in Amazon Elastic Container Registry (ECR) in the development environment (OPE003). This setup allowed for smooth and secure deployment across multiple environments without downtime, ensuring that updates could be tested and deployed seamlessly, reducing operational risks.
+
+**API Monitoring**
+
+To ensure the continuous availability and performance of APIs, AWS synthetic canaries were used. These canaries simulated user interactions with the APIs, helping to identify potential issues before they impact real users. The synthetic canaries provided a proactive monitoring approach, offering insights into response times, latency, and errors, which was essential for maintaining the reliability of mission-critical APIs.
+
+**Logging**
+
+Logging was an essential part of the infrastructure. Access logs from the Application Load Balancer (ALB), Web Application Firewall (WAF), and VPC Flow Logs were gathered and stored in S3 for analysis and auditing. These logs were crucial for monitoring traffic patterns, troubleshooting, and ensuring that any suspicious activity could be quickly identified. The logs also contributed to compliance by providing a record of all requests and responses within the system.
+
+**Encryption**
+
+For data at rest, AWS KMS Customer Master Keys (CMK) were used to encrypt Amazon RDS, EBS, ECR, S3, and AWS Backup. This ensured that all stored data was protected with strong encryption, meeting HIPAA compliance. ACM certificates were used with the Application Load Balancer (ALB) for data in transit to provide SSL/TLS encryption, securing all communications and preventing unauthorized access.
+
+**Backup**
+
+AWS Backup was configured for Amazon RDS and EFS, automating regular backups based on MedGenome's Recovery Point Objective (RPO) requirements. This ensured that critical data could be quickly restored in case of failure, with backup rules designed to meet compliance while optimizing storage costs.
+
+## Results
+
+### Benefits
+
+- **Enhanced API Monitoring:** API monitoring was significantly improved using AWS Synthetic Canaries, allowing for proactive identification of issues before they impacted users.
+- **Minimal Downtime During Deployment:** By implementing blue-green deployment with CI/CD using CodePipeline, deployments were made with minimal or no downtime, ensuring continuous availability of services.
+- **Compliance with HIPAA:** The infrastructure and security setup ensured that MedGenome met HIPAA compliance requirements, safeguarding sensitive genomic data and maintaining regulatory standards.
+- **Application Availability and Infrastructure Resilience:** The application infrastructure was modernised using a decoupled architecture, achieving a 99.9% application availability through improved architecture, infrastructure automation and fault isolation. Terraform-based infrastructure management was introduced to enable consistent and repeatable infrastructure provisioning and configuration.
+- **Disaster Recovery and Recovery Objectives:** Recovery capabilities were strengthened through the implementation of a structured recovery architecture, with defined recovery objectives to minimise service disruption and potential data loss. As a result, an RTO of 1 hour and an RPO of 1 hour was achieved through the implemented AWS recovery architecture.
