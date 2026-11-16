@@ -53,7 +53,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 
 - Vercel team `comprinno-tech` ("Website-Development", Pro), project `comprinno-website`, owner account marketing@comprinno.net.
 - **Deploys only run from GitHub Actions** (`.github/workflows/deploy.yml`). Native Git deploys are off (`vercel.json` -> `git.deploymentEnabled: false`) because Vercel blocks deployments whose commit author isn't a team member. The workflow re-authors HEAD inside the runner only (never pushed) and deploys with the `VERCEL_TOKEN` secret.
-- One workflow/job (`Validate`) runs per `dev`/`main` push: install, lint, route type generation, TypeScript, then deploy. No separate PR workflow or duplicate build on GitHub Actions; Vercel builds the site. Keep the `Validate` check name for branch protection.
+- To minimize Actions compute, one workflow/job (`Validate`) runs per `dev`/`main` push: install the cached Vercel CLI, deploy, then verify the live commit. Vercel installs app dependencies, builds and checks TypeScript; lint is local only. No separate PR workflow or app build/checks on the Actions runner. Keep the `Validate` check name for branch protection.
 - `dev` push: Preview deployment, then aliased to `staging.comprinno.net`.
 - `main` push: Production (`comprinno.net`; `www` redirects to it).
 - Every deploy passes `DEPLOY_SHA`; the site returns it in the `X-Deploy-Sha` header and the workflow waits until the live site serves that commit.

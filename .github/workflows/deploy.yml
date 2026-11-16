@@ -51,22 +51,9 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Generate route types
-        run: npx next typegen
-
-      - name: Type check
-        run: npx tsc --noEmit -p .
-
-      # Vercel performs the production build. Avoid repeating it on this runner.
-
+      # Vercel installs dependencies, builds and checks TypeScript remotely.
       - name: Install Vercel CLI
-        run: npm install --global "vercel@${VERCEL_CLI_VERSION}"
+        run: npm install --global --prefer-offline --no-audit --no-fund "vercel@${VERCEL_CLI_VERSION}"
 
       # Runner-only: re-author HEAD as the Vercel team owner so Vercel accepts
       # the deployment. This amended commit is never pushed; on GitHub the
