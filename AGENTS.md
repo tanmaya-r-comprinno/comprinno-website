@@ -82,7 +82,7 @@ No test framework is set up. Verify changes with a build, then check the page or
 - The form renders in a same-origin iframe, so page CSS can't style it. `HubSpotForm.tsx` injects site styles into the iframe on `onFormReady` and resizes the iframe to its content.
 - Don't submit the form server-side: HubSpot rejects API submissions while its captcha is on.
 - Links built with `contactHref(topic, from)` add `?topic=&from=`; HubSpot ignores them.
-- Newsletter signup uses `NEWSLETTER_SIGNUP_URL`, an HTTPS hosted HubSpot newsletter form. `NewsletterSignup.tsx` shows a link when configured, otherwise an unavailable message; no email field collects addresses that cannot be saved. The legacy `/api/subscribe` POST redirects to that form or returns 503, with no false success. HubSpot owns the newsletter consent/subscription settings.
+- Newsletter signup uses Tanmaya’s footer/blog email forms and `/api/subscribe`, forwarding to HubSpot portal `4699526` with `HUBSPOT_NEWSLETTER_FORM_ID`. `NewsletterStatus.tsx` shows the returned status; success requires HubSpot acceptance. Without the form ID, show unavailable. HubSpot owns consent/subscription and double opt-in settings; verify them separately.
 
 ## Careers (Keka)
 

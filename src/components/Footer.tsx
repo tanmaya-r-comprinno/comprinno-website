@@ -3,8 +3,8 @@ import { site } from "@/lib/site";
 import { services } from "@/content/services";
 import { products } from "@/content/products";
 import { Container } from "./ui";
+import NewsletterStatus from "./NewsletterStatus";
 import FooterArt from "./FooterArt";
-import NewsletterSignup from "./NewsletterSignup";
 
 const col = "grid content-start gap-3 text-sm";
 const head = "mb-2 font-mono text-[0.7rem] uppercase tracking-widest text-[#9fd3ff]";
@@ -61,7 +61,13 @@ export default function Footer() {
           <div id="footer-newsletter" className="scroll-mt-24 lg:max-w-md lg:justify-self-end">
             <p className="text-base font-semibold text-white">Explore CloudScape, the Comprinno newsletter</p>
             <p className="mt-3 text-sm leading-relaxed text-white/70">Cloud insights, proven patterns, deep dives and success stories, simplified for your next step.</p>
-            <NewsletterSignup footer />
+            <form action="/api/subscribe" method="post" className="mt-5 flex">
+              <input type="hidden" name="nl" value="footer" />
+              <label htmlFor="footer-email" className="sr-only">Email</label>
+              <input id="footer-email" name="email" type="email" required placeholder="Your work email" className="min-w-0 flex-1 border border-white/25 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-[#ffbb00] focus:outline-none" />
+              <button type="submit" className="shrink-0 bg-[#ffbb00] px-4 text-sm font-semibold text-[#0a134b] transition-colors hover:bg-[#ffcd3a]">Subscribe →</button>
+            </form>
+            <NewsletterStatus where="footer" dark />
           </div>
         </div>
 

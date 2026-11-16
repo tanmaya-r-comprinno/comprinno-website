@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Container, Eyebrow } from "@/components/ui";
 import RainField from "@/components/RainField";
+import NewsletterStatus from "@/components/NewsletterStatus";
 import ArtTile, { tileFor } from "@/components/ArtTile";
-import NewsletterSignup from "@/components/NewsletterSignup";
 
 export type PostCard = { slug: string; title: string; topic: string; author: string; role: string; initials: string; publishedAt: string; date: string };
 
@@ -64,7 +64,13 @@ export function Newsletter() {
             <h2 className="mt-4 text-[clamp(1.5rem,3vw,2.1rem)] font-normal leading-tight text-ink">Cloud insights, proven patterns <strong className="font-semibold">and success stories.</strong></h2>
             <p className="mt-2 text-muted">Simplified for your next step. Delivered to your inbox.</p>
           </div>
-          <div><NewsletterSignup /></div>
+          <form action="/api/subscribe" method="post" className="flex flex-col gap-3 sm:flex-row">
+            <input type="hidden" name="nl" value="blog" />
+            <label className="sr-only" htmlFor="nl-email">Work email</label>
+            <input id="nl-email" name="email" type="email" required autoComplete="email" placeholder="Your work email" className="min-h-12 flex-1 border border-line-strong bg-white px-4 text-ink placeholder:text-muted focus:border-ink focus:outline-none" />
+            <button type="submit" className="btn btn-primary min-h-12">Subscribe <span className="go">→</span></button>
+          </form>
+          <NewsletterStatus where="blog" />
         </div>
       </Container>
     </section>
