@@ -100,9 +100,7 @@ export default function Home() {
               <span className="block lg:whitespace-nowrap">We bring AI engineering, cloud transformation and managed operations together to move priority use cases into production.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href={contactHref("AI and agents", "/")}>Discuss an AI use case →</Button>
-              <Button href="#services" variant="ghost">Explore our services</Button>
-            </div>
+              <Button href={contactHref("AI and agents", "/")}>Discuss an AI use case →</Button>            </div>
           </div>
         </Container>
 
