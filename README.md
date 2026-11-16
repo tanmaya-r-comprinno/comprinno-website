@@ -116,7 +116,7 @@ The source repository is `github.com/comprinnotech/comprinno-website`. Deploymen
 
 Production changes go through a `dev` → `main` pull request. The workflow uses repository secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`. Configure `NEXT_PUBLIC_SITE_URL` and separate OAuth signing keys in the appropriate Vercel environments; never commit their sensitive values.
 
-[CI](.github/workflows/ci.yml) runs the `Validate` check on pushes and pull requests to `dev`/`main`: dependency install, ESLint, production build and TypeScript. The build uses the staging origin without production secrets. Require this check in `main` branch protection before merging production changes.
+[Validate and deploy](.github/workflows/deploy.yml) runs once per push to `dev`/`main` (or manual dispatch), in one job named `Validate`. To minimize Actions minutes, the runner only installs the cached Vercel CLI, deploys and verifies the live commit. Vercel installs app dependencies, builds and checks TypeScript remotely. Run lint locally; there is no lint check in Actions. There is no separate pull-request run, so an open `dev` → `main` PR does not duplicate validation. Keep `Validate` required in `main` branch protection; the required check confirms a successful deployment.
 
 The workflow re-authors HEAD only inside its runner so Vercel accepts the deployment; the repository commit keeps its original author. It verifies the live site's `X-Deploy-Sha` against the GitHub commit and tags verified production deployments as `prod-YYYY.MM.DD.N` using the UTC date.
 
