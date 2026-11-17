@@ -79,7 +79,7 @@ proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art))
 const testimonials = [{ company: "MediBuddy" }, { company: "boAt" }, { company: "PocoCare" }];
 
 const products = [
-  { n: "Tevico", d: "Cloud governance, cost and security visibility", href: "/products/tevico" },
+  { n: "Tevico", d: "Cloud governance, cost and security visibility", href: "/platform" },
   { n: "VoxSphere", d: "Real-time voice AI agents on Amazon Bedrock AgentCore", href: "/products/voxsphere" },
   { n: "VeriQ", d: "Due-diligence questionnaires answered with citations", href: "/products/veriq" },
   { n: "Weave", d: "Multi-agent business workflows · early access", href: "/products/weave" },

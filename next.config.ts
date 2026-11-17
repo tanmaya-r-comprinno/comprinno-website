@@ -17,8 +17,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ...oldSiteRedirects,
-      { source: "/tevico", destination: "/products/tevico", permanent: true },
-      { source: "/products", destination: "/products/tevico", permanent: true },
+      { source: "/tevico", destination: "/platform", permanent: true },
+      { source: "/products", destination: "/products/veriq", permanent: true },
+      { source: "/products/tevico", destination: "/platform", permanent: true },
       { source: "/case-studies", destination: "/resources/case-studies", permanent: true },
       { source: "/case-studies/:slug", destination: "/resources/case-studies/:slug", permanent: true },
       // old comprinno.net paths still linked from imported articles and search results
@@ -35,7 +36,7 @@ const nextConfig: NextConfig = {
       { source: "/newsroom", destination: "/resources/newsroom", permanent: true },
       { source: "/about", destination: "/company/about", permanent: true },
       { source: "/careers", destination: "/company/careers", permanent: true },
-      { source: "/products/navitus", destination: "/products/tevico", permanent: true },
+      { source: "/products/navitus", destination: "/platform", permanent: true },
       { source: "/products/decivo", destination: "/products/weave", permanent: true },
       { source: "/services", destination: "/#services", permanent: true },
     ];

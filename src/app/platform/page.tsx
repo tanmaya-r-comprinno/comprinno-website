@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Tevico-powered managed cloud services",
   description:
     "Keep your AWS environment secure, reliable and cost-efficient with Comprinno's managed cloud services, supported by Tevico's monitoring, governance and automation capabilities.",
-  alternates: { canonical: "/products/tevico" },
+  alternates: { canonical: "/platform" },
 };
 
 const numbers = [
@@ -91,7 +91,7 @@ export default function TevicoPage() {
                 A secure, reliable, cost-efficient AWS cloud, run by our engineers.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button href={contactHref("Managed services", "/products/tevico")}>Discuss managed cloud services →</Button>
+                <Button href={contactHref("Managed services", "/platform")}>Discuss managed cloud services →</Button>
                 <Button href="https://tevi.co" variant="ghost" newTab>Explore the Tevico platform ↗</Button>
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function TevicoPage() {
         </div>
       </Section>
 
-      <CtaBand href={contactHref("Managed services", "/products/tevico")}
+      <CtaBand href={contactHref("Managed services", "/platform")}
         title={<>Ready to put your cloud operations<Br /> in <strong>experienced hands</strong>?</>}
         desc="Discuss your AWS environment, priorities and support needs. We'll define a managed services approach supported by Tevico."
         steps={["30-minute operational review", "Scope, access and approvals agreed", "Onboarding into managed operations"]}

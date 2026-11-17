@@ -51,7 +51,7 @@ const pages: [string, string][] = [
   ["/stacked-cards-design", "/"], // leftover WordPress page
   ["/startups-saas-isv", "/industries"],
   ["/tech-led-enterprises", "/industries"],
-  ["/tevico-autopilot-for-cloud-operations", "/products/tevico"],
+  ["/tevico-autopilot-for-cloud-operations", "/platform"],
   ["/veriq-comprinno", "/products/veriq"],
   ["/vidmentor", "/"], // CSV: check, product not on the new site
   ["/viewpulse", "/"], // CSV: check, product not on the new site

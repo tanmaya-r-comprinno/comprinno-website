@@ -86,7 +86,7 @@ const billing = [
 ];
 
 const ownProducts = [
-  { tag: "On AWS Marketplace", name: "Tevico", desc: "Cloud governance for AWS: cost, security, reliability and inventory in one place.", href: "/products/tevico" },
+  { tag: "On AWS Marketplace", name: "Tevico", desc: "Cloud governance for AWS: cost, security, reliability and inventory in one place.", href: "/platform" },
   { tag: "Amazon Bedrock", name: "VoxSphere", desc: "Real-time AI voice agents on Amazon Bedrock AgentCore, deployed in your AWS account.", href: "/products/voxsphere" },
   { tag: "Agentic AI", name: "VeriQ", desc: "Due-diligence questionnaires answered from your own evidence, with citations.", href: "/products/veriq" },
   { tag: "Multi-agent", name: "Weave", desc: "Multi-agent workflows that run your business processes in your own AWS account, with people supervising.", href: "/products/weave" },

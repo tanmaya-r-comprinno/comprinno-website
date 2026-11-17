@@ -48,10 +48,10 @@ export const nav: NavGroup[] = [
     ],
   },
   { label: "Industries", href: "/industries" },
+  { label: "Platform", href: "/platform" },
   {
-    label: "Products",
+    label: "Accelerators",
     items: [
-      { label: "Tevico", href: "/products/tevico", hint: "Cloud operations autopilot" },
       { label: "VeriQ", href: "/products/veriq", hint: "Due-diligence questionnaires" },
       { label: "VoxSphere", href: "/products/voxsphere", hint: "Voice AI" },
       { label: "Weave", href: "/products/weave", hint: "Agentic process transformation" },

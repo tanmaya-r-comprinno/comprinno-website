@@ -21,7 +21,7 @@ export const products: Product[] = [
     tagline: "Autopilot for cloud operations",
     desc: "An AI-native managed cloud service run by SRE agents. Routine work runs itself, and high-impact actions wait for human sign-off.",
     icon: "cloud",
-    href: "/products/tevico",
+    href: "/platform",
     features: [
       { title: "SRE agents", desc: "Investigate alerts and attach evidence.", icon: "agent" },
       { title: "Human sign-off", desc: "Approve high-impact actions.", icon: "check" },

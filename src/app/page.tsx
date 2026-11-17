@@ -33,10 +33,16 @@ const proof = proofPicks.flatMap((p) => {
 proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art)) p.art = (p.art + 1) % ART_TILE_COUNT; });
 
 const homeProducts: { name: string; line: string; href: string; screen: string; img?: string }[] = [
-  { name: "Tevico", line: "Autopilot for cloud operations. AI SRE agents manage costs, security and operations under engineering oversight.", href: "/products/tevico", screen: "Tevico dashboard screen", img: "/products/tevico-dashboard.webp" },
   { name: "VeriQ", line: "Prepare evidence-backed answers to customer security questionnaires, with human review.", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
   { name: "VoxSphere", line: "Build voice agents for customer conversations, with human handoff when needed.", href: "/products/voxsphere", screen: "VoxSphere product screen", img: "/products/voxsphere-dashboard.webp" },
   { name: "Weave", line: "Agentic workflows for document-heavy finance and procurement processes, exceptions included.", href: "/products/weave", screen: "Weave run outcome screen", img: "/products/weave-dashboard.webp" },
+];
+
+// home "Platform" section: same wording as the /platform (Tevico) page
+const platformPoints: { title: string; desc: string; icon: IconName }[] = [
+  { title: "Comprinno operates", desc: "Engineers manage the operations, investigations and improvements in your plan.", icon: "users" },
+  { title: "Tevico enables", desc: "The platform consolidates visibility, findings and automation.", icon: "cloud" },
+  { title: "You retain oversight", desc: "Your engagement defines responsibilities, access and approvals.", icon: "eye" },
 ];
 
 const segments: { name: string; desc: string; icon: IconName; href: string }[] = [
@@ -181,15 +187,47 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* 4a · PLATFORM: Tevico-powered managed cloud services. Wording from the /platform page */}
+      <Section tone="surface">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <Eyebrow>Platform</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2] [&_strong]:font-semibold">
+              <strong>Powered by Tevico.</strong> Managed by Comprinno.
+            </h2>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">A secure, reliable, cost-efficient AWS cloud, run by our engineers.</p>
+            <ul className="mt-8 divide-y divide-line border-y border-line">
+              {platformPoints.map((f) => (
+                <li key={f.title} className="flex items-center gap-4 py-4">
+                  <IconTile name={f.icon} />
+                  <span>
+                    <span className="block font-semibold text-ink">{f.title}</span>
+                    <span className="block text-sm text-muted">{f.desc}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href="/platform">Explore the platform →</Button>
+              <Button href={contactHref("Managed services", "/")} variant="ghost">Discuss managed cloud services</Button>
+            </div>
+          </div>
+          {/* plain frame: no hover effect and not a link */}
+          <div className="overflow-hidden border border-line bg-white">
+            <div className="aspect-[16/10] w-full overflow-hidden"><ProductDiagram product="Tevico" /></div>
+          </div>
+        </div>
+      </Section>
+
       {/* 4 · PRODUCTS: animated particle-wave background (low-fi take on the AI landing-page reference) */}
-      <Section tone="surface" background={<ParticleWave />}>
+      <Section background={<ParticleWave />}>
         <SectionHead
-            eyebrow="Products"
+            eyebrow="Accelerators"
             title={<><strong>Accelerators</strong> that take your use case<Br />live in <strong>days, not months</strong>.</>}
             desc="A hardened, production-ready stack you can adopt rather than build from scratch, so your team can focus on what makes your solution different."
           />
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {homeProducts.map((p) => (
             <Link key={p.name} href={p.href} className="card group flex flex-col !p-0 overflow-hidden">
               <div className="aspect-[16/10] w-full overflow-hidden border-b border-line">
