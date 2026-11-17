@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "",
     "/industries",
-    "/products/tevico",
+    "/platform",
     "/resources/case-studies",
     "/resources/blog",
     "/resources/newsroom",

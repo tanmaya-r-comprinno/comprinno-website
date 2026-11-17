@@ -32,6 +32,31 @@ export default function NewsletterStatus({ where, dark = false }: { where: strin
     return () => cancelAnimationFrame(id);
   }, [where]);
 
+  // submit the matching form in the background, so the page doesn't reload and scroll
+  useEffect(() => {
+    const field = document.querySelector<HTMLInputElement>(`form[action="/api/subscribe"] input[name="nl"][value="${where}"]`);
+    const form = field?.form;
+    if (!form) return;
+    const onSubmit = async (e: SubmitEvent) => {
+      e.preventDefault();
+      const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+      if (button) button.disabled = true;
+      setStatus(null);
+      try {
+        const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        const { status: s } = await res.json();
+        setStatus(s);
+        if (s === "ok") form.reset();
+      } catch {
+        setStatus("error");
+      } finally {
+        if (button) button.disabled = false;
+      }
+    };
+    form.addEventListener("submit", onSubmit);
+    return () => form.removeEventListener("submit", onSubmit);
+  }, [where]);
+
   const m = status ? MESSAGES[status] ?? MESSAGES.error : null;
   if (!m) return null;
   const tone = m.ok

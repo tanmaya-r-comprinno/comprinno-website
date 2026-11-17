@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 const shortcuts: { icon: IconName; t: string; d: string; href: string }[] = [
   { icon: "layers", t: "Services", d: "Migrate, modernize, manage and maximize with AI.", href: "/#services" },
   { icon: "chart", t: "Case studies", d: "Production results across cloud and AI.", href: "/resources/case-studies" },
-  { icon: "agent", t: "Products", d: "Tevico, VeriQ, VoxSphere and Weave.", href: "/products/tevico" },
+  { icon: "cloud", t: "Platform", d: "Tevico, the autopilot for cloud operations.", href: "/platform" },
+  { icon: "agent", t: "Accelerators", d: "VeriQ, VoxSphere and Weave.", href: "/products/veriq" },
   { icon: "mail", t: "Contact", d: "Talk to a cloud or AI specialist.", href: "/contact" },
 ];
 
@@ -46,7 +47,7 @@ export default function NotFound() {
       <section className="bg-surface py-14 sm:py-16">
         <Container>
           <p className="text-center font-mono text-xs uppercase tracking-[.14em] text-muted">Or jump straight to</p>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {shortcuts.map((s) => (
               <li key={s.t}>
                 <Link href={s.href} className="card group flex h-full flex-col">

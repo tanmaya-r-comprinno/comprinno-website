@@ -51,7 +51,7 @@ const pages: [string, string][] = [
   ["/stacked-cards-design", "/"], // leftover WordPress page
   ["/startups-saas-isv", "/industries"],
   ["/tech-led-enterprises", "/industries"],
-  ["/tevico-autopilot-for-cloud-operations", "/products/tevico"],
+  ["/tevico-autopilot-for-cloud-operations", "/platform"],
   ["/veriq-comprinno", "/products/veriq"],
   ["/vidmentor", "/"], // CSV: check, product not on the new site
   ["/viewpulse", "/"], // CSV: check, product not on the new site
@@ -75,14 +75,14 @@ const news: [string, string][] = [
 // case studies: renamed, or with no matching page (→ the listing)
 const cases: [string, string][] = [
   ["mantle-labs", "/resources/case-studies/mantle-labs-building-a-gen-ai-infrastructure-for-carbon-credit-calculation"],
-  // these two now have pages (published from the Google Docs), so they go to the story, not the listing
+  // these now have pages (published from the Google Docs), so they go to the story, not the listing
   ["social-media-community-platform-aws-migration-a-governed-highly-available-aws-foundation-for-an-ai-conversational-platform", "/resources/case-studies/governed-highly-available-aws-foundation-for-an-ai-conversational-platform"],
   ["travel-app-aws-migration-engineering-a-resilient-multi-account-foundation-for-a-mobility-platform-on-aws", "/resources/case-studies/resilient-multi-account-foundation-for-a-mobility-platform-on-aws"],
   ["agri-tech-aws-migration-building-a-kubernetes-native-cloud-foundation-for-an-agri-tech-platform-on-aws", "/resources/case-studies"],
   ["healthtech-aws-migration-engineering-a-secure-and-scalable-data-platform-on-aws-for-a-genomics-diagnostics-company", "/resources/case-studies"],
   ["industrial-technology-provider-aws-migration-aws-migration-for-an-industrial-intelligence-provider-building-a-secure-and-resilient-production-environment", "/resources/case-studies"],
   ["iot-aws-migration-zero-downtime-aws-migration-for-a-leading-industrial-intelligence-technology-provider", "/resources/case-studies"],
-  ["it-operations-genai-enabling-agentic-ai-powered-root-cause-analysis-and-intelligent-it-operations-with-amazon-bedrock-agentcore-for-an-it-operations-management-platform", "/resources/case-studies"],
+  ["it-operations-genai-enabling-agentic-ai-powered-root-cause-analysis-and-intelligent-it-operations-with-amazon-bedrock-agentcore-for-an-it-operations-management-platform", "/resources/case-studies/agentic-ai-root-cause-analysis-with-amazon-bedrock-agentcore-for-an-it-operations-platform"],
   ["media-tech-cloud-migration-engineering-a-secure-multi-az-foundation-for-contentlenss-ai-driven-platform-on-aws", "/resources/case-studies"],
 ];
 

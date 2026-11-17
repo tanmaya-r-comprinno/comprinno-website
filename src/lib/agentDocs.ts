@@ -39,7 +39,7 @@ export function llmsTxt(): string {
 
   out.push("", "## Products", "");
   for (const p of products.filter((p) => p.status !== "placeholder" && p.href.startsWith("/products/")))
-    out.push(`- ${link(p.name, p.href)}: ${p.tagline}. ${p.desc}`);
+    out.push(`- ${link(p.name, p.slug === "tevico" ? "/platform" : p.href)}: ${p.tagline}. ${p.desc}`);
 
   out.push("", "## Partnerships", "");
   for (const p of partnerPages.filter((p) => !p.hidden)) out.push(`- ${link(p.name, p.href)}: ${p.badge}. ${p.desc}`);
@@ -66,8 +66,8 @@ export function llmsTxt(): string {
 function homeMd(): string {
   const lines = [`# ${site.name}: ${site.tagline}`, "", site.description, "", "## Services", ""];
   for (const s of services) lines.push(`- **${s.verb ?? s.title}** (${link(s.title, `/services/${s.slug}`)}): ${s.tagline}`);
-  lines.push("", "## Products", "");
-  for (const i of visibleNav("Products")) lines.push(`- ${link(i.label, i.href)}: ${i.hint ?? ""}`);
+  lines.push("", "## Platform", "", `- ${link("Tevico", "/platform")}`, "", "## Accelerators", "");
+  for (const i of visibleNav("Accelerators")) lines.push(`- ${link(i.label, i.href)}: ${i.hint ?? ""}`);
   lines.push("", "## Partnerships", "");
   for (const i of visibleNav("Partnerships")) lines.push(`- ${link(i.label, i.href)}: ${i.hint ?? ""}`);
   lines.push("", "## Resources", "");
@@ -162,6 +162,7 @@ export function pageMarkdown(pathname: string): string | null {
 
   if (path === "/") md = homeMd();
   else if (a === "services" && b && !c) md = serviceMd(b);
+  else if (path === "/platform") md = productMd("tevico");
   else if (a === "products" && b && !c) md = productMd(b);
   else if (a === "partnerships" && b && !c) md = partnerMd(b);
   else if (path === "/resources/blog")

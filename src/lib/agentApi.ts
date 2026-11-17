@@ -34,7 +34,7 @@ type Hit = { kind: Exclude<Kind, "all">; title: string; url: string; summary: st
 function corpus(): Hit[] {
   return [
     ...services.map((s) => ({ kind: "service" as const, title: s.title, url: abs(`/services/${s.slug}`), summary: `${s.tagline} ${s.intro}` })),
-    ...products.filter((p) => p.href.startsWith("/products/")).map((p) => ({ kind: "product" as const, title: p.name, url: abs(p.href), summary: `${p.tagline}. ${p.desc}` })),
+    ...products.filter((p) => p.href.startsWith("/products/")).map((p) => ({ kind: "product" as const, title: p.name, url: abs(p.slug === "tevico" ? "/platform" : p.href), summary: `${p.tagline}. ${p.desc}` })),
     ...caseStudies().map((c) => ({ kind: "case-study" as const, title: c.title, url: abs(`/resources/case-studies/${c.slug}`), summary: `${c.description} Industry: ${c.industry}. Service: ${c.service}.` })),
     ...posts().map((p) => ({ kind: "blog" as const, title: p.title, url: abs(`/resources/blog/${p.slug}`), summary: p.description })),
     ...releases().map((r) => ({ kind: "news" as const, title: r.title, url: abs(`/resources/newsroom/${r.slug}`), summary: r.lead })),

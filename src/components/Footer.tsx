@@ -78,9 +78,11 @@ export default function Footer() {
             {services.map((s) => <Link key={s.slug} href={`/services/${s.slug}`} className={link}>{s.verb}</Link>)}
             <Link href="/industries" className={link}>Industries</Link>
           </nav>
-          <nav aria-label="Products" className={col}>
-            <p className={head}>Products</p>
-            {products.map((p) => <Link key={p.slug} href={p.href} className={link}>{p.name}</Link>)}
+          <nav aria-label="Platform and accelerators" className={col}>
+            <p className={head}>Platform</p>
+            <Link href="/platform" className={link}>Tevico</Link>
+            <p className={`${head} mt-4`}>Accelerators</p>
+            {products.filter((p) => p.slug !== "tevico").map((p) => <Link key={p.slug} href={p.href} className={link}>{p.name}</Link>)}
           </nav>
           <nav aria-label="Resources" className={col}>
             <p className={head}>Resources</p>
