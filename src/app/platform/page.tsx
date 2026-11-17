@@ -82,10 +82,11 @@ export default function TevicoPage() {
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-            <div>
+            {/* min-w-0: the column must not grow past the screen, so long heading lines can wrap */}
+            <div className="min-w-0">
               <Eyebrow>Tevico-powered managed cloud services</Eyebrow>
               <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
-                <strong className="sweep">Powered by Tevico.</strong><br /> Managed by Comprinno.
+                <strong className="sweep">Powered by Tevico.</strong><br />Managed by Comprinno.
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
                 A secure, reliable, cost-efficient AWS cloud, run by our engineers.
