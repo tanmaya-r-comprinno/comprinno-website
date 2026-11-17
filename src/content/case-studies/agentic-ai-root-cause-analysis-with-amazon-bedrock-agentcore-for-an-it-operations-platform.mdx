@@ -1,0 +1,88 @@
+---
+title: "Enabling Agentic AI-Powered Root Cause Analysis and Intelligent IT Operations with Amazon Bedrock AgentCore for an IT operations management platform"
+slug: "agentic-ai-root-cause-analysis-with-amazon-bedrock-agentcore-for-an-it-operations-platform"
+description: "Comprinno built a multi-agent, AI-powered root cause analysis solution on Amazon Bedrock AgentCore that correlates metrics, logs and traces for an IT operations management platform."
+publishedAt: "2026-08-12"
+client: "IT Operations Management Platform"
+industry: "IT Services"
+solutions: ["GenAI"]
+draft: false
+---
+
+## Overview
+
+### Client Overview
+
+The client is an established IT infrastructure monitoring and observability platform provider operating in the IT operations management domain. Its unified platform combines IT Service Management with comprehensive telemetry monitoring across metrics, logs, flow data, and traces, enabling enterprises to gain end-to-end visibility into their IT environments. With a focus on proactive infrastructure management and intelligent automation, the organization supports businesses in improving operational efficiency, strengthening service reliability, and managing increasingly complex IT environments.
+
+## The Challenge
+
+The IT operations management platform required an AI-powered root cause analysis capability to identify the underlying causes of incidents and improve troubleshooting efficiency across complex IT environments. The solution needed to correlate telemetry data across metrics, logs, and traces from dependent services to identify probable root causes and surface supporting evidence. The platform also needed to evaluate the feasibility of using Amazon Bedrock AgentCore as the foundation for an agentic AI-powered RCA solution while assessing accuracy, response time, cost per invocation, and scalability.
+
+The implementation also presented technical challenges around enabling multi-step AI reasoning, integrating multiple operational data sources and AWS services, maintaining conversational context, securely isolating customer environments, and establishing comprehensive monitoring and observability for the agentic workflow. The solution further required a scalable foundation that could support multiple tenants while maintaining appropriate authentication, authorization, data isolation, and operational controls.
+
+## The Solution
+
+To address IT operations management platform’s requirements, Comprinno implemented a Generative AI-powered Root Cause Analysis on AWS using Amazon Bedrock AgentCore and LangGraph. The solution implements a cloud-native, multi-agent architecture designed to investigate operational issues through natural-language interactions and correlate telemetry data across metrics, logs, and traces.
+
+The solution uses a Supervisor Agent to classify user intent, route queries, orchestrate specialist agents, and synthesize responses. Specialized agents provide capabilities across CloudWatch monitoring, Security Hub analysis, AWS Cost Explorer, Trusted Advisor, Jira operations, AWS knowledge retrieval, and deep telemetry investigation. The Investigator Agent performs multi-step SQL-based investigation across OpenTelemetry metrics, logs, and traces stored in PostgreSQL to identify root causes and correlate supporting evidence.
+
+Amazon Bedrock provides the foundation models for the agents, with Anthropic Claude Sonnet 4.5 used for supervisor-level orchestration and Claude Haiku 4.5 used across specialist agents. AgentCore Gateway provides MCP-based tool access, while AgentCore Memory maintains conversational persistence and session context. The architecture also incorporates Amazon ECS Fargate, Amazon RDS for PostgreSQL, Amazon S3, Amazon Cognito, Amazon CloudFront, Amazon API Gateway, and AWS security and observability services.
+
+### Key Actions
+
+**Agentic AI-Powered RCA Implementation**
+
+- Implemented Amazon Bedrock AgentCore and LangGraph to establish the foundation for agentic root cause analysis.
+- Built a Supervisor Agent to classify user intent, route queries, orchestrate specialist agents, and synthesize responses.
+- Developed an Investigator Agent to perform multi-step analysis across metrics, logs, and traces.
+- Enabled evidence-based RCA through correlation of telemetry data stored in PostgreSQL.
+
+**Multi-Agent Intelligent Operations**
+
+- Implemented specialized agents for CloudWatch, Security Hub, Cost Explorer, Trusted Advisor, Jira, AWS Knowledge, and Investigator for RCA investigation.
+- Integrated AgentCore Gateway, MCP servers, and the A2A protocol to enable agents to access operational tools, AWS services, and communicate with other agents.
+- Enabled a unified conversational interface for investigating infrastructure, security, cost, and operational issues.
+
+**Telemetry Correlation & Conversational Memory**
+
+- Implemented AgentCore Memory for semantic facts and session summaries.
+- Maintained conversational context across sessions while isolating memory by user.
+- Applied tenant-aware filtering to ensure RCA investigations access only the relevant customer telemetry.
+
+**Secure Multi-Tenant Architecture**
+
+- Implemented Amazon Cognito for authentication and user identity management.
+- Used temporary STS credentials and AWS Secrets Manager for secure access to tenant AWS environments.
+- Implemented tenant isolation across authentication, AWS resources, memory, and AgentCore runtime execution; telemetry-data queries are tenant-scoped via a sanitized model-layer filter, with database-level isolation (per-tenant role / row-level security) identified as the next hardening step.
+- Applied IAM-based access controls and AWS security services to strengthen the overall architecture.
+
+**Observability, Evaluation & Production Readiness**
+
+- Configured Amazon CloudWatch and AWS X-Ray for centralized logging, monitoring, and distributed tracing across the solution.
+- Enabled AgentCore Observability to monitor agent execution and workflow behavior.
+- Evaluated the solution against RCA accuracy, response time, cost per invocation, concurrency, and scalability criteria.
+- Delivered architecture documentation and knowledge transfer to support ongoing operations and future production deployment.
+
+### Architecture Overview
+
+![AWS architecture diagram: AI-powered root cause analysis on Amazon Bedrock AgentCore and ECS Fargate across three Availability Zones](/images/content/it-operations-rca-agentcore-architecture.png)
+
+Comprinno designed a secure, highly available AWS architecture for IT operations management platform, the AI-powered Root Cause Analysis solution. The architecture is deployed within an Amazon VPC spanning multiple Availability Zones, providing a resilient foundation for the application and AI workflow. Users access the solution through Amazon CloudFront and Amazon S3 for the frontend, while Amazon API Gateway provides the primary API entry point and routes requests to the application layer. The core application processing layer uses Amazon ECS Fargate across multiple Availability Zones within the VPC. The Fargate services orchestrate application requests and interactions with Amazon Bedrock AgentCore and Amazon Bedrock. Amazon Bedrock AgentCore provides the agentic AI execution layer, while Amazon Bedrock provides access to foundation models supporting the AI workflow. Amazon DynamoDB provides managed storage for application and session-related data. Amazon CloudWatch and AWS X-Ray provide monitoring, logging, and distributed tracing. Security and governance are supported by Amazon Cognito, AWS IAM, AWS KMS, AWS Secrets Manager, AWS Config, AWS CloudTrail, Amazon GuardDuty, AWS Security Hub, and AWS Certificate Manager.
+
+Overall, the architecture follows a multi-AZ, managed-services approach combining CloudFront, S3, API Gateway, ECS Fargate, DynamoDB, Bedrock AgentCore, Bedrock, and AWS security and observability services to provide a secure and resilient foundation for IT operations management platform’s AI-powered RCA capabilities.
+
+## Results
+
+### Benefits
+
+- **Faster & Intelligent Root Cause Analysis:** Automates the investigation of operational issues by correlating telemetry across metrics, logs, and traces, helping teams identify probable root causes and supporting evidence faster.
+- **Unified AI-Powered IT Operations:** Brings root cause analysis, infrastructure monitoring, security findings, cost analysis, AWS recommendations, knowledge retrieval, and Jira operations together through a single multi-agent AI framework.
+- **Secure & Resilient Architecture:** Uses a multi-AZ AWS architecture with Amazon Cognito, IAM, KMS, Secrets Manager, GuardDuty, Security Hub, and CloudTrail to provide secure access, data protection, governance, and operational resilience.
+- **Scalable & Observable AI Foundation:** Combines Amazon Bedrock AgentCore, ECS Fargate, API Gateway, DynamoDB, CloudWatch, and X-Ray to provide a scalable managed-services architecture with end-to-end monitoring and visibility into AI and application workflows.
+
+### Conclusion
+
+The IT operations management platform’s GenAI-powered RCA solution demonstrates how Agentic AI can enhance modern IT observability by automating complex investigation and reasoning across operational telemetry and AWS services. By combining Amazon Bedrock AgentCore, Amazon Bedrock, ECS Fargate, API Gateway, DynamoDB, and multiple AWS security and observability services, the solution provides an intelligent foundation for analyzing operational issues and supporting faster root cause identification.
+
+The multi-agent architecture enables specialized AI capabilities across monitoring, security, cost optimization, AWS recommendations, knowledge retrieval, and incident management, while the underlying AWS architecture provides secure access, high availability, monitoring, and scalability. Overall, the solution provides Enabling Agentic AI-Powered Root Cause Analysis and Intelligent IT Operations with Amazon Bedrock AgentCore for an IT operations management platform with a strong technical foundation to validate AI-driven root cause analysis and evolve its observability platform toward more intelligent, automated, and proactive IT operations.
