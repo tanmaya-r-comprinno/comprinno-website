@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button, Container, CtaBand, Eyebrow } from "@/components/ui";
 import GridGlow from "@/components/GridGlow";
-import ArtTile, { tileFor } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 import { caseStudies, SERVICES } from "@/lib/caseStudies";
 import CaseStudyBrowser, { CaseTags } from "./CaseStudyBrowser";
 
@@ -64,7 +64,7 @@ export default function CaseStudiesPage() {
               </dl>
               <span className="btn btn-primary mt-8 self-start">Read the story <span className="go">→</span></span>
             </div>
-            <ArtTile variant={tileFor(featured.slug)} fill className="cs-featured-art" />
+            <ArtTile art={{ slug: featured.slug, title: featured.title, about: featured.service, industry: featured.industry }} fill className="cs-featured-art" />
           </Link>
         </Container>
       </section>

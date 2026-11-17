@@ -11,7 +11,7 @@ import Credentials from "@/components/Credentials";
 import ParticleWave from "@/components/ParticleWave";
 import ProductDiagram from "@/components/ProductDiagram";
 import RainField from "@/components/RainField";
-import ArtTile, { tileFor, ART_TILE_COUNT } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 import { caseStudy } from "@/lib/caseStudies";
 import { serviceIcon } from "@/lib/caseStudyIcons";
 import FooterArt from "@/components/FooterArt";
@@ -69,10 +69,8 @@ const outcomes = [
 const proof = outcomes.flatMap((o) => {
   const slug = o.href.split("/").pop()!;
   const c = caseStudy(slug);
-  return c ? [{ metric: o.v, what: o.d, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: o.href, icon: serviceIcon[c.service] ?? o.icon, art: tileFor(slug) }] : [];
+  return c ? [{ metric: o.v, what: o.d, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: o.href, icon: serviceIcon[c.service] ?? o.icon, art: { slug, title: c.title, about: c.service, industry: c.industry } }] : [];
 });
-// keep the three pictures different from each other
-proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art)) p.art = (p.art + 1) % ART_TILE_COUNT; });
 
 // TODO(marketing): replace each placeholder with an approved quote (wording, name, role and written permission).
 // Paired with the customers already shown in the outcomes above.
@@ -218,7 +216,7 @@ export default function AwsCampaign() {
                   <IconTile name={p.icon} />
                   <span className="tag">{p.track}</span>
                 </div>
-                <ArtTile variant={p.art} className="mt-5" />
+                <ArtTile art={p.art} className="mt-5" />
                 <p className="mt-5 font-semibold leading-snug text-ink">{p.title}</p>
                 <p className="mb-5 mt-1 text-sm text-muted">{p.client}</p>
                 <div className="outcome-result">

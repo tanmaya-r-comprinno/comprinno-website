@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Container, Eyebrow } from "@/components/ui";
 import RainField from "@/components/RainField";
 import NewsletterStatus from "@/components/NewsletterStatus";
-import ArtTile, { tileFor } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 
 export type PostCard = { slug: string; title: string; topic: string; author: string; role: string; initials: string; publishedAt: string; date: string };
 
@@ -33,10 +33,10 @@ export function Author({ name, role, initials, small = false }: { name: string; 
   );
 }
 
-export function PostCardView({ p, art }: { p: PostCard; art?: number }) {
+export function PostCardView({ p }: { p: PostCard }) {
   return (
     <Link href={`/resources/blog/${p.slug}`} className="card group flex h-full flex-col !p-0">
-      <ArtTile variant={art ?? tileFor(p.slug)} fill className="aspect-[16/8] !border-0 !border-b !border-line" />
+      <ArtTile art={{ slug: p.slug, title: p.title, about: p.topic }} fill className="aspect-[16/8] !border-0 !border-b !border-line" />
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center justify-between gap-3">
           <TopicTag topic={p.topic} />
