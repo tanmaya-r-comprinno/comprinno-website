@@ -11,7 +11,7 @@ import { serviceIcon } from "@/lib/caseStudyIcons";
 import LogoMarquee from "@/components/LogoMarquee";
 import ProductDiagram from "@/components/ProductDiagram";
 import { badges } from "@/content/badges";
-import ArtTile, { tileFor, ART_TILE_COUNT } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 import FlowLoop from "@/components/FlowLoop";
 import ParticleWave from "@/components/ParticleWave";
 import RainField from "@/components/RainField";
@@ -27,10 +27,8 @@ const proofPicks: { slug: string; metric: string; what: string }[] = [
 ];
 const proof = proofPicks.flatMap((p) => {
   const c = caseStudy(p.slug);
-  return c ? [{ ...p, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: `/resources/case-studies/${c.slug}`, icon: serviceIcon[c.service], art: tileFor(c.slug) }] : [];
+  return c ? [{ ...p, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: `/resources/case-studies/${c.slug}`, icon: serviceIcon[c.service], art: { slug: c.slug, title: c.title, about: c.service, industry: c.industry } }] : [];
 });
-// keep the three pictures different from each other
-proof.forEach((p, i) => { while (proof.slice(0, i).some((q) => q.art === p.art)) p.art = (p.art + 1) % ART_TILE_COUNT; });
 
 const homeProducts: { name: string; line: string; href: string; screen: string; img?: string }[] = [
   { name: "VeriQ", line: "Prepare evidence-backed answers to customer security questionnaires, with human review.", href: "/products/veriq", screen: "VeriQ product screen", img: "/products/veriq-dashboard.webp" },
@@ -321,7 +319,7 @@ export default function Home() {
                 <IconTile name={p.icon} />
                 <span className="tag">{p.track}</span>
               </div>
-              <ArtTile variant={p.art} className="mt-5" />
+              <ArtTile art={p.art} className="mt-5" />
               <p className="mt-5 font-semibold leading-snug text-ink">{p.title}</p>
               <p className="mb-5 mt-1 text-sm text-muted">{p.client}</p>
               {/* the story's headline result, shown as a labelled data point */}

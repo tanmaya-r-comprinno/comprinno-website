@@ -117,7 +117,7 @@ export default async function BlogPost({ params }: Props) {
             <Link href="/resources/blog#articles" className="text-sm font-semibold text-ink underline underline-offset-4">All articles →</Link>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {more.map((m, i) => <PostCardView key={m.slug} art={(i * 3 + 1) % 10} p={{ slug: m.slug, title: m.title, topic: m.topic, author: m.author, role: m.role, initials: m.initials, publishedAt: m.publishedAt, date: formatDate(m.publishedAt) }} />)}
+            {more.map((m) => <PostCardView key={m.slug} p={{ slug: m.slug, title: m.title, topic: m.topic, author: m.author, role: m.role, initials: m.initials, publishedAt: m.publishedAt, date: formatDate(m.publishedAt) }} />)}
           </div>
         </Container>
       </section>

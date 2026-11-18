@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button, Container, CtaBand, Eyebrow } from "@/components/ui";
 import GridGlow from "@/components/GridGlow";
-import ArtTile, { tileFor } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 import { formatDate, posts, TOPICS } from "@/lib/blog";
 import BlogBrowser from "./BlogBrowser";
 import { Author, Newsletter, TopicTag } from "./BlogParts";
@@ -48,7 +48,7 @@ export default function BlogPage() {
             <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr] lg:gap-8">
               {/* Latest: image-led feature card */}
               <Link href={`/resources/blog/${latest.slug}`} className="card group flex flex-col !p-0">
-                <ArtTile variant={tileFor(latest.slug)} fill className="aspect-[16/7] !border-0 !border-b !border-line" />
+                <ArtTile art={{ slug: latest.slug, title: latest.title, about: latest.topic }} fill className="aspect-[16/7] !border-0 !border-b !border-line" />
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-[0.68rem] uppercase tracking-widest text-[#006bc9]">Latest</span>
@@ -71,7 +71,7 @@ export default function BlogPage() {
                   {recent.map((p) => (
                     <li key={p.slug} className="flex-1">
                       <Link href={`/resources/blog/${p.slug}`} className="card group flex h-full items-center gap-4 !p-3">
-                        <ArtTile variant={tileFor(p.slug)} fill className="aspect-[16/11] w-28 shrink-0 sm:w-32" />
+                        <ArtTile art={{ slug: p.slug, title: p.title, about: p.topic }} fill className="aspect-[16/11] w-28 shrink-0 sm:w-32" />
                         <span className="min-w-0">
                           <TopicTag topic={p.topic} />
                           <span className="mt-2 block line-clamp-2 font-semibold leading-snug text-ink transition-colors group-hover:text-[#006bc9]">{p.title}</span>

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Icon, IconTile } from "@/components/Icon";
 import { serviceIcon } from "@/lib/caseStudyIcons";
-import ArtTile, { tileFor } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 
 export type CaseCard = { slug: string; title: string; client: string; industry: string; service: string };
 
@@ -37,7 +37,7 @@ export function CaseCardView({ c }: { c: CaseCard }) {
         <IconTile name={serviceIcon[c.service] ?? "cloud"} />
         <span className="tag truncate">{c.industry} · {c.service}</span>
       </div>
-      <ArtTile variant={tileFor(c.slug)} className="mt-5" />
+      <ArtTile art={{ slug: c.slug, title: c.title, about: c.service, industry: c.industry }} className="mt-5" />
       <h3 className="mt-5 font-semibold leading-snug text-ink">{c.title}</h3>
       <p className="mt-2 text-sm text-muted">{c.client}</p>
       <p className="mt-auto pt-5 text-sm font-medium text-ink">Read the story <span className="go">→</span></p>

@@ -6,7 +6,7 @@
  */
 import Link from "next/link";
 import { IconTile } from "@/components/Icon";
-import ArtTile, { tileFor, ART_TILE_COUNT } from "@/components/ArtTile";
+import ArtTile from "@/components/ArtTile";
 import { caseStudy } from "@/lib/caseStudies";
 import { serviceIcon } from "@/lib/caseStudyIcons";
 
@@ -19,10 +19,8 @@ export default function OutcomeCards({ picks }: { picks: OutcomePick[] }) {
     const result = p.metric
       ? { label: "Key result", metric: p.metric, what: p.what ?? "" }
       : { label: "Built on", metric: c.builtWith[0] ?? "AWS", what: `${c.service} in ${c.industry}` };
-    return [{ ...c, result, art: tileFor(c.slug) }];
+    return [{ ...c, result, art: { slug: c.slug, title: c.title, about: c.service, industry: c.industry } }];
   });
-  // keep the three pictures different
-  cards.forEach((c, i) => { while (cards.slice(0, i).some((q) => q.art === c.art)) c.art = (c.art + 1) % ART_TILE_COUNT; });
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -32,7 +30,7 @@ export default function OutcomeCards({ picks }: { picks: OutcomePick[] }) {
             <IconTile name={serviceIcon[c.service] ?? "cloud"} />
             <span className="tag truncate">{c.industry} · {c.service}</span>
           </div>
-          <ArtTile variant={c.art} className="mt-5" />
+          <ArtTile art={c.art} className="mt-5" />
           <p className="mt-5 font-semibold leading-snug text-ink">{c.title}</p>
           <p className="mb-5 mt-1 text-sm text-muted">{c.client}</p>
           <div className="outcome-result">

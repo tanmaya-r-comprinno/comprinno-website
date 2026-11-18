@@ -4,6 +4,7 @@ import { Icon, IconTile, type IconName } from "@/components/Icon";
 import { leadership } from "@/content/company";
 import { site } from "@/lib/site";
 import GridGlow from "@/components/GridGlow";
+import BentoHero from "@/components/BentoHero";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -17,19 +18,19 @@ const SHOW_HIDDEN = false as boolean;
 
 
 const values: { title: string; desc: string; icon: IconName }[] = [
-  { title: "Competency", desc: "We pursue mastery and turn deep expertise into real outcomes.", icon: "rocket" },
-  { title: "Innovation", desc: "We challenge the default, test new ideas and scale what works.", icon: "spark" },
-  { title: "Gratitude", desc: "We recognize every opportunity and every contribution, big or small.", icon: "heart" },
-  { title: "Professionalism", desc: "We act with integrity, respect and clear communication in every interaction.", icon: "users" },
-  { title: "Trustworthiness", desc: "We act with transparency and honesty to build long-term trust.", icon: "shield" },
-  { title: "Purpose", desc: "We focus our time and resources on outcomes that move the needle.", icon: "check" },
+  { title: "Being Competent", desc: "We pursue mastery and turn deep expertise into real outcomes.", icon: "rocket" },
+  { title: "Being Professional", desc: "We act with integrity, respect and clear communication in every interaction.", icon: "users" },
+  { title: "Being Innovative", desc: "We challenge the default, test new ideas and scale what works.", icon: "spark" },
+  { title: "Being Trustworthy", desc: "We act with transparency and honesty to build long-term trust.", icon: "shield" },
+  { title: "Being Grateful", desc: "We recognize every opportunity and every contribution, big or small.", icon: "heart" },
+  { title: "Being Purposeful", desc: "We focus our time and resources on outcomes that move the needle.", icon: "check" },
 ];
 
 const fourP: { title: string; desc: string; icon: IconName }[] = [
   { title: "People", desc: "Certified cloud, security and AI specialists who care about customer outcomes.", icon: "users" },
   { title: "Processes", desc: "Repeatable frameworks, from migration factories to DevSecOps pipelines, that deliver consistent results at scale.", icon: "loop" },
   { title: "Products", desc: "Our own AI products: Tevico for cloud operations, VeriQ for due-diligence questionnaires, VoxSphere for support and outbound calls, and Weave for agentic process transformation.", icon: "cube" },
-  { title: "Partners", desc: "Long-term technology alliances that extend what we can deliver for our customers.", icon: "puzzle" },
+  { title: "Partners", desc: "We build long-term technology alliances that expand what we can deliver to our customers.", icon: "puzzle" },
 ];
 
 // TODO: the source page marks these "Pending approval", and they differ from figures used elsewhere on the site (750+ clients, 1,000+ projects, 150+ certifications). Confirm before showing.
@@ -53,16 +54,23 @@ export default function AboutPage() {
       <section className="hero-block relative overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <Container className="py-14 sm:py-20">
-          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-            <Eyebrow>About Comprinno</Eyebrow>
-            <h1 className="mt-5 text-[clamp(1.9rem,4.6vw,3.4rem)] font-normal leading-[1.1] [&_strong]:font-bold">
-              From launch <strong className="sweep">to ascent.</strong>
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              A cloud and AI company from Bengaluru, helping teams migrate, modernize, run and secure their cloud, and put AI into production.
-            </p>
-            <div className="mt-8">
-              <Button href="/contact">Talk to our team →</Button>
+          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-6">
+            <div>
+              <Eyebrow>About Comprinno</Eyebrow>
+              <h1 className="mt-5 text-[clamp(2.1rem,5.2vw,4.2rem)] font-normal leading-[1.05] tracking-[-0.02em] [&_strong]:font-bold">
+                From launch <br className="hidden sm:block" /><strong className="sweep">to ascent.</strong>
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+                A cloud and AI company from Bengaluru, helping teams migrate, modernize, run and secure their cloud, and put AI into production.
+              </p>
+              <div className="mt-8">
+                <Button href="/contact">Talk to our team →</Button>
+              </div>
+            </div>
+
+            {/* life at Comprinno: bento mosaic of photos and data tiles (rough version) */}
+            <div className="mx-auto w-full max-w-[32rem]">
+              <BentoHero />
             </div>
           </div>
         </Container>

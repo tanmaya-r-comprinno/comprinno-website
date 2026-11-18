@@ -38,7 +38,7 @@ export default function BlogBrowser({ cards, topics }: { cards: PostCard[]; topi
 
       {list.length ? (
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {list.slice(0, shown).map((c, i) => <PostCardView key={c.slug} p={c} art={(i * 3) % 10} />)}
+          {list.slice(0, shown).map((c) => <PostCardView key={c.slug} p={c} />)}
         </div>
       ) : (
         <p className="mt-10 border border-dashed border-line-strong p-10 text-center text-sm text-muted">No articles match that search. Try another topic or author.</p>
