@@ -64,7 +64,7 @@ export default function CaseStudiesPage() {
               </dl>
               <span className="btn btn-primary mt-8 self-start">Read the story <span className="go">→</span></span>
             </div>
-            <ArtTile art={{ slug: featured.slug, title: featured.title, about: featured.service, industry: featured.industry }} fill className="cs-featured-art" />
+            <ArtTile art={{ slug: featured.slug, title: featured.title, about: featured.service, industry: featured.industry }} contain className="cs-featured-art" />
           </Link>
         </Container>
       </section>

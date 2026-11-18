@@ -28,7 +28,7 @@ type Scene = "orbit" | "rows" | "bars" | "scan" | "chat" | "flow" | "merge" | "t
 /** What a card is about. All plain strings, so it works in server and client components. */
 export type ArtInput = { slug: string; title: string; about?: string; industry?: string };
 
-type Spec = { scene: Scene; icon: IconName; accent: keyof typeof ACCENTS; label: string; from?: string; to?: string; side: IconName; sats: IconName[]; rnd: () => number };
+type Spec = { scene: Scene; icon: IconName; accent: keyof typeof ACCENTS; label: string; from?: string; to?: string; side: IconName; sats: IconName[]; seed: number };
 
 // which picture: first rule whose words appear in the title / service / topic
 const SCENES: [RegExp, Scene[], IconName, keyof typeof ACCENTS][] = [
@@ -87,7 +87,6 @@ function seeded(seed: number) {
 export function artSpec({ slug, title, about = "", industry = "" }: ArtInput): Spec {
   const text = ` ${title} ${about} `.toLowerCase().replace(/&amp;/g, "&");
   const ind = ` ${industry} ${title} `.toLowerCase();
-  const rnd = seeded(hash(slug));
   const hit = SCENES.find(([re]) => re.test(text));
   const [, scenes, icon, accent] = hit ?? [/./, ["orbit", "stack", "toggles"] as Scene[], "cloud" as IconName, "blue" as const];
   // several sources into one AWS estate, or one of the topic's layouts picked by the story
@@ -105,7 +104,7 @@ export function artSpec({ slug, title, about = "", industry = "" }: ArtInput): S
   // orbit / extra chips: the industry first, then a stable shuffle of the rest
   const rest = POOL.filter((i) => i !== icon && i !== side).sort((a, b) => hash(slug + a) - hash(slug + b));
   const sats = [side, ...rest].slice(0, 6);
-  return { scene, icon: scene === "flow" || scene === "merge" ? fromIcon : icon, accent, label, from, to, side, sats, rnd };
+  return { scene, icon: scene === "flow" || scene === "merge" ? fromIcon : icon, accent, label, from, to, side, sats, seed: hash(slug) };
 }
 
 const CX = 160;
@@ -166,7 +165,9 @@ function Pill({ x, y, t, a, icon, max = 150 }: { x: number; y: number; t: string
 }
 
 function SceneArt({ sp, a, sh }: { sp: Spec; a: Accent; sh: string }) {
-  const { rnd, icon, label } = sp;
+  // a fresh sequence on every draw: React may call this twice (dev), and both draws must match
+  const rnd = seeded(sp.seed);
+  const { icon, label } = sp;
   switch (sp.scene) {
     case "orbit": {
       const cy = 84;
@@ -392,13 +393,21 @@ function SceneArt({ sp, a, sh }: { sp: Spec; a: Accent; sh: string }) {
   }
 }
 
-export default function ArtTile({ art, className = "", fill = false }: { art: ArtInput; className?: string; fill?: boolean }) {
+/**
+ * fill: crop the picture to cover its box (good for boxes close to 16:9).
+ * contain: show the whole picture at its own shape, centred, with the panel and dots
+ * continuing to the box edges (for tall boxes, where cropping would look zoomed in).
+ */
+export default function ArtTile({ art, className = "", fill = false, contain = false }: { art: ArtInput; className?: string; fill?: boolean; contain?: boolean }) {
   const sp = artSpec(art);
   const a = ACCENTS[sp.accent];
   const id = `at${hash(art.slug).toString(36)}`;
   return (
-    <div className={`art-tile ${className}`} style={{ borderColor: "#e6ebf2" }}>
-      <svg viewBox="0 0 320 180" preserveAspectRatio={fill ? "xMidYMid slice" : undefined} className={`block w-full ${fill ? "h-full" : "h-auto"}`} aria-hidden="true">
+    <div
+      className={`art-tile ${contain ? "grid h-full place-items-center" : ""} ${className}`}
+      style={{ borderColor: "#e6ebf2", ...(contain ? { background: `radial-gradient(${DOT} 0.9px, transparent 1.2px) 0 0 / 12px 12px, ${PANEL}` } : {}) }}
+    >
+      <svg viewBox="0 0 320 180" preserveAspectRatio={fill ? "xMidYMid slice" : undefined} className={`block w-full ${fill ? "h-full" : "h-auto"} ${contain ? "scale-[1.12]" : ""}`} aria-hidden="true">
         <defs>
           <pattern id={`${id}-dots`} width="12" height="12" patternUnits="userSpaceOnUse">
             <circle cx="6" cy="6" r=".9" fill={DOT} />
@@ -412,8 +421,8 @@ export default function ArtTile({ art, className = "", fill = false }: { art: Ar
             <feDropShadow dx="0" dy="6" stdDeviation="7" floodColor="#0a134b" floodOpacity=".09" />
           </filter>
         </defs>
-        <rect width="320" height="180" fill={PANEL} />
-        <rect width="320" height="180" fill={`url(#${id}-dots)`} mask={`url(#${id}-fade)`} />
+        {!contain && <rect width="320" height="180" fill={PANEL} />}
+        {!contain && <rect width="320" height="180" fill={`url(#${id}-dots)`} mask={`url(#${id}-fade)`} />}
         <SceneArt sp={sp} a={a} sh={`url(#${id}-sh)`} />
       </svg>
     </div>
