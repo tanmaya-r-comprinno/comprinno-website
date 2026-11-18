@@ -47,7 +47,7 @@ export const timeline = [
 ];
 
 export const values = [
-  "Competency", "Innovation", "Gratitude", "Professionalism", "Trustworthiness", "Purpose",
+  "Being Competent", "Being Professional", "Being Innovative", "Being Trustworthy", "Being Grateful", "Being Purposeful",
 ];
 
 export const fourP = [

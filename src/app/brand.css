@@ -513,3 +513,35 @@
 @keyframes tm-draw { to { stroke-dashoffset: 0; } }
 @keyframes tm-ring { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(1.45); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .thanks-mark * { animation: none !important; stroke-dashoffset: 0 !important; opacity: 1; } .thanks-mark .tm-ring { opacity: 0; } }
+
+/* About hero: bento mosaic (BentoHero.tsx) */
+.bento-stage { perspective: 1400px; }
+.bento-grid { aspect-ratio: 1 / 1.05; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.bento-tile { position: relative; overflow: hidden; border-radius: 20px !important; background: #e3f0fc; box-shadow: 0 1px 0 rgb(255 255 255 / .6) inset, 0 16px 34px -22px rgb(10 19 75 / .5); transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, filter .4s; cursor: pointer; outline: none; isolation: isolate; }
+.bento-tile::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / .22) 50%, transparent 65%); transform: translateX(-120%); }
+.bento-tile.is-up { transform: translateZ(44px) scale(1.04); z-index: 5; box-shadow: 0 34px 64px -26px rgb(10 19 75 / .6); }
+.bento-tile.is-up::after { transform: translateX(120%); transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+.bento-tile:focus-visible { box-shadow: 0 0 0 3px #ffbb00, 0 34px 64px -26px rgb(10 19 75 / .6); }
+.bento-tile.is-back { filter: saturate(.8) brightness(.97); }
+
+/* photos: always-visible caption on a soft scrim */
+.bento-photo img { transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+.bento-photo.is-up img { transform: scale(1.07); }
+.bento-photo::before { content: ""; position: absolute; inset: 45% 0 0; z-index: 1; background: linear-gradient(to top, rgb(10 19 75 / .72), transparent); transition: opacity .4s; }
+.bento-cap { position: absolute; left: .75rem; right: .75rem; bottom: .7rem; z-index: 2; display: flex; align-items: center; gap: .45rem; font-size: .78rem; font-weight: 600; line-height: 1.2; color: #fff; text-shadow: 0 1px 6px rgb(0 0 0 / .35); }
+.bento-cap-dot { width: .45rem; height: .45rem; flex: none; background: #ffbb00; border-radius: 9999px !important; box-shadow: 0 0 0 3px rgb(255 187 0 / .25); }
+
+/* data tiles: deep brand gradients, dot texture, a soft glow */
+.bento-fact { color: #fff; }
+.bento-blue { background: linear-gradient(150deg, #1a8cf0 0%, #006bc9 55%, #0052a3 100%); }
+.bento-navy { background: linear-gradient(150deg, #2b3c9e 0%, #172272 50%, #0a134b 100%); }
+.bento-sky { background: linear-gradient(150deg, #0a7fe0 0%, #005fb8 60%, #003f86 100%); }
+.bento-fact::before { content: ""; position: absolute; inset: 0; z-index: 0; background: radial-gradient(circle at 85% 12%, rgb(255 255 255 / .22), transparent 45%), radial-gradient(rgb(255 255 255 / .12) 1px, transparent 1.2px) 0 0 / 14px 14px; -webkit-mask-image: linear-gradient(160deg, #000 20%, transparent 85%); mask-image: linear-gradient(160deg, #000 20%, transparent 85%); }
+.bento-fact > div { z-index: 1; }
+.bento-icon { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; flex: none; border-radius: 9999px !important; color: #fff; background: rgb(255 255 255 / .16); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .35), 0 6px 14px -6px rgb(0 0 0 / .35); backdrop-filter: blur(6px); transition: transform .4s cubic-bezier(.2,.8,.2,1), background .4s, color .4s; }
+.bento-fact.is-up .bento-icon { transform: rotate(-8deg) scale(1.08); background: #ffbb00; color: #0a134b; box-shadow: 0 8px 18px -6px rgb(255 187 0 / .6); }
+.bento-bar { display: block; width: 1.75rem; height: 3px; background: #ffbb00; transition: width .4s cubic-bezier(.2,.8,.2,1); }
+.bento-fact.is-up .bento-bar { width: 3rem; }
+.bento-desc { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .4s, opacity .4s, margin .4s; }
+.bento-fact.is-up .bento-desc { max-height: 5rem; opacity: 1; margin-top: .45rem; }
+@media (prefers-reduced-motion: reduce) { .bento-grid, .bento-tile, .bento-tile img, .bento-tile::after, .bento-icon, .bento-bar { transition: none; transform: none !important; } }
