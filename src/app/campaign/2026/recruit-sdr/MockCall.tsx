@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import CallPanel, { type CallResult } from "./CallPanel";
+import CallReview from "./CallReview";
 import type { Buyer } from "./voiceAgent";
 
 const buyers: Buyer[] = [
@@ -33,7 +34,8 @@ export default function MockCall() {
   const [inCall, setInCall] = useState(false);
   const [result, setResult] = useState<(CallResult & { id: string }) | null>(null);
   const b = buyers.find((x) => x.id === id)!;
-  const ended = useCallback((r: CallResult) => { setResult({ ...r, id }); setInCall(false); }, [id]);
+  const [reviewing, setReviewing] = useState(false);
+  const ended = useCallback((r: CallResult) => { setResult({ ...r, id }); setInCall(false); setReviewing(true); }, [id]);
   const last = result?.id === id ? result : null;
   const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 
@@ -43,7 +45,7 @@ export default function MockCall() {
         <p className={mono}>01 · Pick your buyer</p>
         <div className="mt-4 grid gap-2">
           {buyers.map((x) => (
-            <button key={x.id} type="button" onClick={() => setId(x.id)} disabled={inCall}
+            <button key={x.id} type="button" onClick={() => { setId(x.id); setReviewing(false); }} disabled={inCall}
               className={`border p-3 text-left transition ${x.id === id ? "border-[#006bc9] bg-[#e3f0fc] [box-shadow:inset_3px_0_0_#006bc9]" : "border-neutral-300 hover:border-[#006bc9]"} ${inCall && x.id !== id ? "opacity-45" : ""} disabled:cursor-not-allowed`}>
               <span className="flex items-center justify-between gap-2">
                 <span className={mono}>{x.seg}</span>
@@ -61,7 +63,12 @@ export default function MockCall() {
           so the card keeps one height: no jump when a call starts or ends */}
       <div className="relative flex min-h-[40rem] flex-col">
       {inCall && <div className="absolute inset-0 z-10"><CallPanel key={id} buyer={b} onEnd={ended} /></div>}
-      <div className={`flex flex-1 flex-col p-5 ${inCall ? "invisible" : ""}`} aria-hidden={inCall}>
+      {!inCall && reviewing && last && (
+        <div className="absolute inset-0 z-10">
+          <CallReview buyer={b} result={last} onRetry={() => { setReviewing(false); setInCall(true); }} onPickAnother={() => setReviewing(false)} />
+        </div>
+      )}
+      <div className={`flex flex-1 flex-col p-5 ${inCall || (reviewing && last) ? "invisible" : ""}`} aria-hidden={inCall || (reviewing && !!last)}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className={mono}>02 · Your AI-prepared brief</p>
           <span className="border border-[#b7e4c7] bg-[#e3f6ec] px-2 py-0.5 font-mono text-[.58rem] uppercase tracking-[.1em] text-[#11804a]">Research done in seconds, not hours</span>

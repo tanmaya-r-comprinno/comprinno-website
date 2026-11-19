@@ -212,4 +212,18 @@ body:has(.campaign) .site-footer { display: none; }
 .vox-btn[aria-pressed="true"] { background: var(--violet); color: #fff; }
 .vox-end { color: #fff; background: linear-gradient(90deg, var(--orchid), #e0467a); box-shadow: 0 8px 22px -10px rgb(217 85 154 / .8); }
 .vox-end:not(:disabled):hover { filter: brightness(1.06); }
+/* call review */
+.vox-radar-shape { transform-origin: center; transform-box: fill-box; animation: vox-pop .7s cubic-bezier(.2,.8,.2,1.1) both; }
+@keyframes vox-pop { from { transform: scale(.2); opacity: 0; } }
+.vox-stat { padding: .55rem .65rem; color: var(--ink); background: #fff; border: 1px solid rgb(108 76 241 / .14); text-align: left; }
+.vox-stat dt { color: var(--slate); font-size: .52rem; }
+.vox-meter { position: relative; display: block; height: 4px; margin-top: .35rem; background: rgb(108 76 241 / .12); }
+.vox-meter > span { display: block; height: 100%; background: linear-gradient(90deg, var(--violet), var(--orchid)); }
+.vox-meter > i { position: absolute; top: -3px; width: 2px; height: 10px; background: var(--ink); opacity: .35; } /* about 45%: a healthy share */
+.vox-moment { background: rgb(255 255 255 / .85); border: 1px solid rgb(108 76 241 / .12); animation: vox-in .4s ease-out both; }
+.vox-moment:nth-child(2) { animation-delay: .08s; } .vox-moment:nth-child(3) { animation-delay: .16s; }
+.vox-mark { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; font-size: .75rem; font-weight: 700; color: #fff; }
+.vox-mark.is-good { background: var(--violet); }
+.vox-mark.is-fix { background: var(--orchid); }
+.vox-next { background: linear-gradient(135deg, rgb(232 227 255 / .9), rgb(217 85 154 / .08)); border: 1px solid rgb(108 76 241 / .2); }
 @media (prefers-reduced-motion: reduce) { .vox *, .vox *::before { animation: none !important; } }
