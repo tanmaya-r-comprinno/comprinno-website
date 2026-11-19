@@ -38,7 +38,7 @@ const facts = [
 ];
 
 const habits = [
-  { t: "“Hi {FirstName}, I hope this email finds you well…”", d: "AI-written templates that sound like everyone else's AI-written templates.", quote: true, icon: "mail" as const },
+  { t: "Templates that all sound the same", d: "“Hi {FirstName}, I hope this email finds you well…” AI-written emails that read like everyone else's.", icon: "mail" as const },
   { t: "Volume as a strategy", d: "Blasting a list because the dashboard likes big numbers. Activity is not pipeline.", icon: "chart" as const },
   { t: "Two hours of research per account", d: "Copy-pasting LinkedIn into a spreadsheet when a workflow could do it before your coffee.", icon: "clock" as const },
 ];
@@ -88,7 +88,7 @@ const fit = [
   "You've worked to a meetings or pipeline target, and you're ready to own one",
   "You've automated at least one part of your own work, and want to do much more",
   "You write clearly and can hold your own with a technical buyer",
-  "You're comfortable selling into the US, with some overlap with US working hours",
+  "If you're assigned to US accounts, you're comfortable with some overlap with US working hours",
 ];
 
 const steps = [
@@ -106,10 +106,10 @@ const faqs = [
   { q: "How is my call evaluated?", a: "On five things: how you open and earn the right to continue, the questions you ask, how you handle the objection, whether you connect our value to the buyer's situation, and whether you land a clear next step. Nobody expects a perfect call; we're looking for how you think on your feet." },
   { q: "I have less than a year of experience. Can I apply?", a: "This role is for people with one to three years in B2B sales or outbound. If you're earlier in your career but take the call and do well, apply anyway and tell us why. A strong call speaks louder than a CV." },
   { q: "Do I need to know cloud or AI already?", a: "No. You need curiosity and the ability to learn fast. In your first month we'll teach you our buyers, our offerings and enough cloud to have a credible first conversation with a CTO." },
-  { q: "Which tools will I use?", a: "HubSpot is our CRM. Beyond that, you'll have room to pick and build with the AI and automation tools that make you faster, and to show the rest of the team what works." },
+  { q: "Which tools will I use?", a: "HubSpot (our CRM), Apollo, SalesHandy, LinkedIn Sales Navigator, SignalHire and Claude. Beyond that, you'll have room to pick and build with the AI and automation tools that make you faster, and to show the rest of the team what works." },
   { q: "Is there a target?", a: "Yes. After your first 30 days you'll own a monthly meetings target. We'll walk you through how it's set, and what good looks like, in the conversation round." },
   { q: "How does pay work?", a: "A fixed salary plus incentives linked to the meetings and pipeline you create. We share the full structure in the conversation round, before you invest any more time." },
-  { q: "Where is the role based, and what are the hours?", a: "Pune or Bangalore, working from our office. You'll sell into India and the US, so expect some overlap with US working hours on a few days a week. We'd rather say that now than pretend time zones don't exist." },
+  { q: "Where is the role based, and what are the hours?", a: "Pune or Bangalore, working from our office. You'll sell into India and the US. If you're assigned to the US, expect some overlap with US working hours on a few days a week. We'd rather say that now than pretend time zones don't exist." },
   { q: "What does growth look like?", a: "The path is SDR, then Senior SDR, then Lead SDR, then Account Executive. Each step is earned by consistently owning your number, and along the way you'll work alongside the engineers who build what you sell, so you learn the product deeply." },
   { q: "What happens in the conversation round?", a: "We talk through your mock call, then walk through a short account plan you've built with AI for one real target account: who to approach, why now, and your first message. It shows us how you think." },
   { q: "How long does the whole process take?", a: "We aim to get back to you within a week of your application, and to make a decision within two weeks of your mock call." },
@@ -178,9 +178,7 @@ export default function SdrPage() {
             {habits.map((h) => (
               <div key={h.t} className="seg-card">
                 <span className="flex items-start justify-between"><IconTile name={h.icon} /><span className="grid h-6 w-6 place-items-center border border-neutral-300 text-xs text-neutral-500" aria-label="Habit to leave behind">×</span></span>
-                {h.quote
-                  ? <p className="mt-4 border border-dashed border-neutral-400 bg-neutral-50 p-3 font-mono text-xs">{h.t}</p>
-                  : <p className="mt-4 font-semibold">{h.t}</p>}
+                <p className="mt-4 font-semibold">{h.t}</p>
                 <p className="mt-2 text-sm text-neutral-600">{h.d}</p>
               </div>
             ))}
@@ -297,8 +295,7 @@ export default function SdrPage() {
                   ))}
                 </div>
               </div>
-              {/* TODO(hr): replace with the approved compensation line */}
-              <p className="pt-4 font-semibold">[Competitive base + uncapped incentives]</p>
+              <p className="pt-4 font-semibold">Competitive base + uncapped incentives</p>
             </div>
           </div>
         </W>

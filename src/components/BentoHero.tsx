@@ -20,7 +20,7 @@ const TILES: Tile[] = [
   { kind: "photo", src: "/about/award-ambassador-stage.webp", caption: "AWS Ambassador recognition", area: "col-start-2 col-span-2 row-start-2 row-span-2" },
   { kind: "fact", tag: "Award", value: "2022", label: "AWS Emerging Star Partner Award", desc: "Recognised by AWS as an Emerging Star Partner in 2022.", icon: "spark", tone: "sky", area: "col-start-1 row-start-3 row-span-2" },
   { kind: "fact", tag: "Trusted by", value: "750+", label: "Brands served", desc: "High-growth and enterprise teams worldwide.", icon: "users", tone: "blue", area: "col-start-2 row-start-4" },
-  { kind: "fact", tag: "Validated", value: "19", label: "Service validations", desc: "AWS-validated services across cloud and AI.", icon: "check", tone: "navy", area: "col-start-3 row-start-4" },
+  { kind: "fact", tag: "Locations", value: "4", label: "India · US · UK", desc: "Offices in Bengaluru and Pune, with a presence in the US and UK.", icon: "pin", tone: "navy", area: "col-start-3 row-start-4" },
 ];
 
 /** icon drawn at a bolder stroke than the site default, for small tiles */

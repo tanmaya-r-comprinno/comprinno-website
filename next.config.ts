@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ...oldSiteRedirects,
+      // campaign pages moved under /campaign/<year>/
+      { source: "/campaign-2026/aws", destination: "/campaign/2026/AWS/AWS-Premier-Tier-Services-Partner", permanent: true },
+      { source: "/recruitment-2026/sdr", destination: "/campaign/2026/recruit-sdr", permanent: true },
       { source: "/tevico", destination: "/platform", permanent: true },
       { source: "/products", destination: "/products/veriq", permanent: true },
       { source: "/products/tevico", destination: "/platform", permanent: true },
