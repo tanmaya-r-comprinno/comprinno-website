@@ -26,7 +26,8 @@ const nextConfig: NextConfig = {
       ...oldSiteRedirects,
       // campaign pages moved under /campaign/<year>/
       { source: "/campaign-2026/aws", destination: "/campaign/2026/AWS/AWS-Premier-Tier-Services-Partner", permanent: true },
-      { source: "/recruitment-2026/sdr", destination: "/campaign/2026/recruit-sdr", permanent: true },
+      { source: "/recruitment-2026/sdr", destination: "/campaigns/2026/recruitment/sdr", permanent: true },
+      { source: "/campaign/2026/recruit-sdr", destination: "/campaigns/2026/recruitment/sdr", permanent: true },
       { source: "/tevico", destination: "/platform", permanent: true },
       { source: "/products", destination: "/products/veriq", permanent: true },
       { source: "/products/tevico", destination: "/platform", permanent: true },
