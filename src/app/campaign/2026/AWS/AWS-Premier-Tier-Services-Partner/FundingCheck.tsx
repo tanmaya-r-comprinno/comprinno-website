@@ -88,7 +88,7 @@ export default function FundingCheck() {
                     // book right here, with the answers attached, instead of jumping back to the hero form
                     <form action="/api/contact" method="post" className="mt-4 grid gap-2.5 sm:grid-cols-2">
                       <input type="hidden" name="topic" value="Funding check" />
-                      <input type="hidden" name="source" value="/campaign-2026/aws#funding" />
+                      <input type="hidden" name="source" value="/campaign/2026/AWS/AWS-Premier-Tier-Services-Partner#funding" />
                       <input type="hidden" name="country" value="Not asked" />
                       <input type="hidden" name="consent" value="yes" />
                       <input type="hidden" name="message" value={`Funding check. Workload: ${a.where}. Project: ${a.type}. AWS spend: ${a.spend}. Suggested: ${result.join("; ")}.`} />

@@ -165,6 +165,51 @@ input[type="email"]:focus-visible { outline: none; }
 /* Hidden desktop dropdowns can extend past a phone screen; never let them cause sideways scrolling (clip keeps the sticky header working) */
 html, body { overflow-x: clip; }
 
-/* Campaign landing pages (/campaign-2026/*) are standalone: hide the main site's header and footer */
+/* Campaign landing pages (/campaign/*) are standalone: hide the main site's header and footer */
 body:has(.campaign) .site-nav,
 body:has(.campaign) .site-footer { display: none; }
+
+/* Mock sales call (recruit-sdr): VoxSphere voice agent palette, light theme, used only here.
+   Violet #6C4CF1 · Orchid #D9559A · Lavender #E8E3FF · Ink #15122E · Slate #77738F */
+.vox { --violet: #6c4cf1; --orchid: #d9559a; --lav: #e8e3ff; --ink: #15122e; --slate: #77738f; color: var(--ink);
+  background: radial-gradient(55% 40% at 50% 20%, rgb(232 227 255 / .9), transparent 70%),
+              radial-gradient(45% 35% at 90% 100%, rgb(217 85 154 / .08), transparent 70%), #fbfaff; }
+.vox::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .7;
+  background-image: radial-gradient(rgb(108 76 241 / .13) 1px, transparent 1px); background-size: 18px 18px;
+  mask-image: radial-gradient(65% 55% at 50% 25%, #000, transparent); }
+.vox .r-full { border-radius: 9999px !important; }
+.vox .r-lg { border-radius: 16px !important; }
+.vox-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .3rem .75rem; font: 500 .62rem/1 var(--font-mono, ui-monospace, monospace);
+  text-transform: uppercase; letter-spacing: .12em; color: var(--violet); background: var(--lav); border: 1px solid rgb(108 76 241 / .18); }
+.vox-dot { width: .45rem; height: .45rem; background: var(--slate); }
+.vox-chip.is-live { color: #b03a78; background: rgb(217 85 154 / .1); border-color: rgb(217 85 154 / .35); }
+.vox-chip.is-live .vox-dot { background: var(--orchid); animation: vox-blink 1.6s ease-out infinite; }
+@keyframes vox-blink { 0% { box-shadow: 0 0 0 0 rgb(217 85 154 / .6); } 100% { box-shadow: 0 0 0 8px rgb(217 85 154 / 0); } }
+.vox-time { font-family: var(--font-inter), system-ui, sans-serif; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums; color: var(--ink); padding: .2rem .65rem; background: rgb(255 255 255 / .8); border: 1px solid rgb(108 76 241 / .14); border-radius: 9999px !important; }
+.vox-progress { background: rgb(108 76 241 / .12); }
+.vox-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--violet), var(--orchid)); transition: width 1s linear; }
+.vox-initials { position: absolute; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; font-size: .9rem; font-weight: 700; color: var(--violet);
+  background: rgb(255 255 255 / .85); box-shadow: 0 4px 16px rgb(108 76 241 / .25); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+
+.vox-log { scrollbar-width: thin; scrollbar-color: rgb(108 76 241 / .3) transparent;
+  mask-image: linear-gradient(transparent, #000 1.5rem); -webkit-mask-image: linear-gradient(transparent, #000 1.5rem); }
+.vox-msg { display: flex; animation: vox-in .3s ease-out; }
+.vox-msg.is-you { justify-content: flex-end; }
+.vox-bubble { max-width: 82%; padding: .55rem .85rem; color: var(--ink); background: #fff; border: 1px solid rgb(108 76 241 / .14);
+  box-shadow: 0 6px 18px -12px rgb(108 76 241 / .45); border-bottom-left-radius: 4px !important; }
+.vox-msg.is-you .vox-bubble { color: #fff; background: linear-gradient(135deg, var(--violet), #8a5cf0); border: 0; border-bottom-left-radius: 16px !important; border-bottom-right-radius: 4px !important; }
+.vox-msg.is-you .vox-bubble.is-interim { color: var(--violet); background: var(--lav); opacity: .85; }
+.vox-name-agent { background: linear-gradient(90deg, var(--violet), var(--orchid)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@keyframes vox-in { from { opacity: 0; transform: translateY(4px); } }
+.vox-dock { background: rgb(255 255 255 / .85); border-top: 1px solid rgb(108 76 241 / .12); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.vox-input { background: #fff; border: 1px solid rgb(108 76 241 / .22); transition: box-shadow .2s, border-color .2s; }
+.vox-input:focus-within { border-color: var(--violet); box-shadow: 0 0 0 3px rgb(108 76 241 / .18); }
+.vox-send { background: var(--violet); color: #fff; }
+.vox-send:not(:disabled):hover { background: #5a3be0; }
+.vox-btn { color: var(--violet); background: var(--lav); border: 1px solid rgb(108 76 241 / .2); transition: background .2s, color .2s; }
+.vox-btn:not(:disabled):hover { background: #ddd5ff; }
+.vox-btn[aria-pressed="true"] { background: var(--violet); color: #fff; }
+.vox-end { color: #fff; background: linear-gradient(90deg, var(--orchid), #e0467a); box-shadow: 0 8px 22px -10px rgb(217 85 154 / .8); }
+.vox-end:not(:disabled):hover { filter: brightness(1.06); }
+@media (prefers-reduced-motion: reduce) { .vox *, .vox *::before { animation: none !important; } }
