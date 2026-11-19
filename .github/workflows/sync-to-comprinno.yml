@@ -34,7 +34,8 @@ jobs:
           set -euo pipefail
           AUTH="$(printf 'x-access-token:%s' "$SOURCE_TOKEN" | base64 -w0)"
           echo "::add-mask::$AUTH"
-          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" \
+          git -c http.https://github.com/.extraheader= \
+            -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" \
             fetch https://github.com/tanmaya-r-comprinno/comprinno-website.git \
             main:refs/remotes/tanmaya/main
           unset AUTH SOURCE_TOKEN
