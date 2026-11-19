@@ -310,7 +310,7 @@ export default function AwsCampaign() {
           <div>
             <Link href="/" aria-label="Comprinno home" className="inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/comprinno-logo-white.webp" alt="Comprinno" width={600} height={125} className="h-8 w-auto" />
+              <img loading="lazy" decoding="async" src="/brand/comprinno-logo-white.webp" alt="Comprinno" width={600} height={125} className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 font-mono text-[.65rem] uppercase tracking-[.1em] text-white/60">ISO 27001 · SOC 2 Type II</p>

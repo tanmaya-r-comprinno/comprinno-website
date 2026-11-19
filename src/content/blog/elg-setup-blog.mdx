@@ -31,7 +31,7 @@ In today’s dynamic digital landscape, efficient log management and centralized
 
 The ELG stack, comprised of Elasticsearch, Logstash, and Grafana, presents a compelling solution to address the complexities of log management and centralized monitoring in AWS environments. This stack offers a comprehensive approach to collecting, parsing, storing, analyzing, and visualizing logs from various sources, enabling organizations to gain actionable insights and monitor their infrastructure effectively.**Summary of the Solution**Our solution revolves around establishing centralized log monitoring for infrastructure utilizing Elasticsearch and Grafana. We deploy both Elasticsearch and Grafana on a centralized EC2 server, ensuring optimal resource allocation. Additionally, we set up Filebeat on the target machine to extract logs from log files. Customized Grafana dashboards offer in-depth insights into log details and service performance across various metrics. This configuration streamlines management processes, ensures uniform monitoring setups, and empowers proactive decision-making, ultimately boosting visibility and facilitating proactive maintenance.The high-level architecture diagram provides a visual representation of the components integrated into our centralized monitoring setup.
 
-![Image](/images/blog/Image-133.png)
+![Image](/images/blog/Image-133.webp)
 
 **Prerequisites**
 
@@ -73,15 +73,15 @@ Now Configure the datasource in Grafana to setup the dashboard.First login to Gr
 
 Now Configure the datasource in Grafana to setup the dashboard.First login to Grafana using default password and navigate to the connection setting page and search for “elasticsearch” and add new data source.
 
-![Image](/images/blog/Image-134.png)
+![Image](/images/blog/Image-134.webp)
 
 Once the data sources is added then we need to create the connection with elasticsearch,In Connection URL add “http://localhost:9200”
 
-![Image](/images/blog/Image-135.png)
+![Image](/images/blog/Image-135.webp)
 
 Save and Test
 
-![Image](/images/blog/Image-136.png)
+![Image](/images/blog/Image-136.webp)
 
 **Configure the Dashboard**
 

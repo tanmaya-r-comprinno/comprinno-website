@@ -57,7 +57,7 @@ SageMaker Python SDK provides several high-level abstractions for working with A
 
 **Proposed Architecture:**
 
-![Image](/images/blog/Picture2-2.png)
+![Image](/images/blog/Picture2-2.webp)
 
 **Deploying a model on AWS cloud:**
 
@@ -535,19 +535,19 @@ Select API Gateway service on AWS console, and select REST API.
 
 Click on Build and select “New API” . In the next window you get, select “Create Resource” from Actions drop-down menu, and enter a Resource Name.
 
-![Image](/images/blog/Picture4.jpg)
+![Image](/images/blog/Picture4.webp)
 
 **Note down the Resource Name you choose.** It will be a part of the URL created by this service and will be used later when we test the deployment from Postman. Here we have chosen resource name as “irisprediction”. After creating the resource, select “Create Method” from Actions drop-down menu.
 
-![Image](/images/blog/Picture5.jpg)
+![Image](/images/blog/Picture5.webp)
 
 Select POST method and “Lambda Function” as Integration type. Enter the name of the Lambda Function you created in the previous steps. Then, select “Deploy API” from the Actions drop-down menu. Select Deployment stage “New Stage” and give some stage name. I chose to enter “test”.
 
-![Image](/images/blog/Picture6.jpg)
+![Image](/images/blog/Picture6.webp)
 
 Then, finally when you click “Deploy”, you will be given a “Invoke URL” as shown below.
 
-![Image](/images/blog/Picture7-1.png)
+![Image](/images/blog/Picture7-1.webp)
 
 Please note down the URL displayed on the window as “Invoke URL”. It will be used in Postman to contact the API gateway, as described below.
 
@@ -575,7 +575,7 @@ In the Body, raw input can be given like :
 
 You can refer to the test_point.csv for sample data. The four numerical parameters given as data are nothing but sample sepal length, sepal width, petal length and petal width of some Iris flower data point.
 
-![Image](/images/blog/Picture8.png)
+![Image](/images/blog/Picture8.webp)
 
 When we send the data, we successfully invoke the deployed model endpoint and receive back the flower prediction as “Setosa” in the example above.
 

@@ -66,7 +66,7 @@ Amazon Bedrock provides the foundation models for the agents, with Anthropic Cla
 
 ### Architecture Overview
 
-![AWS architecture diagram: AI-powered root cause analysis on Amazon Bedrock AgentCore and ECS Fargate across three Availability Zones](/images/content/it-operations-rca-agentcore-architecture.png)
+![AWS architecture diagram: AI-powered root cause analysis on Amazon Bedrock AgentCore and ECS Fargate across three Availability Zones](/images/content/it-operations-rca-agentcore-architecture.webp)
 
 Comprinno designed a secure, highly available AWS architecture for IT operations management platform, the AI-powered Root Cause Analysis solution. The architecture is deployed within an Amazon VPC spanning multiple Availability Zones, providing a resilient foundation for the application and AI workflow. Users access the solution through Amazon CloudFront and Amazon S3 for the frontend, while Amazon API Gateway provides the primary API entry point and routes requests to the application layer. The core application processing layer uses Amazon ECS Fargate across multiple Availability Zones within the VPC. The Fargate services orchestrate application requests and interactions with Amazon Bedrock AgentCore and Amazon Bedrock. Amazon Bedrock AgentCore provides the agentic AI execution layer, while Amazon Bedrock provides access to foundation models supporting the AI workflow. Amazon DynamoDB provides managed storage for application and session-related data. Amazon CloudWatch and AWS X-Ray provide monitoring, logging, and distributed tracing. Security and governance are supported by Amazon Cognito, AWS IAM, AWS KMS, AWS Secrets Manager, AWS Config, AWS CloudTrail, Amazon GuardDuty, AWS Security Hub, and AWS Certificate Manager.
 
