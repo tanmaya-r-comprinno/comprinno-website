@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createAgent, type AgentSession, type Buyer } from "./voiceAgent";
+import { createAgent, type AgentSession, type Buyer, type Turn } from "./voiceAgent";
 import VoxOrb, { type OrbState } from "./VoxOrb";
 
 /* Minimal Web Speech API types (not in TypeScript's DOM lib yet). */
@@ -19,9 +19,9 @@ const getSR = (): (new () => SR) | null => {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 };
 
-type Line = { who: "buyer" | "you"; text: string };
+type Line = Turn;
 type Phase = "connecting" | "ringing" | "live" | "ended";
-export type CallResult = { seconds: number; turns: number; booked: boolean };
+export type CallResult = { seconds: number; turns: number; booked: boolean; lines: Turn[] };
 
 const LIMIT = 5 * 60; // the call ends itself at five minutes
 const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -51,7 +51,7 @@ export default function CallPanel({ buyer, onEnd }: { buyer: Buyer; onEnd: (r: C
   const level = useRef(0); // your mic level, 0 to 1, read by the orb every frame
   const log = useRef<HTMLDivElement>(null);
   // live values for callbacks that outlive a render
-  const live = useRef({ muted: false, speaking: false, ended: false, turns: 0, booked: false, seconds: 0 });
+  const live = useRef({ muted: false, speaking: false, ended: false, turns: 0, booked: false, seconds: 0, lines: [] as Turn[] });
 
   const listen = useCallback(() => {
     const r = rec.current;
@@ -71,12 +71,13 @@ export default function CallPanel({ buyer, onEnd }: { buyer: Buyer; onEnd: (r: C
     audio.current?.close().catch(() => {});
     setPhase("ended");
     setSpeaking(false);
-    onEnd({ seconds: l.seconds, turns: l.turns, booked: l.booked });
+    onEnd({ seconds: l.seconds, turns: l.turns, booked: l.booked, lines: l.lines });
   }, [onEnd]);
 
   // the buyer says a line: into the transcript, then out loud (or a reading-time pause without speech)
   const buyerSays = useCallback((text: string, after?: () => void) => {
     if (live.current.ended && !after) return;
+    live.current.lines.push({ who: "buyer", text });
     setLines((ls) => [...ls, { who: "buyer", text }]);
     setSpeaking(true);
     live.current.speaking = true;
@@ -101,6 +102,7 @@ export default function CallPanel({ buyer, onEnd }: { buyer: Buyer; onEnd: (r: C
     const t = text.trim();
     if (!t || live.current.ended) return;
     live.current.turns++;
+    live.current.lines.push({ who: "you", text: t });
     setLines((ls) => [...ls, { who: "you", text: t }]);
     setInterim("");
     agent.current?.send(t);
@@ -111,7 +113,7 @@ export default function CallPanel({ buyer, onEnd }: { buyer: Buyer; onEnd: (r: C
     let cancelled = false;
     let hangup: (() => void) | null = null;
     const l = live.current;
-    l.ended = false; l.turns = 0;
+    l.ended = false; l.turns = 0; l.lines = [];
 
     agent.current = createAgent(buyer, {
       onSay: (text) => buyerSays(text, hangup ?? undefined),

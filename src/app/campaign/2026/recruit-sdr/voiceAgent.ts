@@ -126,3 +126,110 @@ function createScriptedAgent(buyer: Buyer, ev: AgentEvents): AgentSession {
 }
 
 export const createAgent = createScriptedAgent;
+
+/* ---------------- Call review ----------------
+ * Scores the real transcript on five sales basics, from what the rep actually said.
+ * Rule-based for now; the live agent can return its own scores in the same shape later.
+ */
+export type Turn = { who: "buyer" | "you"; text: string };
+export type Score = { label: string; score: number; tip: string };
+export type Moment = { label: string; quote: string; good: boolean; comment: string };
+export type Review = {
+  scores: Score[]; total: number; note: string;
+  verdict: string;
+  /** share of words spoken by you (0 to 1); good discovery calls sit around 40 to 50% */
+  talk: number; questions: number; facts: number;
+  moments: Moment[];
+  /** a better line to try next time, aimed at the weakest skill */
+  tryNext: { skill: string; line: string };
+};
+
+const QUESTION = /\?|^\s*(what|how|why|when|who|which|where|could|can you|do you|does|are you|is it|is that|would|have you|tell me)\b/i;
+const clamp = (n: number) => Math.max(1, Math.min(5, n));
+
+export function reviewCall(buyer: Buyer, lines: Turn[], booked: boolean): Review {
+  const s = SCRIPTS[buyer.id];
+  const you = lines.filter((l) => l.who === "you").map((l) => l.text);
+  const first = you[0] ?? "";
+  const asked = you.filter((t) => QUESTION.test(t)).length;
+
+  // 1. opening: greeting, who you are, permission, a reason for calling
+  const opening = !first ? 1 : clamp(1
+    + +/\b(hi|hello|hey|good (morning|afternoon|evening))\b/i.test(first)
+    + +/\b(i'?m|i am|my name|this is|calling from|comprinno)\b/i.test(first)
+    + +/(good time|a minute|quick|bad time|is now|seconds|briefly|caught you)/i.test(first)
+    + +/(because|reason|noticed|saw|reaching out|calling about)/i.test(you.slice(0, 2).join(" ")));
+
+  // 2. discovery: how many questions you asked
+  const discovery = clamp(1 + asked);
+
+  // 3. objection: your reply right after the push-back
+  const objIdx = lines.findIndex((l) => l.who === "buyer" && l.text === s.objection);
+  const reply = objIdx >= 0 ? lines.slice(objIdx + 1).find((l) => l.who === "you")?.text : undefined;
+  const objection = !reply ? 1 : clamp(2
+    + +/(understand|fair|makes sense|totally|appreciate|good to hear|great that|got it|i hear you|that's right)/i.test(reply)
+    + +QUESTION.test(reply)
+    - +/(but we|we are better|we're better|cheaper|the best|unlike them|no one else)/i.test(reply)
+    + +(reply.split(" ").length >= 6));
+
+  // 4. value in their words: how much of the research you brought up
+  const hits = s.hooks.filter((h) => you.some((t) => h.match.test(t))).length;
+  const value = [1, 3, 4, 5][hits];
+
+  // 5. next step: did you ask for the meeting, and get it
+  const nextStep = booked ? 5 : you.some((t) => ASK.test(t)) ? 3 : 1;
+
+  const name = buyer.name.split(" ")[0];
+  const scores: Score[] = [
+    { label: "Opening and permission", score: opening, tip: "Open with who you are, why you're calling, and ask if now is a good time." },
+    { label: "Discovery questions", score: discovery, tip: "Ask more before you pitch: what's changing, what's hard, what happens if nothing changes." },
+    { label: "Handling the objection", score: objection, tip: `When ${name} pushed back, acknowledge it and ask why before you answer.` },
+    { label: "Value in their words", score: value, tip: "Use the brief: name the specific things the AI found about their company." },
+    { label: "Clear next step", score: nextStep, tip: "Ask for a specific 30-minute slot. A clear ask gets a clear answer." },
+  ];
+  const total = scores.reduce((a, b) => a + b.score, 0);
+  const weakest = [...scores].sort((a, b) => a.score - b.score)[0];
+
+  let note: string;
+  if (you.length === 0) note = "The call ended before you said anything. Start again and open with who you are and why you're calling.";
+  else {
+    const strong = scores.filter((x) => x.score >= 4).map((x) => x.label.toLowerCase());
+    note = (strong.length ? `Strong ${strong.slice(0, 2).join(" and ")}. ` : "A start. ")
+      + (booked ? "You booked the meeting. " : "")
+      + (weakest.score < 4 ? weakest.tip : "A well-run call. Try a tougher buyer next.");
+  }
+
+  const words = (arr: string[]) => arr.join(" ").split(/\s+/).filter(Boolean).length;
+  const youW = words(you), buyerW = words(lines.filter((l) => l.who === "buyer").map((l) => l.text));
+  const ask = [...you].reverse().find((t) => ASK.test(t));
+  const cut = (t?: string) => (!t ? "" : t.length > 110 ? t.slice(0, 107).trimEnd() + "…" : t);
+
+  const moments: Moment[] = [
+    { label: "Your opening", quote: cut(first), good: opening >= 4,
+      comment: !first ? "You didn't open." : opening >= 4 ? "Clear, polite, with a reason to listen." : "Missing a part: who you are, why you're calling, or asking for time." },
+    { label: `${name}'s push-back`, quote: cut(reply), good: objection >= 4,
+      comment: !reply ? "The call ended before you answered it." : objection >= 4 ? "You heard it out before answering." : "You answered it. Acknowledge it and ask why first." },
+    { label: "The ask", quote: cut(ask), good: booked,
+      comment: booked ? "Specific ask, meeting booked." : ask ? `${name} wasn't ready: show you know the account first.` : "You never asked for the meeting." },
+  ];
+
+  const co = buyer.co.split(" · ")[0];
+  const goal = buyer.goal.replace(/^Book an? /i, "");
+  const LINES: Record<string, string> = {
+    "Opening and permission": `Hi ${name}, this is [your name] from Comprinno. I'll keep it short: I'm calling about something I noticed at ${co}. Is now a bad time?`,
+    "Discovery questions": `Before I tell you anything about us: I read "${buyer.found[1]}". How is the team handling that today?`,
+    "Handling the objection": `That's fair, I hear "${buyer.watch.replace(/\.$/, "")}" a lot. What would have to be true for a second opinion to be worth 30 minutes?`,
+    "Value in their words": `I noticed "${buyer.found[0]}" and "${buyer.found[2]}". Teams in that spot usually feel it first in delivery speed. Is that true for you?`,
+    "Clear next step": `Would Thursday at 11 work for a ${goal}? I'll send the invite with a short agenda.`,
+  };
+  const pick = weakest.score >= 4 ? "Clear next step" : weakest.label;
+
+  return {
+    scores, total, note,
+    verdict: you.length === 0 ? "No call yet" : total >= 21 ? "Ready for the floor" : total >= 15 ? "Close. One fix away" : "Keep practising",
+    talk: youW + buyerW ? youW / (youW + buyerW) : 0,
+    questions: asked, facts: hits,
+    moments,
+    tryNext: { skill: pick, line: LINES[pick] },
+  };
+}
