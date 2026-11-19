@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Br, Button, Container, CtaBand, Eyebrow, Faq, Section, SectionHead } from "@/components/ui";
-import { Icon, IconTile, type IconName } from "@/components/Icon";
+import { IconTile, type IconName } from "@/components/Icon";
 import { leadership } from "@/content/company";
-import { site } from "@/lib/site";
 import GridGlow from "@/components/GridGlow";
 import BentoHero from "@/components/BentoHero";
+import OfficeMap from "@/app/contact/OfficeMap";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/company/about" },
 };
 
-// Hidden for now (kept, not deleted): leadership, offices and the numbers band.
+// Hidden for now (kept, not deleted): leadership and the numbers band.
 const SHOW_HIDDEN = false as boolean;
 
 
@@ -154,23 +154,17 @@ export default function AboutPage() {
             </div>
           </Section>
 
-          {/* OFFICES */}
-          <Section>
-            <SectionHead eyebrow="Offices" title={<><strong>Bengaluru and Pune</strong>,<Br /> serving the world.</>} />
-            <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
-              {site.offices.map((o) => (
-                <div key={o.label} className="card">
-                  <h3 className="flex items-center gap-2 font-semibold"><Icon name="pin" className="h-4 w-4 shrink-0 text-muted" />{o.city} · {o.label}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{o.address}</p>
-                </div>
-              ))}
-            </div>
-          </Section>
         </>
       )}
 
+      {/* OFFICES: same linked world map and office list as the Contact page */}
+      <Section tone="surface" id="offices">
+        <SectionHead eyebrow="Offices" title={<><strong>Bengaluru and Pune</strong>,<Br /> serving the world.</>} desc="Offices in India, the United States and the United Kingdom." />
+        <OfficeMap />
+      </Section>
+
       {/* FAQ */}
-      <Section tone="surface">
+      <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div>
             <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.2]">Questions about <strong className="font-semibold">Comprinno</strong>?</h2>
