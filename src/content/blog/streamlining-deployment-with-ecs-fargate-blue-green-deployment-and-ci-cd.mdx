@@ -79,19 +79,19 @@ Integrating Blue-Green Deployment with ECS Fargate:**********Files to be added i
 
 1. $1
 
-![Image](/images/blog/no-1.jpg)
+![Image](/images/blog/no-1.webp)
 
 1. $1
 
 2. $1
 
-![Image](/images/blog/dev-info.jpg)
+![Image](/images/blog/dev-info.webp)
 
 1. $1
 
 **Changes to be done in existing ****Buildspec.yml:******In the exsisting buildspec.yml file add the below line in the post build commands section to generate imageDetail.json as highlighted in below snapshot:
 
-![Image](/images/blog/no-3.jpg)
+![Image](/images/blog/no-3.webp)
 
 And update the buildspec to save the changes.
 
@@ -99,11 +99,11 @@ And update the buildspec to save the changes.
 
 Now for our codepipeline to utilize  the appspec.yml and taskdef.json file during deployment we need to integrate these files to codedeploy for which in the existing pipeline edit the deployment stage:
 
-![Image](/images/blog/no-5.jpg)
+![Image](/images/blog/no-5.webp)
 
 After that in Amazon ECS task definition and AWS CodeDeploy AppSpec file choose BuildArtifact from the dropdown and if you have given any other name to your taskdef.json and appsepc.yaml manually specify the names besides the BuildArtifact section.Also in the Placeholder text in the task definition write  as highlighted in below snapshot:
 
-![Image](/images/blog/no-6.jpg)
+![Image](/images/blog/no-6.webp)
 
 And update the pipeline to save the changes.
 

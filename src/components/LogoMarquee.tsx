@@ -16,7 +16,7 @@ export default function LogoMarquee() {
             const h = Math.round(c.height * 1.0); // 25% smaller than before (was ×1.35)
             return (
               <li key={`${c.slug}-${i}`} aria-hidden={i >= clientLogos.length} className="logo-item">
-                <Image src={`/clients/${c.slug}.png`} alt={i >= clientLogos.length ? "" : c.name} width={Math.round((h * c.w) / c.h)} height={h} loading="lazy" style={{ height: h, width: "auto" }} />
+                <Image src={`/clients/${c.slug}.webp`} alt={i >= clientLogos.length ? "" : c.name} width={Math.round((h * c.w) / c.h)} height={h} loading="lazy" style={{ height: h, width: "auto" }} />
               </li>
             );
           })}

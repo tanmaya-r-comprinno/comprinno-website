@@ -29,7 +29,7 @@ The AWS Application Migration Service (MGN) streamlines and simplifies the proce
 
 ##### Steps involved in migration using AWS MGN
 
-![Image](/images/blog/Img1-1024x387-1.png)
+![Image](/images/blog/Img1-1024x387-1.webp)
 
 *1 Steps for Migration using AWS MGN*
 
@@ -41,7 +41,7 @@ To confirm that a server can be migrated using AWS MGN, there are several key fa
 
 - *Supported operating systems*: AWS MGN supports a wide range of operating systems, including Windows and Linux. Check that the server you want to migrate is running a supported operating system.
 
-![Image](/images/blog/Img2-1024x502-1.png)
+![Image](/images/blog/Img2-1024x502-1.webp)
 
 *2 Operating systems supported by AWS MGN*
 
@@ -71,7 +71,7 @@ Linux server should meet the below installation requirements:
 
 - *Network connectivity*: Ensure that the server has network connectivity to the AWS environment and that the firewall rules and security groups are configured to allow the migration. Set up VPC and subnet which will be used by AWS MGN as a staging area for data replicated from your source servers to AWS.The replication servers launched by MGN in your Staging Area Subnet need to be able to send data over TCP port 443 to the Application Migration Service API endpoint. The source servers on which the AWS Replication Agent is installed need to be able to send data over TCP port 1500 to the Replication Servers in the Staging Area Subnet.Test and cutover instances are launched in a subnet you specify in the Amazon EC2 launch template associated with each source server.
 
-![Image](/images/blog/img3-1024x646-1.png)
+![Image](/images/blog/img3-1024x646-1.webp)
 
 *3 Sample MGN Network Diagram (Source Credit – *[*AWS Reference Document)*](https://docs.aws.amazon.com/mgn/latest/ug/Network-Settings-Video.html)
 
@@ -85,17 +85,17 @@ Many commercial off-the-shelf (COTS) software applications have licenses that ar
 
 **Prepare**
 
-![Image](/images/blog/img4-1024x243-1.png)
+![Image](/images/blog/img4-1024x243-1.webp)
 
 Now that you have planned the essentials for migrating servers to AWS using MGN, you need to start preparing for the migration.
 
 - *Initial settings to use AWS MGN*: Perform initialization in the AWS account and region that uses AWS MGN. Define templates for settings related to replication (instance to be used and network)
 
-![Image](/images/blog/img5-1024x799-1.png)
+![Image](/images/blog/img5-1024x799-1.webp)
 
 - *Create an IAM access key and run the installation scripts: *Prepare an access key to use during installation. For this, create an IAM user for program execution and grant users an IAM policy for AWS MGN.Download and run the AWS MGN agent installation script on the source server.
 
-![Image](/images/blog/img6-1024x417-1.png)
+![Image](/images/blog/img6-1024x417-1.webp)
 
 - *For agentless migration, install vCenter Client on the source server: *AWS MGN vCenter client is a software bundle that is installed on a dedicated VM in your vCenter environment in order to facilitate agentless replication.
 
@@ -105,7 +105,7 @@ Create an IAM user for program execution and grant users an IAM policy for AWS M
 
 - *Replication: *An initial full replication or synchronization is performed and ongoing changes are synchronized after completion.
 
-![Image](/images/blog/img7-1024x567-1.png)
+![Image](/images/blog/img7-1024x567-1.webp)
 
 **Test**
 

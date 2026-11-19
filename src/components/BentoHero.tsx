@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { iconPath, type IconName } from "@/components/Icon";
 
 /**
- * About hero: a bento mosaic of team photos and brand data tiles in mixed sizes.
+ * About hero: a bento mosaic of award photos and milestone tiles in mixed sizes.
  * The grid tilts gently towards the mouse; hovering a tile lifts it forward with a soft
  * light sweep, photos reveal their caption bar, data tiles reveal a one-line description.
  * Keyboard focus does the same. Static for reduced-motion users.
@@ -14,14 +14,13 @@ type Fact = { kind: "fact"; tag: string; value: string; label: string; desc: str
 type Tile = Photo | Fact;
 
 const TILES: Tile[] = [
-  { kind: "photo", src: "/careers/life-team-huddle.webp", caption: "Team huddle", area: "col-start-1 row-start-1 row-span-2" },
-  { kind: "fact", tag: "Since", value: "2013", label: "Founded", desc: "Over a decade of cloud and AI delivery.", icon: "rocket", tone: "blue", area: "col-start-2 row-start-1" },
-  { kind: "photo", src: "/careers/life-office-floor.webp", caption: "On the office floor", area: "col-start-3 row-start-1 row-span-2" },
-  { kind: "photo", src: "/careers/life-town-hall.webp", caption: "Town hall", area: "col-start-2 row-start-2 row-span-2" },
-  { kind: "fact", tag: "Focus", value: "Cloud + AI", label: "What we build", desc: "Migrate, modernize, run and secure your cloud, and put AI into production.", icon: "cloud", tone: "navy", area: "col-start-1 row-start-3 row-span-2" },
-  { kind: "fact", tag: "Locations", value: "4", label: "India · US · UK", desc: "Offices in Bengaluru and Pune, with a presence in the US and UK.", icon: "pin", tone: "sky", area: "col-start-3 row-start-3" },
-  { kind: "photo", src: "/careers/life-festive-day.webp", caption: "Festive day", area: "col-start-2 row-start-4" },
-  { kind: "photo", src: "/careers/life-cricket-team.webp", caption: "The cricket team", area: "col-start-3 row-start-4" },
+  { kind: "photo", src: "/about/award-gala-2026.webp", caption: "AWS India Partner Gala 2026", area: "col-start-1 row-start-1 row-span-2" },
+  { kind: "fact", tag: "AWS", value: "8", label: "AWS competencies", desc: "Security, Migration, Resilience, GenAI, Cloud Ops, DevOps, MSSP and Data.", icon: "shield", tone: "blue", area: "col-start-2 row-start-1" },
+  { kind: "fact", tag: "Delivered", value: "1,000+", label: "Projects delivered", desc: "Migrations, modernizations and AI builds in production.", icon: "rocket", tone: "navy", area: "col-start-3 row-start-1" },
+  { kind: "photo", src: "/about/award-ambassador-stage.webp", caption: "AWS Ambassador recognition", area: "col-start-2 col-span-2 row-start-2 row-span-2" },
+  { kind: "fact", tag: "Award", value: "2022", label: "AWS Emerging Star Partner Award", desc: "Recognised by AWS as an Emerging Star Partner in 2022.", icon: "spark", tone: "sky", area: "col-start-1 row-start-3 row-span-2" },
+  { kind: "fact", tag: "Trusted by", value: "750+", label: "Brands served", desc: "High-growth and enterprise teams worldwide.", icon: "users", tone: "blue", area: "col-start-2 row-start-4" },
+  { kind: "fact", tag: "Validated", value: "19", label: "Service validations", desc: "AWS-validated services across cloud and AI.", icon: "check", tone: "navy", area: "col-start-3 row-start-4" },
 ];
 
 /** icon drawn at a bolder stroke than the site default, for small tiles */

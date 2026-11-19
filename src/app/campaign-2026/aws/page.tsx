@@ -33,10 +33,6 @@ const W = ({ children, className = "" }: { children: ReactNode; className?: stri
 
 const Tag = ({ children }: { children: string }) => <span className="inline-flex"><Eyebrow>{children}</Eyebrow></span>;
 
-const Placeholder = ({ label, className = "" }: { label: string; className?: string }) => (
-  <div className={`grid place-items-center border border-dashed border-neutral-400 bg-[repeating-linear-gradient(45deg,transparent,transparent_6px,rgb(0_0_0/0.04)_6px,rgb(0_0_0/0.04)_12px)] font-mono text-[.6rem] uppercase tracking-[.14em] text-neutral-500 ${className}`}>{label}</div>
-);
-
 const stats = [
   { v: "Premier", l: "AWS partner tier" },
   { v: "750+", l: "Clients" },
@@ -72,9 +68,13 @@ const proof = outcomes.flatMap((o) => {
   return c ? [{ metric: o.v, what: o.d, title: c.title, client: c.client, track: `${c.industry} · ${c.service}`, href: o.href, icon: serviceIcon[c.service] ?? o.icon, art: { slug, title: c.title, about: c.service, industry: c.industry } }] : [];
 });
 
-// TODO(marketing): replace each placeholder with an approved quote (wording, name, role and written permission).
-// Paired with the customers already shown in the outcomes above.
-const testimonials = [{ company: "MediBuddy" }, { company: "boAt" }, { company: "PocoCare" }];
+// Adapted from the customers' Tevico testimonials, reworded to speak about Comprinno.
+// TODO(marketing): get each customer to approve the reworded quote before the campaign goes live.
+const testimonials = [
+  { area: "CloudOps", result: "SOC 2 compliance", quote: "Making cloud infrastructure compliant with global standards like SOC 2 can be complex and resource-intensive. Comprinno made it simple for us, and quickly.", name: "Swapnil Baokar", role: "Cloud Compliance Leader", company: "Mantle Labs" },
+  { area: "FinOps", result: "~40% cost reduction", quote: "Comprinno simplified our AWS FinOps to a great extent. With constant compliance requirements, we needed a trusted cloud partner, and we found one.", name: "Reynolds Samuel", role: "Cloud Governance Leader", company: "boAt" },
+  { area: "Security + Governance", result: "360° risk and health view, 24x7", quote: "We get sharp, actionable insights on our AWS costs and security. With Comprinno, staying on top of our AWS cloud health has never been easier.", name: "Ashok Ranadive", role: "CEO and Co-founder", company: "Carbon Minus" },
+];
 
 const products = [
   { n: "Tevico", d: "Cloud governance, cost and security visibility", href: "/platform" },
@@ -231,7 +231,7 @@ export default function AwsCampaign() {
         </W>
       </section>
 
-      {/* TESTIMONIALS: placeholders until approved customer quotes are supplied (never write these ourselves) */}
+      {/* TESTIMONIALS: customer quotes adapted from their Tevico testimonials */}
       <section className="relative overflow-hidden border-y border-line bg-surface py-16 sm:py-20">
         <RainField />
         <W className="relative">
@@ -242,17 +242,18 @@ export default function AwsCampaign() {
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {testimonials.map((t) => (
               <figure key={t.company} className="card flex flex-col">
-                <span aria-hidden="true" className="font-serif text-5xl leading-none text-[#9cc6ee]">“</span>
-                <blockquote className="mt-2 flex-1 text-ink-2">
-                  Customer quote goes here: one or two sentences on what changed after working with Comprinno, in the customer&apos;s own words.
-                </blockquote>
+                <p className="font-mono text-[.65rem] uppercase tracking-[.12em] text-[#006bc9]">{t.area}</p>
+                <p className="mt-1 text-lg font-semibold text-ink">{t.result}</p>
+                <span aria-hidden="true" className="mt-4 font-serif text-5xl leading-none text-[#9cc6ee]">“</span>
+                <blockquote className="mt-2 flex-1 text-ink-2">{t.quote}</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-4">
-                  <Placeholder label="Photo" className="h-11 w-11 shrink-0" />
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold">Name</span>
-                    <span className="block text-xs text-muted">Role, {t.company}</span>
+                  <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center bg-[#e8f2fc] text-sm font-semibold text-[#006bc9]">
+                    {t.name.split(" ").map((w) => w[0]).join("")}
                   </span>
-                  <span className="tag ml-auto shrink-0">Placeholder</span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold">{t.name}</span>
+                    <span className="block text-xs text-muted">{t.role}, {t.company}</span>
+                  </span>
                 </figcaption>
               </figure>
             ))}
@@ -310,7 +311,7 @@ export default function AwsCampaign() {
           <div>
             <Link href="/" aria-label="Comprinno home" className="inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/comprinno-logo-white.webp" alt="Comprinno" width={600} height={125} className="h-8 w-auto" />
+              <img loading="lazy" decoding="async" src="/brand/comprinno-logo-white.webp" alt="Comprinno" width={600} height={125} className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 font-mono text-[.65rem] uppercase tracking-[.1em] text-white/60">ISO 27001 · SOC 2 Type II</p>

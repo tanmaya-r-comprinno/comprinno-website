@@ -37,11 +37,11 @@ The higher the MTBF (less frequent failures) and the lower the MTTR (faster reco
 
 **The ultimate goal for improving system availability is to reduce MTTR**, which primarily consists of the detection time (MTTD) and repair time. By minimizing MTTD (quickly detecting failures) and optimizing repair processes (reducing repair time), organizations can enhance their overall system availability.
 
-![Image](/images/blog/MTTD.jpg)
+![Image](/images/blog/MTTD.webp)
 
 In cloud environments, achieving high availability involves a triad of strategies:
 
-![Image](/images/blog/triad.jpg)
+![Image](/images/blog/triad.webp)
 
 ### **Architecting for high-availability**
 
@@ -55,7 +55,7 @@ Unhealthy application logs may not accurately reflect the real user experience; 
 
 One approach to address this is by **utilizing synthetics**. This involves deploying configurable scripts that simulate user traffic to application endpoints, providing a real-time reflection of the customer experience. By monitoring infrastructure and applications while also sending synthetics to microservice APIs, we can emulate customer traffic and promptly detect any deviations from service level agreements (SLAs). This allows for proactive actions to be taken to address performance issues and ensure a consistent and satisfactory user experience.
 
-![Image](/images/blog/Synthetics.jpg)
+![Image](/images/blog/Synthetics.webp)
 
 **AWS CloudWatch Synthetics** enables the creation of canaries, which are configurable scripts that monitor endpoints and simulate user interactions within applications. By defining specific workflows and steps for canaries to perform, such as navigating through applications or making API calls, you can simulate real user traffic at regular intervals. These canaries monitor response times, latency, and overall endpoint health, allowing you to set up CloudWatch alarms based on predefined thresholds for response times or error rates. When deviations are detected, alerts are triggered, and CloudWatch logs provide detailed execution logs to diagnose performance issues and identify root causes swiftly.
 
@@ -71,7 +71,7 @@ In addition to X-Ray, Amazon CloudWatch collects metrics, logs, and events from 
 
 Chaos Engineering is the discipline of experimenting on a software system to build confidence in the system’s capability to withstand turbulent and unpredictable conditions. It is more of an experimental approach for exposing the unknowns rather than testing for the known scenarios.
 
-![Image](/images/blog/Chaos-Engg.jpg)
+![Image](/images/blog/Chaos-Engg.webp)
 
 ### **Final Thoughts**
 

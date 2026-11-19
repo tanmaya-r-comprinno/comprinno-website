@@ -68,7 +68,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* life at Comprinno: bento mosaic of photos and data tiles (rough version) */}
+            {/* awards and milestones: bento mosaic of award photos and data tiles */}
             <div className="mx-auto w-full max-w-[32rem]">
               <BentoHero />
             </div>

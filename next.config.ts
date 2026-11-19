@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   poweredByHeader: false,
   compress: true,
+  // smaller image payloads: AVIF first, WebP fallback, cached a month on the server
+  images: { formats: ["image/avif", "image/webp"], minimumCacheTTL: 2592000 },
   turbopack: {
     rules: {
       "*.css": {
@@ -48,7 +50,13 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    // static images in /public are not content-hashed: cache a week, then revalidate in the background
+    const assetCache = { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" };
     return [
+      ...["images", "clients", "partners", "badges", "products", "brand", "careers", "about"].map((dir) => ({
+        source: `/${dir}/:path*\\.:ext(avif|webp|png|jpg|jpeg|gif|svg|ico)`,
+        headers: [assetCache],
+      })),
       {
         source: "/(.*)",
         headers: [

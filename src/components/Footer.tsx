@@ -33,7 +33,7 @@ export default function Footer() {
           <div>
             <Link href="/" aria-label={`${site.name} home`} className="inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/comprinno-logo-white.webp" alt={site.name} width={600} height={125} className="h-8 w-auto" />
+              <img loading="lazy" decoding="async" src="/brand/comprinno-logo-white.webp" alt={site.name} width={600} height={125} className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 text-sm text-white/70"><span className="whitespace-nowrap">Pune · Bangalore</span> · <span className="whitespace-nowrap">US · UK</span></p>

@@ -19,7 +19,7 @@ Users can conveniently access their AWS accounts remotely through the AWS consol
 
 Employing Virtual Private Network (VPN) as a security measure to mitigate the risk associated with remote access to AWS accounts is a proven method to handle the problem outlined above. A VPN acts as a secure tunnel between the user’s personal device and the company’s network, creating a protected pathway for data transmission.
 
-![Image](/images/blog/img1-1024x653-1.png)
+![Image](/images/blog/img1-1024x653-1.webp)
 
 A secure solution can be implemented using various AWS components to protect against the risk of compromised user credentials. Let’s break down the solution and its working:
 
@@ -37,7 +37,7 @@ When a valid user logs in by establishing a connection to the AWS Client VPN, th
 
 - *IP Whitelisting in IAM*: The request from the VPN reaches the Internet Gateway, which then forwards it to the Identity and Access Management (IAM) service. The IAM policies are configured with IP whitelisting enabled. This means that only requests originating from the static IP of the NAT gateway will be allowed to proceed. The authenticated user will now be able to login to the AWS account and access all the resources.
 
-![Image](/images/blog/img2-1-1.png)
+![Image](/images/blog/img2-1-1.webp)
 
 Now, let’s consider the situation where user credentials are compromised:
 

@@ -53,7 +53,7 @@ There is also a suggestion to use AWS Lambda Layer to move some function depende
 
 **DR planning:**When we consider storing data on AWS, S3 is probably the most commonly used service. That is the reason why, by default, S3 duplicates your data behind the scene to multiple locations within a region. This creates high durability, but data is still vulnerable if your region is affected by a disaster event.In order to make a DR plan, we recommend to use a different AWS account, completely different from the production account and to add an extra caution to that, use a different region for the DR S3 bucket too. This DR s3 bucket in the DR account will store all the deployment packages and can be accessed at the time of recovery.Considering all these real world problems, here is a stable and secure approach to have large lambda deployment packages stored in S3. Making the application easily approachable to global users by taking advantage of S3 cross-region-replication feature.To make the architecture better equipped for disaster response, this solution walks you through cross-account S3 replication. This solution also highlights importance and use of data encryption, IAM roles and required IAM policies.The proposed architecture is as shown below:
 
-![Image](/images/blog/Picture11.png)
+![Image](/images/blog/Picture11.webp)
 
 As per the architecture given above, the detailed workflow is as shown below:
 
@@ -239,7 +239,7 @@ To perform S3 cross-account-replication follow the steps:
 
 - Select use case as ‘Allow S3 to call AWS Services on your behalf’ (as this role will be assumed by S3 for implementing replication rules)
 
-![Image](/images/blog/Picture2-768x295-1.png)
+![Image](/images/blog/Picture2-768x295-1.webp)
 
 - Go to the next.
 
@@ -253,21 +253,21 @@ To perform S3 cross-account-replication follow the steps:
 
 - Set status as ‘Enabled’.
 
-![Image](/images/blog/Picture3-1.png)
+![Image](/images/blog/Picture3-1.webp)
 
 Choose rule scope as “This rule applies to all objects in the bucket” (Choose as needed).
 
-![Image](/images/blog/Picture5-1.png)
+![Image](/images/blog/Picture5-1.webp)
 
 Select the destination to be a bucket in another account. Enter the destination account and the destination bucket name.
 
-![Image](/images/blog/Picture6-1.png)
+![Image](/images/blog/Picture6-1.webp)
 
 - Select option to change object ownership to destination bucket owner.
 
 - Select IAM role as the role created as part of step-1 .
 
-![Image](/images/blog/Picture7.png)
+![Image](/images/blog/Picture7.webp)
 
 - Allow replication rule to replicate the encrypted data.
 
