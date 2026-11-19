@@ -169,7 +169,7 @@ html, body { overflow-x: clip; }
 body:has(.campaign) .site-nav,
 body:has(.campaign) .site-footer { display: none; }
 
-/* Mock sales call (recruit-sdr): VoxSphere voice agent palette, light theme, used only here.
+/* Mock sales call (campaigns/2026/recruitment/sdr): VoxSphere voice agent palette, light theme, used only here.
    Violet #6C4CF1 · Orchid #D9559A · Lavender #E8E3FF · Ink #15122E · Slate #77738F */
 .vox { --violet: #6c4cf1; --orchid: #d9559a; --lav: #e8e3ff; --ink: #15122e; --slate: #77738f; color: var(--ink);
   background: radial-gradient(55% 40% at 50% 20%, rgb(232 227 255 / .9), transparent 70%),
