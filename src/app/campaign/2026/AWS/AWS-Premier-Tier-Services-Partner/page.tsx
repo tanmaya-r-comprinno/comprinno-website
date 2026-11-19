@@ -112,8 +112,10 @@ export default function AwsCampaign() {
       {/* HERO: home-page grid with glowing corners */}
       <section className="relative isolate overflow-hidden border-b border-line">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
-        <W className="grid items-center gap-10 py-14 lg:grid-cols-[1.25fr_1fr] lg:py-20">
-          <div>
+        {/* top-aligned, not centred: the form is taller than many screens, and centring pushed the
+            headline below the fold. On desktop the copy sticks beside the form while it scrolls. */}
+        <W className="grid items-start gap-10 py-14 lg:grid-cols-[1.25fr_1fr] lg:py-16">
+          <div className="lg:sticky lg:top-24 lg:pt-6">
             <Tag>AWS Premier Tier Services Partner</Tag>
             <h1 className="mt-5 [text-wrap:wrap] text-[clamp(2.1rem,4.4vw,3.2rem)] font-normal leading-[1.08] tracking-tight">
               Build on AWS with a<Br /> <strong className="sweep font-bold">Premier Tier</strong> <strong className="font-bold">partner.</strong>
