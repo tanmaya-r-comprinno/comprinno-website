@@ -25,13 +25,13 @@ const buyers: Buyer[] = [
     goal: "Book a 30-minute data and AI discovery call", watch: "Patient data can't leave our systems.",
   },
   {
-    id: "vikram", seg: "Logistics", mood: "Guarded", name: "Vikram Sethi", role: "CFO", initials: "VS", hard: true,
+    id: "vikram", seg: "Logistics", mood: "Guarded", name: "Vikram Sethi", role: "CFO", initials: "VS",
     co: "Ironwood Freight · freight and warehousing (fictional)",
     found: ["Fuel costs cut margins by 2 points this year", "Locked into a 3-year cloud contract, review clause at month 20", "Board wants predictable costs before IPO prep"],
     goal: "Book a 30-minute cost model review with finance", watch: "We're locked into a contract with another partner.",
   },
   {
-    id: "karan", seg: "Insurance", mood: "Hostile", name: "Karan Malhotra", role: "CISO", initials: "KM", hard: true,
+    id: "karan", seg: "Insurance", mood: "Hostile", name: "Karan Malhotra", role: "CISO", initials: "KM",
     co: "NovaShield · digital insurer (fictional)",
     found: ["A competitor had a public data breach last month", "New IRDAI security guidelines due this year", "11 security tools, 4 analysts, constant alert noise"],
     goal: "Book a 30-minute read-only security review", watch: "We don't let vendors near our environment.",
@@ -68,10 +68,7 @@ export default function MockCall() {
             <button key={x.id} type="button" onClick={() => { setId(x.id); setReviewing(false); }} disabled={inCall}
               className={`border p-3 text-left transition ${x.id === id ? "border-[#006bc9] bg-[#e3f0fc] [box-shadow:inset_3px_0_0_#006bc9]" : "border-neutral-300 hover:border-[#006bc9]"} ${inCall && x.id !== id ? "opacity-45" : ""} disabled:cursor-not-allowed`}>
               <span className="flex items-center justify-between gap-2">
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className={mono}>{x.seg}</span>
-                  {x.hard && <span className="bg-neutral-900 px-1.5 py-0.5 text-[.6rem] font-semibold uppercase tracking-[.08em] text-white">Hard</span>}
-                </span>
+                <span className={mono}>{x.seg}</span>
                 <span className={`inline-flex shrink-0 items-center gap-1.5 border px-2 py-0.5 text-[.68rem] font-semibold uppercase tracking-[.06em] ${MOOD[x.mood] ?? "border-neutral-300 bg-white text-neutral-700"}`}>
                   <svg viewBox="0 0 6 6" className="h-1.5 w-1.5" aria-hidden="true"><circle cx="3" cy="3" r="3" fill="currentColor" /></svg>{x.mood}
                 </span>

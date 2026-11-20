@@ -10,8 +10,6 @@
 export type Buyer = {
   id: string; name: string; role: string; initials: string; co: string;
   seg: string; mood: string; found: string[]; goal: string; watch: string;
-  /** harder buyers: need more proof of research before they'll book */
-  hard?: boolean;
 };
 
 export type AgentEvents = {
