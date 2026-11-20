@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Eyebrow } from "@/components/ui";
-import { getHiringManager, linkedinHandle, type HiringManager } from "./keka";
+import { getRecruiter, linkedinHandle, type Recruiter } from "./keka";
 
 /**
  * SDR application, shown as a modal after the mock call.
@@ -42,6 +42,10 @@ const CSS = `
 .am-rise-3 { animation: am-rise .6s .45s cubic-bezier(.2,.8,.2,1) both }
 @keyframes am-ripple { 0% { r: 34px; opacity: .45 } 100% { r: 60px; opacity: 0 } }
 @keyframes am-draw { from { stroke-dashoffset: var(--l) } to { stroke-dashoffset: 0 } }
+@keyframes am-spin { to { transform: rotate(360deg) } }
+@keyframes am-fill { from { width: 0 } to { width: 92% } }
+.am-spin { animation: am-spin .8s linear infinite }
+.am-fill { animation: am-fill 1.4s cubic-bezier(.3,.6,.4,1) both }
 .am-ripple { opacity: 0; animation: am-ripple 1.6s cubic-bezier(.2,.7,.3,1) 1 both }
 .am-draw-ring { --l: 277; stroke-dasharray: 277; animation: am-draw 1s cubic-bezier(.6,0,.2,1) both }
 .am-draw-check { --l: 42; stroke-dasharray: 42; animation: am-draw .4s .85s cubic-bezier(.6,0,.3,1) both }
@@ -207,16 +211,8 @@ function Aside({ call, step }: { call?: CallSummary; step: number }) {
 const LinkedInIcon = <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" /></svg>;
 const MailIcon = <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3.5 6 8.5 7 8.5-7" /></svg>;
 
-function ManagerCard({ m }: { m: HiringManager | null }) {
+function RecruiterCard({ m }: { m: Recruiter }) {
   const [copied, setCopied] = useState(false);
-  if (!m) {
-    return (
-      <div className="flex items-center gap-4 border border-neutral-200 p-4" aria-busy="true">
-        <span className="h-14 w-14 shrink-0 animate-pulse bg-neutral-200" />
-        <div className="flex-1 space-y-2"><span className="block h-3.5 w-1/2 animate-pulse bg-neutral-200" /><span className="block h-3 w-2/3 animate-pulse bg-neutral-100" /></div>
-      </div>
-    );
-  }
   const initials = m.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
   const copy = async () => {
     try { await navigator.clipboard.writeText(m.email); setCopied(true); setTimeout(() => setCopied(false), 1600); } catch { /* clipboard blocked: the mailto link still works */ }
@@ -229,7 +225,7 @@ function ManagerCard({ m }: { m: HiringManager | null }) {
           ? <img src={m.photo} alt="" className="h-14 w-14 shrink-0 object-cover" />
           : <span className="grid h-14 w-14 shrink-0 place-items-center bg-[var(--brand-navy)] text-lg font-semibold text-white">{initials}</span>}
         <div className="min-w-0">
-          <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-[var(--brand-blue)]">Your hiring manager</p>
+          <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-[var(--brand-blue)]">Your recruiter</p>
           <p className="mt-0.5 truncate text-[0.95rem] font-semibold text-[var(--brand-navy)]">{m.name}</p>
           <p className="truncate text-xs text-neutral-500">{m.title}</p>
         </div>
@@ -242,7 +238,7 @@ function ManagerCard({ m }: { m: HiringManager | null }) {
           <span className="ml-auto text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-[#0a66c2]">↗</span>
         </a>
         <div className="flex min-w-0 items-center border-t border-neutral-200">
-          <a href={`mailto:${m.email}?subject=${encodeURIComponent("SDR application")}`}
+          <a href={`mailto:${m.email}?subject=${encodeURIComponent("My SDR application")}`}
             className="flex min-w-0 flex-1 items-center gap-2.5 py-3 pl-4 text-sm text-neutral-700 transition-colors hover:text-[var(--brand-blue)]">
             <span className="text-[var(--brand-blue)]">{MailIcon}</span><span className="truncate">{m.email}</span>
           </a>
@@ -255,7 +251,7 @@ function ManagerCard({ m }: { m: HiringManager | null }) {
   );
 }
 
-function Success({ onClose, name, manager }: { onClose: () => void; name: string; manager: HiringManager | null }) {
+function Success({ onClose, name, recruiter }: { onClose: () => void; name: string; recruiter: Recruiter | null }) {
   return (
     <div role="dialog" aria-modal="true" aria-labelledby="am-done" tabIndex={-1}
       className="am-panel relative w-full max-w-md overflow-hidden bg-white shadow-[0_40px_120px_-20px_rgb(5_10_46_/_.5)] outline-none">
@@ -272,16 +268,13 @@ function Success({ onClose, name, manager }: { onClose: () => void; name: string
           <path d="M46 61 l9.5 9.5 l19 -20" fill="none" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" className="am-draw-check" />
         </svg>
 
-        <p className="am-rise-3 mt-4 inline-flex items-center gap-2 text-xs text-neutral-500">
-          <svg viewBox="0 0 8 8" className="h-1.5 w-1.5" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#10b981" /></svg>Delivered to the hiring team
-        </p>
       </div>
 
       <div className="px-6 pb-6 pt-6 text-center sm:px-8">
         <h3 id="am-done" className="am-rise text-2xl font-semibold tracking-tight !text-[var(--brand-navy)]">Application sent{name ? `, ${name}` : ""}!</h3>
-        <p className="am-rise mx-auto mt-2 max-w-xs text-sm text-neutral-600">Your call and details are with the team. We reply to every applicant within five working days.</p>
-        <div className="mt-6"><ManagerCard m={manager} /></div>
-        <p className="am-rise-3 mt-3 text-xs text-neutral-500">Have a question meanwhile? Say hi on LinkedIn or drop an email.</p>
+        <p className="am-rise mx-auto mt-2 max-w-xs text-sm text-neutral-600">Your call and details are in. The recruiter assigned to this role will reach out within five working days.</p>
+        {recruiter && <div className="mt-6"><RecruiterCard m={recruiter} /></div>}
+        <p className="am-rise-3 mt-3 text-xs text-neutral-500">Questions before then? Reach your recruiter on LinkedIn or by email.</p>
         <button type="button" onClick={onClose} className="am-rise-3 mt-6 w-full bg-[var(--brand-yellow)] py-3 text-sm font-semibold text-[#1c1c1c] transition-colors hover:bg-[var(--brand-ochre)]">Done</button>
       </div>
     </div>
@@ -305,7 +298,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
   const [error, setError] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [first, setFirst] = useState("");
-  const [manager, setManager] = useState<HiringManager | null>(null);
+  const [recruiter, setRecruiter] = useState<Recruiter | null>(null);
   const form = useRef<HTMLFormElement>(null);
   const body = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -382,9 +375,13 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
     data.set("skills", JSON.stringify(skills));
     if (call) data.set("mock_call", JSON.stringify(call));
     setFirst(String(data.get("first_name") || ""));
-    await new Promise((r) => setTimeout(r, 1100));
+    // submit and look up the recruiter together, so the success screen opens complete
+    const [rec] = await Promise.all([
+      getRecruiter().catch(() => null),
+      new Promise((r) => setTimeout(r, 1400)),
+    ]);
+    setRecruiter(rec);
     setState("done");
-    getHiringManager().then(setManager).catch(() => setManager(null));
   };
 
   const isBad = (n: string) => bad.includes(n);
@@ -394,7 +391,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
     <div className="brand am-overlay fixed inset-0 z-[100] flex items-end justify-center bg-[#050a2e]/70 backdrop-blur-md sm:items-center sm:p-6"
       onMouseDown={(e) => e.target === e.currentTarget && close()}>
       <style>{CSS}</style>
-      {state === "done" ? <Success onClose={close} name={first} manager={manager} /> : (
+      {state === "done" ? <Success onClose={close} name={first} recruiter={recruiter} /> : (
       <div ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-label={`Apply: ${ROLE.title}`}
         className="am-panel grid h-[94vh] w-full max-w-5xl overflow-hidden bg-white shadow-[0_40px_120px_-20px_rgb(5_10_46_/_.6)] outline-none sm:h-[min(52rem,92vh)] lg:grid-cols-[22rem_1fr]">
 
@@ -611,10 +608,18 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                   ? <button type="button" onClick={() => go(step - 1)} className="px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900">← Back</button>
                   : <span className="hidden text-xs text-neutral-500 sm:block">Takes about 3 minutes</span>}
                 <p className="min-w-0 flex-1 truncate text-right text-sm text-red-600" role="alert">{error}</p>
-                <button type="submit" disabled={state === "sending"}
-                  className="group relative inline-flex shrink-0 items-center gap-2 overflow-hidden bg-[var(--brand-yellow)] px-7 py-3.5 text-sm font-semibold text-[#1c1c1c] shadow-[0_8px_24px_-8px_rgb(255_187_0_/_.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--brand-ochre)] disabled:translate-y-0 disabled:opacity-70">
+                <button type="submit" disabled={state === "sending"} aria-busy={state === "sending"}
+                  className="group relative inline-flex min-w-[12.5rem] shrink-0 items-center justify-center gap-2 overflow-hidden bg-[var(--brand-yellow)] px-7 py-3.5 text-sm font-semibold text-[#1c1c1c] shadow-[0_8px_24px_-8px_rgb(255_187_0_/_.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--brand-ochre)] disabled:translate-y-0 disabled:cursor-wait disabled:hover:bg-[var(--brand-yellow)]">
                   {state === "sending" ? (
-                    <><span className="h-4 w-4 animate-spin rounded-full border-2 border-[#1c1c1c]/25 border-t-[#1c1c1c]" />Sending…</>
+                    <>
+                      {/* progress fills the button from left to right */}
+                      <span aria-hidden="true" className="am-fill absolute inset-y-0 left-0 bg-[var(--brand-ochre)]/45" />
+                      <svg viewBox="0 0 20 20" className="am-spin relative h-4 w-4" aria-hidden="true">
+                        <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeOpacity=".2" strokeWidth="2.5" />
+                        <path d="M10 2a8 8 0 0 1 8 8" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                      </svg>
+                      <span className="relative">Submitting…</span>
+                    </>
                   ) : step < 2 ? (
                     <>Continue <span className="transition-transform group-hover:translate-x-1">→</span></>
                   ) : (

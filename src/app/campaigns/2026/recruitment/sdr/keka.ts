@@ -5,7 +5,8 @@
  * route handlers (e.g. /api/careers/...), which talk to Keka server-side.
  */
 
-export type HiringManager = {
+/** The recruiter assigned to the job posting in Keka; they contact the candidate. */
+export type Recruiter = {
   name: string;
   title: string;
   email: string;      // company email
@@ -17,16 +18,16 @@ export type HiringManager = {
 export const SDR_JOB_ID = "sdr-2026";
 
 /** Sample data, shown until the Keka endpoint is wired. Replace, don't ship. */
-const SAMPLE: HiringManager = {
-  name: "Hiring Manager",
-  title: "Head of Sales Development",
+const SAMPLE: Recruiter = {
+  name: "Comprinno Talent Team",
+  title: "Talent Acquisition",
   email: "careers@comprinno.net",
   linkedin: "https://www.linkedin.com/company/comprinno/",
 };
 
-/** Hiring manager for a job posting. */
-export async function getHiringManager(jobId = SDR_JOB_ID): Promise<HiringManager> {
-  // TODO(keka): const res = await fetch(`/api/careers/jobs/${jobId}/hiring-manager`); return res.json();
+/** Recruiter assigned to a job posting. */
+export async function getRecruiter(jobId = SDR_JOB_ID): Promise<Recruiter> {
+  // TODO(keka): const res = await fetch(`/api/careers/jobs/${jobId}/recruiter`); return res.json();
   void jobId;
   return SAMPLE;
 }
