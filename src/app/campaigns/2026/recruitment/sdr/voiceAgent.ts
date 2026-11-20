@@ -10,6 +10,8 @@
 export type Buyer = {
   id: string; name: string; role: string; initials: string; co: string;
   seg: string; mood: string; found: string[]; goal: string; watch: string;
+  /** harder buyers: need more proof of research before they'll book */
+  hard?: boolean;
 };
 
 export type AgentEvents = {
@@ -40,6 +42,12 @@ type Script = {
   booked: string;
   /** buyer runs out of time without a meeting */
   close: string;
+  /** research hooks the rep must land before an ask works (default 1) */
+  need?: number;
+  /** turns before the buyer gives up (default MAX_TURNS) */
+  patience?: number;
+  /** said when the rep asks for the meeting too early */
+  tooSoon?: string;
 };
 
 const SCRIPTS: Record<string, Script> = {
@@ -91,6 +99,46 @@ const SCRIPTS: Record<string, Script> = {
     booked: "That sounds useful. Let's do a thirty-minute discovery call. Please send an invite and I'll bring our data lead.",
     close: "Thanks for calling. Send me some material on how you handle patient data and I'll share it with the team.",
   },
+  vikram: {
+    opener: "Vikram Sethi. I sign the cheques here, so I'll be blunt: I have three minutes and I only care about numbers.",
+    objection: "We're eighteen months into a three-year contract with another partner. Switching costs alone kill this. Why are we still talking?",
+    hooks: [
+      { match: /fuel|margin|cost per|unit cost|ebitda|percent|%|crore|lakh|saving|spend|bill/i, reply: "Margins are down two points on fuel alone. If you can show me a real number on infrastructure, I'll listen. A real number, not a range." },
+      { match: /contract|renewal|exit|switch|lock|commit|term|notice/i, reply: "You've clearly read something. The contract has a review clause at month twenty. That's the only window, and it's close." },
+      { match: /warehouse|tracking|route|telemetry|iot|sensor|fleet|real-?time/i, reply: "The tracking platform is the expensive part. Our board keeps asking why it costs more each quarter while loads stay flat." },
+      { match: /ipo|board|investor|audit|cfo|finance team|forecast/i, reply: "The board wants predictable costs before the IPO prep. Unpredictable cloud spend is exactly what they hate." },
+    ],
+    nudges: [
+      "That's a pitch, not a number. What would you save us, and how sure are you?",
+      "Every partner claims savings. Our current one did too. What's different?",
+      "If I take this to my board, what's the one line I put on the slide?",
+      "You're spending my three minutes on yourself. Talk about my business.",
+    ],
+    booked: "Fine. Thirty minutes with my finance controller, before the review window. Come with a cost model, not slides. Send the invite.",
+    close: "I don't hear a number, so I don't have a reason. Email my office and I'll forward it to procurement.",
+    tooSoon: "A meeting? You haven't told me a single thing about my business yet. Earn it.",
+    need: 2, patience: 6,
+  },
+  karan: {
+    opener: "This is Karan. You're the third cold call this week. I'll give you thirty seconds before I hang up.",
+    objection: "We don't let vendors anywhere near our environment. Security reviews take six months, and most firms fail them. So, no.",
+    hooks: [
+      { match: /breach|incident|attack|ransom|phish|leak|exposed/i, reply: "You saw the news about the competitor breach, then. Yes, our board asked me the next morning whether that could be us." },
+      { match: /irdai|regulat|complian|audit|guideline|cert-?in|iso|soc/i, reply: "The new IRDAI guidelines are on my desk. The deadline is real and the gap list is long." },
+      { match: /tool|sprawl|siem|alert|soc team|analyst|noise|fatigue|consolidat/i, reply: "Eleven security tools, four analysts. Most of their day is closing alerts that don't matter. That's the honest picture." },
+      { match: /claim|fraud|ai|model|genai|underwrit/i, reply: "The claims AI project worries me more than anything. The business wants it live and nobody has thought about the data." },
+    ],
+    nudges: [
+      "That's what every vendor says. Why should I trust you with a single log file?",
+      "You're still not telling me anything I don't know. Twenty seconds.",
+      "Which insurer have you actually done this for? Names, or I'm going.",
+      "Generic. I've heard this exact line twice already this week.",
+    ],
+    booked: "Alright. Thirty minutes, read-only, no access to anything. Bring your security team, not your sales team. Send the invite.",
+    close: "I've heard nothing that changes my mind. Don't call again. Email if you must.",
+    tooSoon: "You want my calendar and you haven't said one thing about my environment. Hard no.",
+    need: 2, patience: 6,
+  },
 };
 
 /** asking for the meeting: a time, a slot, a calendar invite */
@@ -116,10 +164,12 @@ function createScriptedAgent(buyer: Buyer, ev: AgentEvents): AgentSession {
       if (turn === 1) return say(s.objection);
       const hook = s.hooks.findIndex((h, i) => !used.has(i) && h.match.test(text));
       if (hook >= 0) { used.add(hook); warmth++; return say(s.hooks[hook].reply); }
-      // the meeting lands once the rep has shown they know the account (at least one hook)
-      if (ASK.test(text) && warmth > 0) { done = true; return say(s.booked, () => { ev.onBooked(); ev.onHangup(); }); }
-      if (turn >= MAX_TURNS) { done = true; return say(s.close, ev.onHangup); }
-      say(ASK.test(text) ? "Before I give you time, tell me why this matters for us specifically." : s.nudges[nudge++ % s.nudges.length]);
+      // the meeting lands once the rep has shown they know the account (hard buyers need more)
+      if (ASK.test(text) && warmth >= (s.need ?? 1)) { done = true; return say(s.booked, () => { ev.onBooked(); ev.onHangup(); }); }
+      if (turn >= (s.patience ?? MAX_TURNS)) { done = true; return say(s.close, ev.onHangup); }
+      say(ASK.test(text)
+        ? (s.tooSoon && warmth === 0 ? s.tooSoon : "Before I give you time, tell me why this matters for us specifically.")
+        : s.nudges[nudge++ % s.nudges.length]);
     },
     end() { done = true; timers.forEach(clearTimeout); },
   };
@@ -228,7 +278,7 @@ export function reviewCall(buyer: Buyer, lines: Turn[], booked: boolean): Review
     scores, total, note,
     verdict: you.length === 0 ? "No call yet" : total >= 21 ? "Ready for the floor" : total >= 15 ? "Close. One fix away" : "Keep practising",
     talk: youW + buyerW ? youW / (youW + buyerW) : 0,
-    questions: asked, facts: hits,
+    questions: asked, facts: Math.min(hits, buyer.found.length),
     moments,
     tryNext: { skill: pick, line: LINES[pick] },
   };

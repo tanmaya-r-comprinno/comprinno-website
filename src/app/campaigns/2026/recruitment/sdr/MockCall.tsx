@@ -24,9 +24,29 @@ const buyers: Buyer[] = [
     found: ["Opening 40 new collection centres this year", "Reports still compiled by hand each week", "Exploring GenAI for report summaries"],
     goal: "Book a 30-minute data and AI discovery call", watch: "Patient data can't leave our systems.",
   },
+  {
+    id: "vikram", seg: "Logistics", mood: "Guarded", name: "Vikram Sethi", role: "CFO", initials: "VS", hard: true,
+    co: "Ironwood Freight · freight and warehousing (fictional)",
+    found: ["Fuel costs cut margins by 2 points this year", "Locked into a 3-year cloud contract, review clause at month 20", "Board wants predictable costs before IPO prep"],
+    goal: "Book a 30-minute cost model review with finance", watch: "We're locked into a contract with another partner.",
+  },
+  {
+    id: "karan", seg: "Insurance", mood: "Hostile", name: "Karan Malhotra", role: "CISO", initials: "KM", hard: true,
+    co: "NovaShield · digital insurer (fictional)",
+    found: ["A competitor had a public data breach last month", "New IRDAI security guidelines due this year", "11 security tools, 4 analysts, constant alert noise"],
+    goal: "Book a 30-minute read-only security review", watch: "We don't let vendors near our environment.",
+  },
 ];
 
 const mono = "font-mono text-[.62rem] uppercase tracking-[.12em] text-neutral-500";
+// each buyer's temperament gets its own colour so it reads at a glance
+const MOOD: Record<string, string> = {
+  Busy: "border-amber-300 bg-amber-50 text-amber-800",
+  Skeptical: "border-rose-300 bg-rose-50 text-rose-700",
+  Curious: "border-emerald-300 bg-emerald-50 text-emerald-700",
+  Guarded: "border-violet-300 bg-violet-50 text-violet-700",
+  Hostile: "border-red-400 bg-red-50 text-red-700",
+};
 
 /** Buyer picker + AI brief; starting the call swaps the brief for the live call screen (CallPanel). */
 export default function MockCall() {
@@ -48,8 +68,13 @@ export default function MockCall() {
             <button key={x.id} type="button" onClick={() => { setId(x.id); setReviewing(false); }} disabled={inCall}
               className={`border p-3 text-left transition ${x.id === id ? "border-[#006bc9] bg-[#e3f0fc] [box-shadow:inset_3px_0_0_#006bc9]" : "border-neutral-300 hover:border-[#006bc9]"} ${inCall && x.id !== id ? "opacity-45" : ""} disabled:cursor-not-allowed`}>
               <span className="flex items-center justify-between gap-2">
-                <span className={mono}>{x.seg}</span>
-                <span className="border border-neutral-300 px-1.5 py-0.5 font-mono text-[.6rem] text-neutral-600">{x.mood}</span>
+                <span className="flex min-w-0 items-center gap-2">
+                  <span className={mono}>{x.seg}</span>
+                  {x.hard && <span className="bg-neutral-900 px-1.5 py-0.5 text-[.6rem] font-semibold uppercase tracking-[.08em] text-white">Hard</span>}
+                </span>
+                <span className={`inline-flex shrink-0 items-center gap-1.5 border px-2 py-0.5 text-[.68rem] font-semibold uppercase tracking-[.06em] ${MOOD[x.mood] ?? "border-neutral-300 bg-white text-neutral-700"}`}>
+                  <svg viewBox="0 0 6 6" className="h-1.5 w-1.5" aria-hidden="true"><circle cx="3" cy="3" r="3" fill="currentColor" /></svg>{x.mood}
+                </span>
               </span>
               <span className="mt-1 block text-sm font-semibold text-neutral-900">{x.name} · {x.role}</span>
               <span className="block text-xs text-neutral-500">{x.co}</span>

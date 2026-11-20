@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { CallResult } from "./CallPanel";
+import ApplyModal from "./ApplyModal";
 import { reviewCall, type Buyer, type Score } from "./voiceAgent";
-
-// TODO(hr): point this at the SDR job posting on Keka once it's live
-const APPLY_URL = "https://comprinno.keka.com/careers/";
 
 const mono = "font-mono text-[.6rem] uppercase tracking-[.12em]";
 const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -50,6 +48,7 @@ export default function CallReview({ buyer, result, onRetry, onPickAnother }: {
 }) {
   const r = useMemo(() => reviewCall(buyer, result.lines, result.booked), [buyer, result]);
   const first = buyer.name.split(" ")[0];
+  const [applying, setApplying] = useState(false);
   const talk = Math.round(r.talk * 100);
 
   return (
@@ -111,11 +110,14 @@ export default function CallReview({ buyer, result, onRetry, onPickAnother }: {
         </div>
       </div>
 
-      <div className="vox-dock relative flex shrink-0 flex-wrap items-center justify-end gap-2 px-4 py-3 sm:px-5">
-        <button type="button" onClick={onRetry} className="vox-btn r-full mr-auto px-4 py-2.5 text-sm font-medium">↻ Call {first} again</button>
-        <button type="button" onClick={onPickAnother} className="vox-btn r-full px-4 py-2.5 text-sm font-medium">Another buyer</button>
-        <a href={APPLY_URL} target="_blank" rel="noopener noreferrer" className="vox-send r-full px-5 py-2.5 text-sm font-semibold">Apply with this call →</a>
+      {/* phone: two equal secondaries, full-width primary below. sm+: one row, primary on the right */}
+      <div className="vox-dock relative grid shrink-0 grid-cols-2 gap-2 px-4 py-3 sm:flex sm:items-center sm:justify-end sm:px-5">
+        <button type="button" onClick={onRetry} className="vox-btn r-full truncate px-3 py-2.5 text-sm font-medium sm:mr-auto sm:px-4">↻ Call {first} again</button>
+        <button type="button" onClick={onPickAnother} className="vox-btn r-full truncate px-3 py-2.5 text-sm font-medium sm:px-4">Another buyer</button>
+        <button type="button" onClick={() => setApplying(true)} className="vox-send r-full col-span-2 px-5 py-3 text-sm font-semibold sm:py-2.5">Apply with this call →</button>
       </div>
+      <ApplyModal open={applying} onClose={() => setApplying(false)}
+        call={{ buyer: buyer.name, verdict: r.verdict, total: r.total, seconds: result.seconds, booked: result.booked }} />
     </div>
   );
 }

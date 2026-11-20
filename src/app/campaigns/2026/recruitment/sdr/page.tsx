@@ -170,6 +170,25 @@ export default function SdrPage() {
         </W>
       </section>
 
+      {/* VoxSphere strip */}
+      <section className="brand-dark py-10 sm:py-12">
+        <W className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+          <div className="flex min-w-0 flex-1 flex-col gap-4">
+            <p className="inline-flex items-center gap-2.5 self-start border border-white/25 px-3.5 py-2 font-mono text-[0.85rem] text-white">
+              <span className="h-2 w-2 bg-[var(--brand-yellow)]" aria-hidden="true" />
+              Powered by VoxSphere. Delivered by Comprinno.
+            </p>
+            <p className="text-[1.25rem] leading-snug text-white/80 sm:text-[1.35rem]">
+              <strong className="block font-semibold text-white">This call is powered by a <span className="text-[var(--brand-sky)]">VoxSphere AI agent</span>.</strong>
+              <span className="mt-1 block text-[1rem] sm:text-[1.1rem]">The same agent we build for customer support and outbound calls. They use it to serve and sell. <span className="whitespace-nowrap font-semibold text-[var(--brand-yellow)]">We use it to hire.</span></span>
+            </p>
+          </div>
+          <Link href="/products/voxsphere" className="inline-flex shrink-0 items-center self-start bg-[var(--brand-yellow)] px-5 py-3.5 text-[1rem] font-semibold text-[#1c1c1c] transition-colors hover:bg-[var(--brand-ochre)] lg:self-auto">
+            Explore VoxSphere →
+          </Link>
+        </W>
+      </section>
+
       {/* Habits */}
       <section className="border-b border-neutral-200 py-16 sm:py-20">
         <W>
