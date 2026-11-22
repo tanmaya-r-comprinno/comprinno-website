@@ -15,12 +15,14 @@
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.1.0",
     "gray-matter": "^4.0.3",
+    "livekit-client": "2.23.0",
     "next": "16.4.5",
     "next-mdx-remote": "^6.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "reading-time": "^1.5.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

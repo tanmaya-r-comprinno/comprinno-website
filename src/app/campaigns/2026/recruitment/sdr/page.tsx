@@ -14,7 +14,7 @@ import { Eyebrow } from "@/components/ui";
 
 /**
  * SDR recruitment landing page (low fidelity): black and white, matches the campaign page style.
- * Not in the site menu. The mock call voice agent and the application form are not connected yet.
+ * Not in the site menu. The mock call uses VoxSphere.
  */
 export const metadata: Metadata = {
   title: "We're hiring an SDR",

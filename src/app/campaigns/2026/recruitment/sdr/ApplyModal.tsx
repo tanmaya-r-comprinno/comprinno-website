@@ -3,15 +3,14 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Eyebrow } from "@/components/ui";
-import { getRecruiter, linkedinHandle, type Recruiter } from "./keka";
 
 /**
  * SDR application, shown as a modal after the mock call.
  * Left: the candidate's call scorecard and what happens next. Right: a three-step form
- * mirroring the Keka careers fields. Wire `send` to the Keka API once it's available.
+ * mirroring the Keka careers fields.
  */
 
-export type CallSummary = { buyer: string; verdict: string; total: number; seconds: number; booked: boolean };
+export type CallSummary = { callId: string; buyer: string; verdict: string; total: number; max: number; seconds: number; booked: boolean };
 
 type Exp = { company: string; title: string; from: string; to: string; current: boolean };
 type Edu = { school: string; degree: string; year: string };
@@ -28,27 +27,16 @@ const CSS = `
 @keyframes am-fade { from { opacity: 0 } to { opacity: 1 } }
 @keyframes am-step { from { opacity: 0; transform: translateX(var(--dir, 18px)) } to { opacity: 1; transform: none } }
 @keyframes am-ring { from { stroke-dashoffset: var(--len) } }
-@keyframes am-pop { 0% { transform: scale(.4); opacity: 0 } 60% { transform: scale(1.12); opacity: 1 } 100% { transform: scale(1) } }
 .am-overlay { animation: am-fade .25s ease both }
 .am-panel { animation: am-in .45s cubic-bezier(.2,.8,.2,1) both }
 .am-step { animation: am-step .4s cubic-bezier(.2,.8,.2,1) both }
 .am-ring { animation: am-ring 1.4s .3s cubic-bezier(.2,.8,.2,1) both }
-.am-pop { animation: am-pop .6s cubic-bezier(.2,.8,.2,1) both }
 @keyframes am-drift { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-28px,22px) scale(1.12) } }
 @keyframes am-rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
 .am-drift { animation: am-drift 12s ease-in-out infinite }
 .am-rise { animation: am-rise .6s .15s cubic-bezier(.2,.8,.2,1) both }
 .am-rise-2 { animation: am-rise .6s .3s cubic-bezier(.2,.8,.2,1) both }
 .am-rise-3 { animation: am-rise .6s .45s cubic-bezier(.2,.8,.2,1) both }
-@keyframes am-ripple { 0% { r: 34px; opacity: .45 } 100% { r: 60px; opacity: 0 } }
-@keyframes am-draw { from { stroke-dashoffset: var(--l) } to { stroke-dashoffset: 0 } }
-@keyframes am-spin { to { transform: rotate(360deg) } }
-@keyframes am-fill { from { width: 0 } to { width: 92% } }
-.am-spin { animation: am-spin .8s linear infinite }
-.am-fill { animation: am-fill 1.4s cubic-bezier(.3,.6,.4,1) both }
-.am-ripple { opacity: 0; animation: am-ripple 1.6s cubic-bezier(.2,.7,.3,1) 1 both }
-.am-draw-ring { --l: 277; stroke-dasharray: 277; animation: am-draw 1s cubic-bezier(.6,0,.2,1) both }
-.am-draw-check { --l: 42; stroke-dasharray: 42; animation: am-draw .4s .85s cubic-bezier(.6,0,.3,1) both }
 .am-field { position: relative }
 .am-field input, .am-field select { height: 2.85rem; width: 100%; border: 1px solid #d4d4d8; background: #fff; padding: 1rem .8rem .25rem; font-size: .85rem; color: #0a134b; outline: none; transition: border-color .2s, box-shadow .2s; border-radius: 0; appearance: none }
 .am-field select { background-image: linear-gradient(45deg, transparent 50%, #71717a 50%), linear-gradient(135deg, #71717a 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 2rem }
@@ -59,7 +47,7 @@ const CSS = `
 .am-field input:not(:focus):not(:placeholder-shown) + label, .am-field select:not(:focus) + label { color: #71717a }
 .am-field.is-bad input, .am-field.is-bad select { border-color: #dc2626; box-shadow: 0 0 0 4px rgb(220 38 38 / .08) }
 .am-field input[type=date]:not(:focus):invalid { color: transparent }
-@media (prefers-reduced-motion: reduce) { .am-overlay, .am-panel, .am-step, .am-ring, .am-pop, .am-drift, .am-rise, .am-rise-2, .am-rise-3, .am-ripple, .am-draw-ring, .am-draw-check { animation: none !important } }
+@media (prefers-reduced-motion: reduce) { .am-overlay, .am-panel, .am-step, .am-ring, .am-drift, .am-rise, .am-rise-2, .am-rise-3 { animation: none !important } }
 `;
 
 /* ---------- small building blocks ---------- */
@@ -158,7 +146,7 @@ function Aside({ call, step }: { call?: CallSummary; step: number }) {
           </div>
 
           <div className="mt-3 flex items-center gap-4">
-            <ScoreRing value={empty ? 0 : call.total} label={empty ? "—" : undefined} />
+            <ScoreRing value={empty ? 0 : call.total} max={call?.max} label={empty ? "—" : undefined} />
             <div className="min-w-0">
               <p className="text-[0.98rem] font-semibold leading-snug text-[var(--brand-navy)]">{empty ? "Too short to score" : call.verdict}</p>
               <p className="mt-1 text-xs leading-snug text-neutral-500">
@@ -206,81 +194,6 @@ function Aside({ call, step }: { call?: CallSummary; step: number }) {
   );
 }
 
-/* ---------- success ---------- */
-
-const LinkedInIcon = <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" /></svg>;
-const MailIcon = <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3.5 6 8.5 7 8.5-7" /></svg>;
-
-function RecruiterCard({ m }: { m: Recruiter }) {
-  const [copied, setCopied] = useState(false);
-  const initials = m.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(m.email); setCopied(true); setTimeout(() => setCopied(false), 1600); } catch { /* clipboard blocked: the mailto link still works */ }
-  };
-  return (
-    <div className="am-rise-2 border border-neutral-200 text-left">
-      <div className="flex items-center gap-4 p-4">
-        {m.photo
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={m.photo} alt="" className="h-14 w-14 shrink-0 object-cover" />
-          : <span className="grid h-14 w-14 shrink-0 place-items-center bg-[var(--brand-navy)] text-lg font-semibold text-white">{initials}</span>}
-        <div className="min-w-0">
-          <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-[var(--brand-blue)]">Your recruiter</p>
-          <p className="mt-0.5 truncate text-[0.95rem] font-semibold text-[var(--brand-navy)]">{m.name}</p>
-          <p className="truncate text-xs text-neutral-500">{m.title}</p>
-        </div>
-      </div>
-      <div className="grid border-t border-neutral-200">
-        <a href={m.linkedin} target="_blank" rel="noopener noreferrer"
-          className="group flex min-w-0 items-center gap-2.5 px-4 py-3 text-sm text-neutral-700 transition-colors hover:bg-[#f4f9fe] hover:text-[#0a66c2]">
-          <span className="text-[#0a66c2]">{LinkedInIcon}</span>
-          <span className="truncate">@{linkedinHandle(m.linkedin)}</span>
-          <span className="ml-auto text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-[#0a66c2]">↗</span>
-        </a>
-        <div className="flex min-w-0 items-center border-t border-neutral-200">
-          <a href={`mailto:${m.email}?subject=${encodeURIComponent("My SDR application")}`}
-            className="flex min-w-0 flex-1 items-center gap-2.5 py-3 pl-4 text-sm text-neutral-700 transition-colors hover:text-[var(--brand-blue)]">
-            <span className="text-[var(--brand-blue)]">{MailIcon}</span><span className="truncate">{m.email}</span>
-          </a>
-          <button type="button" onClick={copy} className="shrink-0 px-3 py-3 text-xs font-medium text-neutral-500 transition-colors hover:text-[var(--brand-blue)]" aria-live="polite">
-            {copied ? "Copied" : "Copy"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Success({ onClose, name, recruiter }: { onClose: () => void; name: string; recruiter: Recruiter | null }) {
-  return (
-    <div role="dialog" aria-modal="true" aria-labelledby="am-done" tabIndex={-1}
-      className="am-panel relative w-full max-w-md overflow-hidden bg-white shadow-[0_40px_120px_-20px_rgb(5_10_46_/_.5)] outline-none">
-      {/* light header: one ring draws in, check draws, a single soft pulse */}
-      <div className="relative flex flex-col items-center overflow-hidden border-b border-neutral-100 bg-[linear-gradient(180deg,var(--brand-snow),#fff)] px-6 pb-7 pt-10">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[var(--brand-blue)] via-[var(--brand-sky)] to-[var(--brand-yellow)]" />
-        <button type="button" onClick={onClose} aria-label="Close" className="absolute right-3 top-3 grid h-9 w-9 place-items-center text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-900">{Icon.x}</button>
-
-        <svg viewBox="0 0 120 120" className="h-[5.5rem] w-[5.5rem] overflow-visible" aria-hidden="true">
-          <circle cx="60" cy="60" r="34" fill="none" stroke="var(--brand-blue)" strokeWidth="1" className="am-ripple" style={{ animationDelay: "1.1s" }} />
-          <circle cx="60" cy="60" r="44" fill="none" stroke="#e3ecf8" strokeWidth="2" />
-          <circle cx="60" cy="60" r="44" fill="none" stroke="var(--brand-blue)" strokeWidth="2.5" strokeLinecap="round" className="am-draw-ring" transform="rotate(-90 60 60)" />
-          <circle cx="60" cy="60" r="34" fill="var(--brand-navy)" className="am-pop" style={{ animationDelay: ".6s", transformOrigin: "60px 60px" }} />
-          <path d="M46 61 l9.5 9.5 l19 -20" fill="none" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" className="am-draw-check" />
-        </svg>
-
-      </div>
-
-      <div className="px-6 pb-6 pt-6 text-center sm:px-8">
-        <h3 id="am-done" className="am-rise text-2xl font-semibold tracking-tight !text-[var(--brand-navy)]">Application sent{name ? `, ${name}` : ""}!</h3>
-        <p className="am-rise mx-auto mt-2 max-w-xs text-sm text-neutral-600">Your call and details are in. The recruiter assigned to this role will reach out within five working days.</p>
-        {recruiter && <div className="mt-6"><RecruiterCard m={recruiter} /></div>}
-        <p className="am-rise-3 mt-3 text-xs text-neutral-500">Questions before then? Reach your recruiter on LinkedIn or by email.</p>
-        <button type="button" onClick={onClose} className="am-rise-3 mt-6 w-full bg-[var(--brand-yellow)] py-3 text-sm font-semibold text-[#1c1c1c] transition-colors hover:bg-[var(--brand-ochre)]">Done</button>
-      </div>
-    </div>
-  );
-}
-
 /* ---------- the modal ---------- */
 
 export default function ApplyModal({ open, onClose, call }: { open: boolean; onClose: () => void; call?: CallSummary }) {
@@ -296,9 +209,6 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
   const [consent, setConsent] = useState(false);
   const [bad, setBad] = useState<string[]>([]);
   const [error, setError] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "done">("idle");
-  const [first, setFirst] = useState("");
-  const [recruiter, setRecruiter] = useState<Recruiter | null>(null);
   const form = useRef<HTMLFormElement>(null);
   const body = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -361,27 +271,11 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
     setDir(to > step ? 1 : -1); setStep(to);
   };
 
-  const send = async (e: React.FormEvent<HTMLFormElement>) => {
+  const send = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (step < 2) return go(step + 1);
     if (!check(2)) return;
-    setState("sending");
-    // TODO(keka): POST this FormData to the Keka careers API.
-    const data = new FormData(e.currentTarget);
-    if (resume) data.set("resume", resume);
-    docs.forEach((d) => data.append("documents", d));
-    data.set("experience", JSON.stringify(exps));
-    data.set("education", JSON.stringify(edus));
-    data.set("skills", JSON.stringify(skills));
-    if (call) data.set("mock_call", JSON.stringify(call));
-    setFirst(String(data.get("first_name") || ""));
-    // submit and look up the recruiter together, so the success screen opens complete
-    const [rec] = await Promise.all([
-      getRecruiter().catch(() => null),
-      new Promise((r) => setTimeout(r, 1400)),
-    ]);
-    setRecruiter(rec);
-    setState("done");
+    setError("Online application submission is currently unavailable.");
   };
 
   const isBad = (n: string) => bad.includes(n);
@@ -391,13 +285,13 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
     <div className="brand am-overlay fixed inset-0 z-[100] flex items-end justify-center bg-[#050a2e]/70 backdrop-blur-md sm:items-center sm:p-6"
       onMouseDown={(e) => e.target === e.currentTarget && close()}>
       <style>{CSS}</style>
-      {state === "done" ? <Success onClose={close} name={first} recruiter={recruiter} /> : (
       <div ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-label={`Apply: ${ROLE.title}`}
         className="am-panel grid h-[94vh] w-full max-w-5xl overflow-hidden bg-white shadow-[0_40px_120px_-20px_rgb(5_10_46_/_.6)] outline-none sm:h-[min(52rem,92vh)] lg:grid-cols-[22rem_1fr]">
 
         <Aside call={call} step={step} />
 
         <div className="flex min-h-0 flex-col">
+          <p className="border-b border-neutral-200 bg-[#f4f9fc] px-5 py-2 text-sm text-neutral-700 sm:px-8">Online application submission is currently unavailable.</p>
           {/* top bar: mobile title, stepper, close */}
           <div className="relative shrink-0 px-5 pb-5 pt-5 sm:px-8 sm:pt-6">
             <button type="button" onClick={close} aria-label="Close" className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-900">{Icon.x}</button>
@@ -435,7 +329,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                 <div hidden={step !== 0} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
                   <div>
                     <h2 className="text-xl font-semibold tracking-tight !text-[var(--brand-navy)]">Let&apos;s get to know you.</h2>
-                    <p className="mt-1 text-sm text-neutral-500">Drop your resume and we&apos;ll fill in what we can.</p>
+                    <p className="mt-1 text-sm text-neutral-500">Attach a copy of your resume.</p>
                   </div>
 
                   <label onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
@@ -607,20 +501,10 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                 {step > 0
                   ? <button type="button" onClick={() => go(step - 1)} className="px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900">← Back</button>
                   : <span className="hidden text-xs text-neutral-500 sm:block">Takes about 3 minutes</span>}
-                <p className="min-w-0 flex-1 truncate text-right text-sm text-red-600" role="alert">{error}</p>
-                <button type="submit" disabled={state === "sending"} aria-busy={state === "sending"}
+                <p className="min-w-0 flex-1 text-right text-sm text-red-600" role="alert">{error}</p>
+                <button type="submit"
                   className="group relative inline-flex min-w-[12.5rem] shrink-0 items-center justify-center gap-2 overflow-hidden bg-[var(--brand-yellow)] px-7 py-3.5 text-sm font-semibold text-[#1c1c1c] shadow-[0_8px_24px_-8px_rgb(255_187_0_/_.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--brand-ochre)] disabled:translate-y-0 disabled:cursor-wait disabled:hover:bg-[var(--brand-yellow)]">
-                  {state === "sending" ? (
-                    <>
-                      {/* progress fills the button from left to right */}
-                      <span aria-hidden="true" className="am-fill absolute inset-y-0 left-0 bg-[var(--brand-ochre)]/45" />
-                      <svg viewBox="0 0 20 20" className="am-spin relative h-4 w-4" aria-hidden="true">
-                        <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeOpacity=".2" strokeWidth="2.5" />
-                        <path d="M10 2a8 8 0 0 1 8 8" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-                      </svg>
-                      <span className="relative">Submitting…</span>
-                    </>
-                  ) : step < 2 ? (
+                  {step < 2 ? (
                     <>Continue <span className="transition-transform group-hover:translate-x-1">→</span></>
                   ) : (
                     <>Submit application <span className="transition-transform group-hover:translate-x-1">→</span></>
@@ -630,7 +514,6 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
             </form>
         </div>
       </div>
-      )}
     </div>,
     document.body,
   );

@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import CallPanel, { type CallResult } from "./CallPanel";
+import CallPanel from "./CallPanel";
 import CallReview from "./CallReview";
-import type { Buyer } from "./voiceAgent";
+import { mmss, type Buyer, type BuyerId, type CallResult } from "@/lib/sdrVoice";
+import { useVoiceCall, type EndedCall } from "./useVoiceCall";
 
 const buyers: Buyer[] = [
   {
@@ -51,13 +52,28 @@ const MOOD: Record<string, string> = {
 /** Buyer picker + AI brief; starting the call swaps the brief for the live call screen (CallPanel). */
 export default function MockCall() {
   const [id, setId] = useState(buyers[0].id);
-  const [inCall, setInCall] = useState(false);
-  const [result, setResult] = useState<(CallResult & { id: string }) | null>(null);
-  const b = buyers.find((x) => x.id === id)!;
+  const [calls, setCalls] = useState<Partial<Record<BuyerId, { session: EndedCall; result?: CallResult }>>>({});
   const [reviewing, setReviewing] = useState(false);
-  const ended = useCallback((r: CallResult) => { setResult({ ...r, id }); setInCall(false); setReviewing(true); }, [id]);
-  const last = result?.id === id ? result : null;
-  const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  const b = buyers.find((x) => x.id === id)!;
+  const ended = useCallback((session: EndedCall) => {
+    setCalls((previous) => ({ ...previous, [id]: { session } }));
+    setReviewing(true);
+  }, [id]);
+  const onReport = useCallback((result: CallResult) => {
+    setCalls((previous) => {
+      const last = previous[id];
+      if (last?.session.callId !== result.callId) return previous;
+      return { ...previous, [id]: { ...last, result } };
+    });
+  }, [id]);
+  const call = useVoiceCall(ended);
+  const inCall = call.phase !== "idle";
+  const last = calls[id];
+  const showReview = !inCall && reviewing && !!last;
+  const start = () => {
+    setReviewing(false);
+    void call.start(id);
+  };
 
   return (
     <div className="grid border border-neutral-300 bg-white lg:grid-cols-[2fr_3fr]">
@@ -84,13 +100,14 @@ export default function MockCall() {
       {/* the brief always stays in the layout (hidden during a call) and the call screen sits over it,
           so the card keeps one height: no jump when a call starts or ends */}
       <div className="relative flex min-h-[40rem] flex-col">
-      {inCall && <div className="absolute inset-0 z-10"><CallPanel key={id} buyer={b} onEnd={ended} /></div>}
-      {!inCall && reviewing && last && (
+      {inCall && <div className="absolute inset-0 z-10"><CallPanel buyer={b} call={call} /></div>}
+      {showReview && last && (
         <div className="absolute inset-0 z-10">
-          <CallReview buyer={b} result={last} onRetry={() => { setReviewing(false); setInCall(true); }} onPickAnother={() => setReviewing(false)} />
+          <CallReview key={last.session.callId} buyer={b} session={last.session} result={last.result}
+            onReport={onReport} onRetry={start} onPickAnother={() => setReviewing(false)} />
         </div>
       )}
-      <div className={`flex flex-1 flex-col p-5 ${inCall || (reviewing && last) ? "invisible" : ""}`} aria-hidden={inCall || (reviewing && !!last)}>
+      <div className={`flex flex-1 flex-col p-5 ${inCall || showReview ? "invisible" : ""}`} aria-hidden={inCall || showReview}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className={mono}>02 · Your AI-prepared brief</p>
           <span className="border border-[#b7e4c7] bg-[#e3f6ec] px-2 py-0.5 font-mono text-[.58rem] uppercase tracking-[.1em] text-[#11804a]">Research done in seconds, not hours</span>
@@ -122,19 +139,19 @@ export default function MockCall() {
           ))}
         </div>
         <div className="mt-auto border-t border-neutral-200 pt-4 lg:mt-6">
-          <p className="text-xs text-neutral-500">About 5 minutes. Uses your microphone. The call is recorded so our sales team can review it with your application.</p>
-          <button type="button" onClick={() => setInCall(true)} className="btn btn-primary mt-3">
+          <p className="text-xs text-neutral-500">About 5 minutes. Uses your microphone. By starting, you agree to recording and transcription for review with your application.</p>
+          <button type="button" onClick={start} className="btn btn-primary mt-3">
             ☏ {last ? "Call" : "Start the call with"} {b.name.split(" ")[0]}{last ? " again" : ""}
           </button>
-          {/* always takes its space, so the result appearing after a call never changes the height */}
-          {(
-            <p role="status" className={`mt-3 min-h-[4.5rem] border border-neutral-300 p-3 text-sm ${last ? "" : "invisible"}`}>
-              <span className={mono}>Last call · {mmss(last?.seconds ?? 0)} · {last?.turns ?? 0} {last?.turns === 1 ? "reply" : "replies"}</span><br />
-              {last?.booked
-                ? <b className="text-[#11804a]">✓ You booked the meeting. That&apos;s the job.</b>
-                : <span className="text-neutral-700">No meeting yet. Use the brief: show {b.name.split(" ")[0]} you know the account, then ask for the 30 minutes.</span>}
-            </p>
-          )}
+          <div className="mt-3 min-h-[4.5rem]">
+            {last && (
+              <button type="button" onClick={() => setReviewing(true)}
+                className="w-full border border-neutral-300 p-3 text-left text-sm hover:border-[#006bc9]">
+                <span className={mono}>Last call · {mmss(last.result?.durationSec ?? last.session.seconds)}</span><br />
+                <span className="font-semibold text-[#006bc9]">View call review →</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
       </div>

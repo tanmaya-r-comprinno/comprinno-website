@@ -40,6 +40,9 @@ Set local overrides in `.env.local`; environment files are gitignored.
 | `NEXT_PUBLIC_GOOGLE_ADS_LEAD_SEND_TO` | Optional direct Google Ads lead action (`AW-…/conversion-label`). Use an actual Ads action label; leave unset when importing the GA4 lead conversion instead. |
 | `HUBSPOT_NEWSLETTER_FORM_ID` | Optional override for the CloudScape newsletter form ID (default `85f10c31-7700-4a1d-8e99-fd6f3deaeb57`, portal `4699526`). Footer/blog forms submit through `/api/subscribe`. |
 | `GOOGLE_SITE_VERIFICATION` | Optional Search Console HTML verification token, rendered as a meta tag on production only. Obtain the token from the intended Search Console property. |
+| `VOXSPHERE_API_URL` | VoxSphere base URL for the SDR campaign voice calls. |
+| `VOXSPHERE_API_KEY` | Server-only VoxSphere key with access to the five fictional SDR buyers. |
+| `VISITOR_ID_SALT` | Stable server-only random secret used to hash visitor identifiers and sign private call-report access. |
 
 Only the exact production origin, `https://comprinno.net`, permits indexing. Other configured origins send `X-Robots-Tag: noindex, nofollow`, disable indexing in page metadata and serve a disallow-all `robots.txt`. Set the intended configuration before building.
 
