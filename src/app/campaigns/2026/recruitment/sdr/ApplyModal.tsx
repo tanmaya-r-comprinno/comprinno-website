@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Eyebrow } from "@/components/ui";
+import {
+  APPLICATION_FILE_TYPES, APPLICATION_PATH, APPLICATION_UNAVAILABLE, APPLICATION_UPLOAD_BYTES, validApplicationFile,
+} from "@/lib/sdrApplication";
 
 /**
  * SDR application, shown as a modal after the mock call.
@@ -10,15 +13,20 @@ import { Eyebrow } from "@/components/ui";
  * mirroring the Keka careers fields.
  */
 
-export type CallSummary = { callId: string; buyer: string; verdict: string; total: number; max: number; seconds: number; booked: boolean };
+export type CallSummary = { callId: string; reportToken: string; buyer: string; verdict: string; total: number; max: number; seconds: number; booked: boolean };
 
 type Exp = { company: string; title: string; from: string; to: string; current: boolean };
 type Edu = { school: string; degree: string; year: string };
+type Availability = { available: false } | {
+  available: true;
+  documents: number;
+  genderOptions: string[];
+  genderRequired: boolean;
+  dateOfBirth: boolean;
+};
 
 const ROLE = { title: "Sales Development Representative", exp: "1–3 yrs", loc: "Pune / Bangalore", type: "Full-time" };
 const STEPS = ["About you", "Your background", "Finish up"];
-const FILE_TYPES = ".doc,.docx,.pdf,.rtf,.odt";
-const MAX = 10 * 1024 * 1024;
 const SUGGESTED = ["Outbound prospecting", "Cold calling", "LinkedIn Sales Navigator", "HubSpot", "Salesforce", "Email sequencing", "Discovery calls", "Objection handling", "AWS basics"];
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 
@@ -196,7 +204,7 @@ function Aside({ call, step }: { call?: CallSummary; step: number }) {
 
 /* ---------- the modal ---------- */
 
-export default function ApplyModal({ open, onClose, call }: { open: boolean; onClose: () => void; call?: CallSummary }) {
+export default function ApplyModal({ open, onClose, call }: { open: boolean; onClose: () => void; call: CallSummary }) {
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
   const [resume, setResume] = useState<File | null>(null);
@@ -209,14 +217,23 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
   const [consent, setConsent] = useState(false);
   const [bad, setBad] = useState<string[]>([]);
   const [error, setError] = useState("");
+  const [availability, setAvailability] = useState<Availability | null>(null);
+  const [submission, setSubmission] = useState<"idle" | "sending" | "submitted" | "uncertain">("idle");
+  const sending = useRef(false);
   const form = useRef<HTMLFormElement>(null);
   const body = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   // portal target only exists in the browser; render nothing until after hydration
   const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
-  // closing clears validation state, so a reopened form starts clean (typed values are kept)
-  const close = () => { setBad([]); setError(""); onClose(); };
+  // Keep the submission outcome when the applicant closes and reopens the modal.
+  const close = () => {
+    if (sending.current) return;
+    setBad([]);
+    if (submission === "idle") setStep(0);
+    if (submission !== "uncertain") setError("");
+    onClose();
+  };
   const closeRef = useRef(close);
   useEffect(() => { closeRef.current = close; });
 
@@ -239,12 +256,28 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
   }, [open]);
 
   useEffect(() => { body.current?.scrollTo({ top: 0 }); }, [step]);
+  useEffect(() => {
+    if (!open) return;
+    const controller = new AbortController();
+    void fetch(APPLICATION_PATH, { cache: "no-store", signal: controller.signal })
+      .then(async (response) => {
+        const status: Availability = response.ok ? await response.json() : { available: false };
+        if (!controller.signal.aborted) setAvailability(status);
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setAvailability({ available: false });
+      });
+    return () => controller.abort();
+  }, [open]);
 
   if (!open || !mounted) return null;
 
   const pickResume = (f?: File) => {
     if (!f) return;
-    if (f.size > MAX) return setError("Resume must be 10MB or smaller.");
+    if (!validApplicationFile(f)) return setError("Choose a PDF, Word, RTF or ODT résumé.");
+    if (f.size + docs.reduce((total, doc) => total + doc.size, 0) > APPLICATION_UPLOAD_BYTES) {
+      return setError("The combined attachments must be 4 MB or smaller.");
+    }
     setError(""); setResume(f);
   };
   const addSkill = (s = skill) => {
@@ -254,15 +287,20 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
   };
 
   // required fields per step; steps stay mounted (hidden) so values persist
-  const REQ: Record<number, string[]> = { 0: ["first_name", "last_name", "phone", "email", "gender"], 1: [], 2: [] };
+  const ready = availability?.available === true;
+  const uploadedBytes = (resume?.size ?? 0) + docs.reduce((total, document) => total + document.size, 0);
+  const fields = ["first_name", "last_name", "phone", "email"];
+  if (ready && availability.genderRequired) fields.push("gender");
+  const required = [fields, [], ["automation"]];
   const check = (s: number) => {
     const f = form.current!;
-    const missing = REQ[s].filter((n) => {
-      const el = f.elements.namedItem(n) as HTMLInputElement | null;
-      return !el || !el.value.trim() || !el.checkValidity();
-    });
+    const controls = [...f.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[data-step="${s}"] [name]`)];
+    const missing = controls.filter((el) =>
+      (!el.value.trim() && required[s].includes(el.name)) || !el.checkValidity()
+    ).map((el) => el.name);
     setBad(missing);
     if (missing.length) { setError("Please complete the highlighted fields."); return false; }
+    if (s === 0 && !resume) { setError("Attach your résumé to continue."); return false; }
     if (s === 2 && !consent) { setError("Please accept the data processing terms to continue."); return false; }
     setError(""); return true;
   };
@@ -271,11 +309,55 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
     setDir(to > step ? 1 : -1); setStep(to);
   };
 
-  const send = (e: React.FormEvent<HTMLFormElement>) => {
+  const send = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!ready || sending.current || submission === "submitted" || submission === "uncertain") return;
     if (step < 2) return go(step + 1);
-    if (!check(2)) return;
-    setError("Online application submission is currently unavailable.");
+    if (!check(2) || !resume) return;
+
+    const data = new FormData(e.currentTarget);
+    data.set("resume", resume);
+    docs.forEach((file) => data.append("documents", file));
+    data.set("call_id", call.callId);
+    data.set("consent", "yes");
+    const history = exps.filter((role) => role.company || role.title)
+      .map((role) => [role.title, role.company, role.from, role.current ? "Present" : role.to].filter(Boolean).join(" · "));
+    const education = edus.filter((item) => item.school || item.degree)
+      .map((item) => [item.degree, item.school, item.year].filter(Boolean).join(" · "));
+    data.set("experience", history.join("; "));
+    data.set("education", education.join("; "));
+    data.set("skills", [...new Set([...skills, skill.trim()].filter(Boolean))].join(", "));
+    sending.current = true;
+    setSubmission("sending");
+    try {
+      const response = await fetch(APPLICATION_PATH, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${call.reportToken}` },
+        body: data,
+      });
+      const result = await response.json().catch(() => null);
+      if (response.ok && result?.submitted === true) {
+        setSubmission("submitted");
+        setResume(null);
+        setDocs([]);
+        setExps([]);
+        setEdus([]);
+        setConsent(false);
+        setSkills([]);
+        setSkill("");
+      } else if (result?.uncertain) {
+        setSubmission("uncertain");
+        setError(result.message);
+      } else {
+        setSubmission("idle");
+        setError(result?.message ?? "The application could not be submitted. Please try again.");
+      }
+    } catch {
+      setSubmission("uncertain");
+      setError("The connection was interrupted. Check with the hiring team before submitting again.");
+    } finally {
+      sending.current = false;
+    }
   };
 
   const isBad = (n: string) => bad.includes(n);
@@ -291,12 +373,23 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
         <Aside call={call} step={step} />
 
         <div className="flex min-h-0 flex-col">
-          <p className="border-b border-neutral-200 bg-[#f4f9fc] px-5 py-2 text-sm text-neutral-700 sm:px-8">Online application submission is currently unavailable.</p>
+          {!ready && submission !== "submitted" && <p role="status" className="border-b border-neutral-200 bg-[#f4f9fc] px-5 py-2 text-sm text-neutral-700 sm:px-8">
+            {availability ? APPLICATION_UNAVAILABLE : "Checking application availability…"}
+          </p>}
+          {submission === "submitted" ? (
+            <div className="m-auto max-w-md space-y-4 px-5 text-center">
+              <div role="status" className="space-y-4">
+                <h2 className="text-2xl font-semibold text-[var(--brand-navy)]">Application sent</h2>
+                <p className="text-sm text-neutral-600">Keka received your application, résumé and mock call reference.</p>
+              </div>
+              <button type="button" onClick={close} className="bg-[var(--brand-yellow)] px-6 py-3 text-sm font-semibold text-[#1c1c1c]">Done</button>
+            </div>
+          ) : <>
           {/* top bar: mobile title, stepper, close */}
           <div className="relative shrink-0 px-5 pb-5 pt-5 sm:px-8 sm:pt-6">
             <button type="button" onClick={close} aria-label="Close" className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-900">{Icon.x}</button>
             <div className="pr-10 lg:hidden">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--brand-blue)]">Apply with your call{call ? ` · ${call.total}/25` : ""}</p>
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--brand-blue)]">Apply with your call{call ? ` · ${call.total}/${call.max}` : ""}</p>
               <p className="mt-1 text-lg font-semibold text-[var(--brand-navy)]">{ROLE.title}</p>
             </div>
               <nav aria-label="Application steps" className="mt-4 pr-12 lg:mt-0">
@@ -306,7 +399,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                 <ol className="mt-2.5 grid grid-cols-3 gap-2">
                   {STEPS.map((s, i) => (
                     <li key={s}>
-                      <button type="button" onClick={() => i < step && go(i)} disabled={i > step} aria-current={i === step ? "step" : undefined}
+                      <button type="button" onClick={() => i < step && go(i)} disabled={!ready || i > step || submission !== "idle"} aria-current={i === step ? "step" : undefined}
                         className="group block w-full text-left disabled:cursor-default">
                         <span className="block h-1 overflow-hidden rounded-full bg-neutral-200">
                           <span className={`block h-full rounded-full transition-all duration-500 ease-out ${i < step ? "w-full bg-[var(--brand-blue)]" : i === step ? "w-1/2 bg-gradient-to-r from-[var(--brand-blue)] to-[var(--brand-sky)]" : "w-0"}`} />
@@ -326,16 +419,16 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
               <div ref={body} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 sm:px-8">
 
                 {/* STEP 1: about you */}
-                <div hidden={step !== 0} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
+                <div data-step="0" inert={!ready || submission === "sending" || submission === "uncertain"} hidden={step !== 0} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
                   <div>
                     <h2 className="text-xl font-semibold tracking-tight !text-[var(--brand-navy)]">Let&apos;s get to know you.</h2>
-                    <p className="mt-1 text-sm text-neutral-500">Attach a copy of your resume.</p>
+                    <p className="mt-1 text-sm text-neutral-500">Attach a copy of your résumé to continue.</p>
                   </div>
 
                   <label onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
                     onDrop={(e) => { e.preventDefault(); setDrag(false); pickResume(e.dataTransfer.files[0]); }}
                     className={`group relative flex cursor-pointer items-center gap-4 border-2 border-dashed p-5 transition-all ${drag ? "scale-[1.01] border-[var(--brand-blue)] bg-[#e3f0fc]" : resume ? "border-solid border-emerald-500/60 bg-emerald-50" : "border-neutral-300 bg-[#f7f9fc] hover:border-[var(--brand-blue)] hover:bg-[#eef5fd]"}`}>
-                    <input type="file" accept={FILE_TYPES} className="sr-only" onChange={(e) => pickResume(e.target.files?.[0])} />
+                    <input type="file" accept={APPLICATION_FILE_TYPES} className="sr-only" onChange={(e) => pickResume(e.target.files?.[0])} />
                     <span className={`grid h-12 w-12 shrink-0 place-items-center transition-colors ${resume ? "bg-emerald-500 p-3 text-white" : "bg-white text-[var(--brand-blue)] shadow-sm group-hover:bg-[var(--brand-blue)] group-hover:text-white"}`}>
                       {resume ? Icon.check : Icon.up}
                     </span>
@@ -347,7 +440,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                     ) : (
                       <span>
                         <span className="block font-semibold text-neutral-900"><span className="text-[var(--brand-blue)]">Upload your resume</span> or drag it here</span>
-                        <span className="text-sm text-neutral-500">PDF, DOC, DOCX, RTF or ODT · up to 10MB</span>
+                        <span className="text-sm text-neutral-500">PDF, DOC, DOCX, RTF or ODT · up to 4 MB</span>
                       </span>
                     )}
                   </label>
@@ -357,7 +450,10 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                       <F label="First name" name="first_name" req bad={isBad("first_name")} autoComplete="given-name" />
                       <F label="Last name" name="last_name" req bad={isBad("last_name")} autoComplete="family-name" />
                       <F label="Middle name" name="middle_name" autoComplete="additional-name" />
-                      <S label="Gender" name="gender" req bad={isBad("gender")} options={["Female", "Male", "Non-binary", "Prefer not to say"]} onChange={() => clearBad("gender")} />
+                      {ready && availability.genderOptions.length > 0 && (
+                        <S label="Gender" name="gender" req={availability.genderRequired} bad={isBad("gender")}
+                          options={availability.genderOptions} onChange={() => clearBad("gender")} />
+                      )}
                       <F label="Email" name="email" type="email" req bad={isBad("email")} autoComplete="email" />
                       <div className="flex">
                         <div className="am-field is-fixed w-24 shrink-0">
@@ -368,14 +464,14 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                         </div>
                         <F label="Mobile phone" name="phone" type="tel" req bad={isBad("phone")} autoComplete="tel-national" className="flex-1" />
                       </div>
-                      <div className="am-field is-fixed"><input id="am-dob" name="dob" type="date" /><label htmlFor="am-dob">Date of birth</label></div>
+                      {ready && availability.dateOfBirth && <div className="am-field is-fixed"><input id="am-dob" name="dob" type="date" /><label htmlFor="am-dob">Date of birth</label></div>}
                       <F label="Current city" name="current_location" autoComplete="address-level2" />
                     </div>
                   </Group>
                 </div>
 
                 {/* STEP 2: background */}
-                <div hidden={step !== 1} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
+                <div data-step="1" inert={!ready || submission === "sending" || submission === "uncertain"} hidden={step !== 1} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
                   <div>
                     <h2 className="text-xl font-semibold tracking-tight !text-[var(--brand-navy)]">Where you&apos;ve been.</h2>
                     <p className="mt-1 text-sm text-neutral-500">A quick picture of your experience and what you&apos;re looking for.</p>
@@ -449,7 +545,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                 </div>
 
                 {/* STEP 3: finish */}
-                <div hidden={step !== 2} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
+                <div data-step="2" inert={!ready || submission === "sending" || submission === "uncertain"} hidden={step !== 2} className="am-step space-y-8" style={{ "--dir": `${dir * 18}px` } as React.CSSProperties}>
                   <div>
                     <h2 className="text-xl font-semibold tracking-tight !text-[var(--brand-navy)]">Almost there.</h2>
                     <p className="mt-1 text-sm text-neutral-500">Your skills, links and anything else you&apos;d like us to see.</p>
@@ -473,20 +569,36 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                     </div>
                   </Group>
 
+                  <Group title="Something you’ve automated">
+                    <label htmlFor="am-automation" className="mb-2 block text-sm text-neutral-600">In a few lines, describe what you automated and what changed.</label>
+                    <textarea id="am-automation" name="automation" required maxLength={1000} rows={3} aria-invalid={isBad("automation")}
+                      className="w-full border border-neutral-300 p-3 text-sm focus:border-[var(--brand-blue)] focus:outline-none" />
+                  </Group>
+
                   <Group title="Links & documents">
                     <F label="LinkedIn profile URL" name="linkedin" type="url" />
-                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                    {ready && availability.documents > 0 && <div className="mt-3 flex flex-wrap items-center gap-2">
                       <label className="inline-flex cursor-pointer items-center gap-3 border border-neutral-300 px-4 py-3 transition-colors hover:border-[var(--brand-blue)] hover:bg-[#f4f9fe]">
                         <span className="text-[var(--brand-blue)]">{Icon.doc}</span>
-                        <span><span className="block text-sm font-semibold text-neutral-900">Add an attachment</span><span className="block text-xs text-neutral-500">Portfolio, certificates · 10MB each</span></span>
-                        <input type="file" multiple className="sr-only" onChange={(e) => setDocs([...docs, ...Array.from(e.target.files ?? []).filter((f) => f.size <= MAX)])} />
+                        <span><span className="block text-sm font-semibold text-neutral-900">Add an attachment</span><span className="block text-xs text-neutral-500">Portfolio or certificates · 4 MB total with résumé</span></span>
+                        <input type="file" multiple accept={APPLICATION_FILE_TYPES} className="sr-only" onChange={(e) => {
+                          const selected = Array.from(e.target.files ?? []);
+                          e.target.value = "";
+                          if (docs.length + selected.length > availability.documents) return setError(`Add at most ${availability.documents} additional documents.`);
+                          if (!selected.every(validApplicationFile)) return setError("Choose PDF, Word, RTF or ODT documents.");
+                          if (uploadedBytes + selected.reduce((total, file) => total + file.size, 0) > APPLICATION_UPLOAD_BYTES) {
+                            return setError("The combined attachments must be 4 MB or smaller.");
+                          }
+                          setError("");
+                          setDocs([...docs, ...selected]);
+                        }} />
                       </label>
                       {docs.map((d, i) => (
                         <span key={i} className="am-step inline-flex items-center gap-2 bg-neutral-100 py-2 pl-3 pr-1.5 text-sm">{d.name}
                           <button type="button" onClick={() => setDocs(docs.filter((_, j) => j !== i))} aria-label={`Remove ${d.name}`} className="grid h-6 w-6 place-items-center text-neutral-500 hover:text-red-600">{Icon.x}</button>
                         </span>
                       ))}
-                    </div>
+                    </div>}
                   </Group>
 
                   <label className={`flex cursor-pointer items-start gap-3 border p-4 text-sm leading-relaxed transition-colors ${consent ? "border-[var(--brand-blue)] bg-[#f4f9fe]" : "border-neutral-200 hover:border-neutral-300"}`}>
@@ -499,12 +611,12 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
               {/* footer */}
               <div className="flex shrink-0 items-center gap-3 border-t border-neutral-200 bg-white/90 px-5 py-4 backdrop-blur sm:px-8">
                 {step > 0
-                  ? <button type="button" onClick={() => go(step - 1)} className="px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900">← Back</button>
+                  ? <button type="button" onClick={() => go(step - 1)} disabled={submission !== "idle"} className="px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900">← Back</button>
                   : <span className="hidden text-xs text-neutral-500 sm:block">Takes about 3 minutes</span>}
                 <p className="min-w-0 flex-1 text-right text-sm text-red-600" role="alert">{error}</p>
-                <button type="submit"
+                <button type="submit" disabled={!ready || submission !== "idle"}
                   className="group relative inline-flex min-w-[12.5rem] shrink-0 items-center justify-center gap-2 overflow-hidden bg-[var(--brand-yellow)] px-7 py-3.5 text-sm font-semibold text-[#1c1c1c] shadow-[0_8px_24px_-8px_rgb(255_187_0_/_.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--brand-ochre)] disabled:translate-y-0 disabled:cursor-wait disabled:hover:bg-[var(--brand-yellow)]">
-                  {step < 2 ? (
+                  {submission === "sending" ? "Submitting…" : step < 2 ? (
                     <>Continue <span className="transition-transform group-hover:translate-x-1">→</span></>
                   ) : (
                     <>Submit application <span className="transition-transform group-hover:translate-x-1">→</span></>
@@ -512,6 +624,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
                 </button>
               </div>
             </form>
+          </>}
         </div>
       </div>
     </div>,

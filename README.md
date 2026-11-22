@@ -43,6 +43,9 @@ Set local overrides in `.env.local`; environment files are gitignored.
 | `VOXSPHERE_API_URL` | VoxSphere base URL for the SDR campaign voice calls. |
 | `VOXSPHERE_API_KEY` | Server-only VoxSphere key with access to the five fictional SDR buyers. |
 | `VISITOR_ID_SALT` | Stable server-only random secret used to hash visitor identifiers and sign private call-report access. |
+| `KEKA_CLIENT_ID`, `KEKA_CLIENT_SECRET`, `KEKA_API_KEY` | Server-only customer API credentials for Keka Hire. The key needs access to read jobs and application fields and create candidates, upload résumés and documents, and add candidate notes. |
+| `KEKA_SDR_JOB_ID` | Optional internal Keka Hire job identifier. By default, the integration resolves the Outbound SDR posting at `/careers/jobdetails/156580` through Hire. |
+| `KEKA_SDR_DETAILS_FIELD` | Optional label or field identifier for the long-text application field receiving the VoxSphere call ID, automation answer and candidate background. Defaults to `SDR campaign details` when present. Otherwise the campaign adds a recruiter note. |
 
 Only the exact production origin, `https://comprinno.net`, permits indexing. Other configured origins send `X-Robots-Tag: noindex, nofollow`, disable indexing in page metadata and serve a disallow-all `robots.txt`. Set the intended configuration before building.
 
@@ -85,7 +88,7 @@ SEO helpers in `src/lib/seo.ts` supply service metadata, contextual service link
 ## Integrations
 
 - **Contact:** `/contact` embeds the existing HubSpot form through `src/components/HubSpotForm.tsx`. HubSpot owns fields, captcha, consent and the submitted message. The component injects styles into the same-origin iframe and adjusts its height. Context query parameters from `contactHref()` are not consumed by the form.
-- **Careers:** `src/lib/keka.ts` reads the Keka jobs feed with an hourly cache profile. Feed errors return an empty list.
+- **Careers:** `src/lib/keka.ts` reads the Keka jobs feed with an hourly cache profile. Feed errors return an empty list. The SDR campaign uses the authenticated Keka Hire application fields separately. The campaign uses the native résumé endpoint and a recruiter note when the Outbound SDR application has no corresponding custom fields. Optional Keka attachment fields named `Additional document 1`, `Additional document 2` and `Additional document 3` are shown when present. The résumé and optional attachments share a 4 MB limit.
 - **Newsletter:** Footer and blog email forms submit through `/api/subscribe` to the existing CloudScape HubSpot form `85f10c31-7700-4a1d-8e99-fd6f3deaeb57` (portal `4699526`), optionally overridden by `HUBSPOT_NEWSLETTER_FORM_ID`. Visitors return to the signup section with a success, invalid-email, unavailable or error message. Success is shown only after HubSpot accepts the submission. Configure newsletter consent, subscription and double opt-in in HubSpot; verify those account settings separately.
 - **Analytics:** The root layout includes Vercel Analytics and Speed Insights. `src/components/GoogleTracking.tsx` adds optional Google Tag Manager / GA4 using the Google tag loader after hydration, without an additional dependency. Google tracking runs only in production builds configured for `https://comprinno.net`; staging and development are excluded. Missing or invalid IDs load no Google tag. Set the relevant public tracking IDs in Vercel's Production environment before building/deploying.
 

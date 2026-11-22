@@ -193,7 +193,7 @@ export default function CallReview({ buyer, session, result, onReport, onRetry, 
         <button type="button" onClick={() => setApplying(true)} disabled={!scored} className="disabled:opacity-40 vox-send r-full col-span-2 px-5 py-3 text-sm font-semibold sm:py-2.5">Apply with this call →</button>
       </div>
       {scored && <ApplyModal open={applying} onClose={() => setApplying(false)}
-        call={{ callId: session.callId, buyer: buyer.name, verdict: verdict ?? "Call reviewed", total,
+        call={{ callId: session.callId, reportToken: session.reportToken, buyer: buyer.name, verdict: verdict ?? "Call reviewed", total,
           max: result.maxScore ?? 25, seconds, booked: result.goalAchieved === true }} />}
     </div>
   );
