@@ -1,0 +1,73 @@
+name: Sync to Comprinno dev
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-to-comprinno-dev
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'tanmaya-r-comprinno/comprinno-website'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out destination dev
+        uses: actions/checkout@v7
+        with:
+          repository: comprinnotech/comprinno-website
+          ref: dev
+          fetch-depth: 0
+          ssh-key: ${{ secrets.COMPRINNO_DEV_SYNC_SSH_KEY }}
+
+      - name: Merge Tanmaya main into dev
+        env:
+          SOURCE_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          AUTH="$(printf 'x-access-token:%s' "$SOURCE_TOKEN" | base64 -w0)"
+          echo "::add-mask::$AUTH"
+          git -c http.https://github.com/.extraheader= \
+            -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" \
+            fetch https://github.com/tanmaya-r-comprinno/comprinno-website.git \
+            main:refs/remotes/tanmaya/main
+          unset AUTH SOURCE_TOKEN
+
+          if git merge-base --is-ancestor tanmaya/main HEAD; then
+            echo "Already up to date." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git config user.name "Comprinno Sync"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git merge --no-ff --no-commit tanmaya/main; then
+            # Keep the existing HubSpot contact embed if this page conflicts.
+            while IFS= read -r file; do
+              if [ "$file" = "src/app/contact/page.tsx" ]; then
+                git checkout --ours -- "$file"
+                git add -- "$file"
+              fi
+            done < <(git diff --name-only --diff-filter=U)
+            if [ -n "$(git diff --name-only --diff-filter=U)" ]; then
+              echo "::error::Merge conflicts require a manual sync. Nothing was pushed."
+              git diff --name-only --diff-filter=U
+              exit 1
+            fi
+            # A failed merge without MERGE_HEAD is an error, not an empty sync.
+            test -f "$(git rev-parse --git-path MERGE_HEAD)"
+          fi
+
+          # Preserve destination automation and the currently protected product copy.
+          # In particular, do not import this source-only sync workflow into the destination.
+          git restore --source=HEAD --staged --worktree -- .github/workflows src/content/products.ts
+          git commit -m "chore(sync): merge Tanmaya main into dev"
+          # Normal push only: concurrent destination updates cause failure, never overwrite.
+          git push origin HEAD:refs/heads/dev
+          echo "Merged Tanmaya main into dev; the existing staging deployment will run." >> "$GITHUB_STEP_SUMMARY"
