@@ -130,14 +130,14 @@ const Head = ({ tag, children, sub }: { tag: string; children: ReactNode; sub?: 
 export default function SdrPage() {
   return (
     <div className="brand bg-white text-neutral-900">
-      <header className="border-b border-line bg-white">
+      <header className="sticky top-0 z-50 border-b border-line bg-white">
         <W className="flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-3" aria-label="Comprinno home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/comprinno-logo.webp" alt="Comprinno" width={600} height={125} className="h-7 w-auto mix-blend-multiply" />
-            <span className="border-l border-line pl-3 font-mono text-[.62rem] uppercase tracking-[.14em] text-[#006bc9]">Careers</span>
+            <span className="hidden border-l border-line pl-3 font-mono text-[.62rem] uppercase tracking-[.14em] text-[#006bc9] sm:inline">Careers</span>
           </Link>
-          <a href="#mock-call" className="btn btn-primary !px-4 !py-2 text-sm">Take the mock call</a>
+          <a href="#mock-call" className="btn btn-primary shrink-0 whitespace-nowrap !px-4 !py-2 text-sm">Take the mock call</a>
         </W>
       </header>
 
@@ -163,7 +163,7 @@ export default function SdrPage() {
       </section>
 
       {/* Mock call */}
-      <section id="mock-call" className="relative scroll-mt-4 overflow-hidden border-b border-neutral-200 bg-neutral-50 py-16 sm:py-20">
+      <section id="mock-call" className="relative scroll-mt-20 overflow-hidden border-b border-neutral-200 bg-neutral-50 py-16 sm:py-20">
         <ParticleWave />
         <W className="relative">
           <Head tag="Before you send a CV" sub="Pick a buyer, read the brief our AI prepared, and run a five-minute discovery call with a prospect played by our own voice agent. It's the job, in miniature.">
