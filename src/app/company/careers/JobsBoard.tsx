@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 import type { Job } from "@/lib/keka";
+import { campaignForJob } from "@/content/careerCampaigns";
 
 const PAGE = 8;
 
@@ -90,9 +91,9 @@ export default function JobsBoard({ jobs, mail }: { jobs: Job[]; mail: string })
 
       {list.length ? (
         <ul className="divide-y divide-line">
-          {list.slice(0, shown).map((j) => (
-            <li key={j.id}>
-              <a href={j.url} target="_blank" rel="noopener noreferrer" className="job-row group">
+          {list.slice(0, shown).map((j) => { const c = campaignForJob(j.id); return (
+            <li key={j.id} className={c ? "transition-colors hover:bg-[#f2f8fe] sm:flex sm:items-center" : undefined}>
+              <a href={j.url} target="_blank" rel="noopener noreferrer" className={`job-row group ${c ? "hover:!bg-transparent sm:min-w-0 sm:flex-1" : ""}`}>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-2">
                     <span className="truncate font-semibold text-ink transition-colors group-hover:text-[#006bc9]">{j.title}</span>
@@ -104,10 +105,20 @@ export default function JobsBoard({ jobs, mail }: { jobs: Job[]; mail: string })
                     {j.experience && <span className="flex items-center gap-1"><Icon name="clock" className="h-3 w-3" />{j.experience}</span>}
                   </span>
                 </span>
-                <span className="job-apply">Apply <span className="go">→</span></span>
+                {!c && <span className="job-apply">Apply <span className="go">→</span></span>}
               </a>
+              {c && (
+                <span className="mb-3 flex shrink-0 items-center gap-2 px-[1.1rem] sm:mb-0 sm:pl-0">
+                  <a href={c.href} className="group/mock flex-1 text-center sm:flex-none bg-[#ffbb00] px-3 py-[.4rem] text-[.8rem] font-semibold text-[#1c1c1c] transition-colors hover:bg-[#d89f04]">
+                    {c.badge} <span className="inline-block transition-transform group-hover/mock:translate-x-[3px]">→</span>
+                  </a>
+                  <a href={j.url} target="_blank" rel="noopener noreferrer" className="job-apply group/apply hover:border-[#006bc9] hover:bg-[#006bc9] hover:text-white">
+                    Apply <span className="inline-block transition-transform group-hover/apply:translate-x-[3px]">→</span>
+                  </a>
+                </span>
+              )}
             </li>
-          ))}
+          ); })}
         </ul>
       ) : (
         <p className="p-8 text-center text-sm text-muted">No roles match that search.</p>

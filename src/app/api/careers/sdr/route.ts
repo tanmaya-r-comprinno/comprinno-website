@@ -1,7 +1,7 @@
 import {
   addKekaCandidateNote, createKekaCandidate, fieldLabel, getSdrForm, KekaError, uploadKekaDocument, uploadKekaResume,
 } from "@/lib/kekaHire";
-import { APPLICATION_UNAVAILABLE, APPLICATION_UPLOAD_BYTES, validApplicationFile } from "@/lib/sdrApplication";
+import { APPLICATION_UNAVAILABLE, APPLICATION_UPLOAD_BYTES, CAREERS_EMAIL, validApplicationFile } from "@/lib/sdrApplication";
 import { CALL_ID, canReadReport, getCallResult } from "@/lib/voxsphere";
 
 const CACHE_HEADERS = { "Cache-Control": "private, no-store" };
@@ -145,7 +145,7 @@ export async function POST(request: Request) {
         if (label === "gender" || label === "date of birth" || label === "dob" || /^additional document /.test(label)) {
           return json({ message: `Complete the required Keka field: ${field.fieldName}.` }, 400);
         }
-        throw new KekaError(503, "unsupported required field");
+        throw new KekaError(503, `unsupported required field "${field.fieldName}"`);
       }
     }
     const uploads = await Promise.all(files.map(async ([field, file]) => [field.id, await uploadKekaDocument(file)] as const));
@@ -167,13 +167,13 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Keka SDR application failed", error instanceof KekaError ? error.message : undefined);
     if (created) {
-      return json({ message: "Keka received your application, but some attachments could not be confirmed. Contact the hiring team to complete it.", uncertain: true }, 502);
+      return json({ message: `Keka received your application, but some attachments could not be confirmed. Email ${CAREERS_EMAIL} to complete it.`, uncertain: true }, 502);
     }
     if (error instanceof KekaError && error.status === 409 && creating) {
       return json({ message: "Keka already has an application for this candidate." }, 409);
     }
     if (creating && (!(error instanceof KekaError) || error.status >= 500)) {
-      return json({ message: "Keka could not confirm your submission. Check with the hiring team before submitting again.", uncertain: true }, 502);
+      return json({ message: `Keka could not confirm your submission. Email ${CAREERS_EMAIL} before submitting again.`, uncertain: true }, 502);
     }
     if (error instanceof KekaError && error.status === 400 && creating) {
       return json({ message: "Keka rejected the application details. Check your information before trying again." }, 422);

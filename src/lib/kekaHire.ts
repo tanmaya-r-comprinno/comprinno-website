@@ -1,7 +1,8 @@
 import "server-only";
+import { SDR_CAMPAIGN } from "@/content/careerCampaigns";
 
 const HIRE_API = "https://comprinno.keka.com/api/v1/hire";
-const OUTBOUND_POSTING = "/careers/jobdetails/156580";
+const OUTBOUND_POSTING = `/careers/jobdetails/${SDR_CAMPAIGN.kekaJobId}`;
 const JOB_TITLE = "sales development representative (outbound)";
 const DETAILS_FIELD = "sdr campaign details";
 

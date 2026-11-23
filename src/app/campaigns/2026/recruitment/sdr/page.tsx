@@ -11,15 +11,18 @@ import ParticleWave from "@/components/ParticleWave";
 import LineWave from "@/components/LineWave";
 import { IconTile } from "@/components/Icon";
 import { Eyebrow } from "@/components/ui";
+import { SDR_CAMPAIGN } from "@/content/careerCampaigns";
+import { jobMetadata } from "@/lib/jobShareImage";
 
 /**
  * SDR recruitment landing page (low fidelity): black and white, matches the campaign page style.
  * Not in the site menu. The mock call uses VoxSphere.
  */
-export const metadata: Metadata = {
-  title: "We're hiring an SDR",
-  description: "Sales Development Rep, Pune or Bangalore. Take a 5-minute mock call with our voice agent to apply.",
-};
+export const metadata: Metadata = jobMetadata(
+  SDR_CAMPAIGN,
+  "We're hiring an SDR",
+  "Sales Development Rep, Pune or Bangalore. Take a 5-minute mock call with our voice agent to apply.",
+);
 
 const W = ({ children, className = "" }: { children: ReactNode; className?: string }) => <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
 

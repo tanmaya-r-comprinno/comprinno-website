@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } fro
 import { createPortal } from "react-dom";
 import { Eyebrow } from "@/components/ui";
 import {
-  APPLICATION_FILE_TYPES, APPLICATION_PATH, APPLICATION_UNAVAILABLE, APPLICATION_UPLOAD_BYTES, validApplicationFile,
+  APPLICATION_FILE_TYPES, APPLICATION_PATH, APPLICATION_UNAVAILABLE, CAREERS_EMAIL, APPLICATION_UPLOAD_BYTES, validApplicationFile,
 } from "@/lib/sdrApplication";
 
 /**
@@ -354,7 +354,7 @@ export default function ApplyModal({ open, onClose, call }: { open: boolean; onC
       }
     } catch {
       setSubmission("uncertain");
-      setError("The connection was interrupted. Check with the hiring team before submitting again.");
+      setError(`The connection was interrupted. Email ${CAREERS_EMAIL} before submitting again.`);
     } finally {
       sending.current = false;
     }
