@@ -587,3 +587,18 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
 /* closing-CTA steps with four steps instead of three */
 @media (min-width: 768px) { .cta-steps.cta-steps-4 { grid-template-columns: repeat(2, 1fr); max-width: none; } .cta-steps.cta-steps-4::before { display: none; } }
 @media (min-width: 1024px) { .cta-steps.cta-steps-4 { grid-template-columns: repeat(4, 1fr); } .cta-steps.cta-steps-4::before { display: block; } }
+
+/* ---------- Seller pages (/connect/*): site brand theme via .brand ---------- */
+/* signature writes itself in; negative insets leave room for cursive strokes outside the line box */
+.sig-draw { clip-path: inset(-0.5em 100% -0.5em -0.5em); animation: sig-draw 1.2s 0.6s ease forwards; }
+@keyframes sig-draw { to { clip-path: inset(-0.5em -0.5em -0.5em -0.5em); } }
+@media (prefers-reduced-motion: reduce) {
+  .sig-draw { animation: none; clip-path: none; }
+}
+/* no site menu or site footer; the page bar carries the logo */
+body:has(.seller-page) > .site-nav,
+body:has(.seller-page) > .site-footer { display: none; }
+/* hero numbers: the site growing-bar hover (blocked by .stats-compact fixed width) */
+@media (hover: hover) {
+  .seller-page .stats-compact .stat:hover::before { width: calc(100% - 1.8rem); }
+}

@@ -11,7 +11,8 @@ import { useEffect, useRef } from "react";
  */
 const ROWS = 34;
 
-export default function ParticleWave() {
+/** `themed`: take colours from the surrounding theme (e.g. a .brand wrapper) instead of the page root. */
+export default function ParticleWave({ themed = false }: { themed?: boolean } = {}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function ParticleWave() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const root = getComputedStyle(document.documentElement);
+    const root = getComputedStyle(themed ? canvas : document.documentElement);
     const dot = root.getPropertyValue("--color-line-strong").trim() || "#c9d3de";
     const accent = root.getPropertyValue("--color-accent").trim() || "#8aa0b8";
 
@@ -87,7 +88,7 @@ export default function ParticleWave() {
       ro.disconnect();
       io.disconnect();
     };
-  }, []);
+  }, [themed]);
 
   return <canvas ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />;
 }

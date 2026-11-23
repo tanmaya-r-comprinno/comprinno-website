@@ -81,6 +81,8 @@ export function Button({
     const m = children.match(/^(.*?)(\S+\s*[→↗])$/);
     if (m) body = <span>{m[1]}<span className="whitespace-nowrap">{m[2]}</span></span>;
   }
+  // in-page anchors: a plain <a> always scrolls, even when the URL already has that hash (Link does not)
+  if (href.startsWith("#")) return <a href={href} className={`btn btn-${variant} ${className}`}>{body}</a>;
   return (
     <Link href={href} className={`btn btn-${variant} ${className}`} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       {body}
