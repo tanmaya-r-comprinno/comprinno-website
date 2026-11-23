@@ -43,7 +43,7 @@ const H2 = ({ light, bold, center }: { light: string; bold: string; center?: boo
 const Initials = ({ i, className = "" }: { i: string; className?: string }) => (
   <span className={`icon-tile shrink-0 text-xs font-semibold ${className}`}>{i}</span>
 );
-const PHOTO = "/connect/pratham-mehta.png";
+const PHOTO = "/connect/pratham-mehta.webp";
 const Avatar = ({ i, className = "h-10 w-10" }: { i: string; className?: string }) =>
   i === "PM" ? (
     <Image src={PHOTO} alt="Pratham Mehta" width={96} height={96} className={`shrink-0 !rounded-full border border-neutral-200 object-cover ${className}`} />
@@ -139,7 +139,7 @@ export default function PrathamMehtaPage() {
           <div className="flex flex-col gap-3">
             <div className="relative">
               <Image src={PHOTO} alt="Pratham Mehta" width={512} height={640} priority className="aspect-[4/5] w-full !rounded-2xl border border-neutral-200 object-cover" />
-              <span className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-white/75 px-1.5 py-0.5 text-[.68rem] text-neutral-600 backdrop-blur-sm"><span className="relative flex h-1.5 w-1.5"><span className="absolute inset-0 bg-neutral-400 [clip-path:circle(50%)] motion-safe:animate-ping" /><span className="relative h-1.5 w-1.5 bg-neutral-600 [clip-path:circle(50%)]" /></span>Replies within a day</span>
+              <span className="absolute bottom-4 left-4 flex items-center gap-2 !rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-800 shadow-[0_6px_18px_-6px_rgb(10_19_75/0.45)]"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within a day</span>
             </div>
             {/* video not recorded yet: inactive placeholder. When it exists, make this a link/player again. */}
             <div aria-disabled="true" className="flex cursor-default items-center justify-between border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-500">
@@ -161,7 +161,7 @@ export default function PrathamMehtaPage() {
               </figcaption>
             </figure>
 
-            <div className="mt-6 flex flex-wrap gap-3"><Primary>Check my AWS credits</Primary><Secondary>Connect on WhatsApp</Secondary></div>
+            <div className="mt-6 flex flex-wrap gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
 
             <dl className="stats stats-compact mt-8 max-w-2xl bg-white lg:!grid-cols-3">
               {stats.map((s) => (
@@ -415,7 +415,7 @@ export default function PrathamMehtaPage() {
           <h2 className="mt-5 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong></h2>
           <p className="mt-3 text-neutral-600">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
           <Signature className="mt-3" />
-          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!border-[var(--brand-navy)] !bg-[var(--brand-navy)] !text-white hover:!border-[var(--brand-blue)] hover:!bg-[var(--brand-blue)]">Message on WhatsApp</Secondary></div>
+          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Message on WhatsApp</Secondary></div>
         </W>
       </section>
 
