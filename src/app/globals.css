@@ -109,6 +109,9 @@ input[type="email"]:focus-visible { outline: none; }
     transition: transform 0.15s ease, background-color 0.15s ease;
   }
   .btn:active { transform: translateY(1px); }
+  /* compact button for nav bars */
+  .btn.btn-nav { min-height: 2.25rem; padding: 0 .9rem; font-size: .82rem; gap: .35rem; }
+  @media (min-width: 1024px) { .btn.btn-nav { min-height: 2.6rem; padding: 0 1.15rem; font-size: .9rem; } }
   .btn-primary { background: var(--color-accent-soft); color: var(--color-ink); }
   .btn-primary:hover { background: var(--color-accent-line); }
   .btn-ghost { background: var(--color-bg); color: var(--color-ink-2); border-color: var(--color-line-strong); }

@@ -137,7 +137,7 @@ export default function SdrPage() {
             <img src="/brand/comprinno-logo.webp" alt="Comprinno" width={600} height={125} className="h-7 w-auto mix-blend-multiply" />
             <span className="hidden border-l border-line pl-3 font-mono text-[.62rem] uppercase tracking-[.14em] text-[#006bc9] sm:inline">Careers</span>
           </Link>
-          <a href="#mock-call" className="btn btn-primary shrink-0 whitespace-nowrap !px-4 !py-2 text-sm">Take the mock call</a>
+          <a href="#mock-call" className="btn btn-primary btn-nav shrink-0 whitespace-nowrap">Take the mock call</a>
         </W>
       </header>
 

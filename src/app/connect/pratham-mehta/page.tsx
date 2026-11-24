@@ -8,6 +8,8 @@ import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
 import ParticleWave from "@/components/ParticleWave";
+import { partnerPages } from "@/content/products";
+import { partnerLogo } from "@/content/partnerLogos";
 import LineWave from "@/components/LineWave";
 import FooterArt from "@/components/FooterArt";
 import HubSpotMeetings from "./HubSpotMeetings";
@@ -65,14 +67,14 @@ const stats = [
 ];
 // Real startups from comprinno.net case studies that moved to AWS from another cloud.
 const CS = "/resources/case-studies/";
-const startups: [string, IconName, string, string, string][] = [
-  ["PocoCare", "heart", "HealthTech", "Azure", "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization"],
-  ["Liquidmind", "bank", "FinTech", "Azure", "liquidmind-aws-migration-aws-migration-for-liquidmind-a-multi-product-cloud-infrastructure-on-aws"],
-  ["Matih Labs", "database", "AI data platform", "Azure", "ai-powered-data-insights-platform-aws-migration-modernizing-cloud-infrastructure-to-reliably-scale-matih-labs-unified-ai-data-platform"],
-  ["Roxonn", "cube", "Blockchain", "Azure + GCP", "blockchain-aws-migration-consolidating-azure-and-gcp-workloads-into-a-governed-ai-ready-aws-environment-for-roxonn"],
-  ["Quantian", "code", "IT services", "Multi-cloud", "quantian-technologies-aws-cloud-modernization-enhancing-deployment-efficiency-and-cloud-security-for-quantian"],
-  ["Skill-Lync", "users", "EdTech", "DigitalOcean", "skill-lync-migrates-to-aws-from-digital-ocean"],
+// no case study or logo yet: shown as plain rows, not links
+const moreWork: [string, string, string, string][] = [
+  ["Codemate", "Cloud migration", "GCP → AWS", "codemate"],
+  ["Bull Agritech", "GenAI proof of concept", "GenAI POC", "bull-agritech"],
+  ["The EleFant", "GenAI proof of concept", "GenAI POC", "the-elefant"],
 ];
+// "Read at your own pace" stays hidden until these customers have published case studies or blogs
+const SHOW_READS = false;
 const steps = [
   { mark: "Unlock", t: "Unlock credits with AWS Activate", d: "Up to $200K in AWS Activate credits for eligible startups. We check what you qualify for and apply with you. In 2026, we have helped customers secure $5M+ in credits (as of [approved date])." },
   { mark: "Migrate", t: "Migrate with AWS SMP", d: "Compute and AI workloads move from Google Cloud or Azure through the AWS Startup Migrate Program (SMP), at no cost to eligible startups." },
@@ -95,13 +97,6 @@ const programmes: { icon: IconName; tag: string; t: string; d: string }[] = [
   { icon: "migrate", tag: "Every startup", t: "AWS Startup Migrate Program (SMP)", d: "Migration at no cost to you: we move external workloads, from other clouds, on-premises or co-location, to AWS." },
   { icon: "rocket", tag: "Spending $100K+ on GCP or Azure", t: "MAP 2.0 & MAP Lite", d: "The AWS Migration Acceleration Program funds larger moves: assessment, migration and modernization, for startups with significant spend on another cloud." },
   { icon: "spark", tag: "No cost if eligible", t: "GenAI POC & path to production", d: "Prove your GenAI use case with a proof of concept, then a clear path to production on AWS, at no cost to eligible startups." },
-];
-const partners = [
-  { t: "AWS", d: "Premier Tier Partner. Credits, migration programs and the startup ecosystem." },
-  { t: "OpenAI", d: "Select Partner. GPT models for products that need them." },
-  { t: "Anthropic", d: "Claude models, directly or through Amazon Bedrock." },
-  { t: "ElevenLabs", d: "Voice AI for agents, support and content." },
-  { t: "MongoDB", d: "Atlas on AWS, including vector search for AI apps." },
 ];
 const badges = ["AWS Premier Tier Partner", "AWS Migration Competency", "AWS MSP · Level 1 MSSP", "OpenAI Select Partner", "ISO 27001 · SOC 2 Type II"];
 const faq = [
@@ -129,7 +124,7 @@ export default function PrathamMehtaPage() {
             <Logo />
             <span className="hidden whitespace-nowrap border-l border-line pl-3 font-mono text-[.62rem] uppercase tracking-[.14em] text-[#006bc9] sm:inline">AWS Startups</span>
           </span>
-          <Button href="#calendar" className="shrink-0">Let&apos;s talk credits</Button>
+          <Button href="#calendar" className="btn-nav shrink-0">Let&apos;s talk credits</Button>
         </W>
       </div>
 
@@ -156,11 +151,11 @@ export default function PrathamMehtaPage() {
                 <p className="mt-2 flex items-center gap-2 text-[clamp(.68rem,3.1vw,.8rem)] font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
               </div>
             </div>
-            <p className="mt-4 max-w-2xl text-[1.05rem] font-medium leading-relaxed text-neutral-800 sm:text-xl sm:leading-snug">I help early-stage startups work out if moving to AWS makes sense, and if it does, how to do it without slowing the team down.</p>
+            <p className="mt-4 max-w-2xl text-[1.05rem] font-medium leading-relaxed text-neutral-800 sm:text-xl sm:leading-snug">Helping early-stage startups move to AWS at no migration cost, with up to $200K in AWS credits and the AWS startup ecosystem behind them.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
               <Mono>A note from Pratham, to you</Mono>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-700">Hi, I&apos;m Pratham. If you&apos;re on Google Cloud or Azure and wondering whether a move to AWS is worth it, tell me what you&apos;re running. I&apos;ll give you my honest take, and we can look at credits and migration support if they apply to you.</p>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-700">Hi, I&apos;m Pratham. If you&apos;re running on Google Cloud or Azure today, I&apos;d love to show you how you can move to AWS without paying for the migration, with up to $200K in credits to build on. No pressure and no jargon: just a 20-minute call to see what you qualify for.</p>
               <figcaption className="mt-1">
                 <Signature className="-mb-2" />
               </figcaption>
@@ -192,19 +187,18 @@ export default function PrathamMehtaPage() {
         <W className="relative">
           <div className="text-center"><Eyebrow>Proof, not promises</Eyebrow></div>
           <H2 center light="Startups that moved" bold="to AWS with us." />
-          <p className="mx-auto mt-3 max-w-md text-center text-sm text-neutral-600">From Azure, Google Cloud and DigitalOcean to AWS. Each one is a published Comprinno case study.</p>
-          <div className="proof-list mx-auto mt-8 grid max-w-5xl border-l border-t border-neutral-300 bg-white sm:grid-cols-2 lg:grid-cols-3">
-            {startups.map(([n, , ind, from, slug]) => (
-              <Link key={n} href={CS + slug} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-3 border-b border-r border-neutral-300 px-4 py-3.5 transition-colors hover:bg-[#f3f8fd] sm:px-5 sm:py-5">
+          <p className="mx-auto mt-3 max-w-xl text-center text-sm text-neutral-600 [text-wrap:balance]">A Google Cloud migration and GenAI proofs of concept, built on AWS.</p>
+          <div className="proof-list mx-auto mt-8 grid max-w-5xl border-l border-t border-neutral-300 bg-white sm:grid-cols-3">
+            {moreWork.map(([n, ind, tag, logo]) => (
+              <div key={n} className="group flex items-center justify-between gap-3 sm:flex-col sm:items-start sm:justify-start lg:flex-row lg:items-center lg:justify-between border-b border-r border-neutral-300 px-4 py-4 transition-colors hover:bg-[#f3f8fd] sm:px-5 sm:py-6">
                 <span className="min-w-0">
-                  <span className="block font-semibold leading-tight text-ink">{n}</span>
-                  <span className="mt-1 block text-xs text-neutral-500">{ind}</span>
+                  <span className="flex h-8 items-center">
+                    <Image src={`/connect/logos/${logo}.webp`} alt={n} width={180} height={32} className="h-auto max-h-7 w-auto max-w-[8.5rem] opacity-45 transition-opacity duration-200 group-hover:opacity-100" />
+                  </span>
+                  <span className="mt-2 block text-xs text-neutral-500">{ind}</span>
                 </span>
-                <span className="flex shrink-0 items-center gap-3">
-                  <span className="border border-neutral-300 px-2 py-0.5 font-mono text-[.62rem] uppercase tracking-[.08em] text-neutral-600 transition-colors group-hover:border-[var(--brand-blue)] group-hover:text-[var(--brand-blue)]">{from} → AWS</span>
-                  <span className="go text-[var(--brand-blue)]" aria-hidden="true">→</span>
-                </span>
-              </Link>
+                <span className="shrink-0 border border-neutral-300 px-2 py-0.5 font-mono text-[.62rem] uppercase tracking-[.08em] text-neutral-600">{tag}</span>
+              </div>
             ))}
           </div>
         </W>
@@ -280,14 +274,26 @@ export default function PrathamMehtaPage() {
         <W>
           <div className="text-center"><Eyebrow>Beyond AWS, I can bring in</Eyebrow></div>
           <H2 center light="Moving to AWS? Add the AI tools" bold="you&apos;ll build with next." />
-          <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {partners.map((p) => (
-              <div key={p.t} className="card p-4">
-                <h3 className="font-semibold !text-neutral-900">{p.t}</h3>
-                <p className="mt-1 text-xs text-neutral-600">{p.d}</p>
-              </div>
-            ))}
-          </div>
+          {/* same partner strip as "Official partners" on the home page */}
+          <ul className="mt-8 flex flex-wrap justify-center gap-3">
+            {partnerPages.map((p) => {
+              const logo = (
+                <>
+                  <svg viewBox="0 0 24 24" role="img" aria-label={`${partnerLogo[p.slug].title}, ${p.badge}`} className={`partner-mark ${p.slug === "aws" ? "partner-mark-lg" : ""}`}>
+                    <path d={partnerLogo[p.slug].d} fill="currentColor" />
+                  </svg>
+                  {p.slug !== "aws" && <span className="partner-name">{p.name}</span>}
+                </>
+              );
+              return (
+                <li key={p.slug} className="basis-[calc(50%-0.375rem)] sm:basis-[calc(33.333%-0.5rem)] lg:basis-[calc(20%-0.6rem)]">
+                  {p.hidden
+                    ? <div title={`${p.name}: ${p.badge}`} className="partner-tile">{logo}</div>
+                    : <Link href={p.href} target="_blank" rel="noopener noreferrer" title={`${p.name}: ${p.badge}`} className="partner-tile">{logo}</Link>}
+                </li>
+              );
+            })}
+          </ul>
         </W>
       </section>
 
@@ -382,6 +388,7 @@ export default function PrathamMehtaPage() {
       </section>
 
       {/* reading */}
+      {SHOW_READS && (
       <section className="border-t border-neutral-200 bg-neutral-50 py-14">
         <W>
           <div className="text-center"><Eyebrow>Read at your own pace</Eyebrow></div>
@@ -398,6 +405,7 @@ export default function PrathamMehtaPage() {
           </div>
         </W>
       </section>
+      )}
 
       {/* FAQ chat */}
       {/* FAQ: same design as "Questions before you apply?" on the SDR page */}
@@ -422,9 +430,9 @@ export default function PrathamMehtaPage() {
       {/* closing CTA */}
       <section className="cta-full">
         <div className="cta-wave" aria-hidden="true"><LineWave /></div>
-        <W className="relative max-w-2xl py-16 text-center sm:py-24">
+        <W className="relative max-w-3xl py-16 text-center sm:py-24">
           <Avatar i="PM" className="mx-auto h-16 w-16" />
-          <h2 className="mt-5 text-3xl tracking-tight sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
+          <h2 className="mt-5 text-[clamp(1.6rem,4.6vw,2.25rem)] leading-tight tracking-tight"><span className="sm:whitespace-nowrap"><span className="font-light">Your move to AWS </span><strong className="whitespace-nowrap font-semibold">could cost you nothing.</strong></span> <span className="block font-light sm:mt-1">Find out if you qualify.</span></h2>
           <p className="mt-3 text-muted">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
           <Signature className="mt-3 invert" />
           <div className="mx-auto mt-6 grid max-w-sm gap-3 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center [&>a]:w-full [&>a]:justify-center sm:[&>a]:w-auto"><Primary>Let&apos;s talk credits</Primary><Secondary className="!border-white !bg-white !text-[#1c1c1c] hover:!bg-transparent hover:!text-white">Connect on WhatsApp</Secondary></div>

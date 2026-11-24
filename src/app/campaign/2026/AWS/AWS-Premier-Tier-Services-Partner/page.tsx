@@ -104,7 +104,7 @@ export default function AwsCampaign() {
           </Link>
           <div className="flex items-center gap-4">
             <a href={tel} className="hidden text-sm text-ink-2 hover:text-[#006bc9] md:inline">{site.phone}</a>
-            <a href="#book" className="btn btn-primary !px-4 !py-2 text-sm">Book a consultation</a>
+            <a href="#book" className="btn btn-primary btn-nav">Book a consultation</a>
           </div>
         </W>
       </header>

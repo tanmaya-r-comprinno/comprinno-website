@@ -53,7 +53,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="/contact" className="btn btn-primary hidden !min-h-10 sm:inline-flex">Talk to an expert</Link>
+          <Link href="/contact" className="btn btn-primary btn-nav hidden sm:inline-flex">Talk to an expert</Link>
           <MobileNav nav={nav} />
           <NavCloser />
         </div>
