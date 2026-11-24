@@ -8,6 +8,7 @@ import FlowLoop from "./FlowLoop";
 import Credentials from "./Credentials";
 import OutcomeCards, { type OutcomePick } from "./OutcomeCards";
 import RainField from "./RainField";
+import ParticleWave from "./ParticleWave";
 
 /**
  * One layout for every service stage page (Migrate, Modernize, Manage, Maximize).
@@ -106,7 +107,7 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       </Section>
 
       {/* SCOPE: what we move / modernize / run */}
-      <Section tone="surface" className="bg-grid">
+      <Section tone="surface" background={<ParticleWave themed />}>
         <SectionHead eyebrow={d.scope.eyebrow} title={d.scope.title} desc={d.scope.desc} />
         {d.scope.style === "icons" ? (
           <ul className="scope-list grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
