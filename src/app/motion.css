@@ -603,7 +603,7 @@ body:has(.seller-page) > .site-footer { display: none; }
   .seller-page .stats-compact .stat:hover::before { width: calc(100% - 1.8rem); }
 }
 /* long section labels may wrap on small phones instead of widening the column */
-@media (max-width: 639px) { .seller-page .eyebrow { white-space: normal; } }
+@media (max-width: 639px) { .seller-page .eyebrow { white-space: normal; text-align: left; } }
 /* hero numbers on phones: one full-width row per stat (number, then label) instead of a 2 + 1 grid */
 @media (max-width: 639px) {
   .seller-page .stats-3 { grid-template-columns: 1fr; }

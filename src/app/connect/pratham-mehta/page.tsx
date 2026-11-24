@@ -147,15 +147,15 @@ export default function PrathamMehtaPage() {
           <div className="min-w-0">
             <Eyebrow>For early-stage startups on clouds</Eyebrow>
             <div className="mt-5 flex items-center gap-4 lg:mt-4 lg:block">
-              <div className="relative shrink-0 lg:hidden">
-                <Image src={PHOTO} alt="" width={192} height={192} priority className="h-[88px] w-[88px] !rounded-2xl border border-neutral-200 object-cover object-top shadow-[0_10px_24px_-10px_rgb(10_19_75/0.45)] sm:h-28 sm:w-28" />
+              <div className="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28 lg:hidden">
+                <Image src={PHOTO} alt="" width={192} height={192} priority className="absolute inset-0 h-full w-full !rounded-2xl border border-neutral-200 object-cover object-top shadow-[0_10px_24px_-10px_rgb(10_19_75/0.45)] " />
               </div>
               <div className="min-w-0">
-                <h1 className="text-[2rem] leading-tight tracking-tight !text-neutral-900 sm:text-5xl"><span className="font-light">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
-                <p className="mt-1 text-sm text-neutral-500 lg:mt-2">Business Development Representative · Startups</p>
-                <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
+                <h1 className="text-[clamp(1.45rem,7.4vw,1.85rem)] leading-[1.1] tracking-tight !text-neutral-900 sm:text-5xl"><span className="block font-light lg:inline">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
+                <p className="mt-1 ![text-wrap:nowrap] text-[clamp(.62rem,3.05vw,.8rem)] leading-snug text-neutral-500 sm:text-sm lg:mt-2">Business Development Representative<span className="hidden sm:inline"> · Startups</span></p>
               </div>
             </div>
+            <p className="mt-3 flex items-center gap-2 text-xs font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
             <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS, with no-cost migration and up to $200K in AWS credits for those who qualify, backed by the AWS startup ecosystem.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
@@ -166,7 +166,7 @@ export default function PrathamMehtaPage() {
               </figcaption>
             </figure>
 
-            <div className="mt-6 flex flex-wrap gap-3"><Primary>Let&apos;s talk credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
+            <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap [&>a]:w-full [&>a]:justify-center sm:[&>a]:w-auto"><Primary>Let&apos;s talk credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
 
             <dl className="stats stats-compact stats-3 mt-8 max-w-2xl bg-white">
               {stats.map((s) => (
@@ -336,7 +336,7 @@ export default function PrathamMehtaPage() {
                 </div>
               ))}
             </dl>
-            <div className="mt-5 flex flex-wrap gap-2 border-t border-neutral-300 pt-5">{badges.map((b) => <Label key={b}>{b}</Label>)}</div>
+            <div className="mt-5 flex flex-wrap gap-1.5 border-t border-neutral-300 pt-5 max-sm:[&_.tag]:!px-2 max-sm:[&_.tag]:!text-[.6rem] max-sm:[&_.tag]:!tracking-normal sm:gap-2">{badges.map((b) => <Label key={b}>{b}</Label>)}</div>
             <Mono className="mt-5">Startups that moved with us</Mono>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <Link href="/resources/case-studies" target="_blank" rel="noopener noreferrer" className="card p-4"><p className="text-xl font-semibold">GCP / Azure → AWS</p><p className="mt-1 text-sm text-neutral-600">Skill-Lync and Liquidmind moved their production workloads with us →</p></Link>
@@ -402,7 +402,7 @@ export default function PrathamMehtaPage() {
       {/* FAQ: same design as "Questions before you apply?" on the SDR page */}
       <section className="border-t border-neutral-200 bg-white py-16 sm:py-20">
         <W className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div>
+          <div className="text-center lg:text-left">
             <Eyebrow>Questions you might ask me</Eyebrow>
             <h2 className="mt-4 text-3xl font-normal leading-tight !text-neutral-900 [&_strong]:font-semibold">You ask. <strong>I&apos;ll answer straight.</strong></h2>          </div>
           <div className="divide-y divide-neutral-200 border border-neutral-300 bg-white">
@@ -426,7 +426,7 @@ export default function PrathamMehtaPage() {
           <h2 className="mt-5 text-3xl tracking-tight sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
           <p className="mt-3 text-muted">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
           <Signature className="mt-3 invert" />
-          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Let&apos;s talk credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
+          <div className="mx-auto mt-6 grid max-w-sm gap-3 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center [&>a]:w-full [&>a]:justify-center sm:[&>a]:w-auto"><Primary>Let&apos;s talk credits</Primary><Secondary className="!border-white !bg-white !text-[#1c1c1c] hover:!bg-transparent hover:!text-white">Connect on WhatsApp</Secondary></div>
         </W>
       </section>
 
