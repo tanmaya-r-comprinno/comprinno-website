@@ -8,6 +8,7 @@ import { Icon, IconTile, type IconName } from "@/components/Icon";
 import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
 import ParticleWave from "@/components/ParticleWave";
+import LineWave from "@/components/LineWave";
 import FooterArt from "@/components/FooterArt";
 import HubSpotMeetings from "./HubSpotMeetings";
 import { Logo } from "@/components/Header";
@@ -332,26 +333,6 @@ export default function PrathamMehtaPage() {
         </W>
       </section>
 
-      {/* FAQ chat */}
-      {/* FAQ: same design as "Questions before you apply?" on the SDR page */}
-      <section className="border-b border-neutral-200 bg-neutral-50 py-16 sm:py-20">
-        <W className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div>
-            <Eyebrow>Questions you might ask me</Eyebrow>
-            <h2 className="mt-4 text-3xl font-normal leading-tight !text-neutral-900 [&_strong]:font-semibold">You ask. <strong>I&apos;ll answer straight.</strong></h2>          </div>
-          <div className="divide-y divide-neutral-200 border border-neutral-300 bg-white">
-            {faq.map((f) => (
-              <details key={f.q} className="group px-5 py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
-                  {f.q}<span className="text-neutral-500 group-open:hidden">+</span><span className="hidden text-neutral-500 group-open:inline">−</span>
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </W>
-      </section>
-
       {/* calendar */}
       <section id="calendar" className="scroll-mt-24 border-t border-neutral-200 py-14">
         <W>
@@ -372,7 +353,7 @@ export default function PrathamMehtaPage() {
                 <IconTile name="mail" />
                 <span><span className="block font-semibold">Email</span><span className="text-xs text-neutral-500">{EMAIL}</span></span>
               </a>
-              <form className="flex-1 border border-neutral-300 bg-neutral-50 p-4">
+              <form className="flex-1 border border-neutral-300 bg-white p-4">
                 <Mono>Or drop me a note</Mono>
                 {[["Name", "text"], ["Work email", "email"], ["Startup name", "text"]].map(([l, t]) => (
                   <label key={l} className="mt-3 block text-sm">{l}<input type={t} className={field} /></label>
@@ -404,14 +385,34 @@ export default function PrathamMehtaPage() {
         </W>
       </section>
 
+      {/* FAQ chat */}
+      {/* FAQ: same design as "Questions before you apply?" on the SDR page */}
+      <section className="border-t border-neutral-200 bg-white py-16 sm:py-20">
+        <W className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <div>
+            <Eyebrow>Questions you might ask me</Eyebrow>
+            <h2 className="mt-4 text-3xl font-normal leading-tight !text-neutral-900 [&_strong]:font-semibold">You ask. <strong>I&apos;ll answer straight.</strong></h2>          </div>
+          <div className="divide-y divide-neutral-200 border border-neutral-300 bg-white">
+            {faq.map((f) => (
+              <details key={f.q} className="group px-5 py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
+                  {f.q}<span className="text-neutral-500 group-open:hidden">+</span><span className="hidden text-neutral-500 group-open:inline">−</span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </W>
+      </section>
+
       {/* closing CTA */}
-      <section className="relative isolate overflow-hidden py-16 text-center">
-        <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
-        <W className="max-w-2xl">
+      <section className="cta-full">
+        <div className="cta-wave" aria-hidden="true"><LineWave /></div>
+        <W className="relative max-w-2xl py-16 text-center sm:py-24">
           <Avatar i="PM" className="mx-auto h-16 w-16" />
-          <h2 className="mt-5 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
-          <p className="mt-3 text-neutral-600">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
-          <Signature className="mt-3" />
+          <h2 className="mt-5 text-3xl tracking-tight sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
+          <p className="mt-3 text-muted">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
+          <Signature className="mt-3 invert" />
           <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
         </W>
       </section>
