@@ -147,16 +147,16 @@ export default function PrathamMehtaPage() {
           <div className="min-w-0">
             <Eyebrow>For early-stage startups on clouds</Eyebrow>
             <div className="mt-5 flex items-center gap-4 lg:mt-4 lg:block">
-              <div className="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28 lg:hidden">
+              <div className="relative h-[clamp(5.5rem,28vw,7.5rem)] w-[clamp(5.5rem,28vw,7.5rem)] shrink-0 sm:h-32 sm:w-32 lg:hidden">
                 <Image src={PHOTO} alt="" width={192} height={192} priority className="absolute inset-0 h-full w-full !rounded-2xl border border-neutral-200 object-cover object-top shadow-[0_10px_24px_-10px_rgb(10_19_75/0.45)] " />
               </div>
               <div className="min-w-0">
-                <h1 className="text-[clamp(1.45rem,7.4vw,1.85rem)] leading-[1.1] tracking-tight !text-neutral-900 sm:text-5xl"><span className="block font-light lg:inline">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
-                <p className="mt-1 ![text-wrap:nowrap] text-[clamp(.62rem,3.05vw,.8rem)] leading-snug text-neutral-500 sm:text-sm lg:mt-2">Business Development Representative<span className="hidden sm:inline"> · Startups</span></p>
+                <h1 className="text-[clamp(1.4rem,7.6vw,2.1rem)] leading-[1.15] tracking-tight !text-neutral-900 sm:text-5xl"><span className="block font-light lg:inline">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
+                <p className="mt-1 ![text-wrap:nowrap] text-[clamp(.6rem,2.95vw,.85rem)] leading-snug text-neutral-500 sm:text-sm lg:mt-2">Business Development Representative<span className="hidden sm:inline"> · Startups</span></p>
+                <p className="mt-2 flex items-center gap-2 text-[clamp(.68rem,3.1vw,.8rem)] font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
               </div>
             </div>
-            <p className="mt-3 flex items-center gap-2 text-xs font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
-            <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">I help early-stage startups work out if moving to AWS makes sense, and if it does, how to do it without slowing the team down.</p>
+            <p className="mt-4 max-w-2xl text-[1.05rem] font-medium leading-relaxed text-neutral-800 sm:text-xl sm:leading-snug">I help early-stage startups work out if moving to AWS makes sense, and if it does, how to do it without slowing the team down.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
               <Mono>A note from Pratham, to you</Mono>
