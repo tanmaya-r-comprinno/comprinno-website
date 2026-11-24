@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 type Booked = { when?: number };
 
 /** Calendar-shaped placeholder shown until HubSpot's iframe has loaded. */
-function CalendarSkeleton({ slow, url }: { slow: boolean; url: string }) {
+function CalendarSkeleton({ slow, url, email }: { slow: boolean; url: string; email: string }) {
   const bar = "bg-neutral-200 motion-safe:animate-pulse";
   return (
     <div role="status" aria-live="polite" className="flex h-full min-h-[560px] flex-col border border-[var(--color-line-strong)] bg-white lg:h-[670px]">
@@ -30,8 +30,12 @@ function CalendarSkeleton({ slow, url }: { slow: boolean; url: string }) {
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-neutral-100 px-4 py-3 text-center text-sm text-neutral-600">
-        <span>Loading Pratham&apos;s calendar…</span>
-        {slow && <a href={url} target="_blank" rel="noopener noreferrer" className="font-medium text-[var(--brand-blue)] underline">Taking a while? Open it directly</a>}
+        {slow ? (
+          // fallback so visitors are never left on an endless loading state
+          <span>Calendar not loading? <a href={url} target="_blank" rel="noopener noreferrer" className="font-medium text-[var(--brand-blue)] underline">Book a call</a> or email <a href={`mailto:${email}`} className="font-medium text-[var(--brand-blue)] underline">{email}</a></span>
+        ) : (
+          <span>Loading Pratham&apos;s calendar…</span>
+        )}
       </div>
     </div>
   );
@@ -45,7 +49,7 @@ function CalendarSkeleton({ slow, url }: { slow: boolean; url: string }) {
  * Weight: HubSpot's embed pulls ~3 MB (plus its analytics). We only load it when the calendar
  * comes within ~800px of the viewport (or the visitor jumps to #calendar), so the page itself stays light.
  */
-export default function HubSpotMeetings({ url }: { url: string }) {
+export default function HubSpotMeetings({ url, email }: { url: string; email: string }) {
   const [booked, setBooked] = useState<Booked | null>(null);
   const [near, setNear] = useState(false);
   const [ready, setReady] = useState(false); // HubSpot iframe has loaded
@@ -113,7 +117,7 @@ export default function HubSpotMeetings({ url }: { url: string }) {
     <>
       {done}
       <div ref={box} className={booked ? "hidden" : "relative h-full"}>
-        {!ready && <CalendarSkeleton slow={slow} url={url} />}
+        {!ready && <CalendarSkeleton slow={slow} url={url} email={email} />}
         {near && (
           // kept out of view (not display:none, so HubSpot can size it) until the iframe has loaded
           <div ref={holder} className={ready ? undefined : "pointer-events-none invisible absolute inset-x-0 top-0 -z-10"}>

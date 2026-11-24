@@ -602,3 +602,12 @@ body:has(.seller-page) > .site-footer { display: none; }
 @media (hover: hover) {
   .seller-page .stats-compact .stat:hover::before { width: calc(100% - 1.8rem); }
 }
+/* long section labels may wrap on small phones instead of widening the column */
+@media (max-width: 639px) { .seller-page .eyebrow { white-space: normal; } }
+/* hero numbers on phones: one full-width row per stat (number, then label) instead of a 2 + 1 grid */
+@media (max-width: 639px) {
+  .seller-page .stats-3 { grid-template-columns: 1fr; }
+  .seller-page .stats-3 .stat { flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: .75rem; padding: 1rem .9rem .85rem; }
+  .seller-page .stats-3 .stat + .stat { border-left: 0; border-top: 1px solid var(--color-line); }
+  .seller-page .stats-3 .stat-num { min-width: 9.75rem; }
+}

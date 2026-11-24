@@ -9,7 +9,6 @@ import GridGlow from "@/components/GridGlow";
 import RainField from "@/components/RainField";
 import ParticleWave from "@/components/ParticleWave";
 import FooterArt from "@/components/FooterArt";
-import { site } from "@/lib/site";
 import HubSpotMeetings from "./HubSpotMeetings";
 import { Logo } from "@/components/Header";
 import type { ReactNode } from "react";
@@ -20,7 +19,7 @@ import type { ReactNode } from "react";
  */
 export const metadata: Metadata = {
   title: "Meet Pratham Mehta",
-  description: "Move to AWS at no migration cost, with up to $200K in AWS credits. Book a 30-minute call with Pratham.",
+  description: "Eligible startups can move to AWS at no migration cost, with up to $200K in AWS credits. Book a 30-minute call with Pratham.",
   robots: { index: false, follow: false },
 };
 
@@ -59,8 +58,8 @@ const Signature = ({ className = "" }: { className?: string }) => (
 );
 
 const stats = [
-  { v: "$0", k: "migration cost to you" },
-  { v: "$200K", k: "up to, in AWS credits" },
+  { v: "$0", k: "migration cost for eligible startups" },
+  { v: "Up to $200K", k: "AWS credits for eligible startups" },
   { v: "$5M+", k: "credits influenced for customers in 2026" },
 ];
 // Real startups from comprinno.net case studies that moved to AWS from another cloud.
@@ -74,9 +73,9 @@ const startups: [string, IconName, string, string, string][] = [
   ["Skill-Lync", "users", "EdTech", "DigitalOcean", "skill-lync-migrates-to-aws-from-digital-ocean"],
 ];
 const steps = [
-  { mark: "Unlock", t: "Unlock credits with AWS Activate", d: "Up to $200K in AWS Activate credits for eligible startups. We check what you qualify for and apply with you. In 2026 alone we influenced $5M+ in credits for customers." },
-  { mark: "Migrate", t: "Migrate with AWS SMP", d: "Compute and AI workloads move from GCP or Azure through the AWS Startup Migrate Program (SMP), at no cost to you." },
-  { mark: "Join", t: "Join the AWS ecosystem", d: "Access AWS startup programmes, technical experts and go-to-market opportunities." },
+  { mark: "Unlock", t: "Unlock credits with AWS Activate", d: "Up to $200K in AWS Activate credits for eligible startups. We check what you qualify for and apply with you. In 2026, we have helped customers secure $5M+ in credits (as of [approved date])." },
+  { mark: "Migrate", t: "Migrate with AWS SMP", d: "Compute and AI workloads move from Google Cloud or Azure through the AWS Startup Migrate Program (SMP), at no cost to eligible startups." },
+  { mark: "Join", t: "Join the AWS ecosystem", d: "Access AWS startup programs, technical experts and go-to-market opportunities." },
   { mark: "Scale", t: "Build and scale on AWS", d: "Land well, then keep building: we're with you after the move, not just for it." },
 ];
 // LinkedIn mark, same path as the site footer
@@ -84,20 +83,20 @@ const LINKEDIN = "M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.
 
 const help: { icon: IconName; t: string; d: string }[] = [
   { icon: "coin", t: "AWS Activate credits", d: "Up to $200K in credits for eligible startups. We find what you qualify for and apply with you." },
-  { icon: "migrate", t: "AWS Startup Migrate Program", d: "We move your workloads from GCP, Azure, on-premises or co-location through SMP, at no cost to you." },
-  { icon: "spark", t: "AI workloads too", d: "Move models, pipelines and AI features along with your app. Plus GenAI POCs and a path to production at no cost to you." },
-  { icon: "users", t: "AWS startup ecosystem", d: "Introductions to AWS startup programmes, architects and growth opportunities." },
-  { icon: "shield", t: "A foundation that scales", d: "A secure, well-architected AWS setup from day one, so you never have to redo it." },
+  { icon: "migrate", t: "AWS Startup Migrate Program", d: "We move your workloads from Google Cloud, Azure, on-premises or co-location through SMP, at no cost to eligible startups." },
+  { icon: "spark", t: "AI workloads too", d: "Move models, pipelines and AI features along with your app. Plus GenAI proofs of concept (POCs) and a path to production, at no cost to eligible startups." },
+  { icon: "users", t: "AWS startup ecosystem", d: "Introductions to AWS startup programs, architects and growth opportunities." },
+  { icon: "shield", t: "A foundation that scales", d: "A secure, well-architected AWS setup from day one, built to scale as you grow." },
   { icon: "chart", t: "Support as you grow", d: "Managed operations and cost reviews when you need them, from the same team." },
 ];
 const programmes: { icon: IconName; tag: string; t: string; d: string }[] = [
   { icon: "coin", tag: "Every startup", t: "AWS Activate", d: "Up to $200K in AWS credits for eligible startups. We check what you qualify for and apply with you." },
   { icon: "migrate", tag: "Every startup", t: "AWS Startup Migrate Program (SMP)", d: "Migration at no cost to you: we move external workloads, from other clouds, on-premises or co-location, to AWS." },
   { icon: "rocket", tag: "Spending $100K+ on GCP or Azure", t: "MAP 2.0 & MAP Lite", d: "The AWS Migration Acceleration Program funds larger moves: assessment, migration and modernization, for startups with significant spend on another cloud." },
-  { icon: "spark", tag: "No cost to you", t: "GenAI POC & path to production", d: "Prove your GenAI use case with a proof of concept, then a clear path to production on AWS, at no cost to you." },
+  { icon: "spark", tag: "No cost if eligible", t: "GenAI POC & path to production", d: "Prove your GenAI use case with a proof of concept, then a clear path to production on AWS, at no cost to eligible startups." },
 ];
 const partners = [
-  { t: "AWS", d: "Premier Tier Partner. Credits, migration programmes and the startup ecosystem." },
+  { t: "AWS", d: "Premier Tier Partner. Credits, migration programs and the startup ecosystem." },
   { t: "OpenAI", d: "Select Partner. GPT models for products that need them." },
   { t: "Anthropic", d: "Claude models, directly or through Amazon Bedrock." },
   { t: "ElevenLabs", d: "Voice AI for agents, support and content." },
@@ -110,10 +109,11 @@ const faq = [
   { q: "We're a small team. Won't this distract us?", a: "That's exactly why we do the heavy lifting. Your engineers stay on the product while we run the migration." },
   { q: "What happens after we move?", a: "You're plugged into the AWS startup ecosystem, and I stay with you as you grow." },
 ];
-const reads: { icon: IconName; about: string; k: string; t: string; c: string }[] = [
-  { icon: "coin", about: "Cloud", k: "Guide", t: "AWS credits for startups: what you can qualify for and how to apply", c: "Read the guide" },
-  { icon: "check", about: "Migrate", k: "Checklist", t: "Moving from GCP or Azure to AWS: a one-page checklist for small teams", c: "Get the checklist" },
-  { icon: "database", about: "Migrate", k: "Case study", t: "PocoCare moves from Azure Cosmos DB to AWS", c: "Read the story" },
+const reads: { icon: IconName; about: string; k: string; t: string; c: string; href: string }[] = [
+  // only items with a real page on comprinno.net
+  { icon: "database", about: "Migrate", k: "Case study", t: "PocoCare moves from Azure Cosmos DB to AWS", c: "Read the story", href: CS + "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization" },
+  { icon: "cloud", about: "Migrate", k: "Case study", t: "Skill-Lync moves from DigitalOcean to AWS", c: "Read the story", href: CS + "skill-lync-migrates-to-aws-from-digital-ocean" },
+  { icon: "coin", about: "Cost", k: "Blog", t: "Optimizing cost during cloud migration with AWS Cost Explorer and Trusted Advisor", c: "Read the post", href: "/resources/blog/optimizing-cost-during-cloud-migration-with-aws-cost-explorer-and-trusted-advisor" },
 ];
 const field = "mt-1 w-full border border-neutral-300 bg-white px-3 py-2 text-sm";
 
@@ -139,19 +139,15 @@ export default function PrathamMehtaPage() {
           <div className="flex flex-col gap-3">
             <div className="relative">
               <Image src={PHOTO} alt="Pratham Mehta" width={512} height={640} priority className="aspect-[4/5] w-full !rounded-2xl border border-neutral-200 object-cover" />
-              <span className="absolute bottom-4 left-4 flex items-center gap-2 !rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-800 shadow-[0_6px_18px_-6px_rgb(10_19_75/0.45)]"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within a day</span>
-            </div>
-            {/* video not recorded yet: inactive placeholder. When it exists, make this a link/player again. */}
-            <div aria-disabled="true" className="flex cursor-default items-center justify-between border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-500">
-              <span className="flex items-center gap-2.5"><span className="grid h-9 w-9 shrink-0 place-items-center !rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent)] ring-1 ring-[var(--color-accent-line)]"><svg viewBox="0 0 24 24" className="ml-0.5 h-3.5 w-3.5" aria-hidden="true"><path d="M8 5.2v13.6a.8.8 0 0 0 1.2.7l10.6-6.8a.8.8 0 0 0 0-1.4L9.2 4.5A.8.8 0 0 0 8 5.2Z" fill="currentColor" /></svg></span>Watch my 60‑second hello</span><span className="shrink-0 whitespace-nowrap border border-neutral-300 px-1.5 py-0.5 font-mono text-[.62rem] uppercase tracking-wider text-neutral-500">Coming soon</span>
+              <span className="absolute bottom-4 left-4 flex items-center gap-2 !rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-800 shadow-[0_6px_18px_-6px_rgb(10_19_75/0.45)]"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</span>
             </div>
           </div>
 
-          <div>
-            <Eyebrow>For early-stage startups on GCP or Azure</Eyebrow>
+          <div className="min-w-0">
+            <Eyebrow>For early-stage startups on Google Cloud, Azure or other clouds</Eyebrow>
             <h1 className="mt-4 text-4xl tracking-tight !text-neutral-900 sm:text-5xl"><span className="font-light">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
-            <p className="mt-2 text-sm text-neutral-500">Business Development Representative · Startups, India</p>
-            <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS at no migration cost, with up to $200K in AWS credits and the AWS startup ecosystem behind them.</p>
+            <p className="mt-2 text-sm text-neutral-500">Business Development Representative · Startups</p>
+            <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS, with no-cost migration and up to $200K in AWS credits for those who qualify, backed by the AWS startup ecosystem.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
               <Mono>A note from Pratham, to you</Mono>
@@ -163,7 +159,7 @@ export default function PrathamMehtaPage() {
 
             <div className="mt-6 flex flex-wrap gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
 
-            <dl className="stats stats-compact mt-8 max-w-2xl bg-white lg:!grid-cols-3">
+            <dl className="stats stats-compact stats-3 mt-8 max-w-2xl bg-white">
               {stats.map((s) => (
                 <div key={s.v} className="stat">
                   <dt className="stat-label">{s.k}</dt>
@@ -205,8 +201,8 @@ export default function PrathamMehtaPage() {
         <W>
           <div className="text-center">
             <Eyebrow>Your path to AWS</Eyebrow>
-            <h2 className="mt-4 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Easier, more affordable, and more rewarding:</span><br /><strong className="font-semibold">four steps to AWS.</strong></h2>
-            <p className="mt-3 text-sm text-neutral-600">Credits first. Then we handle the move, plug you into the ecosystem, and help you grow.</p>
+            <h2 className="mt-4 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Easier, more affordable and more rewarding:</span><br /><strong className="font-semibold">four steps to AWS.</strong></h2>
+            <p className="mt-3 text-sm text-neutral-600">Credits first. Then we handle the move, plug you into the ecosystem and help you grow.</p>
           </div>
           {/* same component styles as the home page's "The path" (motion.css): relay bar, sheen, watermark, hover */}
           <ol className="path-row mt-8">
@@ -228,7 +224,7 @@ export default function PrathamMehtaPage() {
         <RainField />
         <W className="relative">
           <div className="text-center"><Eyebrow>How I can help you</Eyebrow></div>
-          <H2 center light="Moving to AWS," bold="without the cost or the hassle." />
+          <H2 center light="Moving to AWS," bold="with less cost and less hassle." />
           <p className="mx-auto mt-3 max-w-sm text-center text-sm text-neutral-600">Built for founders and small engineering teams who need to stay focused on the product.</p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {help.map((h) => (
@@ -245,8 +241,8 @@ export default function PrathamMehtaPage() {
       {/* programmes */}
       <section className="py-14">
         <W>
-          <div className="text-center"><Eyebrow>The AWS programmes I&apos;ll put to work for you</Eyebrow></div>
-          <H2 center light="I know the programmes," bold="and how to get you qualified." />
+          <div className="text-center"><Eyebrow>The AWS programs I&apos;ll put to work for you</Eyebrow></div>
+          <H2 center light="I know the programs" bold="and how to get you qualified." />
           {/* same card as the home page's "Built for you" (.seg-card in motion.css) */}
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {programmes.map((p) => (
@@ -269,7 +265,7 @@ export default function PrathamMehtaPage() {
       <section className="pb-14">
         <W>
           <div className="text-center"><Eyebrow>Beyond AWS, I can bring in</Eyebrow></div>
-          <H2 center light="Moving to AWS? Add the AI tools" bold="you will build with next." />
+          <H2 center light="Moving to AWS? Add the AI tools" bold="you&apos;ll build with next." />
           <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {partners.map((p) => (
               <div key={p.t} className="card p-4">
@@ -288,7 +284,7 @@ export default function PrathamMehtaPage() {
             <div className="self-start"><Eyebrow>Who you&apos;ll be talking to</Eyebrow></div>
             <h2 className="mt-4 text-2xl font-light tracking-tight !text-neutral-900">I&apos;m your first point of contact, from the first call to the move.</h2>
             {[
-              { i: "PM", n: "Pratham Mehta", r: "Business Development Representative", d: "Checks your credits and eligibility, scopes the move, and books the right experts." },
+              { i: "PM", n: "Pratham Mehta", r: "Business Development Representative", d: "Checks your credit eligibility, scopes the move and brings in the right experts." },
             ].map((p) => (
               <div key={p.n} className="card mt-6 flex gap-4">
                 <Avatar i={p.i} />
@@ -300,7 +296,7 @@ export default function PrathamMehtaPage() {
               </div>
             ))}
             <div className="mt-5">
-              <Mono>Reach me directly · replies within a day</Mono>
+              <Mono>Reach me directly · replies within one business day (IST)</Mono>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {[
                   { icon: "mail" as IconName, t: "Email", d: EMAIL, href: `mailto:${EMAIL}` },
@@ -329,8 +325,8 @@ export default function PrathamMehtaPage() {
             <div className="mt-5 flex flex-wrap gap-2 border-t border-neutral-300 pt-5">{badges.map((b) => <Label key={b}>{b}</Label>)}</div>
             <Mono className="mt-5">Startups that moved with us</Mono>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <a href="#case" className="card p-4"><p className="text-xl font-semibold">GCP / Azure → AWS</p><p className="mt-1 text-sm text-neutral-600">Skill-Lync and Liquidmind moved their production workloads with us →</p></a>
-              <a href="#case" className="card p-4"><p className="text-xl font-semibold">Near real-time</p><p className="mt-1 text-sm text-neutral-600">PocoCare: Azure Cosmos DB to AWS with live MongoDB sync →</p></a>
+              <Link href="/resources/case-studies" className="card p-4"><p className="text-xl font-semibold">GCP / Azure → AWS</p><p className="mt-1 text-sm text-neutral-600">Skill-Lync and Liquidmind moved their production workloads with us →</p></Link>
+              <Link href={CS + "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization"} className="card p-4"><p className="text-xl font-semibold">Near-real-time</p><p className="mt-1 text-sm text-neutral-600">PocoCare: Azure Cosmos DB to AWS with live MongoDB synchronization →</p></Link>
             </div>
           </div>
         </W>
@@ -364,7 +360,7 @@ export default function PrathamMehtaPage() {
           <div className="mt-8 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
             {/* desktop: crop HubSpot frame padding (16px top, 4px sides) so the widget box lines up with the right column */}
             <div className="overflow-hidden lg:h-[670px] lg:[&_iframe]:-mt-4 lg:[&_iframe]:-ml-1 lg:[&_iframe]:!w-[calc(100%+8px)] lg:[&_iframe]:!max-w-none">
-              <HubSpotMeetings url="https://meetings-na2.hubspot.com/pratham-mehta?uuid=3310c944-592b-4dde-a1a6-be051d76424a" />
+              <HubSpotMeetings email={EMAIL} url="https://meetings-na2.hubspot.com/pratham-mehta?uuid=3310c944-592b-4dde-a1a6-be051d76424a" />
             </div>
 
             <div className="space-y-3">
@@ -383,7 +379,7 @@ export default function PrathamMehtaPage() {
                 ))}
                 <label className="mt-3 block text-sm">What do you run on GCP or Azure today?<textarea rows={3} className={field} /></label>
                 <button type="button" className="btn btn-ghost mt-4 w-full">Send to Pratham</button>
-                <p className="mt-2 text-xs text-neutral-500">We use your details only to reply to this enquiry. <Link href="/privacy-policy" className="underline">Privacy notice</Link></p>
+                <p className="mt-2 text-xs text-neutral-500">We use your details only to reply to your message. <Link href="/privacy-policy" className="underline">Privacy notice</Link></p>
               </form>
             </div>
           </div>
@@ -393,15 +389,16 @@ export default function PrathamMehtaPage() {
       {/* reading */}
       <section className="border-t border-neutral-200 bg-neutral-50 py-14">
         <W>
-          <h2 className="text-center text-3xl tracking-tight !text-neutral-900"><span className="font-light">Not ready to talk yet? </span><strong className="font-semibold">Here&apos;s what I&apos;d read first.</strong></h2>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="text-center"><Eyebrow>Read at your own pace</Eyebrow></div>
+          <h2 className="mt-4 text-center text-3xl tracking-tight !text-neutral-900"><span className="font-light">Not ready to talk yet? </span><strong className="font-semibold">Here&apos;s what I&apos;d read first.</strong></h2>
+          <div className={`mt-6 grid gap-3 ${reads.length === 1 ? "mx-auto max-w-sm" : "sm:grid-cols-3"}`}>
             {reads.map((r) => (
-              <a key={r.t} href="#read" className="card flex flex-col">
+              <Link key={r.t} href={r.href} className="card flex flex-col">
                 <div className="flex items-center justify-between"><IconTile name={r.icon} /><span className="tag">{r.k}</span></div>
                 <ArtTile art={{ slug: r.t, title: r.k, about: r.about }} className="mt-5" />
                 <p className="mt-5 font-semibold leading-snug text-ink">{r.t}</p>
                 <p className="mt-auto pt-5 text-sm font-medium text-ink">{r.c} <span className="go">→</span></p>
-              </a>
+              </Link>
             ))}
           </div>
         </W>
@@ -412,10 +409,10 @@ export default function PrathamMehtaPage() {
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
         <W className="max-w-2xl">
           <Avatar i="PM" className="mx-auto h-16 w-16" />
-          <h2 className="mt-5 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong></h2>
+          <h2 className="mt-5 text-3xl tracking-tight !text-neutral-900 sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
           <p className="mt-3 text-neutral-600">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
           <Signature className="mt-3" />
-          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Message on WhatsApp</Secondary></div>
+          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
         </W>
       </section>
 
@@ -428,8 +425,8 @@ export default function PrathamMehtaPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img loading="lazy" decoding="async" src="/brand/comprinno-logo-white.webp" alt="Comprinno" width={600} height={125} className="h-8 w-auto" />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
-            <p className="mt-3 text-sm text-white/70">Pune · Bangalore · US · UK</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">Enterprise AI, built on a strong cloud foundation.</p>
+            <p className="mt-3 text-sm text-white/70">Pune · Bengaluru</p>
           </div>
           <div className="flex flex-wrap gap-5 text-sm text-white/80">
             <Link href="/" className="hover:text-[#ffbb00]">comprinno.net</Link>
