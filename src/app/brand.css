@@ -462,7 +462,8 @@
 .brand .scope-list .scope-tile:hover { background: #f3f8fd; box-shadow: none; }
 .brand .scope-list > li { display: flex; }
 .brand .scope-list .scope-tile { flex: 1; }
-@media (min-width: 1024px) { .brand .scope-list .scope-tile { min-height: 5.25rem; padding: 1.4rem 1rem 1.4rem 1.15rem; gap: .7rem; } .brand .scope-list .scope-tile-title { font-size: 1.06rem; } .brand .scope-list .scope-tile-art { width: 1.4rem; height: 1.4rem; } }
+@media (min-width: 640px) { .brand .scope-list .scope-tile { flex-direction: column; align-items: flex-start; justify-content: flex-start; } .brand .scope-list .scope-tile-go { position: absolute; top: 1rem; right: 1.1rem; } }
+@media (min-width: 1024px) { .brand .scope-list .scope-tile { min-height: 7.5rem; padding: 1.4rem 1.4rem; gap: .9rem; } .brand .scope-list .scope-tile-title { font-size: 1.06rem; } .brand .scope-list .scope-tile-art { width: 1.75rem; height: 1.75rem; } .brand .scope-list .scope-tile-go { top: 1.45rem; right: 1.4rem; } }
 
 /* Thank-you page: SVG success mark (SVG, so the site-wide square-corner rule cannot flatten it) */
 .thanks-mark { overflow: visible; }
