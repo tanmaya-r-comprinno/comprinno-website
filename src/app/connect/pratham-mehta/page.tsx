@@ -129,15 +129,15 @@ export default function PrathamMehtaPage() {
             <Logo />
             <span className="hidden whitespace-nowrap border-l border-line pl-3 font-mono text-[.62rem] uppercase tracking-[.14em] text-[#006bc9] sm:inline">AWS Startups</span>
           </span>
-          <Button href="#calendar" className="shrink-0">Check my credits</Button>
+          <Button href="#calendar" className="shrink-0">Let&apos;s talk credits</Button>
         </W>
       </div>
 
       {/* hero */}
       <section className="relative isolate overflow-hidden border-b border-neutral-200 py-12 sm:py-16">
         <div className="hero-grid absolute inset-0 -z-10" aria-hidden="true"><GridGlow /></div>
-        <W className="grid gap-10 lg:grid-cols-[18rem_1fr]">
-          <div className="flex flex-col gap-3">
+        <W className="grid gap-6 lg:grid-cols-[18rem_1fr] lg:gap-10">
+          <div className="hidden flex-col gap-3 lg:flex">
             <div className="relative">
               <Image src={PHOTO} alt="Pratham Mehta" width={512} height={640} priority className="aspect-[4/5] w-full !rounded-2xl border border-neutral-200 object-cover" />
               <span className="absolute bottom-4 left-4 flex items-center gap-2 !rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-800 shadow-[0_6px_18px_-6px_rgb(10_19_75/0.45)]"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</span>
@@ -146,8 +146,16 @@ export default function PrathamMehtaPage() {
 
           <div className="min-w-0">
             <Eyebrow>For early-stage startups on clouds</Eyebrow>
-            <h1 className="mt-4 text-4xl tracking-tight !text-neutral-900 sm:text-5xl"><span className="font-light">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
-            <p className="mt-2 text-sm text-neutral-500">Business Development Representative · Startups</p>
+            <div className="mt-5 flex items-center gap-4 lg:mt-4 lg:block">
+              <div className="relative shrink-0 lg:hidden">
+                <Image src={PHOTO} alt="" width={192} height={192} priority className="h-[88px] w-[88px] !rounded-2xl border border-neutral-200 object-cover object-top shadow-[0_10px_24px_-10px_rgb(10_19_75/0.45)] sm:h-28 sm:w-28" />
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-[2rem] leading-tight tracking-tight !text-neutral-900 sm:text-5xl"><span className="font-light">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
+                <p className="mt-1 text-sm text-neutral-500 lg:mt-2">Business Development Representative · Startups</p>
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
+              </div>
+            </div>
             <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS, with no-cost migration and up to $200K in AWS credits for those who qualify, backed by the AWS startup ecosystem.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
@@ -158,7 +166,7 @@ export default function PrathamMehtaPage() {
               </figcaption>
             </figure>
 
-            <div className="mt-6 flex flex-wrap gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
+            <div className="mt-6 flex flex-wrap gap-3"><Primary>Let&apos;s talk credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
 
             <dl className="stats stats-compact stats-3 mt-8 max-w-2xl bg-white">
               {stats.map((s) => (
@@ -185,12 +193,17 @@ export default function PrathamMehtaPage() {
           <div className="text-center"><Eyebrow>Proof, not promises</Eyebrow></div>
           <H2 center light="Startups that moved" bold="to AWS with us." />
           <p className="mx-auto mt-3 max-w-md text-center text-sm text-neutral-600">From Azure, Google Cloud and DigitalOcean to AWS. Each one is a published Comprinno case study.</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {startups.map(([n, icon, ind, from, slug]) => (
-              <Link key={n} href={CS + slug} target="_blank" rel="noopener noreferrer" className="scope-tile reveal group">
-                <Icon name={icon} className="scope-tile-art" />
-                <span className="relative z-10 mb-1 font-mono text-[.68rem] uppercase tracking-[.1em] text-neutral-500">{from} → AWS · {ind}</span>
-                <span className="scope-tile-title">{n}</span>
+          <div className="proof-list mx-auto mt-8 grid max-w-5xl border-l border-t border-neutral-300 bg-white sm:grid-cols-2 lg:grid-cols-3">
+            {startups.map(([n, , ind, from, slug]) => (
+              <Link key={n} href={CS + slug} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-3 border-b border-r border-neutral-300 px-4 py-3.5 transition-colors hover:bg-[#f3f8fd] sm:px-5 sm:py-5">
+                <span className="min-w-0">
+                  <span className="block font-semibold leading-tight text-ink">{n}</span>
+                  <span className="mt-1 block text-xs text-neutral-500">{ind}</span>
+                </span>
+                <span className="flex shrink-0 items-center gap-3">
+                  <span className="border border-neutral-300 px-2 py-0.5 font-mono text-[.62rem] uppercase tracking-[.08em] text-neutral-600 transition-colors group-hover:border-[var(--brand-blue)] group-hover:text-[var(--brand-blue)]">{from} → AWS</span>
+                  <span className="go text-[var(--brand-blue)]" aria-hidden="true">→</span>
+                </span>
               </Link>
             ))}
           </div>
@@ -359,7 +372,7 @@ export default function PrathamMehtaPage() {
                   <label key={l} className="mt-3 block text-sm">{l}<input type={t} className={field} /></label>
                 ))}
                 <label className="mt-3 block text-sm">What do you run on GCP or Azure today?<textarea rows={3} className={field} /></label>
-                <button type="button" className="btn btn-ghost mt-4 w-full">Send to Pratham</button>
+                <button type="button" className="btn btn-ghost mt-4 w-full">Send it to me <span className="go">→</span></button>
                 <p className="mt-2 text-xs text-neutral-500">We use your details only to reply to your message. <Link href="/privacy-policy" className="underline">Privacy notice</Link></p>
               </form>
             </div>
@@ -413,7 +426,7 @@ export default function PrathamMehtaPage() {
           <h2 className="mt-5 text-3xl tracking-tight sm:text-4xl"><span className="font-light">Your move to AWS </span><strong className="font-semibold">could cost you nothing.</strong> <span className="font-light">Find out if you qualify.</span></h2>
           <p className="mt-3 text-muted">&ldquo;Thirty minutes is enough to find out what credits and support you qualify for.&rdquo;</p>
           <Signature className="mt-3 invert" />
-          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Check my AWS credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
+          <div className="mt-6 flex flex-wrap justify-center gap-3"><Primary>Let&apos;s talk credits</Primary><Secondary className="!bg-white hover:!bg-[#1c1c1c]">Connect on WhatsApp</Secondary></div>
         </W>
       </section>
 
