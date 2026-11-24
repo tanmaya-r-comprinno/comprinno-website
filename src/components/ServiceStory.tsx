@@ -109,12 +109,13 @@ export default function ServiceStory({ d }: { d: ServiceStoryData }) {
       <Section tone="surface" className="bg-grid">
         <SectionHead eyebrow={d.scope.eyebrow} title={d.scope.title} desc={d.scope.desc} />
         {d.scope.style === "icons" ? (
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="scope-list grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {d.scope.items.map((m) => (
               <li key={m.title}>
                 <Link href={contact} className="scope-tile group">
                   <Icon name={m.icon} className="scope-tile-art" />
                   <span className="scope-tile-title">{m.title}</span>
+                  <span className="scope-tile-go go" aria-hidden="true">→</span>
                 </Link>
               </li>
             ))}
