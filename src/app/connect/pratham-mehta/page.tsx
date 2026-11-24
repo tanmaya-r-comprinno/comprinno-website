@@ -144,7 +144,7 @@ export default function PrathamMehtaPage() {
           </div>
 
           <div className="min-w-0">
-            <Eyebrow>For early-stage startups on Google Cloud, Azure or other clouds</Eyebrow>
+            <Eyebrow>For early-stage startups on clouds</Eyebrow>
             <h1 className="mt-4 text-4xl tracking-tight !text-neutral-900 sm:text-5xl"><span className="font-light">Meet </span><strong className="font-semibold">Pratham Mehta.</strong></h1>
             <p className="mt-2 text-sm text-neutral-500">Business Development Representative · Startups</p>
             <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS, with no-cost migration and up to $200K in AWS credits for those who qualify, backed by the AWS startup ecosystem.</p>
@@ -186,7 +186,7 @@ export default function PrathamMehtaPage() {
           <p className="mx-auto mt-3 max-w-md text-center text-sm text-neutral-600">From Azure, Google Cloud and DigitalOcean to AWS. Each one is a published Comprinno case study.</p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {startups.map(([n, icon, ind, from, slug]) => (
-              <Link key={n} href={CS + slug} className="scope-tile reveal group">
+              <Link key={n} href={CS + slug} target="_blank" rel="noopener noreferrer" className="scope-tile reveal group">
                 <Icon name={icon} className="scope-tile-art" />
                 <span className="relative z-10 mb-1 font-mono text-[.68rem] uppercase tracking-[.1em] text-neutral-500">{from} → AWS · {ind}</span>
                 <span className="scope-tile-title">{n}</span>
@@ -325,8 +325,8 @@ export default function PrathamMehtaPage() {
             <div className="mt-5 flex flex-wrap gap-2 border-t border-neutral-300 pt-5">{badges.map((b) => <Label key={b}>{b}</Label>)}</div>
             <Mono className="mt-5">Startups that moved with us</Mono>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <Link href="/resources/case-studies" className="card p-4"><p className="text-xl font-semibold">GCP / Azure → AWS</p><p className="mt-1 text-sm text-neutral-600">Skill-Lync and Liquidmind moved their production workloads with us →</p></Link>
-              <Link href={CS + "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization"} className="card p-4"><p className="text-xl font-semibold">Near-real-time</p><p className="mt-1 text-sm text-neutral-600">PocoCare: Azure Cosmos DB to AWS with live MongoDB synchronization →</p></Link>
+              <Link href="/resources/case-studies" target="_blank" rel="noopener noreferrer" className="card p-4"><p className="text-xl font-semibold">GCP / Azure → AWS</p><p className="mt-1 text-sm text-neutral-600">Skill-Lync and Liquidmind moved their production workloads with us →</p></Link>
+              <Link target="_blank" rel="noopener noreferrer" href={CS + "pococare-cloud-migration-migrating-from-azure-cosmos-db-to-aws-with-near-real-time-mongodb-synchronization"} className="card p-4"><p className="text-xl font-semibold">Near-real-time</p><p className="mt-1 text-sm text-neutral-600">PocoCare: Azure Cosmos DB to AWS with live MongoDB synchronization →</p></Link>
             </div>
           </div>
         </W>
@@ -393,7 +393,7 @@ export default function PrathamMehtaPage() {
           <h2 className="mt-4 text-center text-3xl tracking-tight !text-neutral-900"><span className="font-light">Not ready to talk yet? </span><strong className="font-semibold">Here&apos;s what I&apos;d read first.</strong></h2>
           <div className={`mt-6 grid gap-3 ${reads.length === 1 ? "mx-auto max-w-sm" : "sm:grid-cols-3"}`}>
             {reads.map((r) => (
-              <Link key={r.t} href={r.href} className="card flex flex-col">
+              <Link key={r.t} href={r.href} target="_blank" rel="noopener noreferrer" className="card flex flex-col">
                 <div className="flex items-center justify-between"><IconTile name={r.icon} /><span className="tag">{r.k}</span></div>
                 <ArtTile art={{ slug: r.t, title: r.k, about: r.about }} className="mt-5" />
                 <p className="mt-5 font-semibold leading-snug text-ink">{r.t}</p>
