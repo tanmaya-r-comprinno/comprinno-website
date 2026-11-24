@@ -156,11 +156,11 @@ export default function PrathamMehtaPage() {
               </div>
             </div>
             <p className="mt-3 flex items-center gap-2 text-xs font-medium text-neutral-700 lg:hidden"><span className="relative flex h-2 w-2"><span className="absolute inset-0 !rounded-full bg-[var(--brand-blue)] opacity-60 motion-safe:animate-ping" /><span className="relative h-2 w-2 !rounded-full bg-[var(--brand-blue)]" /></span>Replies within one business day</p>
-            <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">Helping early-stage startups move to AWS, with no-cost migration and up to $200K in AWS credits for those who qualify, backed by the AWS startup ecosystem.</p>
+            <p className="mt-4 max-w-2xl text-xl font-semibold leading-snug">I help early-stage startups work out if moving to AWS makes sense, and if it does, how to do it without slowing the team down.</p>
 
             <figure className="mt-6 max-w-2xl border border-neutral-300 bg-white p-5 pb-3">
               <Mono>A note from Pratham, to you</Mono>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-700">Hi, I&apos;m Pratham. If you&apos;re running on Google Cloud or Azure today, I&apos;d love to show you how you can move to AWS without paying for the migration, with up to $200K in credits to build on. No pressure and no jargon: just a 30-minute call to see what you qualify for.</p>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-700">Hi, I&apos;m Pratham. If you&apos;re on Google Cloud or Azure and wondering whether a move to AWS is worth it, tell me what you&apos;re running. I&apos;ll give you my honest take, and we can look at credits and migration support if they apply to you.</p>
               <figcaption className="mt-1">
                 <Signature className="-mb-2" />
               </figcaption>
@@ -350,7 +350,8 @@ export default function PrathamMehtaPage() {
       <section id="calendar" className="scroll-mt-24 border-t border-neutral-200 py-14">
         <W>
           <div className="text-center"><Eyebrow>My calendar</Eyebrow></div>
-          <H2 center light="Let's talk." bold="Pick a time that suits you." />
+          <H2 center light="Rather talk" bold="than type?" />
+          <p className="mx-auto mt-3 max-w-xl text-center text-neutral-600">Pick a time that works. In 30 minutes, you tell me what you&apos;re building and I&apos;ll tell you what I think. If we&apos;re not a fit, I&apos;ll say so.</p>
           <div className="mt-8 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
             {/* desktop: crop HubSpot frame padding (16px top, 4px sides) so the widget box lines up with the right column */}
             <div className="overflow-hidden lg:h-[670px] lg:[&_iframe]:-mt-4 lg:[&_iframe]:-ml-1 lg:[&_iframe]:!w-[calc(100%+8px)] lg:[&_iframe]:!max-w-none">
