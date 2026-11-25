@@ -48,7 +48,7 @@ const Btn = ({ href, children, ghost = false, className = "" }: { href: string; 
 );
 const field = "mt-1 block w-full border border-[#c8d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#006bc9] focus:outline-none";
 
-const steps = ["Register in under a minute.", "Approval required: your registration is subject to host approval.", "Once approved, your pass and the venue details arrive by email."];
+const steps = ["Register in under a minute.", "Await approval: All registrations are subject to host approval.", "Get your confirmation: Once approved, your pass and venue details will arrive by email."];
 // LinkedIn posts to show: paste each post’s embed URL (LinkedIn post menu > Embed this post), e.g.
 // "https://www.linkedin.com/embed/feed/update/urn:li:share:1234567890". Until then, placeholder cards show.
 const linkedinEmbeds: string[] = [];
@@ -100,7 +100,7 @@ export default function ReInvent2026() {
             {/* one label, in the site’s sky hue (the auto hue for this text came out pink) */}
             <span className="inline-flex max-w-full [&_.eyebrow]:max-w-full [&_.eyebrow]:whitespace-normal [&_.eyebrow-text]:!whitespace-normal [&_.eyebrow-text]:!overflow-visible [&_.eyebrow-text]:leading-[1.6] [&_.eyebrow]:!text-left [&_.eyebrow-text]:!text-left "><Eyebrow><span className="block sm:inline">AWS re:Invent 2026<span className="hidden sm:inline"> · </span></span><span className="hidden sm:inline">Las Vegas, NV · Nov 30 to Dec 4</span></Eyebrow></span>
             <h1 className="mt-6 text-[clamp(2.4rem,6vw,4rem)] font-light leading-[1.02] tracking-tight">Comprinno at <strong className="block font-bold"><span className="sweep">re:Invent 2026</span></strong></h1>
-            <p className="mt-5 max-w-lg leading-relaxed text-neutral-600">Turn enterprise AI into a lasting competitive advantage. Meet our team between sessions, or join us on Wednesday, December 2, for Indian food and good conversation.</p>
+            <p className="mt-5 max-w-lg leading-relaxed text-neutral-600">Turn enterprise AI into a lasting competitive advantage. Meet our team between sessions or join us on Wednesday, December 2, for Indian food and great conversation.</p>
             <HeroEmail inputClass={field} />
             <div className="mt-8 max-w-lg">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2"><Mono className="whitespace-nowrap !text-[#006bc9]">● Our dinner starts in</Mono><span className="inline-flex items-center gap-1.5 whitespace-nowrap bg-[#e3f0fc] px-2.5 py-1 font-mono text-[.62rem] font-semibold uppercase tracking-[.08em] text-[#006bc9]"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>Wed, Dec 2 · 7:00 PM PST</span></div>
@@ -118,11 +118,11 @@ export default function ReInvent2026() {
             <Tag>The dinner</Tag>
             <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light tracking-tight">Dinner with a <strong className="font-bold">Dash of Spice</strong></h2>
             <p className="mt-3"><span className="sweep inline-block font-mono text-sm font-semibold uppercase tracking-[.12em]">CXO &amp; partner dinner</span></p>
-            <p className="mt-4 max-w-lg leading-relaxed text-neutral-600">Step away from the buzz for a private evening of great food and easy conversation, just off the Strip. There are no pitches and no slides, just a relaxed place to recharge after a long day.</p>
+            <p className="mt-4 max-w-lg leading-relaxed text-neutral-600">Step away from the buzz for a private evening of great food, drinks and easy conversation, just off the Strip. There are no pitches and no slides, just a relaxed place to recharge after a long day.</p>
             <p className="mt-3 max-w-lg leading-relaxed text-neutral-600"><strong className="text-neutral-900">Seats are limited.</strong> Request yours, and we’ll send the venue details once your seat is confirmed.</p>
             <Btn href="#register" className="mt-6">Request your seat →</Btn>
           </div>
-          <Image src="/campaign/reinvent/dinner.webp" alt="Guests raising a toast over a candle-lit dinner table" width={1600} height={1200} sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />
+          <Image src="/campaign/reinvent/dinner-indian.webp" alt="Guests raising a toast over a table of Indian dishes" width={1600} height={1200} sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />
         </W>
       </section>
 
@@ -220,19 +220,13 @@ export default function ReInvent2026() {
         <W className="grid gap-10 py-16 lg:grid-cols-[1fr_1.1fr] lg:py-20">
           <div>
             <Tag>Register</Tag>
-            <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light leading-tight tracking-tight">Register first. <strong className="font-bold">Then we’ll save your spot.</strong></h2>
+            <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light leading-tight tracking-tight">Request your seat. <strong className="font-bold">Our hosts will confirm your registration.</strong></h2>
             <ol className="mt-6 space-y-3">
               {steps.map((s, i) => (
                 <li key={s} className="flex items-start gap-3 text-sm text-neutral-700"><span className="flex h-6 w-6 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-xs text-white">{i + 1}</span>{s}</li>
               ))}
             </ol>
-            {/* TODO(HubSpot): drive "left" and the bar from live registrations (capacity minus HubSpot form submissions),
-                so the count drops as each guest registers. Static until the form is integrated. */}
-            <div className="mt-8 max-w-sm border border-[#c8d5e8] bg-[#f5f8fd] p-4">
-              <div className="flex items-baseline justify-between"><Mono className="!text-[#006bc9]">Spots filling up</Mono><span className="font-semibold text-[#1c1c1c]">22 left</span></div>
-              <div className="mt-2 h-1.5 bg-[#e3eaf4]"><div className="h-full w-2/3 bg-[linear-gradient(90deg,#006bc9,#0088ff)]" /></div>
-            </div>
-            <Mono className="mt-3">Spots are limited · venue shared on confirmation</Mono>
+            <Mono className="mt-6">Spots are limited · venue shared on confirmation</Mono>
           </div>
 
           {/* same card as the comprinno.net/contact form */}
