@@ -63,12 +63,12 @@ const posts = [
 // `book`: Google appointment-schedule URL with ?gv=true (the embeddable form; the short calendar.app.google link can’t be framed)
 const hosts: { n: string; r: string; a: string; linkedin?: string; book?: string }[] = [
   { n: "Prasad Puranik", r: "Chief Executive Officer", a: "Partnering with Comprinno on AWS", linkedin: "https://www.linkedin.com/in/pspuranik/", book: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1caCYv7aVPWD7hwGWwCvEEnTdqwfdNLw4y9vmftsNBwMIPQb5KSV4QBH68pITz495Rh7i8HFms?gv=true" },
-  { n: "Bhupali Tambekar", r: "Chief Technology Officer", a: "GenAI from pilot to production" },
-  { n: "Shashank Amin", r: "Chief Financial Officer (CFO)", a: "Cloud cost and the business case for change" },
-  { n: "Pallavi Khopkar", r: "CoE and PMO Head", a: "Running large cloud programs on time" },
-  { n: "Harshal Choudhary", r: "Service Delivery Head", a: "Managed services and day-to-day cloud ops" },
-  { n: "Suraj Lokre", r: "Strategic Program Manager, CEO’s Office", a: "Strategic initiatives and partnerships" },
-  { n: "Saqib Mehraj Goni", r: "Solutions Architect", a: "Architecture, migration and modernization" },
+  { n: "Bhupali Tambekar", r: "Chief Technology Officer", a: "GenAI from pilot to production", linkedin: "https://www.linkedin.com/in/bhupali-tambekar-627343a3/", book: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2P1yllbBsoOPo0dFMcpMDyd8eenaJEfpRCs1BTN8IfknQ72ClhMUl1e2AenRWO-ECpMt79DYmU?gv=true" },
+  { n: "Shashank Amin", r: "Chief Financial Officer (CFO)", a: "Cloud cost and the business case for change", linkedin: "https://www.linkedin.com/in/shashank-amin-6053723b0/" },
+  { n: "Pallavi Khopkar", r: "CoE and PMO Head", a: "Running large cloud programs on time", linkedin: "https://www.linkedin.com/in/pallavi-tamhane-khopkar/" },
+  { n: "Harshal Choudhary", r: "Service Delivery Head", a: "Managed services and day-to-day cloud ops", linkedin: "https://www.linkedin.com/in/harshal-choudhary-90aa6a176/" },
+  { n: "Suraj Lokre", r: "Strategic Program Manager, CEO’s Office", a: "Strategic initiatives and partnerships", linkedin: "https://www.linkedin.com/in/surajlokre/" },
+  { n: "Saqib Mehraj Goni", r: "Solutions Architect", a: "Architecture, migration and modernization", linkedin: "https://www.linkedin.com/in/saqib-mehraj/" },
 ];
 
 export default function ReInvent2026() {
