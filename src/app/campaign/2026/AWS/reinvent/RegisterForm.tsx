@@ -65,10 +65,22 @@ export default function RegisterForm() {
 
   if (state === "done") {
     return (
-      <div role="status" className="flex min-h-[24rem] flex-col items-center justify-center p-6 text-center">
-        <span className="flex h-12 w-12 items-center justify-center bg-[#006bc9] text-xl text-white" aria-hidden="true">✓</span>
-        <p className="mt-5 text-lg font-semibold text-neutral-900">Request received. Approval required.</p>
-        <p className="mt-2 max-w-xs text-sm text-neutral-600">Your registration is subject to host approval. Once approved, we’ll email your pass and the venue details.</p>
+      <div role="status" className="py-2">
+        <div className="flex items-center gap-3">
+          {/* site check icon; circle via clip-path because the site forces square corners */}
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#e3f0fc] text-[#006bc9]" style={{ clipPath: "circle(50%)" }} aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+          </span>
+          <div>
+            <p className="text-base font-semibold text-[#1c1c1c]">Request received</p>
+            <p className="text-sm text-neutral-600">Thanks. Your seat request is with our hosts.</p>
+          </div>
+        </div>
+        <p className="mt-5 font-mono text-[.6rem] uppercase tracking-[.12em] text-[#006bc9]">What happens next</p>
+        <ol className="mt-2 space-y-2.5 text-sm text-[#3d3d3d]">
+          <li className="flex gap-2.5"><span className="flex h-5 w-5 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-[.65rem] text-white">1</span>Our hosts review your request. Every registration is subject to approval.</li>
+          <li className="flex gap-2.5"><span className="flex h-5 w-5 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-[.65rem] text-white">2</span>Once approved, we’ll email your pass and the venue details.</li>
+        </ol>
       </div>
     );
   }

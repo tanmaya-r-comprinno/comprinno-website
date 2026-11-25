@@ -21,9 +21,15 @@ import HostCollage from "./HostCollage";
  * built from "re Invent — v2 (Comprinno at re Invent + dinner).pdf". Placeholders are labelled in the page.
  * Standalone: the /campaign layout hides the site header/footer and sets noindex.
  */
+const SHARE_TITLE = "Comprinno at AWS re:Invent 2026";
+const SHARE_DESC = "Meet the Comprinno team in Las Vegas, Nov 30 to Dec 4, and request your seat at our CXO & partner dinner on Wednesday, December 2.";
+// link previews (LinkedIn, WhatsApp, Slack, X) use this page’s own title, text and opengraph-image.jpg, not the site defaults
 export const metadata: Metadata = {
-  title: "Comprinno at AWS re:Invent 2026",
-  description: "Meet the Comprinno team in Las Vegas, Nov 30 to Dec 4, and request your spot at our CXO & partner dinner on Wednesday, December 2.",
+  title: SHARE_TITLE,
+  description: SHARE_DESC,
+  alternates: { canonical: "/campaign/2026/AWS/reinvent" },
+  openGraph: { type: "website", siteName: "Comprinno", url: "/campaign/2026/AWS/reinvent", title: SHARE_TITLE, description: SHARE_DESC },
+  twitter: { card: "summary_large_image", title: SHARE_TITLE, description: SHARE_DESC },
 };
 
 const DINNER = "2026-12-02T19:00:00-08:00";
