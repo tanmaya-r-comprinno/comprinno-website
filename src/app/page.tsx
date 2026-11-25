@@ -95,13 +95,14 @@ export default function Home() {
         <Container className="py-14 sm:py-20">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
             <Eyebrow>AWS Premier Tier Partner</Eyebrow>
-            <h1 className="mt-5 text-[clamp(1.9rem,5vw,3.6rem)] font-normal leading-[1.1] [text-wrap:balance] lg:whitespace-nowrap">
-              Turn <strong className="sweep whitespace-nowrap font-bold">enterprise AI</strong> into
-              <br className="hidden sm:block" /> a lasting <strong className="font-bold">competitive advantage</strong>.
+            <h1 className="mt-5 text-[clamp(1.9rem,5vw,3.6rem)] font-normal leading-[1.1] max-sm:[text-wrap:balance] lg:whitespace-nowrap">
+              Turn <strong className="sweep whitespace-nowrap font-bold">enterprise AI</strong> into<span className="sm:hidden"> </span>
+              <br className="hidden sm:inline" />a lasting <strong className="font-bold">competitive advantage</strong>.
             </h1>
-            <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted [text-wrap:balance] sm:text-lg">
-              Build, deploy and scale enterprise AI around the workflows that matter.
-              <span className="sm:block lg:whitespace-nowrap"> We bring AI engineering, cloud transformation and managed operations together to move priority use cases into production.</span>
+            {/* second sentence is wider than the 4xl column: let the paragraph grow on wide screens so flex centring keeps it centred */}
+            <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted [text-wrap:balance] sm:text-lg xl:max-w-none">
+              Build, deploy and scale enterprise AI around the workflows that matter.<span className="sm:hidden"> </span>
+              <span className="sm:block xl:whitespace-nowrap">We bring AI engineering, cloud transformation and managed operations together to move priority use cases into production.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button href={contactHref("AI and agents", "/")}>Discuss an AI use case →</Button>            </div>

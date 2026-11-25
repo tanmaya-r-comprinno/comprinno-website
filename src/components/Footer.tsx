@@ -17,12 +17,28 @@ const icons = {
   instagram: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM17.5 5.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z",
 };
 
+const social: [keyof typeof icons, string, string][] = [
+  ["linkedin", site.social.linkedin, "LinkedIn"],
+  ["x", site.social.x, "X"],
+  ["instagram", site.social.instagram, "Instagram"],
+];
+
+/** Square LinkedIn / X / Instagram buttons from the site footer (also used on standalone campaign footers). */
+export function SocialLinks() {
+  return (
+    <ul className="flex gap-2">
+      {social.map(([k, href, label]) => (
+        <li key={k}>
+          <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center border border-white/25 text-white/80 transition-colors hover:border-[#ffbb00] hover:text-[#ffbb00]">
+            <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true"><path d={icons[k]} fill="currentColor" fillRule="evenodd" /></svg>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Footer() {
-  const social: [keyof typeof icons, string, string][] = [
-    ["linkedin", site.social.linkedin, "LinkedIn"],
-    ["x", site.social.x, "X"],
-    ["instagram", site.social.instagram, "Instagram"],
-  ];
   return (
     <footer className="site-footer relative mt-auto overflow-hidden border-t border-white/10 bg-[#050a2e] text-white">
 
@@ -38,15 +54,7 @@ export default function Footer() {
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 text-sm text-white/70"><span className="whitespace-nowrap">Pune · Bangalore</span> · <span className="whitespace-nowrap">US · UK</span></p>
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <ul className="flex gap-2">
-              {social.map(([k, href, label]) => (
-                <li key={k}>
-                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center border border-white/25 text-white/80 transition-colors hover:border-[#ffbb00] hover:text-[#ffbb00]">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true"><path d={icons[k]} fill="currentColor" fillRule="evenodd" /></svg>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <SocialLinks />
             {/* certifications */}
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
