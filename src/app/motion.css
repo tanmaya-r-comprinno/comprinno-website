@@ -596,8 +596,10 @@ nav[aria-label="Primary"] .group.nav-closed > div { visibility: hidden !importan
   .sig-draw { animation: none; clip-path: none; }
 }
 /* no site menu or site footer; the page bar carries the logo */
-body:has(.seller-page) > .site-nav,
-body:has(.seller-page) > .site-footer { display: none; }
+/* Next keeps the previous route in the DOM hidden with an inline display:none (React Activity) for instant back/forward,
+   so only match a standalone page that is actually shown; otherwise the site nav stays hidden after leaving it. */
+body:has(.seller-page:not([style*="display: none"])) > .site-nav,
+body:has(.seller-page:not([style*="display: none"])) > .site-footer { display: none; }
 /* hero numbers: the site growing-bar hover (blocked by .stats-compact fixed width) */
 @media (hover: hover) {
   .seller-page .stats-compact .stat:hover::before { width: calc(100% - 1.8rem); }

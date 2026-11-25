@@ -169,8 +169,10 @@ input[type="email"]:focus-visible { outline: none; }
 html, body { overflow-x: clip; }
 
 /* Campaign landing pages (/campaign/*) are standalone: hide the main site's header and footer */
-body:has(.campaign) .site-nav,
-body:has(.campaign) .site-footer { display: none; }
+/* Next keeps the previous route in the DOM hidden with an inline display:none (React Activity) for instant back/forward,
+   so only match a standalone page that is actually shown; otherwise the site nav stays hidden after leaving it. */
+body:has(.campaign:not([style*="display: none"])) .site-nav,
+body:has(.campaign:not([style*="display: none"])) .site-footer { display: none; }
 
 /* Mock sales call (campaigns/2026/recruitment/sdr): VoxSphere voice agent palette, light theme, used only here.
    Violet #6C4CF1 · Orchid #D9559A · Lavender #E8E3FF · Ink #15122E · Slate #77738F */
