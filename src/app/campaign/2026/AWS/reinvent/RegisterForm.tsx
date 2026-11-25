@@ -7,6 +7,10 @@ const PORTAL = "4699526";
 const FORM = "6b22554b-1305-40b6-9abe-95712e7520db";
 const ENDPOINT = `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL}/${FORM}`;
 
+// HubSpot contact property for dietary needs. It must exist in HubSpot (and ideally be added to the form);
+// until it does, HubSpot rejects it, so the submit retries without it rather than losing the registration.
+const DIETARY = "dietary_preferences";
+
 /** Fields mirror the HubSpot form (property names must match it); labels/UI are ours. */
 const FIELDS: { name: string; label: string; type: string; required?: boolean; placeholder?: string; auto?: string; wide?: boolean }[] = [
   { name: "firstname", label: "First name", type: "text", auto: "given-name" },
@@ -15,6 +19,12 @@ const FIELDS: { name: string; label: string; type: string; required?: boolean; p
   { name: "company", label: "Company", type: "text", auto: "organization" },
   { name: "jobtitle", label: "Job title", type: "text", auto: "organization-title", wide: true },
   { name: "hs_linkedin_url", label: "LinkedIn profile", type: "text", required: true, placeholder: "yourname", wide: true },
+];
+
+// dietary choices, sent together as one value in the dietary_preferences property (e.g. "Veg · No beer")
+const CHOICES: { name: string; label: string; options: string[] }[] = [
+  { name: "diet_food", label: "Food", options: ["Veg", "Non-veg"] },
+  { name: "diet_drink", label: "Drinks", options: ["Beer", "No beer"] },
 ];
 
 /** Accepts a bare profile name or any pasted LinkedIn link; returns just the profile name. */
@@ -40,21 +50,27 @@ export default function RegisterForm() {
     setState("sending");
     setError("");
     const hutk = document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]+)/)?.[1];
+    const fields = FIELDS.map((f) => {
+      const raw = String(data.get(f.name) ?? "").trim();
+      const value = f.name === "hs_linkedin_url" && raw ? `https://www.linkedin.com/in/${linkedinHandle(raw)}` : raw;
+      return { objectTypeId: "0-1", name: f.name, value };
+    }).filter((f) => f.value);
+    const diet = [...CHOICES.map((c) => String(data.get(c.name) ?? ""))].filter(Boolean).join(" · ");
+    if (diet) fields.push({ objectTypeId: "0-1", name: DIETARY, value: diet });
+    const send = (list: typeof fields) => fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fields: list, context: { pageUri: location.href, pageName: document.title, ...(hutk ? { hutk } : {}) } }),
+    });
     try {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fields: FIELDS.map((f) => {
-            const raw = String(data.get(f.name) ?? "").trim();
-            const value = f.name === "hs_linkedin_url" && raw ? `https://www.linkedin.com/in/${linkedinHandle(raw)}` : raw;
-            return { objectTypeId: "0-1", name: f.name, value };
-          }).filter((f) => f.value),
-          context: { pageUri: location.href, pageName: document.title, ...(hutk ? { hutk } : {}) },
-        }),
-      });
+      let res = await send(fields);
+      let body = res.ok ? null : await res.json().catch(() => null);
+      // dietary property not set up in HubSpot yet: keep the registration, drop only that field
+      if (!res.ok && JSON.stringify(body ?? "").includes(DIETARY)) {
+        res = await send(fields.filter((f) => f.name !== DIETARY));
+        body = res.ok ? null : await res.json().catch(() => null);
+      }
       if (res.ok) { setState("done"); return; }
-      const body = await res.json().catch(() => null);
       setError(body?.errors?.[0]?.message?.replace(/^Error in '[^']*'\.\s*/, "") ?? "Something went wrong. Please try again.");
       setState("error");
     } catch {
@@ -100,18 +116,32 @@ export default function RegisterForm() {
                   onBlur={(e) => { e.currentTarget.value = linkedinHandle(e.currentTarget.value); }}
                   className="min-h-10 min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-[#1c1c1c] placeholder:text-[#6b6b6b] focus:outline-none" />
               </span>
-              <span className="mt-1 block text-xs font-normal text-[#6b6b6b]">Just your profile name, or paste your full LinkedIn link.</span>
+              <span className="mt-1 block text-xs font-normal text-[#6b6b6b]">Enter your profile handle or paste your full LinkedIn URL.</span>
             </>
           ) : (
             <input name={f.name} type={f.type} required={f.required} placeholder={f.placeholder} autoComplete={f.auto} className={input} />
           )}
         </label>
       ))}
+      <fieldset className="sm:col-span-2">
+        <legend className="text-sm font-medium text-[#1c1c1c]">Dietary preferences <span className="font-normal text-[#6b6b6b]">(optional)</span></legend>
+        <div className="mt-1.5 flex flex-wrap gap-2">
+          {CHOICES.map((c) => (
+            <div key={c.name} role="radiogroup" aria-label={c.label} className="flex gap-2">
+              {c.options.map((o) => (
+                <label key={o} className="cursor-pointer border border-[#c8d5e8] bg-white px-3 py-1.5 text-sm text-[#3d3d3d] transition-colors hover:border-[#006bc9] has-[:checked]:border-[#006bc9] has-[:checked]:bg-[#e3f0fc] has-[:checked]:font-medium has-[:checked]:text-[#006bc9] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#006bc9]">
+                  <input type="radio" name={c.name} value={o} className="sr-only" />{o}
+                </label>
+              ))}
+            </div>
+          ))}
+        </div>
+      </fieldset>
       {state === "error" && <p role="alert" className="text-xs text-[#c62828] sm:col-span-2">{error}</p>}
       <p className="text-xs leading-relaxed text-[#3d3d3d] sm:col-span-2">We use your details only to manage your registration. <a href="/privacy-policy" className="text-[#1c1c1c] underline underline-offset-2">Privacy policy</a></p>
       <div className="mt-1 sm:col-span-2">
       <button type="submit" disabled={state === "sending"} className="inline-flex min-h-[2.9rem] items-center justify-center border-[1.5px] border-[#ffbb00] bg-[#ffbb00] px-5 text-[.95rem] font-semibold text-[#1c1c1c] transition-colors hover:border-[#d89f04] hover:bg-[#d89f04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#006bc9] active:translate-y-px disabled:opacity-60">
-        {state === "sending" ? "Sending…" : "Request my spot →"}
+        {state === "sending" ? "Sending…" : "Request my seat →"}
       </button>
       </div>
     </form>

@@ -29,7 +29,7 @@ export default function HeroEmail({ inputClass }: { inputClass: string }) {
       <label className="sr-only" htmlFor="hero-email">Your work email</label>
       <input id="hero-email" name="email" type="email" autoComplete="email" placeholder="Your work email" aria-invalid={!!error} aria-describedby={error ? "hero-email-error" : undefined} onInput={() => error && setError("")} className={`${inputClass} ${error ? "!border-[#c62828]" : ""}`} />
       {error && <p id="hero-email-error" role="alert" className="mt-2 text-xs text-[#c62828]">{error}</p>}
-      <button type="submit" className="btn btn-primary mt-3">Request your spot at our dinner →</button>
+      <button type="submit" className="btn btn-primary mt-3">Request your seat at our dinner →</button>
     </form>
   );
 }

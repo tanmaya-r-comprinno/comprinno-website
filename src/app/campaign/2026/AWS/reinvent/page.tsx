@@ -14,6 +14,7 @@ import Countdown from "./Countdown";
 import RegisterForm from "./RegisterForm";
 import HeroEmail from "./HeroEmail";
 import HostCollage from "./HostCollage";
+import BookMeeting from "./BookMeeting";
 
 
 /**
@@ -48,7 +49,7 @@ const Btn = ({ href, children, ghost = false, className = "" }: { href: string; 
 );
 const field = "mt-1 block w-full border border-[#c8d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#006bc9] focus:outline-none";
 
-const steps = ["Register in under a minute.", "Await approval: All registrations are subject to host approval.", "Get your confirmation: Once approved, your pass and venue details will arrive by email."];
+const steps = ["Register in under a minute.", "Await approval: All registrations are subject to host approval.", "Get your confirmation: Once your registration is approved, your pass and venue details will arrive by email."];
 // LinkedIn posts to show: paste each post’s embed URL (LinkedIn post menu > Embed this post), e.g.
 // "https://www.linkedin.com/embed/feed/update/urn:li:share:1234567890". Until then, placeholder cards show.
 const linkedinEmbeds: string[] = [];
@@ -59,22 +60,15 @@ const posts = [
 ];
 // per-host links: add `linkedin` (profile URL) and `book` (meeting link, e.g. HubSpot) when we have them.
 // Until then LinkedIn opens a people search for the name and Book emails sales with the host’s name.
+// `book`: Google appointment-schedule URL with ?gv=true (the embeddable form; the short calendar.app.google link can’t be framed)
 const hosts: { n: string; r: string; a: string; linkedin?: string; book?: string }[] = [
-  { n: "Prasad Puranik", r: "Chief Executive Officer", a: "Partnering with Comprinno on AWS" },
+  { n: "Prasad Puranik", r: "Chief Executive Officer", a: "Partnering with Comprinno on AWS", linkedin: "https://www.linkedin.com/in/pspuranik/", book: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1caCYv7aVPWD7hwGWwCvEEnTdqwfdNLw4y9vmftsNBwMIPQb5KSV4QBH68pITz495Rh7i8HFms?gv=true" },
   { n: "Bhupali Tambekar", r: "Chief Technology Officer", a: "GenAI from pilot to production" },
   { n: "Shashank Amin", r: "Chief Financial Officer (CFO)", a: "Cloud cost and the business case for change" },
   { n: "Pallavi Khopkar", r: "CoE and PMO Head", a: "Running large cloud programs on time" },
   { n: "Harshal Choudhary", r: "Service Delivery Head", a: "Managed services and day-to-day cloud ops" },
   { n: "Suraj Lokre", r: "Strategic Program Manager, CEO’s Office", a: "Strategic initiatives and partnerships" },
   { n: "Saqib Mehraj Goni", r: "Solutions Architect", a: "Architecture, migration and modernization" },
-];
-const faq = [
-  { q: "Is the dinner free?", a: "Yes. Comprinno is hosting the evening, so there’s no cost to attend." },
-  { q: "Why do I need to register first?", a: "Seats are limited and the venue is private, so we confirm every guest personally before we share the details." },
-  { q: "When will I hear back?", a: "Within 24 hours of registering. Your confirmation email will include your pass and the venue address." },
-  { q: "Can I bring a colleague?", a: "Yes. Ask them to register separately so we can save a seat for them too." },
-  { q: "Will there be vegetarian options?", a: "Plenty. Most of the Indian buffet is vegetarian. Let us know about any other dietary needs when you register." },
-  { q: "Do I need a re:Invent pass?", a: "No. The dinner is off-site and separate from the conference. Your confirmation email is all you need to get in." },
 ];
 
 export default function ReInvent2026() {
@@ -88,7 +82,7 @@ export default function ReInvent2026() {
             <img src="/brand/comprinno-logo.webp" alt="Comprinno" width={600} height={125} className="h-7 w-auto mix-blend-multiply" />
             <span className="hidden border-l border-[#e3eaf4] pl-3 font-mono text-[.6rem] uppercase tracking-[.12em] text-[#006bc9] sm:inline">AWS re:Invent 2026</span>
           </Link>
-          <a href="#register" className="btn btn-primary btn-nav">Request your spot</a>
+          <a href="#register" className="btn btn-primary btn-nav">Request your seat</a>
         </W>
       </header>
 
@@ -193,7 +187,7 @@ export default function ReInvent2026() {
                   </div>
                   <div className="mt-auto pt-4">
                     <div className="flex gap-2">
-                      <a href={h.book ?? `mailto:${site.emails.sales}?subject=${encodeURIComponent(`Meeting with ${h.n} at re:Invent 2026`)}`} {...(h.book ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="inline-flex min-h-9 flex-1 items-center justify-center bg-[#ffbb00] px-2 text-xs font-semibold text-[#1c1c1c] whitespace-nowrap transition-colors hover:bg-[#d89f04]"><span className="sm:hidden">Book a call</span><span className="hidden sm:inline">Book a meeting</span></a>
+                      <BookMeeting name={h.n} embed={h.book} fallback={`mailto:${site.emails.sales}?subject=${encodeURIComponent(`Meeting with ${h.n} at re:Invent 2026`)}`} className="inline-flex min-h-9 flex-1 items-center justify-center bg-[#ffbb00] px-2 text-xs font-semibold text-[#1c1c1c] whitespace-nowrap transition-colors hover:bg-[#d89f04]" />
                       <a href={h.linkedin ?? `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(`${h.n} Comprinno`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${h.n} on LinkedIn`} title="LinkedIn" className="inline-flex min-h-9 w-9 shrink-0 items-center justify-center border border-neutral-300 font-mono text-xs font-semibold text-neutral-700 transition-colors hover:border-[#006bc9] hover:bg-[#006bc9] hover:text-white">in</a>
                     </div>
                   </div>
@@ -206,7 +200,7 @@ export default function ReInvent2026() {
               <div className="mt-10">
                 <p className="text-xl font-light leading-tight sm:text-2xl">Meet them <strong className="font-semibold">over dinner.</strong></p>
                 <p className="mt-3 text-xs text-neutral-400 sm:text-sm">A private CXO &amp; partner evening, just off the Strip. Seats are limited.</p>
-                <span className="mt-6 inline-flex items-center gap-2 border-b border-[#ffbb00] pb-1 text-sm font-semibold text-[#ffbb00]">Request your spot <span className="transition-transform group-hover:translate-x-1">→</span></span>
+                <span className="mt-6 inline-flex items-center gap-2 border-b border-[#ffbb00] pb-1 text-sm font-semibold text-[#ffbb00]">Request your seat <span className="transition-transform group-hover:translate-x-1">→</span></span>
               </div>
             </a>
           </div>
@@ -226,7 +220,7 @@ export default function ReInvent2026() {
                 <li key={s} className="flex items-start gap-3 text-sm text-neutral-700"><span className="flex h-6 w-6 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-xs text-white">{i + 1}</span>{s}</li>
               ))}
             </ol>
-            <Mono className="mt-6">Spots are limited · venue shared on confirmation</Mono>
+            <Mono className="mt-6">Seats are limited · venue shared on confirmation</Mono>
           </div>
 
           {/* same card as the comprinno.net/contact form */}
@@ -237,35 +231,16 @@ export default function ReInvent2026() {
         </W>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="border-b border-neutral-200">
-        <W className="grid gap-8 py-16 lg:grid-cols-[1fr_2fr] lg:py-20">
-          <div>
-            <Tag>Good to know</Tag>
-            <h2 className="mt-5 text-[clamp(1.6rem,3.4vw,2.2rem)] font-light">Before you <strong className="font-bold">register</strong></h2>
-          </div>
-          <div className="divide-y divide-neutral-200 border border-neutral-300">
-            {faq.map(({ q, a }) => (
-              <details key={q} className="group px-5 py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium [&::-webkit-details-marker]:hidden">{q}<span className="text-[#006bc9] group-open:rotate-45">+</span></summary>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{a}</p>
-              </details>
-            ))}
-          </div>
-        </W>
-      </section>
-
       {/* CLOSING + FOOTER: comprinno.net closing band (navy, line wave) and site footer (navy, launch art) */}
       <div className="brand">
         <section className="cta-full">
           <div className="cta-wave" aria-hidden="true"><LineWave /></div>
           <W className="relative py-16 text-center sm:py-24">
-            <p className="inline-flex items-center gap-2 border border-white/30 bg-white/10 px-3 py-1.5 font-mono text-[.68rem] uppercase tracking-[.12em] text-white"><span className="h-1.5 w-1.5 bg-[#ffbb00]" aria-hidden="true" />Wed, Dec 2 · Las Vegas · Spots are limited</p>
+            <p className="inline-flex items-center gap-2 border border-white/30 bg-white/10 px-3 py-1.5 font-mono text-[.68rem] uppercase tracking-[.12em] text-white"><span className="h-1.5 w-1.5 bg-[#ffbb00]" aria-hidden="true" />Wed, Dec 2 · Las Vegas · Seats are limited</p>
             <h2 className="mt-4 text-[clamp(2rem,5vw,3.2rem)] font-light tracking-tight">See you in <strong className="font-semibold">Las Vegas.</strong></h2>
-            <p className="mt-3 text-white/70">Spots go to registered guests only.</p>
+            <p className="mt-3 text-white/70">Seats go to registered guests only.</p>
             <div className="mx-auto mt-8 grid max-w-sm gap-3 sm:flex sm:max-w-none sm:justify-center">
-              <a href="#register" className="btn btn-primary">Request your spot <span className="go">→</span></a>
-              <a href={`mailto:${site.emails.sales}`} className="btn !border-white !bg-white !text-[#1c1c1c] hover:!bg-transparent hover:!text-white">Talk to us during re:Invent</a>
+              <a href="#register" className="btn btn-primary">Request your seat <span className="go">→</span></a>
             </div>
           </W>
         </section>
