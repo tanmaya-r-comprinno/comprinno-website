@@ -67,7 +67,7 @@ const hosts: { n: string; r: string; a: string; linkedin?: string; book?: string
   { n: "Shashank Amin", r: "Chief Financial Officer (CFO)", a: "Cloud cost and the business case for change", linkedin: "https://www.linkedin.com/in/shashank-amin-6053723b0/" },
   { n: "Pallavi Khopkar", r: "CoE and PMO Head", a: "Running large cloud programs on time", linkedin: "https://www.linkedin.com/in/pallavi-tamhane-khopkar/" },
   { n: "Harshal Choudhary", r: "Service Delivery Head", a: "Managed services and day-to-day cloud ops", linkedin: "https://www.linkedin.com/in/harshal-choudhary-90aa6a176/" },
-  { n: "Suraj Lokre", r: "Strategic Program Manager, CEO’s Office", a: "Strategic initiatives and partnerships", linkedin: "https://www.linkedin.com/in/surajlokre/" },
+  { n: "Suraj Lokre", r: "Strategic Program Manager, CEO’s Office", a: "Strategic initiatives and partnerships", linkedin: "https://www.linkedin.com/in/surajlokre/", book: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1UL1maNNSBBaxcV2Xp4rA6QKB-tXvUmHPgTIO2nbF3mKTtkMgj0yWCyNU_w2W3wJ4JKLT-Tc2B" },
   { n: "Saqib Mehraj Goni", r: "Solutions Architect", a: "Architecture, migration and modernization", linkedin: "https://www.linkedin.com/in/saqib-mehraj/" },
 ];
 
