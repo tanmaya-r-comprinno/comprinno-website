@@ -23,7 +23,7 @@ import BookMeeting from "./BookMeeting";
  * Standalone: the /campaign layout hides the site header/footer and sets noindex.
  */
 const SHARE_TITLE = "Comprinno at AWS re:Invent 2026";
-const SHARE_DESC = "Meet the Comprinno team in Las Vegas, Nov 30 to Dec 4, and request your seat at our CXO & partner dinner on Wednesday, December 2.";
+const SHARE_DESC = "Meet the Comprinno team in Las Vegas, Nov 30 to Dec 4, and request your seat at our CXO & partner dinner on Thursday, December 3.";
 // link previews (LinkedIn, WhatsApp, Slack, X) use this page’s own title, text and opengraph-image.jpg, not the site defaults
 export const metadata: Metadata = {
   title: SHARE_TITLE,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: SHARE_TITLE, description: SHARE_DESC },
 };
 
-const DINNER = "2026-12-02T19:00:00-08:00";
+const DINNER = "2026-12-03T19:00:00-08:00";
 
 const W = ({ children, className = "" }: { children: ReactNode; className?: string }) => <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
 // site section label (same Eyebrow as comprinno.net and the AWS campaign page)
@@ -49,7 +49,7 @@ const Btn = ({ href, children, ghost = false, className = "" }: { href: string; 
 );
 const field = "mt-1 block w-full border border-[#c8d5e8] bg-white px-3 py-2.5 text-sm focus:border-[#006bc9] focus:outline-none";
 
-const steps = ["Register in under a minute.", "Await approval: All registrations are subject to host approval.", "Get your confirmation: Once your registration is approved, your pass and venue details will arrive by email."];
+const steps = ["Register in under a minute.", "Await approval: All registrations are subject to approval by our event team.", "Get your confirmation: Once your registration is approved, your pass and venue details will arrive by email."];
 // LinkedIn posts to show: paste each post’s embed URL (LinkedIn post menu > Embed this post), e.g.
 // "https://www.linkedin.com/embed/feed/update/urn:li:share:1234567890". Until then, placeholder cards show.
 const linkedinEmbeds: string[] = [];
@@ -94,10 +94,10 @@ export default function ReInvent2026() {
             {/* one label, in the site’s sky hue (the auto hue for this text came out pink) */}
             <span className="inline-flex max-w-full [&_.eyebrow]:max-w-full [&_.eyebrow]:whitespace-normal [&_.eyebrow-text]:!whitespace-normal [&_.eyebrow-text]:!overflow-visible [&_.eyebrow-text]:leading-[1.6] [&_.eyebrow]:!text-left [&_.eyebrow-text]:!text-left "><Eyebrow><span className="block sm:inline">AWS re:Invent 2026<span className="hidden sm:inline"> · </span></span><span className="hidden sm:inline">Las Vegas, NV · Nov 30 to Dec 4</span></Eyebrow></span>
             <h1 className="mt-6 text-[clamp(2.4rem,6vw,4rem)] font-light leading-[1.02] tracking-tight">Comprinno at <strong className="block font-bold"><span className="sweep">re:Invent 2026</span></strong></h1>
-            <p className="mt-5 max-w-lg leading-relaxed text-neutral-600">Turn enterprise AI into a lasting competitive advantage. Meet our team between sessions or join us on Wednesday, December 2, for Indian food and great conversation.</p>
+            <p className="mt-5 max-w-lg leading-relaxed text-neutral-600">Turn enterprise AI into a lasting competitive advantage. Meet our team between sessions or join us on Thursday, December 3, for Indian food and great conversation.</p>
             <HeroEmail inputClass={field} />
             <div className="mt-8 max-w-lg">
-              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2"><Mono className="whitespace-nowrap !text-[#006bc9]">● Our dinner starts in</Mono><span className="inline-flex items-center gap-1.5 whitespace-nowrap bg-[#e3f0fc] px-2.5 py-1 font-mono text-[.62rem] font-semibold uppercase tracking-[.08em] text-[#006bc9]"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>Wed, Dec 2 · 7:00 PM PST</span></div>
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2"><Mono className="whitespace-nowrap !text-[#006bc9]">● Our dinner starts in</Mono><span className="inline-flex items-center gap-1.5 whitespace-nowrap bg-[#e3f0fc] px-2.5 py-1 font-mono text-[.62rem] font-semibold uppercase tracking-[.08em] text-[#006bc9]"><svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>Thu, Dec 3 · 7:00 PM PST</span></div>
               <Countdown to={DINNER} />
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function ReInvent2026() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               {/* live indicator sits with the label, not floating above the button */}
-              <div className="flex flex-wrap items-center gap-3"><Tag>Live from Las Vegas</Tag><Mono className="!text-[#006bc9]">● Live · updated 14:20</Mono></div>
+              <div className="flex flex-wrap items-center gap-3"><Tag>Live from Las Vegas</Tag></div>
               <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light leading-tight tracking-tight">Follow our week <strong className="font-bold">as it happens.</strong></h2>
               <p className="mt-3 text-neutral-600">Photos, takeaways and moments from re:Invent, shared on LinkedIn by Comprinno and our team.</p>
             </div>
@@ -196,7 +196,7 @@ export default function ReInvent2026() {
             ))}
             {/* 8th tile completes the grid and turns the section into a call to action */}
             <a href="#register" className="group flex flex-col justify-between bg-[#0a134b] p-4 text-white transition-colors hover:bg-[#141e5c] sm:p-6">
-              <Mono className="!text-[#ffbb00]">Wed, Dec 2 · 7:00 PM PST</Mono>
+              <Mono className="!text-[#ffbb00]">Thu, Dec 3 · 7:00 PM PST</Mono>
               <div className="mt-10">
                 <p className="text-xl font-light leading-tight sm:text-2xl">Meet them <strong className="font-semibold">over dinner.</strong></p>
                 <p className="mt-3 text-xs text-neutral-400 sm:text-sm">A private CXO &amp; partner evening, just off the Strip. Seats are limited.</p>
@@ -214,7 +214,7 @@ export default function ReInvent2026() {
         <W className="grid gap-10 py-16 lg:grid-cols-[1fr_1.1fr] lg:py-20">
           <div>
             <Tag>Register</Tag>
-            <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light leading-tight tracking-tight">Request your seat. <strong className="font-bold">Our hosts will confirm your registration.</strong></h2>
+            <h2 className="mt-5 text-[clamp(1.8rem,4vw,2.6rem)] font-light leading-tight tracking-tight">Request your seat. <strong className="font-bold">Our event team will confirm your registration.</strong></h2>
             <ol className="mt-6 space-y-3">
               {steps.map((s, i) => (
                 <li key={s} className="flex items-start gap-3 text-sm text-neutral-700"><span className="flex h-6 w-6 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-xs text-white">{i + 1}</span>{s}</li>
@@ -236,7 +236,7 @@ export default function ReInvent2026() {
         <section className="cta-full">
           <div className="cta-wave" aria-hidden="true"><LineWave /></div>
           <W className="relative py-16 text-center sm:py-24">
-            <p className="inline-flex items-center gap-2 border border-white/30 bg-white/10 px-3 py-1.5 font-mono text-[.68rem] uppercase tracking-[.12em] text-white"><span className="h-1.5 w-1.5 bg-[#ffbb00]" aria-hidden="true" />Wed, Dec 2 · Las Vegas · Seats are limited</p>
+            <p className="inline-flex items-center gap-2 border border-white/30 bg-white/10 px-3 py-1.5 font-mono text-[.68rem] uppercase tracking-[.12em] text-white"><span className="h-1.5 w-1.5 bg-[#ffbb00]" aria-hidden="true" />Thu, Dec 3 · Las Vegas · Seats are limited</p>
             <h2 className="mt-4 text-[clamp(2rem,5vw,3.2rem)] font-light tracking-tight">See you in <strong className="font-semibold">Las Vegas.</strong></h2>
             <p className="mt-3 text-white/70">Seats go to registered guests only.</p>
             <div className="mx-auto mt-8 grid max-w-sm gap-3 sm:flex sm:max-w-none sm:justify-center">

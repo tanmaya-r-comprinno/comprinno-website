@@ -48,7 +48,7 @@ export default function BlogPage() {
             <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr] lg:gap-8">
               {/* Latest: image-led feature card */}
               <Link href={`/resources/blog/${latest.slug}`} className="card group flex flex-col !p-0">
-                <ArtTile art={{ slug: latest.slug, title: latest.title, about: latest.topic }} fill className="aspect-[16/7] !border-0 !border-b !border-line" />
+                <ArtTile art={{ slug: latest.slug, title: latest.title, about: latest.topic }} contain className="aspect-[16/7] overflow-hidden [&>svg]:!h-full [&>svg]:!w-auto [&>svg]:!scale-[0.9] !border-0 !border-b !border-line" />
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-[0.68rem] uppercase tracking-widest text-[#006bc9]">Latest</span>

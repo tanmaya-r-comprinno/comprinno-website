@@ -89,12 +89,12 @@ export default function RegisterForm() {
           </span>
           <div>
             <p className="text-base font-semibold text-[#1c1c1c]">Request received</p>
-            <p className="text-sm text-neutral-600">Thanks. Your seat request is with our hosts.</p>
+            <p className="text-sm text-neutral-600">Thanks. Your seat request is with our event team.</p>
           </div>
         </div>
         <p className="mt-5 font-mono text-[.6rem] uppercase tracking-[.12em] text-[#006bc9]">What happens next</p>
         <ol className="mt-2 space-y-2.5 text-sm text-[#3d3d3d]">
-          <li className="flex gap-2.5"><span className="flex h-5 w-5 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-[.65rem] text-white">1</span>Our hosts review your request. Every registration is subject to approval.</li>
+          <li className="flex gap-2.5"><span className="flex h-5 w-5 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-[.65rem] text-white">1</span>Our event team reviews your request. Every registration is subject to approval.</li>
           <li className="flex gap-2.5"><span className="flex h-5 w-5 shrink-0 items-center justify-center bg-[#006bc9] font-mono text-[.65rem] text-white">2</span>Once approved, we’ll email your pass and the venue details.</li>
         </ol>
       </div>
